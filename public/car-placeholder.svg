@@ -1,0 +1,178 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" fill="none">
+  <!-- Background gradient -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#111114"/>
+    </linearGradient>
+    <linearGradient id="road" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a1e"/>
+      <stop offset="100%" stop-color="#141416"/>
+    </linearGradient>
+    <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c8c8cc"/>
+      <stop offset="40%" stop-color="#a8a8ad"/>
+      <stop offset="100%" stop-color="#88888d"/>
+    </linearGradient>
+    <linearGradient id="roofGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#b0b0b5"/>
+      <stop offset="100%" stop-color="#909095"/>
+    </linearGradient>
+    <linearGradient id="windowGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1a3a5e"/>
+      <stop offset="50%" stop-color="#2a4a70"/>
+      <stop offset="100%" stop-color="#1a3050"/>
+    </linearGradient>
+    <linearGradient id="wheelGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a2e"/>
+      <stop offset="100%" stop-color="#1a1a1e"/>
+    </linearGradient>
+    <radialGradient id="rimGrad">
+      <stop offset="0%" stop-color="#606068"/>
+      <stop offset="60%" stop-color="#48484e"/>
+      <stop offset="100%" stop-color="#38383e"/>
+    </radialGradient>
+    <radialGradient id="headlightGlow" cx="0.5" cy="0.5" r="0.8">
+      <stop offset="0%" stop-color="#ffffdd" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#e8e890" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="6"/>
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="480" height="320" fill="url(#sky)"/>
+
+  <!-- Road -->
+  <rect x="0" y="235" width="480" height="85" fill="url(#road)"/>
+  <line x1="0" y1="275" x2="480" y2="275" stroke="#2a2a30" stroke-width="1.5" stroke-dasharray="24 18"/>
+
+  <!-- Ground shadow -->
+  <ellipse cx="240" cy="242" rx="170" ry="10" fill="#000" opacity="0.6" filter="url(#shadow)"/>
+
+  <!-- === CAR BODY === -->
+  <!-- Main body lower -->
+  <path d="M72 198 L92 198 L92 196 Q100 192 108 188 L116 178 L168 152 L172 150 L308 150 L316 152 L364 178 L372 188 Q380 192 388 196 L388 198 L408 198 L412 202 L412 224 L406 232 L74 232 L68 224 L68 202 Z" fill="url(#bodyGrad)"/>
+
+  <!-- Lower body trim / rocker panel -->
+  <path d="M74 224 L406 224 L406 232 L74 232 Z" fill="#707075"/>
+
+  <!-- Roof -->
+  <path d="M148 152 L180 112 L308 112 L340 152 Z" fill="url(#roofGrad)"/>
+
+  <!-- Roof rail -->
+  <path d="M176 112 L312 112" stroke="#9a9aa0" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Front windshield -->
+  <path d="M148 150 L180 114 L238 114 L238 150 Z" fill="url(#windowGrad)"/>
+  <!-- Front windshield reflection -->
+  <path d="M156 145 L182 117 L198 117 L172 145 Z" fill="rgba(255,255,255,0.08)"/>
+  <path d="M200 120 L210 120 L195 145 L185 145 Z" fill="rgba(255,255,255,0.04)"/>
+
+  <!-- Rear windshield -->
+  <path d="M248 150 L248 114 L304 114 L336 150 Z" fill="url(#windowGrad)"/>
+  <!-- Rear windshield reflection -->
+  <path d="M258 118 L274 118 L264 145 L248 145 Z" fill="rgba(255,255,255,0.06)"/>
+
+  <!-- Window divider pillar -->
+  <path d="M238 114 L248 114 L248 150 L238 150 Z" fill="#8a8a8f"/>
+
+  <!-- A-pillar -->
+  <path d="M148 150 L155 150 L184 114 L178 112 Z" fill="#8a8a8f"/>
+  <!-- C-pillar -->
+  <path d="M333 150 L340 150 L310 114 L304 112 Z" fill="#8a8a8f"/>
+
+  <!-- Front bumper -->
+  <path d="M72 198 L72 226 L90 232 L92 198 Z" fill="#707075"/>
+  <rect x="74" y="200" width="16" height="4" rx="1" fill="#555558"/>
+
+  <!-- Rear bumper -->
+  <path d="M388 198 L408 198 L412 226 L390 232 Z" fill="#707075"/>
+
+  <!-- Front fender curve -->
+  <path d="M92 196 Q105 188 116 178" stroke="#9a9aa0" stroke-width="0.5" fill="none"/>
+
+  <!-- Rear fender curve -->
+  <path d="M364 178 Q375 188 388 196" stroke="#9a9aa0" stroke-width="0.5" fill="none"/>
+
+  <!-- Door line -->
+  <line x1="243" y1="150" x2="243" y2="224" stroke="#808085" stroke-width="0.8"/>
+
+  <!-- Door handle -->
+  <rect x="256" y="180" width="14" height="3" rx="1.5" fill="#9a9aa0"/>
+  <rect x="196" y="180" width="14" height="3" rx="1.5" fill="#9a9aa0"/>
+
+  <!-- Hood lines -->
+  <path d="M116 178 L92 196" stroke="#9a9aa0" stroke-width="0.5"/>
+  <path d="M364 178 L388 196" stroke="#9a9aa0" stroke-width="0.5"/>
+
+  <!-- Side body line (character line) -->
+  <path d="M92 192 L388 192" stroke="#b0b0b5" stroke-width="0.5" opacity="0.6"/>
+
+  <!-- === WHEELS === -->
+  <!-- Front wheel -->
+  <circle cx="148" cy="232" r="30" fill="#111114"/>
+  <circle cx="148" cy="232" r="27" fill="url(#wheelGrad)"/>
+  <circle cx="148" cy="232" r="18" fill="url(#rimGrad)"/>
+  <!-- Rim spokes -->
+  <g stroke="#58585e" stroke-width="2" stroke-linecap="round">
+    <line x1="148" y1="218" x2="148" y2="226"/>
+    <line x1="148" y1="238" x2="148" y2="246"/>
+    <line x1="134" y1="232" x2="142" y2="232"/>
+    <line x1="154" y1="232" x2="162" y2="232"/>
+    <line x1="138" y1="222" x2="143" y2="227"/>
+    <line x1="153" y1="237" x2="158" y2="242"/>
+    <line x1="138" y1="242" x2="143" y2="237"/>
+    <line x1="153" y1="227" x2="158" y2="222"/>
+  </g>
+  <circle cx="148" cy="232" r="5" fill="#48484e"/>
+  <circle cx="148" cy="232" r="2" fill="#58585e"/>
+
+  <!-- Rear wheel -->
+  <circle cx="340" cy="232" r="30" fill="#111114"/>
+  <circle cx="340" cy="232" r="27" fill="url(#wheelGrad)"/>
+  <circle cx="340" cy="232" r="18" fill="url(#rimGrad)"/>
+  <!-- Rim spokes -->
+  <g stroke="#58585e" stroke-width="2" stroke-linecap="round">
+    <line x1="340" y1="218" x2="340" y2="226"/>
+    <line x1="340" y1="238" x2="340" y2="246"/>
+    <line x1="326" y1="232" x2="334" y2="232"/>
+    <line x1="346" y1="232" x2="354" y2="232"/>
+    <line x1="330" y1="222" x2="335" y2="227"/>
+    <line x1="345" y1="237" x2="350" y2="242"/>
+    <line x1="330" y1="242" x2="335" y2="237"/>
+    <line x1="345" y1="227" x2="350" y2="222"/>
+  </g>
+  <circle cx="340" cy="232" r="5" fill="#48484e"/>
+  <circle cx="340" cy="232" r="2" fill="#58585e"/>
+
+  <!-- === LIGHTS === -->
+  <!-- Headlight -->
+  <rect x="74" y="194" width="18" height="8" rx="3" fill="#e8e8a0" opacity="0.9"/>
+  <rect x="74" y="194" width="18" height="8" rx="3" fill="url(#headlightGlow)"/>
+  <!-- Headlight glow -->
+  <ellipse cx="83" cy="198" rx="20" ry="12" fill="#ffffcc" opacity="0.06" filter="url(#glow)"/>
+
+  <!-- Taillight -->
+  <rect x="392" y="194" width="16" height="8" rx="3" fill="#E23232" opacity="0.9"/>
+  <!-- Taillight glow -->
+  <ellipse cx="400" cy="198" rx="14" ry="10" fill="#E23232" opacity="0.1" filter="url(#glow)"/>
+
+  <!-- Fog light / DRL -->
+  <rect x="78" y="206" width="10" height="3" rx="1.5" fill="#ccccbb" opacity="0.5"/>
+
+  <!-- Side mirror -->
+  <path d="M152 158 L152 166 L164 166 L164 160 L156 156 Z" fill="#9a9aa0"/>
+  <rect x="154" y="160" width="8" height="4" rx="1" fill="#2a4a6a"/>
+
+  <!-- Wheel well shadows -->
+  <path d="M112 224 Q130 210 148 210 Q166 210 184 224" fill="#0a0a0a" opacity="0.3"/>
+  <path d="M304 224 Q322 210 340 210 Q358 210 376 224" fill="#0a0a0a" opacity="0.3"/>
+
+  <!-- Ground reflection -->
+  <ellipse cx="240" cy="268" rx="140" ry="3" fill="#88888d" opacity="0.04"/>
+</svg>
