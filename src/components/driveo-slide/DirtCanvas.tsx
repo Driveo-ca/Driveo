@@ -1,176 +1,149 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Loader2 } from 'lucide-react';
 
 interface DirtCanvasProps {
-  imageUrl: string;
-  dirtLevel: number; // 0-10
-  width?: number;
-  height?: number;
+  vehicleId: string;
+  vehicleLabel: string;   // used to trigger generation if not cached
+  vehicleColor?: string;  // e.g. "Pearl White", defaults to "Pearl White"
+  dirtLevel: number;      // 0-10
 }
 
-/**
- * DirtCanvas — Renders a car image with progressive dirt overlay
- *
- * Uses HTML Canvas with multiply blend mode to layer dirt textures:
- * - Layer 1: Car image (always visible)
- * - Layer 2: Light dust film (visible from level 1+)
- * - Layer 3: Heavy dirt patches (visible from level 4+)
- * - Layer 4: Mud splatters (visible from level 7+)
- *
- * Dirt textures are generated procedurally using canvas patterns
- * to avoid needing external texture PNG files for MVP.
- */
-export function DirtCanvas({ imageUrl, dirtLevel, width = 480, height = 320 }: DirtCanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const carImageRef = useRef<HTMLImageElement | null>(null);
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 
-  const generateDustPattern = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, density: number) => {
-    const imageData = ctx.createImageData(w, h);
-    const data = imageData.data;
+function getStorageUrl(vehicleId: string, level: number) {
+  return `${SUPABASE_URL}/storage/v1/object/public/dirty-cars/${vehicleId}/level-${level}.jpg`;
+}
 
-    for (let i = 0; i < data.length; i += 4) {
-      if (Math.random() < density) {
-        const brown = 80 + Math.random() * 60;
-        data[i] = brown + 40;     // R
-        data[i + 1] = brown + 20; // G
-        data[i + 2] = brown - 10; // B
-        data[i + 3] = Math.random() * 100 + 30; // A
-      } else {
-        data[i + 3] = 0; // transparent
-      }
-    }
-    return imageData;
-  }, []);
+export function DirtCanvas({ vehicleId, vehicleLabel, vehicleColor, dirtLevel }: DirtCanvasProps) {
+  const [aiImages, setAiImages]     = useState<Record<number, string>>({});
+  const [loadingLevels, setLoading] = useState<Set<number>>(new Set());
+  const triggeredRef = useRef<Set<number>>(new Set());
 
-  const generateDirtSpots = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, count: number) => {
-    for (let i = 0; i < count; i++) {
-      const x = Math.random() * w;
-      const y = Math.random() * h;
-      const radius = Math.random() * 20 + 5;
-      const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-      gradient.addColorStop(0, `rgba(90, 60, 30, ${Math.random() * 0.4 + 0.1})`);
-      gradient.addColorStop(0.7, `rgba(70, 50, 25, ${Math.random() * 0.2})`);
-      gradient.addColorStop(1, 'rgba(60, 40, 20, 0)');
-      ctx.fillStyle = gradient;
-      ctx.fillRect(x - radius, y - radius, radius * 2, radius * 2);
-    }
-  }, []);
+  // crossfade layers
+  const [layerA, setLayerA] = useState<string | null>(null);
+  const [layerB, setLayerB] = useState<string | null>(null);
+  const [activeLayer, setActiveLayer] = useState<'A' | 'B'>('A');
+  const prevLevel = useRef<number | null>(null);
 
-  const generateMudSplatters = useCallback((ctx: CanvasRenderingContext2D, w: number, h: number, count: number) => {
-    for (let i = 0; i < count; i++) {
-      const x = Math.random() * w;
-      const y = h * 0.4 + Math.random() * h * 0.6; // mostly bottom half
-      const radius = Math.random() * 30 + 10;
-
-      ctx.beginPath();
-      // Irregular shape
-      for (let a = 0; a < Math.PI * 2; a += 0.3) {
-        const r = radius * (0.6 + Math.random() * 0.8);
-        const px = x + Math.cos(a) * r;
-        const py = y + Math.sin(a) * r;
-        if (a === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.closePath();
-      ctx.fillStyle = `rgba(60, 40, 15, ${Math.random() * 0.5 + 0.2})`;
-      ctx.fill();
-    }
-  }, []);
-
-  const render = useCallback(() => {
-    const canvas = canvasRef.current;
-    const img = carImageRef.current;
-    if (!canvas || !img || !img.complete) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx.scale(dpr, dpr);
-
-    // Layer 1: Car image
-    ctx.clearRect(0, 0, width, height);
-    ctx.drawImage(img, 0, 0, width, height);
-
-    if (dirtLevel === 0) return;
-
-    // Layer 2: Light dust film (level 1+)
-    ctx.globalCompositeOperation = 'multiply';
-    const dustOpacity = Math.min(dirtLevel / 10, 0.7);
-    ctx.fillStyle = `rgba(160, 130, 90, ${dustOpacity * 0.3})`;
-    ctx.fillRect(0, 0, width, height);
-
-    // Layer 2b: Dust particles
-    ctx.globalCompositeOperation = 'source-over';
-    const dustDensity = dirtLevel * 0.008;
-    const dustData = generateDustPattern(ctx, width, height, dustDensity);
-    ctx.putImageData(dustData, 0, 0);
-    // Re-draw car underneath
-    ctx.globalCompositeOperation = 'destination-over';
-    ctx.drawImage(img, 0, 0, width, height);
-    ctx.globalCompositeOperation = 'source-over';
-
-    // Layer 3: Dirt spots (level 4+)
-    if (dirtLevel >= 4) {
-      ctx.globalAlpha = Math.min((dirtLevel - 3) / 7, 0.8);
-      const spotCount = Math.floor((dirtLevel - 3) * 8);
-      generateDirtSpots(ctx, width, height, spotCount);
-      ctx.globalAlpha = 1;
-    }
-
-    // Layer 4: Mud splatters (level 7+)
-    if (dirtLevel >= 7) {
-      ctx.globalAlpha = Math.min((dirtLevel - 6) / 4, 0.9);
-      const mudCount = Math.floor((dirtLevel - 6) * 5);
-      generateMudSplatters(ctx, width, height, mudCount);
-      ctx.globalAlpha = 1;
-    }
-
-    // Layer 5: Overall darkening for extreme dirt (level 8+)
-    if (dirtLevel >= 8) {
-      ctx.globalCompositeOperation = 'multiply';
-      const darken = (dirtLevel - 7) * 0.05;
-      ctx.fillStyle = `rgba(80, 60, 40, ${darken})`;
-      ctx.fillRect(0, 0, width, height);
-      ctx.globalCompositeOperation = 'source-over';
-    }
-  }, [dirtLevel, width, height, generateDustPattern, generateDirtSpots, generateMudSplatters]);
-
-  // Load car image
+  // Attempt to load all 11 levels from Supabase
   useEffect(() => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      carImageRef.current = img;
-      render();
-    };
-    img.onerror = () => {
-      // Fallback to placeholder if external image fails (CORS etc.)
-      const fallback = new Image();
-      fallback.onload = () => {
-        carImageRef.current = fallback;
-        render();
+    if (!vehicleId) return;
+
+    // Use a cache-bust param so the browser never returns a cached 404
+    const bust = `?t=${Date.now()}`;
+    for (let lvl = 0; lvl <= 10; lvl++) {
+      const url = getStorageUrl(vehicleId, lvl);
+      const img = new Image();
+      // onload: store the clean URL (no bust) for display
+      img.onload = () => setAiImages(prev => ({ ...prev, [lvl]: url }));
+      img.onerror = () => {
+        // Not cached yet -- request Gemini generation
+        if (!triggeredRef.current.has(lvl)) {
+          triggeredRef.current.add(lvl);
+          setLoading(prev => new Set(prev).add(lvl));
+          fetch('/api/generate-dirty-car', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              vehicleId,
+              dirtLevel: lvl,
+              vehicleLabel,
+              vehicleColor: vehicleColor || 'Pearl White',
+            }),
+          })
+            .then(r => r.json())
+            .then(data => {
+              if (data.url) {
+                // Cache-bust so browser fetches the newly generated image
+                const img2 = new Image();
+                img2.onload = () => setAiImages(prev => ({ ...prev, [lvl]: data.url }));
+                img2.src = `${data.url}?t=${Date.now()}`;
+              }
+            })
+            .catch(() => {})
+            .finally(() => setLoading(prev => { const s = new Set(prev); s.delete(lvl); return s; }));
+        }
       };
-      fallback.src = '/car-placeholder.svg';
-    };
-    img.src = imageUrl;
-  }, [imageUrl, render]);
+      img.src = url + bust;
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [vehicleId]);
 
-  // Re-render when dirt level changes
+  // Crossfade when level changes
   useEffect(() => {
-    render();
-  }, [render]);
+    const src = aiImages[dirtLevel];
+    if (!src || prevLevel.current === dirtLevel) return;
+    prevLevel.current = dirtLevel;
+
+    if (activeLayer === 'A') {
+      setLayerB(src);
+      setActiveLayer('B');
+    } else {
+      setLayerA(src);
+      setActiveLayer('A');
+    }
+  }, [dirtLevel, aiImages, activeLayer]);
+
+  // Init first layer
+  useEffect(() => {
+    const src = aiImages[dirtLevel];
+    if (src && !layerA && !layerB) {
+      setLayerA(src);
+      prevLevel.current = dirtLevel;
+    }
+  }, [aiImages, dirtLevel, layerA, layerB]);
+
+  const isAIReady    = !!aiImages[dirtLevel];
+  const isGenerating = loadingLevels.has(dirtLevel);
+  const readyCount   = Object.keys(aiImages).length;
 
   return (
-    <div className="relative rounded-2xl overflow-hidden border border-white/10 bg-black/50">
-      <canvas
-        ref={canvasRef}
-        style={{ width, height }}
-        className="w-full h-auto max-w-full"
-      />
+    <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 bg-[#0a0a0a]"
+      style={{ aspectRatio: '16/10' }}>
+
+      {layerA && (
+        <img src={layerA} alt="" className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+          style={{ opacity: activeLayer === 'A' ? 1 : 0 }} />
+      )}
+      {layerB && (
+        <img src={layerB} alt="" className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500"
+          style={{ opacity: activeLayer === 'B' ? 1 : 0 }} />
+      )}
+
+      {!isAIReady && !layerA && !layerB && (
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+          <Loader2 className="w-8 h-8 text-[#E23232] animate-spin" />
+          <p className="text-white/30 text-xs">Generating your car...</p>
+        </div>
+      )}
+
+      {isGenerating && (
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm rounded-full px-3 py-1.5">
+          <Loader2 className="w-3 h-3 text-[#E23232] animate-spin" />
+          <span className="text-[10px] text-white/60 font-medium">Generating level {dirtLevel}...</span>
+        </div>
+      )}
+
+      <div className="absolute bottom-2.5 left-0 right-0 flex justify-center gap-1">
+        {Array.from({ length: 11 }, (_, i) => (
+          <div key={i} className="w-1.5 h-1.5 rounded-full transition-all duration-300"
+            style={{
+              background: aiImages[i]
+                ? i === dirtLevel ? '#E23232' : 'rgba(255,255,255,0.5)'
+                : loadingLevels.has(i) ? 'rgba(226,50,50,0.3)' : 'rgba(255,255,255,0.1)',
+              transform: i === dirtLevel ? 'scale(1.4)' : 'scale(1)',
+            }}
+          />
+        ))}
+      </div>
+
+      {readyCount < 11 && readyCount > 0 && (
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center">
+          <span className="text-[9px] text-white/20">{readyCount}/11 levels ready</span>
+        </div>
+      )}
     </div>
   );
 }

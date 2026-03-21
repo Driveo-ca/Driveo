@@ -17,7 +17,6 @@ import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { DriveoSlide } from '@/components/driveo-slide/DriveoSlide';
 import { CalendarPicker } from '@/components/CalendarPicker';
 import { calculatePrice, centsToDisplay, formatDuration, PLAN_LABELS } from '@/lib/pricing';
-import { getVehicleImageUrl } from '@/lib/vehicle-image';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import {
@@ -356,9 +355,10 @@ function BookingForm() {
       {step === 2 && form.vehicle && (
         <div className="space-y-4">
           <DriveoSlide
+            vehicleId={form.vehicle.id}
             vehicleType={form.vehicle.type}
-            vehicleImageUrl={form.vehicle.image_url || getVehicleImageUrl(form.vehicle.make, form.vehicle.model, form.vehicle.year)}
             vehicleLabel={`${form.vehicle.year} ${form.vehicle.make} ${form.vehicle.model}`}
+            vehicleColor={form.vehicle.color || undefined}
             selectedPlan={form.washPlan}
             onPlanSelect={(plan) => setForm((f) => ({ ...f, washPlan: plan }))}
             onDirtLevelChange={(level) => setForm((f) => ({ ...f, dirtLevel: level }))}

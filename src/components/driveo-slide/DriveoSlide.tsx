@@ -16,9 +16,10 @@ import { cn } from '@/lib/utils';
 import { Car, Sparkles, Zap, Clock, DollarSign } from 'lucide-react';
 
 interface DriveoSlideProps {
+  vehicleId: string;
   vehicleType: VehicleType;
-  vehicleImageUrl: string;
   vehicleLabel: string; // e.g. "2022 Honda CR-V"
+  vehicleColor?: string; // e.g. "Pearl White"
   selectedPlan?: WashPlan;
   onPlanSelect?: (plan: WashPlan) => void;
   onDirtLevelChange?: (level: number) => void;
@@ -32,13 +33,14 @@ const planIcons: Record<WashPlan, React.ReactNode> = {
 };
 
 export function DriveoSlide({
+  vehicleId,
   vehicleType,
-  vehicleImageUrl,
   vehicleLabel,
   selectedPlan,
   onPlanSelect,
   onDirtLevelChange,
   initialDirtLevel = 5,
+  vehicleColor,
 }: DriveoSlideProps) {
   const [dirtLevel, setDirtLevel] = useState(initialDirtLevel);
   const [activePlan, setActivePlan] = useState<WashPlan>(selectedPlan || 'regular');
@@ -80,10 +82,10 @@ export function DriveoSlide({
           How dirty is your car?
         </p>
         <DirtCanvas
-          imageUrl={vehicleImageUrl}
+          vehicleId={vehicleId}
+          vehicleLabel={vehicleLabel}
+          vehicleColor={vehicleColor}
           dirtLevel={dirtLevel}
-          width={400}
-          height={260}
         />
         <p className="text-white/60 text-xs mt-2">{vehicleLabel}</p>
       </div>

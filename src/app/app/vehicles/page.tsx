@@ -15,6 +15,18 @@ import { Car, Plus, Star, Trash2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Vehicle, VehicleType } from '@/types';
 
+/** Fire-and-forget: generate all 11 dirty images using Gemini (no Imagin Studio) */
+function triggerDirtyCarGeneration(vehicleId: string, make: string, model: string, year: number, color?: string) {
+  const vehicleLabel = `${year} ${make} ${model}`;
+  for (let level = 0; level <= 10; level++) {
+    fetch('/api/generate-dirty-car', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ vehicleId, dirtLevel: level, vehicleLabel, vehicleColor: color || 'Pearl White' }),
+    }).catch(() => {});
+  }
+}
+
 const yearOptions = getYearRange().map(String);
 
 const vehicleTypes: VehicleType[] = [
@@ -55,7 +67,7 @@ export default function VehiclesPage() {
     const { data: { user } } = await supabase.auth.getUser();
     if (!user) return;
 
-    const { error } = await supabase.from('vehicles').insert({
+    const { data: inserted, error } = await supabase.from('vehicles').insert({
       customer_id: user.id,
       make: formMake,
       model: formModel,
@@ -63,12 +75,16 @@ export default function VehiclesPage() {
       color: formColor || null,
       type: formType,
       is_primary: vehicles.length === 0,
-    });
+    }).select('id').single();
 
     if (error) {
       toast.error('Failed to add vehicle');
     } else {
-      toast.success('Vehicle added');
+      toast.success('Vehicle added — generating car images in the background');
+      // Kick off AI dirty-car generation for all 11 levels (fire & forget)
+      if (inserted?.id) {
+        triggerDirtyCarGeneration(inserted.id, formMake, formModel, parseInt(formYear), formColor || undefined);
+      }
       setDialogOpen(false);
       setFormMake('');
       setFormModel('');
