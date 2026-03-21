@@ -23,6 +23,7 @@ DRIVEO Partner — Dawn Preparation.mp4
 
 # Claude Code local settings (may contain secrets)
 .claude/settings.local.json
+.claude/projects/
 
 # Build artifacts
 tsconfig.tsbuildinfo
@@ -38,3 +39,5 @@ washers_debug*.json
 *.toc
 *.out
 *.synctex.gz
+
+.vercel

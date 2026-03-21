@@ -93,6 +93,7 @@ export default function TrackingPage() {
   const [washerLng, setWasherLng] = useState<number | null>(null);
   const [showDetails, setShowDetails] = useState(false);
   const [showTimeline, setShowTimeline] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
 
   // Load booking + washer data
   useEffect(() => {
@@ -532,9 +533,26 @@ export default function TrackingPage() {
         <div className="px-4">
           <Button
             variant="outline"
+            disabled={cancelling}
+            onClick={async () => {
+              setCancelling(true);
+              const supabase = createClient();
+              const { error } = await supabase
+                .from('bookings')
+                .update({ status: 'cancelled' })
+                .eq('id', id);
+              if (error) {
+                const { toast } = await import('sonner');
+                toast.error('Failed to cancel booking');
+                setCancelling(false);
+              } else {
+                router.push('/app/bookings');
+              }
+            }}
             className="w-full border-white/[0.08] text-white/40 hover:text-red-400 hover:border-red-500/20 rounded-xl"
           >
-            Cancel booking
+            {cancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
+            {cancelling ? 'Cancelling...' : 'Cancel booking'}
           </Button>
         </div>
       )}
