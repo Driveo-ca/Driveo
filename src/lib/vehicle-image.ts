@@ -27,7 +27,7 @@ export function getVehicleImageUrl(
   };
 
   // Use paid customer key if available, otherwise demo key (watermarked)
-  const customerKey = process.env.NEXT_PUBLIC_VEHICLE_IMAGE_KEY || 'img';
+  const customerKey = process.env.NEXT_PUBLIC_VEHICLE_IMAGE_KEY || process.env.VEHICLE_IMAGE_API_KEY || 'img';
 
   const params = new URLSearchParams({
     customer: customerKey,
