@@ -102,7 +102,7 @@ export default function WasherAvailabilityPage() {
   return (
     <div className="max-w-lg mx-auto px-4 py-8 animate-fade-in-up">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-display text-white tracking-tight">Availability</h1>
+        <h1 className="text-2xl font-display text-foreground tracking-tight">Availability</h1>
         <Button
           onClick={handleSave}
           disabled={saving}
@@ -116,7 +116,7 @@ export default function WasherAvailabilityPage() {
       {loading ? (
         <div className="space-y-3">
           {[...Array(7)].map((_, i) => (
-            <div key={i} className="h-20 w-full bg-[#111] rounded-2xl" />
+            <div key={i} className="h-20 w-full bg-surface rounded-2xl" />
           ))}
         </div>
       ) : (
@@ -127,10 +127,10 @@ export default function WasherAvailabilityPage() {
             return (
               <div
                 key={day}
-                className={`bg-[#111] border rounded-2xl transition-colors duration-200 ${
+                className={`bg-surface border rounded-2xl transition-colors duration-200 ${
                   slot.is_available
                     ? 'border-green-500/20'
-                    : 'border-white/[0.08] opacity-40'
+                    : 'border-border opacity-40'
                 }`}
               >
                 <div className="p-4">
@@ -139,11 +139,11 @@ export default function WasherAvailabilityPage() {
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold tracking-wider transition-colors duration-200 ${
                         slot.is_available
                           ? 'bg-green-500/10 text-green-400'
-                          : 'bg-[#0a0a0a] text-white/20'
+                          : 'bg-card text-foreground/20'
                       }`}>
                         {SHORT_DAYS[displayIdx]}
                       </div>
-                      <Label className="text-sm font-semibold text-white">
+                      <Label className="text-sm font-semibold text-foreground">
                         {day}
                       </Label>
                     </div>
@@ -158,8 +158,8 @@ export default function WasherAvailabilityPage() {
                   {slot.is_available && (
                     <div className="flex items-center gap-3 animate-fade-in">
                       <div className="flex items-center gap-2 flex-1">
-                        <div className="w-6 h-6 rounded-md bg-[#0a0a0a] flex items-center justify-center">
-                          <Clock className="w-3 h-3 text-white/30" />
+                        <div className="w-6 h-6 rounded-md bg-card flex items-center justify-center">
+                          <Clock className="w-3 h-3 text-foreground/30" />
                         </div>
                         <Input
                           type="time"
@@ -167,10 +167,10 @@ export default function WasherAvailabilityPage() {
                           onChange={(e) =>
                             updateSlot(displayIdx, 'start_time', e.target.value)
                           }
-                          className="bg-[#0a0a0a] border-white/[0.08] text-white text-sm h-9 rounded-lg"
+                          className="bg-card border-border text-foreground text-sm h-9 rounded-lg"
                         />
                       </div>
-                      <span className="text-white/20 text-xs font-medium tracking-wider">TO</span>
+                      <span className="text-foreground/20 text-xs font-medium tracking-wider">TO</span>
                       <div className="flex-1">
                         <Input
                           type="time"
@@ -178,7 +178,7 @@ export default function WasherAvailabilityPage() {
                           onChange={(e) =>
                             updateSlot(displayIdx, 'end_time', e.target.value)
                           }
-                          className="bg-[#0a0a0a] border-white/[0.08] text-white text-sm h-9 rounded-lg"
+                          className="bg-card border-border text-foreground text-sm h-9 rounded-lg"
                         />
                       </div>
                     </div>

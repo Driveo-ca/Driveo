@@ -8,7 +8,7 @@ export const metadata = {
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {
   return (
     <Providers>
-      <div className="min-h-screen bg-[#050505] text-white page-bg">
+      <div className="min-h-screen bg-background text-foreground">
         <CustomerNav />
         <main className="pb-24 md:pb-0">{children}</main>
       </div>

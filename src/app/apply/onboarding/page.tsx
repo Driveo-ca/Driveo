@@ -213,7 +213,7 @@ export default function OnboardingPage() {
 
   return (
     <CursorProvider>
-      <div className="bg-[#050505] text-white min-h-screen flex flex-col selection:bg-[#E23232] selection:text-white">
+      <div className="dark bg-[#050505] text-white min-h-screen flex flex-col selection:bg-[#E23232] selection:text-white">
         <NoiseOverlay />
         {/* Top bar */}
       <nav className="fixed top-0 left-0 w-full z-50 px-6 py-5 flex justify-between items-center bg-[#050505]/90 backdrop-blur-xl border-b border-white/10">

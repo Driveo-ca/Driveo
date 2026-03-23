@@ -58,8 +58,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={cn(inter.variable, anton.variable, jetbrainsMono.variable, playfairDisplay.variable, poppins.variable, "font-sans", geist.variable)}>
-      <body style={{ backgroundColor: '#050505', color: '#ffffff' }}>
+    <html lang="en" suppressHydrationWarning className={cn(inter.variable, anton.variable, jetbrainsMono.variable, playfairDisplay.variable, poppins.variable, "font-sans", geist.variable)}>
+      <body>
         <Providers>
         {children}
         </Providers>

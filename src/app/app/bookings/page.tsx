@@ -67,17 +67,17 @@ export default function BookingsPage() {
   }, [supabase]);
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen text-foreground">
       <div className="max-w-lg mx-auto px-4 py-8 animate-fade-in-up">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-display text-white tracking-tight">My Bookings</h1>
-            <p className="text-white/40 text-sm mt-1">Your wash history and active bookings</p>
+            <h1 className="text-2xl font-display text-foreground tracking-tight">My Bookings</h1>
+            <p className="text-foreground/40 text-sm mt-1">Your wash history and active bookings</p>
           </div>
           {bookings.length > 0 && (
-            <div className="bg-[#111] border border-white/[0.08] rounded-full px-3 py-1.5">
-              <span className="text-xs text-white/60 font-medium">{bookings.length} total</span>
+            <div className="bg-surface border border-border rounded-full px-3 py-1.5">
+              <span className="text-xs text-foreground/60 font-medium">{bookings.length} total</span>
             </div>
           )}
         </div>
@@ -85,18 +85,18 @@ export default function BookingsPage() {
         {loading ? (
           <div className="space-y-4">
             {[...Array(3)].map((_, i) => (
-              <Skeleton key={i} className="h-36 w-full bg-white/5 rounded-2xl" />
+              <Skeleton key={i} className="h-36 w-full bg-foreground/5 rounded-2xl" />
             ))}
           </div>
         ) : bookings.length === 0 ? (
           <div className="mt-12">
-            <div className="bg-[#111] border border-white/[0.08] rounded-2xl">
+            <div className="bg-surface border border-border rounded-2xl">
               <div className="py-20 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mx-auto mb-5">
-                  <Calendar className="w-7 h-7 text-white/20" />
+                <div className="w-16 h-16 rounded-2xl bg-foreground/[0.04] border border-border flex items-center justify-center mx-auto mb-5">
+                  <Calendar className="w-7 h-7 text-foreground/20" />
                 </div>
-                <p className="text-white/40 text-sm font-medium">No bookings yet</p>
-                <p className="text-white/20 text-xs mt-1.5">Your wash history will appear here</p>
+                <p className="text-foreground/40 text-sm font-medium">No bookings yet</p>
+                <p className="text-foreground/20 text-xs mt-1.5">Your wash history will appear here</p>
                 <Link href="/app/book">
                   <button className="mt-6 px-5 py-2.5 rounded-xl bg-[#E23232] hover:bg-[#c92a2a] text-white text-sm font-medium transition-colors">
                     Book Your First Wash
@@ -116,17 +116,17 @@ export default function BookingsPage() {
                   className="block"
                 >
                   <div
-                    className={`bg-[#111] border border-white/[0.08] rounded-2xl cursor-pointer transition-all duration-300 hover:border-white/[0.12] border-l-2 ${statusBorderLeft[booking.status] || 'border-l-white/10'}`}
+                    className={`bg-surface border border-border rounded-2xl cursor-pointer transition-all duration-300 hover:border-border border-l-2 ${statusBorderLeft[booking.status] || 'border-l-white/10'}`}
                   >
                     <div className="p-4">
                       <div className="flex items-start justify-between mb-3">
                         <Badge
                           variant="outline"
-                          className={`${statusColor[booking.status] || 'border-white/20 text-white/60'} text-[10px] uppercase tracking-widest font-semibold px-2.5 py-1 rounded-lg`}
+                          className={`${statusColor[booking.status] || 'border-border text-foreground/60'} text-[10px] uppercase tracking-widest font-semibold px-2.5 py-1 rounded-lg`}
                         >
                           {booking.status.replace('_', ' ')}
                         </Badge>
-                        <ChevronRight className="w-4 h-4 text-white/20 mt-0.5" />
+                        <ChevronRight className="w-4 h-4 text-foreground/20 mt-0.5" />
                       </div>
 
                       <div className="space-y-2.5">
@@ -134,23 +134,23 @@ export default function BookingsPage() {
                           <span className="text-[#E23232] font-semibold">
                             {planLabel[booking.wash_plan] || booking.wash_plan}
                           </span>
-                          <span className="w-1 h-1 rounded-full bg-white/20" />
-                          <span className="text-white/40 text-xs">
+                          <span className="w-1 h-1 rounded-full bg-foreground/20" />
+                          <span className="text-foreground/40 text-xs">
                             Dirt Level {booking.dirt_level}
                           </span>
                         </div>
 
                         {vehicle && (
-                          <div className="flex items-center gap-2 text-sm text-white/60">
-                            <Car className="w-3.5 h-3.5 text-white/30" />
+                          <div className="flex items-center gap-2 text-sm text-foreground/60">
+                            <Car className="w-3.5 h-3.5 text-foreground/30" />
                             <span>
                               {vehicle.year} {vehicle.make} {vehicle.model}
                             </span>
                           </div>
                         )}
 
-                        <div className="flex items-center justify-between pt-2 border-t border-white/[0.04]">
-                          <div className="flex items-center gap-2 text-white/40">
+                        <div className="flex items-center justify-between pt-2 border-t border-border">
+                          <div className="flex items-center gap-2 text-foreground/40">
                             <Calendar className="w-3.5 h-3.5" />
                             <span className="text-xs">
                               {new Date(booking.created_at).toLocaleDateString('en-CA', {
@@ -160,8 +160,8 @@ export default function BookingsPage() {
                               })}
                             </span>
                           </div>
-                          <div className="flex items-center gap-1 text-white font-semibold text-sm">
-                            <DollarSign className="w-3.5 h-3.5 text-white/60" />
+                          <div className="flex items-center gap-1 text-foreground font-semibold text-sm">
+                            <DollarSign className="w-3.5 h-3.5 text-foreground/60" />
                             {(booking.total_price / 100).toFixed(2)}
                           </div>
                         </div>

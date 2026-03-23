@@ -78,46 +78,46 @@ export default function WasherEarningsPage() {
 
   return (
     <div className="max-w-lg mx-auto px-4 py-8 animate-fade-in-up">
-      <h1 className="text-2xl font-display text-white tracking-tight mb-6">Earnings</h1>
+      <h1 className="text-2xl font-display text-foreground tracking-tight mb-6">Earnings</h1>
 
       {loading ? (
         <div className="space-y-4">
           <div className="grid grid-cols-3 gap-3">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="h-28 bg-[#111] rounded-2xl" />
+              <div key={i} className="h-28 bg-surface rounded-2xl" />
             ))}
           </div>
-          <div className="h-64 w-full bg-[#111] rounded-2xl" />
+          <div className="h-64 w-full bg-surface rounded-2xl" />
         </div>
       ) : (
         <>
           {/* Summary Cards */}
           <div className="grid grid-cols-3 gap-3 mb-8">
-            <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-4 text-center">
-              <div className="w-8 h-8 rounded-full bg-[#0a0a0a] flex items-center justify-center mx-auto mb-2">
-                <Clock className="w-4 h-4 text-white/40" />
+            <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
+              <div className="w-8 h-8 rounded-full bg-card flex items-center justify-center mx-auto mb-2">
+                <Clock className="w-4 h-4 text-foreground/40" />
               </div>
-              <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1.5">Today</p>
+              <p className="text-[10px] text-foreground/40 uppercase tracking-wider mb-1.5">Today</p>
               <p className="text-[#E23232] font-bold text-lg">
                 {formatCents(todayEarnings)}
               </p>
             </div>
 
-            <div className="stat-card bg-[#111] border border-[#E23232]/20 rounded-2xl p-4 text-center">
+            <div className="stat-card bg-surface border border-[#E23232]/20 rounded-2xl p-4 text-center">
               <div className="w-8 h-8 rounded-full bg-[#E23232]/10 flex items-center justify-center mx-auto mb-2">
                 <Calendar className="w-4 h-4 text-[#E23232]/60" />
               </div>
-              <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1.5">This Month</p>
+              <p className="text-[10px] text-foreground/40 uppercase tracking-wider mb-1.5">This Month</p>
               <p className="text-[#E23232] font-bold text-lg">
                 {formatCents(monthEarnings)}
               </p>
             </div>
 
-            <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-4 text-center">
-              <div className="w-8 h-8 rounded-full bg-[#0a0a0a] flex items-center justify-center mx-auto mb-2">
-                <TrendingUp className="w-4 h-4 text-white/40" />
+            <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
+              <div className="w-8 h-8 rounded-full bg-card flex items-center justify-center mx-auto mb-2">
+                <TrendingUp className="w-4 h-4 text-foreground/40" />
               </div>
-              <p className="text-[10px] text-white/40 uppercase tracking-wider mb-1.5">All Time</p>
+              <p className="text-[10px] text-foreground/40 uppercase tracking-wider mb-1.5">All Time</p>
               <p className="text-[#E23232] font-bold text-lg">
                 {formatCents(allTimeEarnings)}
               </p>
@@ -126,35 +126,35 @@ export default function WasherEarningsPage() {
 
           {/* Job History */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xs font-semibold text-white/40 uppercase tracking-widest">Job History</h2>
-            <span className="text-[10px] text-white/20">{jobs.length} jobs</span>
+            <h2 className="text-xs font-semibold text-foreground/40 uppercase tracking-widest">Job History</h2>
+            <span className="text-[10px] text-foreground/20">{jobs.length} jobs</span>
           </div>
 
           {jobs.length === 0 ? (
-            <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-12 text-center">
-              <p className="text-white/40 text-sm">No completed jobs yet</p>
+            <div className="bg-surface border border-border rounded-2xl p-12 text-center">
+              <p className="text-foreground/40 text-sm">No completed jobs yet</p>
             </div>
           ) : (
             <div className="space-y-2.5">
               {jobs.map((job) => (
                 <div
                   key={job.id}
-                  className="bg-[#111] border border-white/[0.08] rounded-xl p-4 hover:border-white/[0.15] transition-colors duration-200"
+                  className="bg-surface border border-border rounded-xl p-4 hover:border-border transition-colors duration-200"
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-2.5 mb-1.5">
-                        <span className="text-sm font-semibold text-white">
+                        <span className="text-sm font-semibold text-foreground">
                           {planLabel[job.wash_plan] || job.wash_plan}
                         </span>
                         {job.vehicles && (
-                          <span className="text-xs text-white/30">
+                          <span className="text-xs text-foreground/30">
                             {job.vehicles.year} {job.vehicles.make}{' '}
                             {job.vehicles.model}
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-white/30">
+                      <p className="text-xs text-foreground/30">
                         {job.wash_completed_at
                           ? new Date(job.wash_completed_at).toLocaleDateString(
                               'en-CA',

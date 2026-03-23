@@ -73,13 +73,13 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen text-foreground">
       <div className="max-w-lg mx-auto px-4 py-8 animate-fade-in-up">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-display text-white tracking-tight">Notifications</h1>
-            <p className="text-white/40 text-sm mt-1">Stay updated on your washes</p>
+            <h1 className="text-2xl font-display text-foreground tracking-tight">Notifications</h1>
+            <p className="text-foreground/40 text-sm mt-1">Stay updated on your washes</p>
           </div>
           {notifications.some((n) => !n.is_read) && (
             <div className="bg-[#E23232]/10 border border-[#E23232]/20 rounded-full px-3 py-1.5">
@@ -93,18 +93,18 @@ export default function NotificationsPage() {
         {loading ? (
           <div className="space-y-3">
             {[...Array(4)].map((_, i) => (
-              <Skeleton key={i} className="h-24 w-full bg-white/5 rounded-2xl" />
+              <Skeleton key={i} className="h-24 w-full bg-foreground/5 rounded-2xl" />
             ))}
           </div>
         ) : notifications.length === 0 ? (
           <div className="mt-12">
-            <div className="bg-[#111] border border-white/[0.08] rounded-2xl">
+            <div className="bg-surface border border-border rounded-2xl">
               <div className="py-20 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mx-auto mb-5">
-                  <BellOff className="w-7 h-7 text-white/15" />
+                <div className="w-16 h-16 rounded-2xl bg-foreground/[0.04] border border-border flex items-center justify-center mx-auto mb-5">
+                  <BellOff className="w-7 h-7 text-foreground/15" />
                 </div>
-                <p className="text-white/40 text-sm font-medium">No notifications yet</p>
-                <p className="text-white/20 text-xs mt-1.5">We will notify you about your washes</p>
+                <p className="text-foreground/40 text-sm font-medium">No notifications yet</p>
+                <p className="text-foreground/20 text-xs mt-1.5">We will notify you about your washes</p>
               </div>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function NotificationsPage() {
                 onClick={() => {
                   if (!notification.is_read) markAsRead(notification.id);
                 }}
-                className={`bg-[#111] border border-white/[0.08] rounded-2xl cursor-pointer transition-all duration-300 hover:border-white/[0.12] ${
+                className={`bg-surface border border-border rounded-2xl cursor-pointer transition-all duration-300 hover:border-border ${
                   !notification.is_read
                     ? 'border-l-2 border-l-[#E23232]'
                     : 'opacity-60 hover:opacity-80'
@@ -129,7 +129,7 @@ export default function NotificationsPage() {
                       className={`mt-0.5 w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                         !notification.is_read
                           ? 'bg-[#E23232]/15 text-[#E23232]'
-                          : 'bg-white/[0.03] text-white/25'
+                          : 'bg-foreground/[0.03] text-foreground/25'
                       }`}
                     >
                       {notification.is_read ? (
@@ -144,19 +144,19 @@ export default function NotificationsPage() {
                       <div className="flex items-start justify-between gap-3">
                         <p
                           className={`text-sm font-medium leading-snug ${
-                            !notification.is_read ? 'text-white' : 'text-white/60'
+                            !notification.is_read ? 'text-foreground' : 'text-foreground/60'
                           }`}
                         >
                           {notification.title}
                         </p>
                         <span className={`text-[11px] shrink-0 mt-0.5 font-medium ${
-                          !notification.is_read ? 'text-white/40' : 'text-white/20'
+                          !notification.is_read ? 'text-foreground/40' : 'text-foreground/20'
                         }`}>
                           {formatTime(notification.created_at)}
                         </span>
                       </div>
                       <p className={`text-sm mt-1.5 line-clamp-2 leading-relaxed ${
-                        !notification.is_read ? 'text-white/40' : 'text-white/25'
+                        !notification.is_read ? 'text-foreground/40' : 'text-foreground/25'
                       }`}>
                         {notification.body}
                       </p>

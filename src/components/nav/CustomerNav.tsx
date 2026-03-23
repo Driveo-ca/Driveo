@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Home, Car, CalendarDays, User, Bell, Menu } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 const navItems = [
   { href: '/app/home', label: 'Home', icon: Home },
@@ -24,13 +25,16 @@ export function CustomerNav() {
         <Link href="/app/home">
           <Image src="/Driveo-logo.png" alt="Driveo" width={100} height={36} className="h-8 w-auto" />
         </Link>
-        <button className="w-9 h-9 flex items-center justify-center text-white/50">
-          <Menu className="w-5 h-5" />
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button className="w-9 h-9 flex items-center justify-center text-foreground/50">
+            <Menu className="w-5 h-5" />
+          </button>
+        </div>
       </header>
 
       {/* ── Desktop top nav ── */}
-      <nav className="hidden md:flex items-center justify-between px-10 h-16 border-b border-white/[0.06] bg-[#050505] sticky top-0 z-50">
+      <nav className="hidden md:flex items-center justify-between px-10 h-16 border-b border-border bg-background sticky top-0 z-50">
         <Link href="/app/home">
           <Image src="/Driveo-logo.png" alt="Driveo" width={120} height={40} className="h-9 w-auto" />
         </Link>
@@ -45,7 +49,7 @@ export function CustomerNav() {
                   'relative flex items-center gap-2 px-4 py-4 text-[13px] font-medium transition-colors',
                   isActive
                     ? 'text-[#E23232]'
-                    : 'text-white/35 hover:text-white/60'
+                    : 'text-foreground/35 hover:text-foreground/60'
                 )}
               >
                 <item.icon className="w-4 h-4" />
@@ -56,11 +60,12 @@ export function CustomerNav() {
               </Link>
             );
           })}
+          <ThemeToggle className="ml-2" />
         </div>
       </nav>
 
       {/* ── Mobile bottom nav ── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.06] bg-[#050505]/95 backdrop-blur-xl">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl">
         <div className="flex justify-around items-center h-[56px] px-2">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
@@ -70,12 +75,12 @@ export function CustomerNav() {
                 href={item.href}
                 className={cn(
                   'flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1 transition-colors',
-                  isActive ? 'text-white' : 'text-white/25 active:text-white/40'
+                  isActive ? 'text-foreground' : 'text-foreground/25 active:text-foreground/40'
                 )}
               >
                 <item.icon className={cn('w-[20px] h-[20px]', isActive && 'stroke-[2px]')} />
                 {isActive && (
-                  <span className="w-1 h-1 rounded-full bg-white mt-0.5" />
+                  <span className="w-1 h-1 rounded-full bg-foreground mt-0.5" />
                 )}
               </Link>
             );

@@ -121,28 +121,28 @@ export default function SubscriptionPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white">
+      <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-lg mx-auto px-4 py-8 space-y-6">
-          <Skeleton className="h-8 w-48 bg-white/[0.06] shimmer rounded-lg" />
-          <Skeleton className="h-44 w-full bg-white/[0.06] shimmer rounded-2xl" />
-          <Skeleton className="h-6 w-32 bg-white/[0.06] shimmer rounded-lg" />
-          <Skeleton className="h-64 w-full bg-white/[0.06] shimmer rounded-2xl" />
-          <Skeleton className="h-64 w-full bg-white/[0.06] shimmer rounded-2xl" />
-          <Skeleton className="h-64 w-full bg-white/[0.06] shimmer rounded-2xl" />
+          <Skeleton className="h-8 w-48 bg-foreground/[0.06] shimmer rounded-lg" />
+          <Skeleton className="h-44 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
+          <Skeleton className="h-6 w-32 bg-foreground/[0.06] shimmer rounded-lg" />
+          <Skeleton className="h-64 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
+          <Skeleton className="h-64 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
+          <Skeleton className="h-64 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-lg mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="animate-fade-in-up mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground mb-1">
             Subscription
           </h1>
-          <p className="text-sm text-white/40">
+          <p className="text-sm text-foreground/40">
             Manage your plan and track usage
           </p>
         </div>
@@ -150,10 +150,10 @@ export default function SubscriptionPage() {
         {/* Current Subscription */}
         {subscription && (
           <div className="animate-fade-in-up mb-10" style={{ animationDelay: '60ms' }}>
-            <Card className="bg-[#111] border border-[#E23232]/30 rounded-2xl overflow-hidden">
+            <Card className="bg-surface border border-[#E23232]/30 rounded-2xl overflow-hidden">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg text-white font-semibold">
+                  <CardTitle className="text-lg text-foreground font-semibold">
                     Current Plan
                   </CardTitle>
                   <Badge className="bg-green-500/15 text-green-400 border border-green-500/20">
@@ -167,28 +167,28 @@ export default function SubscriptionPage() {
                     {planIcons[subscription.subscription_plans.wash_plan]}
                   </div>
                   <div>
-                    <p className="font-semibold text-white text-lg">
+                    <p className="font-semibold text-foreground text-lg">
                       {subscription.subscription_plans.name}
                     </p>
-                    <p className="text-sm text-white/40">
-                      <span className="text-2xl font-bold text-white">
+                    <p className="text-sm text-foreground/40">
+                      <span className="text-2xl font-bold text-foreground">
                         ${(subscription.subscription_plans.monthly_price / 100).toFixed(0)}
                       </span>
-                      <span className="text-white/30 ml-0.5">/month</span>
+                      <span className="text-foreground/30 ml-0.5">/month</span>
                     </p>
                   </div>
                 </div>
 
                 {/* Usage Bar */}
                 {usage && (
-                  <div className="bg-[#0a0a0a] border border-white/[0.06] rounded-xl p-4">
+                  <div className="bg-card border border-border rounded-xl p-4">
                     <div className="flex items-center justify-between text-sm mb-3">
-                      <span className="text-white/50">Washes this period</span>
-                      <span className="text-white font-semibold">
+                      <span className="text-foreground/50">Washes this period</span>
+                      <span className="text-foreground font-semibold">
                         {usage.used} / {usage.allocated}
                       </span>
                     </div>
-                    <div className="h-3 bg-white/[0.06] rounded-full overflow-hidden">
+                    <div className="h-3 bg-foreground/[0.06] rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[#E23232] rounded-full transition-all duration-700 ease-out"
                         style={{
@@ -196,7 +196,7 @@ export default function SubscriptionPage() {
                         }}
                       />
                     </div>
-                    <p className="text-xs text-white/30 mt-2.5">
+                    <p className="text-xs text-foreground/30 mt-2.5">
                       Period ends{' '}
                       {new Date(usage.period_end).toLocaleDateString('en-CA', {
                         month: 'short',
@@ -226,8 +226,8 @@ export default function SubscriptionPage() {
                 key={plan.id}
                 className={`rounded-2xl overflow-hidden transition-all duration-300 animate-fade-in-up ${
                   isCurrentPlan
-                    ? 'bg-[#111] border border-[#E23232]/30'
-                    : 'bg-[#111] border border-white/[0.08]'
+                    ? 'bg-surface border border-[#E23232]/30'
+                    : 'bg-surface border border-border'
                 }`}
               >
                 <CardContent className="p-6">
@@ -237,20 +237,20 @@ export default function SubscriptionPage() {
                         className={`p-3 rounded-2xl transition-colors ${
                           isCurrentPlan
                             ? 'bg-[#E23232]/15 text-[#E23232]'
-                            : 'bg-white/[0.04] text-white/40'
+                            : 'bg-foreground/[0.04] text-foreground/40'
                         }`}
                       >
                         {planIcons[plan.wash_plan]}
                       </div>
                       <div>
-                        <p className="font-semibold text-white text-base">
+                        <p className="font-semibold text-foreground text-base">
                           {plan.name}
                         </p>
                         <div className="flex items-baseline gap-0.5 mt-1">
-                          <span className="text-3xl font-bold text-white tracking-tight">
+                          <span className="text-3xl font-bold text-foreground tracking-tight">
                             ${(plan.monthly_price / 100).toFixed(0)}
                           </span>
-                          <span className="text-sm font-normal text-white/30 ml-0.5">
+                          <span className="text-sm font-normal text-foreground/30 ml-0.5">
                             /mo
                           </span>
                         </div>
@@ -267,7 +267,7 @@ export default function SubscriptionPage() {
                     {(planFeatures[plan.wash_plan] || []).map((feature) => (
                       <li
                         key={feature}
-                        className="flex items-center gap-2.5 text-sm text-white/50"
+                        className="flex items-center gap-2.5 text-sm text-foreground/50"
                       >
                         <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#E23232]/10">
                           <Check className="w-3 h-3 text-[#E23232]" />

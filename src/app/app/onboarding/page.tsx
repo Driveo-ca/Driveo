@@ -78,18 +78,18 @@ export default function OnboardingPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[#050505]">
-      <Card className="w-full max-w-md bg-[#0a0a0a] border-white/10">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-background">
+      <Card className="w-full max-w-md bg-card border-border">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-2">
             <div className="w-12 h-12 rounded-full bg-[#E23232]/10 flex items-center justify-center">
               <Car className="w-6 h-6 text-[#E23232]" />
             </div>
           </div>
-          <CardTitle className="text-xl font-display text-white">
+          <CardTitle className="text-xl font-display text-foreground">
             {step === 1 ? 'What type of car?' : 'Car details'}
           </CardTitle>
-          <CardDescription className="text-white/50">
+          <CardDescription className="text-foreground/50">
             {step === 1
               ? 'Select your vehicle type for accurate pricing'
               : 'Tell us about your ride'}
@@ -107,11 +107,11 @@ export default function OnboardingPage() {
                       'p-4 rounded-xl border text-left transition-all',
                       vehicleType === type
                         ? 'border-[#E23232] bg-[#E23232]/10'
-                        : 'border-white/10 bg-white/5 hover:border-white/20'
+                        : 'border-border bg-foreground/5 hover:border-border'
                     )}
                   >
                     <span className="text-2xl">{emoji}</span>
-                    <p className="text-white text-sm font-medium mt-2">
+                    <p className="text-foreground text-sm font-medium mt-2">
                       {VEHICLE_TYPE_LABELS[type]}
                     </p>
                   </button>
@@ -134,7 +134,7 @@ export default function OnboardingPage() {
                   value={year}
                   onChange={setYear}
                   placeholder="e.g. 2024"
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
                 />
               </div>
               <div className="space-y-2">
@@ -147,7 +147,7 @@ export default function OnboardingPage() {
                     if (val !== make) setModel('');
                   }}
                   placeholder="e.g. Honda, Toyota, BMW"
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
                 />
               </div>
               <div className="space-y-2">
@@ -157,7 +157,7 @@ export default function OnboardingPage() {
                   value={model}
                   onChange={setModel}
                   placeholder={make ? `Select ${make} model` : 'Select make first'}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
                 />
               </div>
               <div className="space-y-2">
@@ -166,14 +166,14 @@ export default function OnboardingPage() {
                   placeholder="e.g. Silver, Black"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
-                  className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
                 />
               </div>
               <div className="flex gap-3">
                 <Button
                   variant="outline"
                   onClick={() => setStep(1)}
-                  className="flex-1 border-white/10 text-white hover:bg-white/5"
+                  className="flex-1 border-border text-foreground hover:bg-foreground/5"
                 >
                   Back
                 </Button>

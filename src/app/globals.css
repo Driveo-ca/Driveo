@@ -16,8 +16,6 @@ html {
 }
 
 body {
-  background-color: #050505;
-  color: #ffffff;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -91,7 +89,7 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in srgb, var(--foreground) 8%, transparent);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -140,49 +138,49 @@ body {
 .stagger-children > *:nth-child(7)  { animation-delay: 300ms; }
 .stagger-children > *:nth-child(8)  { animation-delay: 350ms; }
 
-/* --- Card System — Solid, High-Contrast --- */
+/* --- Card System — Theme-Aware --- */
 .card-elevated {
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   transition: border-color 0.2s ease;
 }
 .card-elevated:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: color-mix(in srgb, var(--foreground) 14%, transparent);
 }
 
 .card-surface {
-  background: #0c0c0c;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--card);
+  border: 1px solid var(--border);
   border-radius: 16px;
 }
 
 /* Legacy class aliases — map to new solid cards */
 .glass-card {
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   transition: border-color 0.2s ease;
 }
 .glass-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: color-mix(in srgb, var(--foreground) 14%, transparent);
 }
 .glass {
-  background: #0c0c0c;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: var(--card);
+  border: 1px solid var(--border);
 }
 .glass-strong {
-  background: #141414;
-  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: var(--secondary);
+  border: 1px solid var(--border);
 }
 
 /* --- Shimmer Loading --- */
 .shimmer {
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,0.04) 0%,
-    rgba(255,255,255,0.10) 50%,
-    rgba(255,255,255,0.04) 100%
+    color-mix(in srgb, var(--foreground) 4%, transparent) 0%,
+    color-mix(in srgb, var(--foreground) 10%, transparent) 50%,
+    color-mix(in srgb, var(--foreground) 4%, transparent) 100%
   );
   background-size: 200% 100%;
   animation: shimmer 1.8s ease-in-out infinite;
@@ -199,18 +197,21 @@ body {
 
 /* --- Page Background --- */
 .page-bg {
-  background: #050505;
+  background: var(--background);
 }
 
 /* --- Stat Card --- */
 .stat-card {
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-radius: 16px;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 .stat-card:hover {
-  border-color: rgba(255, 255, 255, 0.14);
+  border-color: color-mix(in srgb, var(--foreground) 14%, transparent);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+.dark .stat-card:hover {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
@@ -241,8 +242,47 @@ body {
   display: none;
 }
 
-/* --- Driveo Design System — Always Dark Theme --- */
+/* --- Driveo Design System — Light / Dark --- */
+
+/* ── Light theme (default) ── */
 :root {
+  --background: #f7f7f8;
+  --foreground: #171717;
+  --card: #ffffff;
+  --card-foreground: #171717;
+  --popover: #ffffff;
+  --popover-foreground: #171717;
+  --primary: #E23232;
+  --primary-foreground: #ffffff;
+  --secondary: #f0f0f0;
+  --secondary-foreground: #171717;
+  --muted: #f0f0f0;
+  --muted-foreground: #737373;
+  --accent: #f0f0f0;
+  --accent-foreground: #171717;
+  --destructive: #dc2626;
+  --border: rgba(0, 0, 0, 0.08);
+  --input: rgba(0, 0, 0, 0.08);
+  --ring: #E23232;
+  --chart-1: #E23232;
+  --chart-2: #ff6b6b;
+  --chart-3: #4ecdc4;
+  --chart-4: #ffe66d;
+  --chart-5: #a8e6cf;
+  --radius: 0.75rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #171717;
+  --sidebar-primary: #E23232;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f0f0f0;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: rgba(0, 0, 0, 0.08);
+  --sidebar-ring: #E23232;
+  --surface: #f5f5f5;
+}
+
+/* ── Dark theme ── */
+.dark {
   --background: #050505;
   --foreground: #f5f5f5;
   --card: #0a0a0a;
@@ -266,7 +306,6 @@ body {
   --chart-3: #4ecdc4;
   --chart-4: #ffe66d;
   --chart-5: #a8e6cf;
-  --radius: 0.75rem;
   --sidebar: #0a0a0a;
   --sidebar-foreground: #f5f5f5;
   --sidebar-primary: #E23232;
@@ -275,6 +314,7 @@ body {
   --sidebar-accent-foreground: #f5f5f5;
   --sidebar-border: rgba(255, 255, 255, 0.1);
   --sidebar-ring: #E23232;
+  --surface: #111111;
 }
 
 @theme inline {
@@ -310,6 +350,7 @@ body {
   --color-card: var(--card);
   --color-foreground: var(--foreground);
   --color-background: var(--background);
+  --color-surface: var(--surface);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

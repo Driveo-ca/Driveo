@@ -49,19 +49,19 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[#050505]">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-background">
       <div className="w-full max-w-[400px] animate-fade-in-up">
         {/* Logo */}
         <div className="text-center mb-10">
           <Link href="/" className="inline-block">
             <Image src="/Driveo-logo.png" alt="Driveo" width={48} height={48} />
           </Link>
-          <h1 className="font-display text-2xl text-white mt-5 tracking-wide">WELCOME BACK</h1>
-          <p className="text-white/40 text-sm mt-2">Sign in to your Driveo account</p>
+          <h1 className="font-display text-2xl text-foreground mt-5 tracking-wide">WELCOME BACK</h1>
+          <p className="text-foreground/40 text-sm mt-2">Sign in to your Driveo account</p>
         </div>
 
         {/* Card */}
-        <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-7">
+        <div className="bg-surface border border-border rounded-2xl p-7">
           {/* Google */}
           <Button
             type="button"
@@ -79,7 +79,7 @@ function LoginForm() {
               });
               if (error) { toast.error(error.message); setLoading(false); }
             }}
-            className="w-full h-12 bg-white/[0.04] border-white/[0.10] text-white hover:bg-white/[0.08] font-medium rounded-xl"
+            className="w-full h-12 bg-foreground/[0.04] border-border text-foreground hover:bg-foreground/[0.08] font-medium rounded-xl"
           >
             <svg className="w-5 h-5 mr-2.5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -91,20 +91,20 @@ function LoginForm() {
           </Button>
 
           <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/[0.08]" /></div>
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
             <div className="relative flex justify-center text-xs">
-              <span className="px-4 text-white/30 bg-[#111]">or sign in with email</span>
+              <span className="px-4 text-foreground/30 bg-surface">or sign in with email</span>
             </div>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-white/50 text-xs font-medium">Email</Label>
-              <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="h-12 bg-white/[0.04] border-white/[0.10] text-white placeholder:text-white/25 rounded-xl premium-input" />
+              <Label htmlFor="email" className="text-foreground/50 text-xs font-medium">Email</Label>
+              <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-white/50 text-xs font-medium">Password</Label>
-              <Input id="password" type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required className="h-12 bg-white/[0.04] border-white/[0.10] text-white placeholder:text-white/25 rounded-xl premium-input" />
+              <Label htmlFor="password" className="text-foreground/50 text-xs font-medium">Password</Label>
+              <Input id="password" type="password" placeholder="Enter your password" value={password} onChange={(e) => setPassword(e.target.value)} required className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <Button type="submit" disabled={loading} className="w-full h-12 bg-[#E23232] hover:bg-[#c92a2a] text-white font-semibold rounded-xl mt-2">
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (<>Sign In<ArrowRight className="w-4 h-4 ml-2" /></>)}
@@ -112,11 +112,11 @@ function LoginForm() {
           </form>
 
           <div className="mt-7 text-center space-y-2">
-            <p className="text-sm text-white/40">
+            <p className="text-sm text-foreground/40">
               Don&apos;t have an account?{' '}
               <Link href="/auth/signup" className="text-[#E23232] font-medium">Sign up</Link>
             </p>
-            <p className="text-sm text-white/40">
+            <p className="text-sm text-foreground/40">
               Want to wash cars?{' '}
               <Link href="/auth/signup?role=washer" className="text-[#E23232] font-medium">Apply as a washer</Link>
             </p>

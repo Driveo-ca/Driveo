@@ -188,33 +188,33 @@ export default function MembershipPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white">
+      <div className="min-h-screen bg-background text-foreground">
         <div className="max-w-lg mx-auto px-4 py-8 space-y-6">
           {/* Header shimmer */}
           <div className="space-y-2">
-            <div className="h-8 w-48 bg-white/[0.06] shimmer rounded-lg" />
-            <div className="h-4 w-64 bg-white/[0.06] shimmer rounded-md" />
+            <div className="h-8 w-48 bg-foreground/[0.06] shimmer rounded-lg" />
+            <div className="h-4 w-64 bg-foreground/[0.06] shimmer rounded-md" />
           </div>
           {/* Card shimmer */}
-          <div className="h-52 w-full bg-white/[0.06] shimmer rounded-2xl" />
-          <div className="h-6 w-40 bg-white/[0.06] shimmer rounded-lg" />
-          <div className="h-72 w-full bg-white/[0.06] shimmer rounded-2xl" />
-          <div className="h-72 w-full bg-white/[0.06] shimmer rounded-2xl" />
-          <div className="h-72 w-full bg-white/[0.06] shimmer rounded-2xl" />
+          <div className="h-52 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
+          <div className="h-6 w-40 bg-foreground/[0.06] shimmer rounded-lg" />
+          <div className="h-72 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
+          <div className="h-72 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
+          <div className="h-72 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white">
+    <div className="min-h-screen bg-background text-foreground">
       <div className="max-w-lg mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="animate-fade-in-up mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-white mb-1">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground mb-1">
             Membership
           </h1>
-          <p className="text-white/40 text-sm">
+          <p className="text-foreground/40 text-sm">
             8 washes per month, delivered to your door.
           </p>
         </div>
@@ -222,7 +222,7 @@ export default function MembershipPage() {
         {/* Active Subscription Section */}
         {subscription && (
           <div className="animate-fade-in-up mb-10" style={{ animationDelay: '60ms' }}>
-            <Card className="bg-[#111] border border-[#E23232]/30 rounded-2xl overflow-hidden">
+            <Card className="bg-surface border border-[#E23232]/30 rounded-2xl overflow-hidden">
               <CardContent className="p-6">
                 <div className="flex items-center justify-between mb-5">
                   <div className="flex items-center gap-4">
@@ -232,14 +232,14 @@ export default function MembershipPage() {
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-white text-lg">
+                      <p className="font-semibold text-foreground text-lg">
                         {subscription.plan.name}
                       </p>
                       <div className="flex items-baseline gap-0.5">
-                        <span className="text-2xl font-bold text-white">
+                        <span className="text-2xl font-bold text-foreground">
                           ${(subscription.plan.monthly_price / 100).toFixed(0)}
                         </span>
-                        <span className="text-sm text-white/30">/month</span>
+                        <span className="text-sm text-foreground/30">/month</span>
                       </div>
                     </div>
                   </div>
@@ -256,14 +256,14 @@ export default function MembershipPage() {
 
                 {/* Usage Progress Bar */}
                 {usage && (
-                  <div className="bg-[#0a0a0a] border border-white/[0.06] rounded-xl p-4 mb-4">
+                  <div className="bg-card border border-border rounded-xl p-4 mb-4">
                     <div className="flex items-center justify-between text-sm mb-3">
-                      <span className="text-white/50">Washes used</span>
-                      <span className="text-white font-semibold">
+                      <span className="text-foreground/50">Washes used</span>
+                      <span className="text-foreground font-semibold">
                         {usage.used} of {usage.allocated}
                       </span>
                     </div>
-                    <div className="h-3 bg-white/[0.06] rounded-full overflow-hidden">
+                    <div className="h-3 bg-foreground/[0.06] rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[#E23232] rounded-full transition-all duration-700 ease-out"
                         style={{
@@ -274,7 +274,7 @@ export default function MembershipPage() {
                         }}
                       />
                     </div>
-                    <p className="text-xs text-white/30 mt-2.5">
+                    <p className="text-xs text-foreground/30 mt-2.5">
                       {usage.allocated - usage.used} washes remaining this period
                     </p>
                   </div>
@@ -282,7 +282,7 @@ export default function MembershipPage() {
 
                 {/* Next Billing Date */}
                 {subscription.currentPeriodEnd && (
-                  <p className="text-xs text-white/40">
+                  <p className="text-xs text-foreground/40">
                     {subscription.cancelAtPeriodEnd
                       ? 'Access ends '
                       : 'Next billing date: '}
@@ -297,7 +297,7 @@ export default function MembershipPage() {
                 {!subscription.cancelAtPeriodEnd && (
                   <Button
                     variant="outline"
-                    className="w-full mt-5 border-white/[0.08] text-white/50 hover:text-[#E23232] hover:border-[#E23232]/20 hover:bg-[#E23232]/5 bg-transparent rounded-xl h-11 transition-all duration-200"
+                    className="w-full mt-5 border-border text-foreground/50 hover:text-[#E23232] hover:border-[#E23232]/20 hover:bg-[#E23232]/5 bg-transparent rounded-xl h-11 transition-all duration-200"
                     onClick={handleCancel}
                     disabled={cancelling}
                   >
@@ -329,7 +329,7 @@ export default function MembershipPage() {
               {PLAN_DISPLAY.map((plan) => (
                 <Card
                   key={plan.slug}
-                  className="bg-[#111] border border-white/[0.08] rounded-2xl overflow-hidden animate-fade-in-up"
+                  className="bg-surface border border-border rounded-2xl overflow-hidden animate-fade-in-up"
                 >
                   {/* Accent color bar at top */}
                   <div
@@ -339,24 +339,24 @@ export default function MembershipPage() {
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-2xl bg-white/[0.04] text-white/50">
+                        <div className="p-3 rounded-2xl bg-foreground/[0.04] text-foreground/50">
                           {planIcons[plan.washPlan]}
                         </div>
                         <div>
-                          <p className="font-semibold text-white text-base">
+                          <p className="font-semibold text-foreground text-base">
                             {plan.name}
                           </p>
                           <div className="flex items-baseline gap-0.5 mt-1">
-                            <span className="text-3xl font-bold text-white tracking-tight">
+                            <span className="text-3xl font-bold text-foreground tracking-tight">
                               ${plan.monthlyTotal}
                             </span>
-                            <span className="text-sm text-white/30 ml-0.5">/mo</span>
+                            <span className="text-sm text-foreground/30 ml-0.5">/mo</span>
                           </div>
                         </div>
                       </div>
                       <Badge
                         variant="outline"
-                        className="border-white/[0.08] text-white/40 text-xs"
+                        className="border-border text-foreground/40 text-xs"
                       >
                         ${plan.pricePerWash}/wash
                       </Badge>
@@ -366,7 +366,7 @@ export default function MembershipPage() {
                       {plan.features.map((feature) => (
                         <li
                           key={feature}
-                          className="flex items-center gap-2.5 text-sm text-white/50"
+                          className="flex items-center gap-2.5 text-sm text-foreground/50"
                         >
                           <div className="flex items-center justify-center w-5 h-5 rounded-full bg-[#E23232]/10">
                             <Check className="w-3 h-3 text-[#E23232]" />

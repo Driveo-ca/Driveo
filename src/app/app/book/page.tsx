@@ -76,11 +76,11 @@ function PaymentForm({
 
   return (
     <div className="space-y-4">
-      <h2 className="text-lg font-display text-white">Payment</h2>
+      <h2 className="text-lg font-display text-foreground">Payment</h2>
 
-      <Card className="bg-[#0a0a0a] border-white/10">
+      <Card className="bg-card border-border">
         <CardContent className="p-4 space-y-4">
-          <div className="flex items-center gap-2 text-white/50 text-xs mb-2">
+          <div className="flex items-center gap-2 text-foreground/50 text-xs mb-2">
             <Lock className="w-3 h-3" />
             <span>Secure payment powered by Stripe</span>
           </div>
@@ -100,7 +100,7 @@ function PaymentForm({
 
           <div className="flex items-center gap-2 pt-2">
             <ShieldCheck className="w-4 h-4 text-green-500/60" />
-            <p className="text-white/30 text-[11px]">
+            <p className="text-foreground/30 text-[11px]">
               Your card will be pre-authorized for {centsToDisplay(totalCents)}. You are only charged after the wash is completed.
             </p>
           </div>
@@ -112,7 +112,7 @@ function PaymentForm({
           variant="outline"
           onClick={onBack}
           disabled={submitting}
-          className="flex-1 border-white/10 text-white hover:bg-white/5"
+          className="flex-1 border-border text-foreground hover:bg-foreground/5"
         >
           <ChevronLeft className="w-4 h-4 mr-1" /> Back
         </Button>
@@ -268,12 +268,12 @@ function BookingForm() {
             <div
               className={cn(
                 'h-1 w-full rounded-full transition-colors',
-                i <= step ? 'bg-[#E23232]' : 'bg-white/10'
+                i <= step ? 'bg-[#E23232]' : 'bg-foreground/10'
               )}
             />
             <span className={cn(
               'text-[10px]',
-              i <= step ? 'text-white/60' : 'text-white/20'
+              i <= step ? 'text-foreground/60' : 'text-foreground/20'
             )}>
               {s}
             </span>
@@ -284,11 +284,11 @@ function BookingForm() {
       {/* Step 0: Vehicle */}
       {step === 0 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-display text-white">What car are you washing?</h2>
+          <h2 className="text-lg font-display text-foreground">What car are you washing?</h2>
           {vehicles.length === 0 ? (
-            <Card className="bg-[#0a0a0a] border-dashed border-white/20">
+            <Card className="bg-card border-dashed border-border">
               <CardContent className="p-6 text-center">
-                <p className="text-white/40 text-sm mb-3">No vehicles saved yet</p>
+                <p className="text-foreground/40 text-sm mb-3">No vehicles saved yet</p>
                 <Button onClick={() => router.push('/app/onboarding')} className="bg-[#E23232] text-white">
                   Add Vehicle
                 </Button>
@@ -304,13 +304,13 @@ function BookingForm() {
                     'w-full p-4 rounded-xl border text-left flex items-center gap-4 transition-all',
                     form.vehicleId === v.id
                       ? 'border-[#E23232] bg-[#E23232]/10'
-                      : 'border-white/10 bg-white/5 hover:border-white/20'
+                      : 'border-border bg-foreground/5 hover:border-border'
                   )}
                 >
-                  <Car className={cn('w-5 h-5', form.vehicleId === v.id ? 'text-[#E23232]' : 'text-white/40')} />
+                  <Car className={cn('w-5 h-5', form.vehicleId === v.id ? 'text-[#E23232]' : 'text-foreground/40')} />
                   <div>
-                    <p className="text-white text-sm font-medium">{v.year} {v.make} {v.model}</p>
-                    <p className="text-white/40 text-xs capitalize">{v.type.replace('_', ' ')}{v.color ? ` · ${v.color}` : ''}</p>
+                    <p className="text-foreground text-sm font-medium">{v.year} {v.make} {v.model}</p>
+                    <p className="text-foreground/40 text-xs capitalize">{v.type.replace('_', ' ')}{v.color ? ` · ${v.color}` : ''}</p>
                   </div>
                 </button>
               ))}
@@ -325,23 +325,23 @@ function BookingForm() {
       {/* Step 1: Location */}
       {step === 1 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-display text-white">Where is your car?</h2>
+          <h2 className="text-lg font-display text-foreground">Where is your car?</h2>
           <div className="space-y-3">
             <AddressAutocomplete
               value={form.address}
               onChange={(address, lat, lng) => setForm((f) => ({ ...f, address, lat, lng }))}
               placeholder="Enter your address"
-              className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
+              className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
             />
             <Input
               placeholder="Notes (e.g. parking spot P2, gate code 1234)"
               value={form.locationNotes}
               onChange={(e) => setForm((f) => ({ ...f, locationNotes: e.target.value }))}
-              className="bg-white/5 border-white/10 text-white placeholder:text-white/30"
+              className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
             />
           </div>
           <div className="flex gap-3">
-            <Button variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white hover:bg-white/5">
+            <Button variant="outline" onClick={prevStep} className="flex-1 border-border text-foreground hover:bg-foreground/5">
               <ChevronLeft className="w-4 h-4 mr-1" /> Back
             </Button>
             <Button onClick={nextStep} disabled={!form.address} className="flex-1 bg-[#E23232] hover:bg-[#c92a2a] text-white">
@@ -365,7 +365,7 @@ function BookingForm() {
             initialDirtLevel={form.dirtLevel}
           />
           <div className="flex gap-3">
-            <Button variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white hover:bg-white/5">
+            <Button variant="outline" onClick={prevStep} className="flex-1 border-border text-foreground hover:bg-foreground/5">
               <ChevronLeft className="w-4 h-4 mr-1" /> Back
             </Button>
             <Button onClick={nextStep} className="flex-1 bg-[#E23232] hover:bg-[#c92a2a] text-white">
@@ -378,7 +378,7 @@ function BookingForm() {
       {/* Step 3: When */}
       {step === 3 && (
         <div className="space-y-4">
-          <h2 className="text-lg font-display text-white">When do you want it?</h2>
+          <h2 className="text-lg font-display text-foreground">When do you want it?</h2>
           <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => setForm((f) => ({ ...f, isInstant: true, scheduledAt: null }))}
@@ -386,12 +386,12 @@ function BookingForm() {
                 'p-5 rounded-xl border text-center transition-all',
                 form.isInstant
                   ? 'border-[#E23232] bg-[#E23232]/10'
-                  : 'border-white/10 bg-white/5 hover:border-white/20'
+                  : 'border-border bg-foreground/5 hover:border-border'
               )}
             >
-              <Zap className={cn('w-6 h-6 mx-auto mb-2', form.isInstant ? 'text-[#E23232]' : 'text-white/40')} />
-              <p className={cn('text-sm font-semibold', form.isInstant ? 'text-white' : 'text-white/60')}>Now</p>
-              <p className="text-white/30 text-xs mt-1">Next available washer</p>
+              <Zap className={cn('w-6 h-6 mx-auto mb-2', form.isInstant ? 'text-[#E23232]' : 'text-foreground/40')} />
+              <p className={cn('text-sm font-semibold', form.isInstant ? 'text-foreground' : 'text-foreground/60')}>Now</p>
+              <p className="text-foreground/30 text-xs mt-1">Next available washer</p>
             </button>
             <button
               onClick={() => setForm((f) => ({ ...f, isInstant: false }))}
@@ -399,12 +399,12 @@ function BookingForm() {
                 'p-5 rounded-xl border text-center transition-all',
                 !form.isInstant
                   ? 'border-[#E23232] bg-[#E23232]/10'
-                  : 'border-white/10 bg-white/5 hover:border-white/20'
+                  : 'border-border bg-foreground/5 hover:border-border'
               )}
             >
-              <CalendarDays className={cn('w-6 h-6 mx-auto mb-2', !form.isInstant ? 'text-[#E23232]' : 'text-white/40')} />
-              <p className={cn('text-sm font-semibold', !form.isInstant ? 'text-white' : 'text-white/60')}>Schedule</p>
-              <p className="text-white/30 text-xs mt-1">Pick date & time</p>
+              <CalendarDays className={cn('w-6 h-6 mx-auto mb-2', !form.isInstant ? 'text-[#E23232]' : 'text-foreground/40')} />
+              <p className={cn('text-sm font-semibold', !form.isInstant ? 'text-foreground' : 'text-foreground/60')}>Schedule</p>
+              <p className="text-foreground/30 text-xs mt-1">Pick date & time</p>
             </button>
           </div>
 
@@ -416,7 +416,7 @@ function BookingForm() {
           )}
 
           <div className="flex gap-3">
-            <Button variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white hover:bg-white/5">
+            <Button variant="outline" onClick={prevStep} className="flex-1 border-border text-foreground hover:bg-foreground/5">
               <ChevronLeft className="w-4 h-4 mr-1" /> Back
             </Button>
             <Button
@@ -433,62 +433,62 @@ function BookingForm() {
       {/* Step 4: Review */}
       {step === 4 && form.vehicle && price && (
         <div className="space-y-4">
-          <h2 className="text-lg font-display text-white">Review your booking</h2>
+          <h2 className="text-lg font-display text-foreground">Review your booking</h2>
 
-          <Card className="bg-[#0a0a0a] border-white/10">
+          <Card className="bg-card border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center gap-3">
-                <Car className="w-4 h-4 text-white/40" />
-                <span className="text-white text-sm">{form.vehicle.year} {form.vehicle.make} {form.vehicle.model}</span>
+                <Car className="w-4 h-4 text-foreground/40" />
+                <span className="text-foreground text-sm">{form.vehicle.year} {form.vehicle.make} {form.vehicle.model}</span>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="w-4 h-4 text-white/40" />
-                <span className="text-white text-sm">{form.address}</span>
+                <MapPin className="w-4 h-4 text-foreground/40" />
+                <span className="text-foreground text-sm">{form.address}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Sparkles className="w-4 h-4 text-white/40" />
-                <span className="text-white text-sm">{PLAN_LABELS[form.washPlan]} · Dirt level {form.dirtLevel}</span>
+                <Sparkles className="w-4 h-4 text-foreground/40" />
+                <span className="text-foreground text-sm">{PLAN_LABELS[form.washPlan]} · Dirt level {form.dirtLevel}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-4 h-4 text-white/40" />
-                <span className="text-white text-sm">
+                <Clock className="w-4 h-4 text-foreground/40" />
+                <span className="text-foreground text-sm">
                   {form.isInstant ? 'Now — next available' : new Date(form.scheduledAt!).toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-4 h-4 text-white/40" />
-                <span className="text-white/50 text-sm">Est. {formatDuration(price.estimatedDurationMin)}</span>
+                <Clock className="w-4 h-4 text-foreground/40" />
+                <span className="text-foreground/50 text-sm">Est. {formatDuration(price.estimatedDurationMin)}</span>
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-[#0a0a0a] border-white/10">
+          <Card className="bg-card border-border">
             <CardContent className="p-4 space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-white/50">{price.planLabel}</span>
-                <span className="text-white">{centsToDisplay(price.basePriceCents)}</span>
+                <span className="text-foreground/50">{price.planLabel}</span>
+                <span className="text-foreground">{centsToDisplay(price.basePriceCents)}</span>
               </div>
               {price.vehicleMultiplier !== 1 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-white/50">Vehicle ({price.vehicleMultiplier}x)</span>
-                  <span className="text-white/70">+{centsToDisplay(Math.round(price.basePriceCents * (price.vehicleMultiplier - 1)))}</span>
+                  <span className="text-foreground/50">Vehicle ({price.vehicleMultiplier}x)</span>
+                  <span className="text-foreground/70">+{centsToDisplay(Math.round(price.basePriceCents * (price.vehicleMultiplier - 1)))}</span>
                 </div>
               )}
               {price.dirtMultiplier !== 1 && (
                 <div className="flex justify-between text-sm">
-                  <span className="text-white/50">Dirt level {form.dirtLevel} ({price.dirtMultiplier}x)</span>
+                  <span className="text-foreground/50">Dirt level {form.dirtLevel} ({price.dirtMultiplier}x)</span>
                   <span className="text-amber-400">+{centsToDisplay(Math.round(price.basePriceCents * price.vehicleMultiplier * (price.dirtMultiplier - 1)))}</span>
                 </div>
               )}
               <div className="flex justify-between text-sm">
-                <span className="text-white/50">HST (13%)</span>
-                <span className="text-white/70">{centsToDisplay(price.hstCents)}</span>
+                <span className="text-foreground/50">HST (13%)</span>
+                <span className="text-foreground/70">{centsToDisplay(price.hstCents)}</span>
               </div>
-              <div className="border-t border-white/10 pt-2 flex justify-between font-semibold">
-                <span className="text-white">Total</span>
+              <div className="border-t border-border pt-2 flex justify-between font-semibold">
+                <span className="text-foreground">Total</span>
                 <span className="text-[#E23232] text-lg">{centsToDisplay(price.totalCents)}</span>
               </div>
-              <p className="text-white/30 text-[10px] flex items-center gap-1 pt-1">
+              <p className="text-foreground/30 text-[10px] flex items-center gap-1 pt-1">
                 <CreditCard className="w-3 h-3" />
                 Card pre-authorized. Charged only after wash is complete.
               </p>
@@ -496,7 +496,7 @@ function BookingForm() {
           </Card>
 
           <div className="flex gap-3">
-            <Button variant="outline" onClick={prevStep} className="flex-1 border-white/10 text-white hover:bg-white/5">
+            <Button variant="outline" onClick={prevStep} className="flex-1 border-border text-foreground hover:bg-foreground/5">
               <ChevronLeft className="w-4 h-4 mr-1" /> Back
             </Button>
             <Button

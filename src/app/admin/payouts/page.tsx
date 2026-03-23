@@ -111,12 +111,12 @@ export default function AdminPayoutsPage() {
             <DollarSign className="w-5 h-5 text-[#E23232]" />
           </div>
           <div>
-            <h1 className="text-3xl font-display text-white tracking-tight">Payouts</h1>
-            <p className="text-white/30 text-sm mt-0.5">Manage washer earnings and transfers</p>
+            <h1 className="text-3xl font-display text-foreground tracking-tight">Payouts</h1>
+            <p className="text-foreground/30 text-sm mt-0.5">Manage washer earnings and transfers</p>
           </div>
         </div>
-        <div className="bg-[#111] border border-white/[0.08] rounded-2xl px-5 py-3 border-l-4 border-l-[#E23232]">
-          <p className="text-[10px] text-white/30 uppercase tracking-widest">Total Pending</p>
+        <div className="bg-surface border border-border rounded-2xl px-5 py-3 border-l-4 border-l-[#E23232]">
+          <p className="text-[10px] text-foreground/30 uppercase tracking-widest">Total Pending</p>
           <p className="text-xl font-bold text-[#E23232] mt-0.5">
             ${(totalPending / 100).toFixed(2)}
           </p>
@@ -125,49 +125,49 @@ export default function AdminPayoutsPage() {
 
       {/* Stats Overview */}
       <div className="grid grid-cols-3 gap-4 animate-fade-in-up">
-        <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-4 text-center">
-          <p className="text-2xl font-bold text-white">{washers.length}</p>
-          <p className="text-[10px] text-white/25 uppercase tracking-widest mt-1">Washers</p>
+        <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
+          <p className="text-2xl font-bold text-foreground">{washers.length}</p>
+          <p className="text-[10px] text-foreground/25 uppercase tracking-widest mt-1">Washers</p>
         </div>
-        <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-4 text-center">
-          <p className="text-2xl font-bold text-white">{washers.filter(w => w.pending_earnings > 0).length}</p>
-          <p className="text-[10px] text-white/25 uppercase tracking-widest mt-1">With Pending</p>
+        <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
+          <p className="text-2xl font-bold text-foreground">{washers.filter(w => w.pending_earnings > 0).length}</p>
+          <p className="text-[10px] text-foreground/25 uppercase tracking-widest mt-1">With Pending</p>
         </div>
-        <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-4 text-center">
-          <p className="text-2xl font-bold text-white">{washers.filter(w => w.stripe_account_id).length}</p>
-          <p className="text-[10px] text-white/25 uppercase tracking-widest mt-1">Stripe Connected</p>
+        <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
+          <p className="text-2xl font-bold text-foreground">{washers.filter(w => w.stripe_account_id).length}</p>
+          <p className="text-[10px] text-foreground/25 uppercase tracking-widest mt-1">Stripe Connected</p>
         </div>
       </div>
 
       {loading ? (
         <div className="space-y-3">
           {[...Array(4)].map((_, i) => (
-            <Skeleton key={i} className="h-24 w-full bg-white/5 rounded-2xl" />
+            <Skeleton key={i} className="h-24 w-full bg-foreground/5 rounded-2xl" />
           ))}
         </div>
       ) : washers.length === 0 ? (
-        <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-12 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-4">
-            <User className="w-7 h-7 text-white/10" />
+        <div className="bg-surface border border-border rounded-2xl p-12 text-center">
+          <div className="w-16 h-16 rounded-2xl bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
+            <User className="w-7 h-7 text-foreground/10" />
           </div>
-          <p className="text-white/30 text-sm">No washers found</p>
+          <p className="text-foreground/30 text-sm">No washers found</p>
         </div>
       ) : (
         <div className="space-y-3 stagger-children">
           {washers.map((washer) => (
             <div
               key={washer.id}
-              className="bg-[#111] border border-white/[0.08] rounded-2xl hover:border-white/[0.15] transition-colors duration-200 group animate-fade-in-up"
+              className="bg-surface border border-border rounded-2xl hover:border-border transition-colors duration-200 group animate-fade-in-up"
             >
               <div className="p-5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 flex-1">
-                    <div className="w-11 h-11 rounded-xl bg-white/[0.06] flex items-center justify-center shrink-0 group-hover:bg-[#E23232]/10 transition-colors">
-                      <User className="w-5 h-5 text-white/30 group-hover:text-[#E23232] transition-colors" />
+                    <div className="w-11 h-11 rounded-xl bg-foreground/[0.06] flex items-center justify-center shrink-0 group-hover:bg-[#E23232]/10 transition-colors">
+                      <User className="w-5 h-5 text-foreground/30 group-hover:text-[#E23232] transition-colors" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2.5">
-                        <p className="font-medium text-white">
+                        <p className="font-medium text-foreground">
                           {washer.full_name}
                         </p>
                         {washer.stripe_account_id ? (
@@ -182,10 +182,10 @@ export default function AdminPayoutsPage() {
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-white/20 truncate mt-0.5 font-mono">
+                      <p className="text-xs text-foreground/20 truncate mt-0.5 font-mono">
                         {washer.email}
                       </p>
-                      <p className="text-xs text-white/15 mt-1">
+                      <p className="text-xs text-foreground/15 mt-1">
                         {washer.completed_jobs} completed jobs pending payout
                       </p>
                     </div>
@@ -193,10 +193,10 @@ export default function AdminPayoutsPage() {
 
                   <div className="flex items-center gap-5 shrink-0">
                     <div className="text-right">
-                      <p className={`text-xl font-bold ${washer.pending_earnings > 0 ? 'text-[#E23232]' : 'text-white/20'}`}>
+                      <p className={`text-xl font-bold ${washer.pending_earnings > 0 ? 'text-[#E23232]' : 'text-foreground/20'}`}>
                         ${(washer.pending_earnings / 100).toFixed(2)}
                       </p>
-                      <p className="text-[10px] text-white/20 uppercase tracking-widest">pending</p>
+                      <p className="text-[10px] text-foreground/20 uppercase tracking-widest">pending</p>
                     </div>
                     <Button
                       size="sm"

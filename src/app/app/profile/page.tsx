@@ -159,9 +159,9 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="max-w-lg mx-auto px-4 py-8 space-y-4">
-        <Skeleton className="h-10 w-48 bg-white/5 rounded-lg" />
-        <Skeleton className="h-28 w-full bg-white/5 rounded-2xl" />
-        <Skeleton className="h-56 w-full bg-white/5 rounded-2xl" />
+        <Skeleton className="h-10 w-48 bg-foreground/5 rounded-lg" />
+        <Skeleton className="h-28 w-full bg-foreground/5 rounded-2xl" />
+        <Skeleton className="h-56 w-full bg-foreground/5 rounded-2xl" />
       </div>
     );
   }
@@ -170,13 +170,13 @@ export default function ProfilePage() {
     <div className="max-w-lg mx-auto px-4 py-8 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-display text-white tracking-tight">Profile</h1>
+        <h1 className="text-2xl font-display text-foreground tracking-tight">Profile</h1>
         {!editing ? (
           <Button
             variant="outline"
             size="sm"
             onClick={() => setEditing(true)}
-            className="border-white/[0.08] text-white/70 hover:bg-white/5 hover:text-white rounded-xl gap-2"
+            className="border-border text-foreground/70 hover:bg-foreground/5 hover:text-foreground rounded-xl gap-2"
           >
             <Pencil className="w-3.5 h-3.5" />
             Edit
@@ -190,7 +190,7 @@ export default function ProfilePage() {
                 setEditing(false);
                 setForm({ full_name: profile?.full_name || '', phone: profile?.phone || '' });
               }}
-              className="border-white/[0.08] text-white/40 hover:text-white hover:bg-white/5 rounded-xl"
+              className="border-border text-foreground/40 hover:text-foreground hover:bg-foreground/5 rounded-xl"
             >
               <X className="w-3.5 h-3.5" />
             </Button>
@@ -208,7 +208,7 @@ export default function ProfilePage() {
       </div>
 
       {/* Avatar Hero */}
-      <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-6 flex items-center gap-5">
+      <div className="bg-surface border border-border rounded-2xl p-6 flex items-center gap-5">
         {/* Avatar with upload */}
         <div className="relative shrink-0">
           <div className="w-[72px] h-[72px] rounded-full bg-[#E23232]/10 border-2 border-[#E23232]/30 flex items-center justify-center overflow-hidden">
@@ -238,36 +238,36 @@ export default function ProfilePage() {
         </div>
 
         <div className="min-w-0">
-          <p className="text-xl font-semibold text-white truncate">
-            {profile?.full_name || <span className="text-white/30 italic text-base">No name set</span>}
+          <p className="text-xl font-semibold text-foreground truncate">
+            {profile?.full_name || <span className="text-foreground/30 italic text-base">No name set</span>}
           </p>
-          <p className="text-sm text-white/40 mt-0.5 capitalize">{profile?.role || 'Customer'}</p>
+          <p className="text-sm text-foreground/40 mt-0.5 capitalize">{profile?.role || 'Customer'}</p>
           {displayEmail && (
-            <p className="text-xs text-white/30 mt-1 truncate">{displayEmail}</p>
+            <p className="text-xs text-foreground/30 mt-1 truncate">{displayEmail}</p>
           )}
         </div>
       </div>
 
       {/* Personal Information */}
-      <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-6 space-y-5">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold">Personal Information</h2>
+      <div className="bg-surface border border-border rounded-2xl p-6 space-y-5">
+        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/40 font-semibold">Personal Information</h2>
 
         {/* Full Name */}
         <div>
-          <Label className="text-white/40 text-xs uppercase tracking-widest font-medium">Full Name</Label>
+          <Label className="text-foreground/40 text-xs uppercase tracking-widest font-medium">Full Name</Label>
           {editing ? (
             <Input
               value={form.full_name}
               onChange={(e) => setForm({ ...form, full_name: e.target.value })}
               placeholder="Enter your full name"
-              className="mt-2 bg-white/[0.03] border-white/[0.08] text-white rounded-xl placeholder:text-white/20"
+              className="mt-2 bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/20"
             />
           ) : (
             <div className="flex items-center gap-3 mt-2">
-              <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
-                <User className="w-4 h-4 text-white/30" />
+              <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0">
+                <User className="w-4 h-4 text-foreground/30" />
               </div>
-              <span className={profile?.full_name ? 'text-white/70' : 'text-white/20 italic'}>
+              <span className={profile?.full_name ? 'text-foreground/70' : 'text-foreground/20 italic'}>
                 {profile?.full_name || 'Not set'}
               </span>
             </div>
@@ -276,12 +276,12 @@ export default function ProfilePage() {
 
         {/* Email */}
         <div>
-          <Label className="text-white/40 text-xs uppercase tracking-widest font-medium">Email</Label>
+          <Label className="text-foreground/40 text-xs uppercase tracking-widest font-medium">Email</Label>
           <div className="flex items-center gap-3 mt-2">
-            <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
-              <Mail className="w-4 h-4 text-white/30" />
+            <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0">
+              <Mail className="w-4 h-4 text-foreground/30" />
             </div>
-            <span className={displayEmail ? 'text-white/70' : 'text-white/20 italic'}>
+            <span className={displayEmail ? 'text-foreground/70' : 'text-foreground/20 italic'}>
               {displayEmail || 'Not set'}
             </span>
           </div>
@@ -289,20 +289,20 @@ export default function ProfilePage() {
 
         {/* Phone */}
         <div>
-          <Label className="text-white/40 text-xs uppercase tracking-widest font-medium">Phone</Label>
+          <Label className="text-foreground/40 text-xs uppercase tracking-widest font-medium">Phone</Label>
           {editing ? (
             <Input
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
               placeholder="+1 (416) 555-0123"
-              className="mt-2 bg-white/[0.03] border-white/[0.08] text-white rounded-xl placeholder:text-white/20"
+              className="mt-2 bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/20"
             />
           ) : (
             <div className="flex items-center gap-3 mt-2">
-              <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center shrink-0">
-                <Phone className="w-4 h-4 text-white/30" />
+              <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0">
+                <Phone className="w-4 h-4 text-foreground/30" />
               </div>
-              <span className={profile?.phone ? 'text-white/70' : 'text-white/20 italic'}>
+              <span className={profile?.phone ? 'text-foreground/70' : 'text-foreground/20 italic'}>
                 {profile?.phone || 'Not set'}
               </span>
             </div>
@@ -312,41 +312,41 @@ export default function ProfilePage() {
 
       {/* Referral Code */}
       {profile?.customer_profiles?.referral_code && (
-        <div className="bg-[#111] border border-[#E23232]/20 rounded-2xl p-6">
-          <h2 className="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold mb-4">Referral Code</h2>
+        <div className="bg-surface border border-[#E23232]/20 rounded-2xl p-6">
+          <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/40 font-semibold mb-4">Referral Code</h2>
           <div className="flex items-center gap-3">
-            <code className="flex-1 bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-lg font-mono text-[#E23232] tracking-[0.2em] text-center font-bold">
+            <code className="flex-1 bg-foreground/[0.03] border border-border rounded-xl px-4 py-3 text-lg font-mono text-[#E23232] tracking-[0.2em] text-center font-bold">
               {profile.customer_profiles.referral_code}
             </code>
             <Button
               variant="outline"
               size="icon"
               onClick={copyReferral}
-              className="border-white/[0.08] text-white hover:bg-white/5 shrink-0 rounded-xl w-12 h-12"
+              className="border-border text-foreground hover:bg-foreground/5 shrink-0 rounded-xl w-12 h-12"
             >
               {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
             </Button>
           </div>
-          <p className="text-xs text-white/25 mt-3">Share this code with friends to earn rewards</p>
+          <p className="text-xs text-foreground/25 mt-3">Share this code with friends to earn rewards</p>
         </div>
       )}
 
       {/* Account Actions */}
-      <div className="bg-[#111] border border-white/[0.08] rounded-2xl overflow-hidden">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold px-6 pt-5 pb-3">Account</h2>
+      <div className="bg-surface border border-border rounded-2xl overflow-hidden">
+        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/40 font-semibold px-6 pt-5 pb-3">Account</h2>
 
-        <button className="w-full flex items-center gap-4 px-6 py-4 hover:bg-white/[0.03] transition-colors border-t border-white/[0.05]">
-          <div className="w-8 h-8 rounded-lg bg-white/[0.04] flex items-center justify-center">
-            <Shield className="w-4 h-4 text-white/30" />
+        <button className="w-full flex items-center gap-4 px-6 py-4 hover:bg-foreground/[0.03] transition-colors border-t border-border">
+          <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center">
+            <Shield className="w-4 h-4 text-foreground/30" />
           </div>
-          <span className="flex-1 text-left text-white/70 text-sm">Privacy & Security</span>
-          <ChevronRight className="w-4 h-4 text-white/20" />
+          <span className="flex-1 text-left text-foreground/70 text-sm">Privacy & Security</span>
+          <ChevronRight className="w-4 h-4 text-foreground/20" />
         </button>
 
         <button
           onClick={handleLogout}
           disabled={loggingOut}
-          className="w-full flex items-center gap-4 px-6 py-4 hover:bg-red-500/5 transition-colors border-t border-white/[0.05] disabled:opacity-60"
+          className="w-full flex items-center gap-4 px-6 py-4 hover:bg-red-500/5 transition-colors border-t border-border disabled:opacity-60"
         >
           <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
             {loggingOut ? <Loader2 className="w-4 h-4 text-red-400 animate-spin" /> : <LogOut className="w-4 h-4 text-red-400" />}

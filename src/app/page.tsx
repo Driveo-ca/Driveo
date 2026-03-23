@@ -17,7 +17,7 @@ import { Footer } from '@/components/Footer';
 export default function HomePage() {
   return (
     <CursorProvider>
-      <div className="custom-cursor bg-[#050505] text-white min-h-screen selection:bg-[#E23232] selection:text-white overflow-x-clip">
+      <div className="dark custom-cursor bg-[#050505] text-white min-h-screen selection:bg-[#E23232] selection:text-white overflow-x-clip">
         <NoiseOverlay />
         <Navbar />
         <HeroSection />

@@ -94,13 +94,13 @@ export default function WasherJobsPage() {
   const renderJobCard = (job: Job) => (
     <Link key={job.id} href={`/washer/jobs/${job.id}`}>
       <div
-        className={`bg-[#111] border border-white/[0.08] rounded-2xl border-l-[3px] ${statusBorderAccent[job.status] || 'border-l-white/10'} hover:border-white/[0.15] transition-colors duration-200 cursor-pointer`}
+        className={`bg-surface border border-border rounded-2xl border-l-[3px] ${statusBorderAccent[job.status] || 'border-l-border'} hover:border-border transition-colors duration-200 cursor-pointer`}
       >
         <div className="p-4">
           <div className="flex items-start justify-between mb-3">
             <Badge
               variant="outline"
-              className={`${statusColor[job.status] || 'border-white/20 text-white/60'} rounded-full px-2.5 py-0.5 text-[10px] uppercase tracking-wider font-medium`}
+              className={`${statusColor[job.status] || 'border-border text-foreground/60'} rounded-full px-2.5 py-0.5 text-[10px] uppercase tracking-wider font-medium`}
             >
               {job.status.replace('_', ' ')}
             </Badge>
@@ -112,29 +112,29 @@ export default function WasherJobsPage() {
 
           <div className="space-y-2.5">
             <div className="flex items-center gap-2 text-sm">
-              <span className="text-white font-semibold">
+              <span className="text-foreground font-semibold">
                 {planLabel[job.wash_plan] || job.wash_plan}
               </span>
-              <span className="text-white/15">|</span>
-              <span className="text-white/40 text-xs">Dirt {job.dirt_level}</span>
+              <span className="text-foreground/15">|</span>
+              <span className="text-foreground/40 text-xs">Dirt {job.dirt_level}</span>
             </div>
 
             {job.vehicles && (
-              <div className="flex items-center gap-2 text-sm text-white/60">
-                <Car className="w-3.5 h-3.5 text-white/30" />
+              <div className="flex items-center gap-2 text-sm text-foreground/60">
+                <Car className="w-3.5 h-3.5 text-foreground/30" />
                 <span>
                   {job.vehicles.year} {job.vehicles.make} {job.vehicles.model}
                 </span>
-                <span className="text-white/20 capitalize text-xs">({job.vehicles.type})</span>
+                <span className="text-foreground/20 capitalize text-xs">({job.vehicles.type})</span>
               </div>
             )}
 
-            <div className="flex items-center gap-2 text-sm text-white/40">
+            <div className="flex items-center gap-2 text-sm text-foreground/40">
               <MapPin className="w-3.5 h-3.5" />
               <span className="line-clamp-1">{job.service_address}</span>
             </div>
 
-            <div className="flex items-center justify-between text-xs text-white/30 pt-1 border-t border-white/[0.06]">
+            <div className="flex items-center justify-between text-xs text-foreground/30 pt-1 border-t border-border">
               <div className="flex items-center gap-2">
                 {job.scheduled_at ? (
                   <>
@@ -155,7 +155,7 @@ export default function WasherJobsPage() {
                   </>
                 )}
               </div>
-              <ChevronRight className="w-4 h-4 text-white/15" />
+              <ChevronRight className="w-4 h-4 text-foreground/15" />
             </div>
           </div>
         </div>
@@ -164,39 +164,39 @@ export default function WasherJobsPage() {
   );
 
   const renderEmptyState = (message: string) => (
-    <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-12 text-center">
-      <p className="text-white/40 text-sm">{message}</p>
+    <div className="bg-surface border border-border rounded-2xl p-12 text-center">
+      <p className="text-foreground/40 text-sm">{message}</p>
     </div>
   );
 
   return (
     <div className="max-w-lg mx-auto px-4 py-8 animate-fade-in-up">
-      <h1 className="text-2xl font-display text-white tracking-tight mb-6">My Jobs</h1>
+      <h1 className="text-2xl font-display text-foreground tracking-tight mb-6">My Jobs</h1>
 
       {loading ? (
         <div className="space-y-3">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-36 w-full bg-[#111] rounded-2xl" />
+            <div key={i} className="h-36 w-full bg-surface rounded-2xl" />
           ))}
         </div>
       ) : (
         <Tabs defaultValue="active" className="w-full">
-          <TabsList className="w-full bg-[#0a0a0a] rounded-full p-1 border border-white/[0.08] mb-6 h-auto">
+          <TabsList className="w-full bg-card rounded-full p-1 border border-border mb-6 h-auto">
             <TabsTrigger
               value="active"
-              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-white/40 transition-colors duration-200"
+              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/40 transition-colors duration-200"
             >
               Active ({activeJobs.length})
             </TabsTrigger>
             <TabsTrigger
               value="upcoming"
-              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-white/40 transition-colors duration-200"
+              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/40 transition-colors duration-200"
             >
               Upcoming ({upcomingJobs.length})
             </TabsTrigger>
             <TabsTrigger
               value="completed"
-              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-white/40 transition-colors duration-200"
+              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/40 transition-colors duration-200"
             >
               Done ({completedJobs.length})
             </TabsTrigger>

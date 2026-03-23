@@ -75,9 +75,9 @@ export default function AdminDashboardPage() {
     return (
       <div className="space-y-6 md:pt-0 pt-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-32 bg-white/5 rounded-2xl" />)}
+          {[1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-32 bg-foreground/5 rounded-2xl" />)}
         </div>
-        <Skeleton className="h-64 bg-white/5 rounded-2xl" />
+        <Skeleton className="h-64 bg-foreground/5 rounded-2xl" />
       </div>
     );
   }
@@ -87,10 +87,10 @@ export default function AdminDashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display text-white tracking-tight">Dashboard</h1>
-          <p className="text-white/30 text-sm mt-1">Platform overview and analytics</p>
+          <h1 className="text-3xl font-display text-foreground tracking-tight">Dashboard</h1>
+          <p className="text-foreground/30 text-sm mt-1">Platform overview and analytics</p>
         </div>
-        <div className="flex items-center gap-2 bg-[#111] border border-white/[0.08] rounded-full px-4 py-2">
+        <div className="flex items-center gap-2 bg-surface border border-border rounded-full px-4 py-2">
           <TrendingUp className="w-4 h-4 text-green-400" />
           <span className="text-green-400 text-xs font-medium">Live</span>
         </div>
@@ -98,7 +98,7 @@ export default function AdminDashboardPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 stagger-children">
-        <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-5 animate-fade-in-up">
+        <div className="stat-card bg-surface border border-border rounded-2xl p-5 animate-fade-in-up">
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center">
               <DollarSign className="w-5 h-5 text-green-400" />
@@ -106,39 +106,39 @@ export default function AdminDashboardPage() {
             <TrendingUp className="w-4 h-4 text-green-400/50" />
           </div>
           <p className="text-3xl font-bold text-[#E23232]">{centsToDisplay(stats.totalRevenue)}</p>
-          <p className="text-white/30 text-xs mt-2 uppercase tracking-wider">Total Revenue</p>
+          <p className="text-foreground/30 text-xs mt-2 uppercase tracking-wider">Total Revenue</p>
         </div>
 
-        <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
+        <div className="stat-card bg-surface border border-border rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center">
               <Car className="w-5 h-5 text-blue-400" />
             </div>
             <div className="w-2 h-2 rounded-full bg-blue-400 animate-pulse" />
           </div>
-          <p className="text-3xl font-bold text-white">{stats.activeBookings}</p>
-          <p className="text-white/30 text-xs mt-2 uppercase tracking-wider">Active Washes</p>
+          <p className="text-3xl font-bold text-foreground">{stats.activeBookings}</p>
+          <p className="text-foreground/30 text-xs mt-2 uppercase tracking-wider">Active Washes</p>
         </div>
 
-        <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+        <div className="stat-card bg-surface border border-border rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center">
               <UserCheck className="w-5 h-5 text-purple-400" />
             </div>
             <div className="w-2 h-2 rounded-full bg-purple-400 animate-pulse" />
           </div>
-          <p className="text-3xl font-bold text-white">{stats.washersOnline}</p>
-          <p className="text-white/30 text-xs mt-2 uppercase tracking-wider">Washers Online</p>
+          <p className="text-3xl font-bold text-foreground">{stats.washersOnline}</p>
+          <p className="text-foreground/30 text-xs mt-2 uppercase tracking-wider">Washers Online</p>
         </div>
 
-        <div className="stat-card bg-[#111] border border-white/[0.08] rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
+        <div className="stat-card bg-surface border border-border rounded-2xl p-5 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
           <div className="flex items-center justify-between mb-4">
             <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
               <Users className="w-5 h-5 text-amber-400" />
             </div>
           </div>
-          <p className="text-3xl font-bold text-white">{stats.totalCustomers}</p>
-          <p className="text-white/30 text-xs mt-2 uppercase tracking-wider">Customers</p>
+          <p className="text-3xl font-bold text-foreground">{stats.totalCustomers}</p>
+          <p className="text-foreground/30 text-xs mt-2 uppercase tracking-wider">Customers</p>
         </div>
       </div>
 
@@ -147,36 +147,36 @@ export default function AdminDashboardPage() {
         <div className="space-y-3 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
           {stats.pendingApplications > 0 && (
             <Link href="/admin/washers">
-              <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-4 border-l-4 border-l-amber-500 hover:border-white/[0.15] transition-colors cursor-pointer group mb-3">
+              <div className="bg-surface border border-border rounded-2xl p-4 border-l-4 border-l-amber-500 hover:border-border transition-colors cursor-pointer group mb-3">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
                     <AlertTriangle className="w-5 h-5 text-amber-400" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-white text-sm font-medium">
+                    <p className="text-foreground text-sm font-medium">
                       {stats.pendingApplications} washer application{stats.pendingApplications > 1 ? 's' : ''} pending review
                     </p>
-                    <p className="text-white/30 text-xs mt-0.5">Requires your attention</p>
+                    <p className="text-foreground/30 text-xs mt-0.5">Requires your attention</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-white/20 group-hover:text-amber-400 transition-colors" />
+                  <ChevronRight className="w-5 h-5 text-foreground/20 group-hover:text-amber-400 transition-colors" />
                 </div>
               </div>
             </Link>
           )}
           {stats.pendingBookings > 0 && (
             <Link href="/admin/bookings">
-              <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-4 border-l-4 border-l-yellow-500 hover:border-white/[0.15] transition-colors cursor-pointer group">
+              <div className="bg-surface border border-border rounded-2xl p-4 border-l-4 border-l-yellow-500 hover:border-border transition-colors cursor-pointer group">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-yellow-500/10 flex items-center justify-center">
                     <CalendarDays className="w-5 h-5 text-yellow-400" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-white text-sm font-medium">
+                    <p className="text-foreground text-sm font-medium">
                       {stats.pendingBookings} booking{stats.pendingBookings > 1 ? 's' : ''} awaiting washer assignment
                     </p>
-                    <p className="text-white/30 text-xs mt-0.5">Auto-assignment in progress</p>
+                    <p className="text-foreground/30 text-xs mt-0.5">Auto-assignment in progress</p>
                   </div>
-                  <ChevronRight className="w-5 h-5 text-white/20 group-hover:text-yellow-400 transition-colors" />
+                  <ChevronRight className="w-5 h-5 text-foreground/20 group-hover:text-yellow-400 transition-colors" />
                 </div>
               </div>
             </Link>
@@ -187,26 +187,26 @@ export default function AdminDashboardPage() {
       {/* Recent Bookings */}
       <div className="animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-sm font-semibold text-white/40 uppercase tracking-widest">Recent Bookings</h2>
+          <h2 className="text-sm font-semibold text-foreground/40 uppercase tracking-widest">Recent Bookings</h2>
           <Link href="/admin/bookings" className="text-[#E23232] text-xs font-medium hover:text-[#E23232]/80 transition-colors flex items-center gap-1 group">
             View all
             <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
-        <div className="bg-[#111] border border-white/[0.08] rounded-2xl overflow-hidden">
-          <div className="divide-y divide-white/[0.06]">
+        <div className="bg-surface border border-border rounded-2xl overflow-hidden">
+          <div className="divide-y divide-border">
             {recentBookings.map((b, idx) => (
               <div
                 key={b.id}
-                className="p-4 flex items-center gap-4 hover:bg-white/[0.03] transition-colors duration-200 group"
+                className="p-4 flex items-center gap-4 hover:bg-foreground/[0.03] transition-colors duration-200 group"
                 style={{ animationDelay: `${0.05 * idx}s` }}
               >
-                <div className="w-10 h-10 rounded-xl bg-white/[0.04] flex items-center justify-center shrink-0 group-hover:bg-white/[0.06] transition-colors">
-                  <Car className="w-4 h-4 text-white/30" />
+                <div className="w-10 h-10 rounded-xl bg-foreground/[0.04] flex items-center justify-center shrink-0 group-hover:bg-foreground/[0.06] transition-colors">
+                  <Car className="w-4 h-4 text-foreground/30" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="text-white text-sm font-medium truncate">
+                    <p className="text-foreground text-sm font-medium truncate">
                       {PLAN_LABELS[b.wash_plan]}
                     </p>
                     <Badge
@@ -215,28 +215,28 @@ export default function AdminDashboardPage() {
                         b.status === 'pending' ? 'text-yellow-400 border-yellow-500/30 bg-yellow-500/5' :
                         ['assigned', 'en_route', 'arrived', 'washing'].includes(b.status) ? 'text-blue-400 border-blue-500/30 bg-blue-500/5' :
                         ['completed', 'paid'].includes(b.status) ? 'text-green-400 border-green-500/30 bg-green-500/5' :
-                        'text-white/40 border-white/20'
+                        'text-foreground/40 border-border'
                       }`}
                     >
                       {b.status.replace('_', ' ')}
                     </Badge>
                   </div>
-                  <p className="text-white/25 text-xs mt-1 truncate">
+                  <p className="text-foreground/25 text-xs mt-1 truncate">
                     {b.vehicles?.year} {b.vehicles?.make} {b.vehicles?.model} · {b.service_address}
                   </p>
                 </div>
-                <span className="text-white font-semibold text-sm whitespace-nowrap">
+                <span className="text-foreground font-semibold text-sm whitespace-nowrap">
                   {centsToDisplay(b.total_price)}
                 </span>
-                <span className="text-white/20 text-xs whitespace-nowrap font-mono">
+                <span className="text-foreground/20 text-xs whitespace-nowrap font-mono">
                   {new Date(b.created_at).toLocaleDateString()}
                 </span>
               </div>
             ))}
             {recentBookings.length === 0 && (
               <div className="p-12 text-center">
-                <Car className="w-8 h-8 text-white/10 mx-auto mb-3" />
-                <p className="text-white/30 text-sm">No bookings yet</p>
+                <Car className="w-8 h-8 text-foreground/10 mx-auto mb-3" />
+                <p className="text-foreground/30 text-sm">No bookings yet</p>
               </div>
             )}
           </div>

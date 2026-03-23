@@ -8,7 +8,7 @@ export const metadata = {
 export default function WasherLayout({ children }: { children: React.ReactNode }) {
   return (
     <Providers>
-      <div className="min-h-screen bg-[#050505] text-white">
+      <div className="min-h-screen bg-background text-foreground">
         <WasherNav />
         <main className="pb-24 md:pb-0">{children}</main>
       </div>

@@ -41,7 +41,7 @@ export default function ApplyPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   return (
     <CursorProvider>
-      <div className="bg-[#050505] text-white min-h-screen overflow-x-clip selection:bg-[#E23232] selection:text-white">
+      <div className="dark bg-[#050505] text-white min-h-screen overflow-x-clip selection:bg-[#E23232] selection:text-white">
         <NoiseOverlay />
         {/* Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 px-6 py-5 flex justify-between items-center bg-[#050505]/80 backdrop-blur-xl border-b border-white/10">

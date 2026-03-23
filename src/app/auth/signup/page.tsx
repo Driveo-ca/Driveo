@@ -59,23 +59,23 @@ function SignupForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-[#050505]">
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
       <div className="w-full max-w-[400px] animate-fade-in-up">
         {/* Logo */}
         <div className="text-center mb-10">
           <Link href="/" className="inline-block">
             <Image src="/Driveo-logo.png" alt="Driveo" width={48} height={48} />
           </Link>
-          <h1 className="font-display text-2xl text-white mt-5 tracking-wide">
+          <h1 className="font-display text-2xl text-foreground mt-5 tracking-wide">
             {isWasher ? 'JOIN THE TEAM' : 'GET STARTED'}
           </h1>
-          <p className="text-white/40 text-sm mt-2">
+          <p className="text-foreground/40 text-sm mt-2">
             {isWasher ? 'Apply as a washer and start earning' : 'Book your first car wash in 60 seconds'}
           </p>
         </div>
 
         {/* Card */}
-        <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-7">
+        <div className="bg-surface border border-border rounded-2xl p-7">
           {/* Google Sign Up (customers only) */}
           {!isWasher && (
             <>
@@ -95,7 +95,7 @@ function SignupForm() {
                   });
                   if (error) { toast.error(error.message); setLoading(false); }
                 }}
-                className="w-full h-12 bg-white/[0.04] border-white/[0.10] text-white hover:bg-white/[0.08] font-medium rounded-xl"
+                className="w-full h-12 bg-foreground/[0.04] border-border text-foreground hover:bg-foreground/[0.08] font-medium rounded-xl"
               >
                 <svg className="w-5 h-5 mr-2.5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -107,9 +107,9 @@ function SignupForm() {
               </Button>
 
               <div className="relative my-6">
-                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-white/[0.08]" /></div>
+                <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
                 <div className="relative flex justify-center text-xs">
-                  <span className="px-4 text-white/30 bg-[#111]">or sign up with email</span>
+                  <span className="px-4 text-foreground/30 bg-surface">or sign up with email</span>
                 </div>
               </div>
             </>
@@ -117,20 +117,20 @@ function SignupForm() {
 
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-1.5">
-              <Label htmlFor="fullName" className="text-white/50 text-xs font-medium">Full Name</Label>
-              <Input id="fullName" type="text" placeholder="John Doe" value={fullName} onChange={(e) => setFullName(e.target.value)} required className="h-12 bg-white/[0.04] border-white/[0.10] text-white placeholder:text-white/25 rounded-xl premium-input" />
+              <Label htmlFor="fullName" className="text-foreground/50 text-xs font-medium">Full Name</Label>
+              <Input id="fullName" type="text" placeholder="John Doe" value={fullName} onChange={(e) => setFullName(e.target.value)} required className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-white/50 text-xs font-medium">Email</Label>
-              <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="h-12 bg-white/[0.04] border-white/[0.10] text-white placeholder:text-white/25 rounded-xl premium-input" />
+              <Label htmlFor="email" className="text-foreground/50 text-xs font-medium">Email</Label>
+              <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="phone" className="text-white/50 text-xs font-medium">Phone Number</Label>
-              <Input id="phone" type="tel" placeholder="+1 (416) 555-0123" value={phone} onChange={(e) => setPhone(e.target.value)} className="h-12 bg-white/[0.04] border-white/[0.10] text-white placeholder:text-white/25 rounded-xl premium-input" />
+              <Label htmlFor="phone" className="text-foreground/50 text-xs font-medium">Phone Number</Label>
+              <Input id="phone" type="tel" placeholder="+1 (416) 555-0123" value={phone} onChange={(e) => setPhone(e.target.value)} className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <div className="space-y-1.5">
-              <Label htmlFor="password" className="text-white/50 text-xs font-medium">Password</Label>
-              <Input id="password" type="password" placeholder="Min. 8 characters" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} className="h-12 bg-white/[0.04] border-white/[0.10] text-white placeholder:text-white/25 rounded-xl premium-input" />
+              <Label htmlFor="password" className="text-foreground/50 text-xs font-medium">Password</Label>
+              <Input id="password" type="password" placeholder="Min. 8 characters" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <Button type="submit" disabled={loading} className="w-full h-12 bg-[#E23232] hover:bg-[#c92a2a] text-white font-semibold rounded-xl mt-2">
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (<>{isWasher ? 'Apply Now' : 'Create Account'}<ArrowRight className="w-4 h-4 ml-2" /></>)}
@@ -138,12 +138,12 @@ function SignupForm() {
           </form>
 
           <div className="mt-7 text-center space-y-2">
-            <p className="text-sm text-white/40">
+            <p className="text-sm text-foreground/40">
               Already have an account?{' '}
               <Link href="/auth/login" className="text-[#E23232] font-medium">Sign in</Link>
             </p>
             {!isWasher && (
-              <p className="text-sm text-white/40">
+              <p className="text-sm text-foreground/40">
                 Want to wash cars?{' '}
                 <Link href="/apply" className="text-[#E23232] font-medium">Apply as a washer</Link>
               </p>

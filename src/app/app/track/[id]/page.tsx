@@ -181,9 +181,9 @@ export default function TrackingPage() {
   if (loading) {
     return (
       <div className="px-4 pt-6 max-w-lg mx-auto space-y-4">
-        <Skeleton className="h-8 w-48 bg-white/5" />
-        <Skeleton className="h-56 w-full bg-white/5 rounded-2xl" />
-        <Skeleton className="h-32 w-full bg-white/5 rounded-2xl" />
+        <Skeleton className="h-8 w-48 bg-foreground/5" />
+        <Skeleton className="h-56 w-full bg-foreground/5 rounded-2xl" />
+        <Skeleton className="h-32 w-full bg-foreground/5 rounded-2xl" />
       </div>
     );
   }
@@ -191,7 +191,7 @@ export default function TrackingPage() {
   if (!booking) {
     return (
       <div className="px-4 pt-20 text-center">
-        <p className="text-white/40">Booking not found</p>
+        <p className="text-foreground/40">Booking not found</p>
       </div>
     );
   }
@@ -206,18 +206,18 @@ export default function TrackingPage() {
   return (
     <div className="max-w-lg mx-auto pb-8">
       {/* ── Top bar ── */}
-      <div className="sticky top-0 z-30 bg-[#050505] border-b border-white/[0.06] px-4 py-3 flex items-center gap-3">
+      <div className="sticky top-0 z-30 bg-background border-b border-border px-4 py-3 flex items-center gap-3">
         <button
           onClick={() => router.push('/app/bookings')}
-          className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-white/[0.06] transition-colors"
+          className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-foreground/[0.06] transition-colors"
         >
-          <ArrowLeft className="w-4 h-4 text-white/60" />
+          <ArrowLeft className="w-4 h-4 text-foreground/60" />
         </button>
         <div className="flex-1">
-          <p className="text-white text-sm font-medium">
+          <p className="text-foreground text-sm font-medium">
             {PLAN_LABELS[booking.wash_plan]}
           </p>
-          <p className="text-white/30 text-[10px]">#{booking.id.slice(0, 8)}</p>
+          <p className="text-foreground/30 text-[10px]">#{booking.id.slice(0, 8)}</p>
         </div>
         <Badge
           className={cn(
@@ -226,7 +226,7 @@ export default function TrackingPage() {
             ['en_route', 'assigned'].includes(status) ? 'bg-blue-500/15 text-blue-400 border-blue-500/25' :
             status === 'washing' ? 'bg-purple-500/15 text-purple-400 border-purple-500/25' :
             ['completed', 'paid'].includes(status) ? 'bg-green-500/15 text-green-400 border-green-500/25' :
-            'bg-white/10 text-white/60 border-white/20'
+            'bg-foreground/10 text-foreground/60 border-border'
           )}
         >
           {status === 'pending' && <Loader2 className="w-2.5 h-2.5 mr-1 animate-spin" />}
@@ -236,13 +236,13 @@ export default function TrackingPage() {
 
       {/* ── Current status hero ── */}
       <div className="px-4 pt-5 pb-4">
-        <div className={cn('flex items-center gap-3 p-4 rounded-2xl border', config.bgColor, 'border-white/[0.06]')}>
+        <div className={cn('flex items-center gap-3 p-4 rounded-2xl border', config.bgColor, 'border-border')}>
           <div className={cn('w-10 h-10 rounded-xl flex items-center justify-center', config.bgColor)}>
             <StatusIcon className={cn('w-5 h-5', config.color, status === 'pending' && 'animate-spin')} />
           </div>
           <div className="flex-1">
             <p className={cn('text-sm font-semibold', config.color)}>{config.label}</p>
-            <p className="text-white/40 text-xs mt-0.5">{config.description}</p>
+            <p className="text-foreground/40 text-xs mt-0.5">{config.description}</p>
           </div>
         </div>
       </div>
@@ -250,7 +250,7 @@ export default function TrackingPage() {
       {/* ── Live Map (Zomato-style — shows during active states) ── */}
       {showMap && (
         <div className="px-4 pb-4">
-          <div className="rounded-2xl overflow-hidden border border-white/[0.06]" style={{ height: 280 }}>
+          <div className="rounded-2xl overflow-hidden border border-border" style={{ height: 280 }}>
             <LiveTrackingMap
               serviceLat={booking.service_lat}
               serviceLng={booking.service_lng}
@@ -266,7 +266,7 @@ export default function TrackingPage() {
       {/* ── Washer Card (shown after assignment) ── */}
       {washer && (
         <div className="px-4 pb-4">
-          <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-4">
+          <div className="bg-surface border border-border rounded-2xl p-4">
             <div className="flex items-center gap-4">
               {/* Avatar */}
               <div className="relative">
@@ -285,22 +285,22 @@ export default function TrackingPage() {
 
               {/* Info */}
               <div className="flex-1 min-w-0">
-                <p className="text-white font-semibold text-base">{washer.full_name}</p>
+                <p className="text-foreground font-semibold text-base">{washer.full_name}</p>
                 <div className="flex items-center gap-3 mt-1">
                   <div className="flex items-center gap-1">
                     <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-                    <span className="text-white/70 text-xs font-medium">
+                    <span className="text-foreground/70 text-xs font-medium">
                       {washer.washer_profiles?.rating_avg?.toFixed(1) || '—'}
                     </span>
                   </div>
-                  <span className="text-white/20">·</span>
+                  <span className="text-foreground/20">·</span>
                   <div className="flex items-center gap-1">
-                    <Droplets className="w-3 h-3 text-white/30" />
-                    <span className="text-white/50 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
+                    <Droplets className="w-3 h-3 text-foreground/30" />
+                    <span className="text-foreground/50 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
                   </div>
                   {washer.washer_profiles?.background_check_done && (
                     <>
-                      <span className="text-white/20">·</span>
+                      <span className="text-foreground/20">·</span>
                       <div className="flex items-center gap-1">
                         <Shield className="w-3 h-3 text-green-400" />
                         <span className="text-green-400/70 text-xs">Verified</span>
@@ -316,26 +316,26 @@ export default function TrackingPage() {
               {washer.phone && (
                 <a
                   href={`tel:${washer.phone}`}
-                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.14] transition-colors"
+                  className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-foreground/[0.04] border border-border hover:border-border transition-colors"
                 >
                   <Phone className="w-4 h-4 text-green-400" />
-                  <span className="text-white/70 text-sm font-medium">Call</span>
+                  <span className="text-foreground/70 text-sm font-medium">Call</span>
                 </a>
               )}
               <a
                 href={washer.phone ? `sms:${washer.phone}` : '#'}
-                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-white/[0.04] border border-white/[0.08] hover:border-white/[0.14] transition-colors"
+                className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-foreground/[0.04] border border-border hover:border-border transition-colors"
               >
                 <MessageCircle className="w-4 h-4 text-blue-400" />
-                <span className="text-white/70 text-sm font-medium">Message</span>
+                <span className="text-foreground/70 text-sm font-medium">Message</span>
               </a>
             </div>
 
             {/* Washer vehicle info */}
             {washer.washer_profiles?.vehicle_make && (
-              <div className="mt-3 pt-3 border-t border-white/[0.06] flex items-center gap-2">
-                <Car className="w-3.5 h-3.5 text-white/25" />
-                <span className="text-white/35 text-xs">
+              <div className="mt-3 pt-3 border-t border-border flex items-center gap-2">
+                <Car className="w-3.5 h-3.5 text-foreground/25" />
+                <span className="text-foreground/35 text-xs">
                   {washer.washer_profiles.vehicle_make} {washer.washer_profiles.vehicle_model}
                   {washer.washer_profiles.vehicle_year ? ` · ${washer.washer_profiles.vehicle_year}` : ''}
                   {washer.washer_profiles.vehicle_plate ? ` · ${washer.washer_profiles.vehicle_plate}` : ''}
@@ -350,14 +350,14 @@ export default function TrackingPage() {
       <div className="px-4 pb-4">
         <button
           onClick={() => setShowTimeline(!showTimeline)}
-          className="w-full flex items-center justify-between py-3 text-white/40 hover:text-white/60 transition-colors"
+          className="w-full flex items-center justify-between py-3 text-foreground/40 hover:text-foreground/60 transition-colors"
         >
           <span className="text-xs font-medium uppercase tracking-wider">Progress Timeline</span>
           {showTimeline ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
 
         {showTimeline && (
-          <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-4">
+          <div className="bg-surface border border-border rounded-2xl p-4">
             {STATUS_ORDER.map((s, i) => {
               const isPast = i < currentStatusIdx;
               const isCurrent = i === currentStatusIdx;
@@ -381,20 +381,20 @@ export default function TrackingPage() {
                       'w-8 h-8 rounded-full flex items-center justify-center transition-all',
                       isPast ? 'bg-green-500/15' :
                       isCurrent ? stepConfig.bgColor :
-                      'bg-white/[0.03]'
+                      'bg-foreground/[0.03]'
                     )}>
                       {isPast ? (
                         <CheckCircle2 className="w-4 h-4 text-green-500" />
                       ) : isCurrent ? (
                         <StepIcon className={cn('w-4 h-4', stepConfig.color, s === 'pending' && 'animate-spin')} />
                       ) : (
-                        <Circle className="w-4 h-4 text-white/10" />
+                        <Circle className="w-4 h-4 text-foreground/10" />
                       )}
                     </div>
                     {i < STATUS_ORDER.length - 1 && (
                       <div className={cn(
                         'w-0.5 h-8',
-                        isPast ? 'bg-green-500/20' : 'bg-white/[0.05]'
+                        isPast ? 'bg-green-500/20' : 'bg-foreground/[0.05]'
                       )} />
                     )}
                   </div>
@@ -404,18 +404,18 @@ export default function TrackingPage() {
                     <div>
                       <span className={cn(
                         'text-sm',
-                        isPast ? 'text-white/50' :
-                        isCurrent ? 'text-white font-medium' :
-                        'text-white/15'
+                        isPast ? 'text-foreground/50' :
+                        isCurrent ? 'text-foreground font-medium' :
+                        'text-foreground/15'
                       )}>
                         {stepConfig.label}
                       </span>
                       {isCurrent && (
-                        <p className="text-white/30 text-[11px] mt-0.5">{stepConfig.description}</p>
+                        <p className="text-foreground/30 text-[11px] mt-0.5">{stepConfig.description}</p>
                       )}
                     </div>
                     {(isPast || isCurrent) && timestamp && (
-                      <span className="text-white/20 text-[10px] pt-0.5">
+                      <span className="text-foreground/20 text-[10px] pt-0.5">
                         {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     )}
@@ -430,19 +430,19 @@ export default function TrackingPage() {
       {/* ── Before/After Photos (shown after wash complete) ── */}
       {['completed', 'paid'].includes(status) && (
         <div className="px-4 pb-4">
-          <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-4">
+          <div className="bg-surface border border-border rounded-2xl p-4">
             <div className="flex items-center gap-2 mb-3">
-              <Camera className="w-4 h-4 text-white/30" />
-              <span className="text-white/60 text-xs font-medium uppercase tracking-wider">Before & After</span>
+              <Camera className="w-4 h-4 text-foreground/30" />
+              <span className="text-foreground/60 text-xs font-medium uppercase tracking-wider">Before & After</span>
             </div>
             <div className="grid grid-cols-2 gap-3">
-              <div className="aspect-[4/3] rounded-xl bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-2">
-                <Camera className="w-5 h-5 text-white/15" />
-                <span className="text-white/20 text-xs">Before</span>
+              <div className="aspect-[4/3] rounded-xl bg-foreground/[0.03] border border-border flex flex-col items-center justify-center gap-2">
+                <Camera className="w-5 h-5 text-foreground/15" />
+                <span className="text-foreground/20 text-xs">Before</span>
               </div>
-              <div className="aspect-[4/3] rounded-xl bg-white/[0.03] border border-white/[0.06] flex flex-col items-center justify-center gap-2">
-                <Sparkles className="w-5 h-5 text-white/15" />
-                <span className="text-white/20 text-xs">After</span>
+              <div className="aspect-[4/3] rounded-xl bg-foreground/[0.03] border border-border flex flex-col items-center justify-center gap-2">
+                <Sparkles className="w-5 h-5 text-foreground/15" />
+                <span className="text-foreground/20 text-xs">After</span>
               </div>
             </div>
           </div>
@@ -453,60 +453,60 @@ export default function TrackingPage() {
       <div className="px-4 pb-4">
         <button
           onClick={() => setShowDetails(!showDetails)}
-          className="w-full flex items-center justify-between py-3 text-white/40 hover:text-white/60 transition-colors"
+          className="w-full flex items-center justify-between py-3 text-foreground/40 hover:text-foreground/60 transition-colors"
         >
           <span className="text-xs font-medium uppercase tracking-wider">Booking Details</span>
           {showDetails ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
 
         {showDetails && (
-          <div className="bg-[#111] border border-white/[0.08] rounded-2xl p-4 space-y-3 text-sm">
+          <div className="bg-surface border border-border rounded-2xl p-4 space-y-3 text-sm">
             <div className="flex items-center gap-3">
-              <Car className="w-4 h-4 text-white/25" />
-              <span className="text-white/70">{vehicle.year} {vehicle.make} {vehicle.model}</span>
+              <Car className="w-4 h-4 text-foreground/25" />
+              <span className="text-foreground/70">{vehicle.year} {vehicle.make} {vehicle.model}</span>
             </div>
             <div className="flex items-center gap-3">
-              <MapPin className="w-4 h-4 text-white/25" />
-              <span className="text-white/70">{booking.service_address}</span>
+              <MapPin className="w-4 h-4 text-foreground/25" />
+              <span className="text-foreground/70">{booking.service_address}</span>
             </div>
             {booking.location_notes && (
               <div className="flex items-start gap-3">
-                <MessageCircle className="w-4 h-4 text-white/25 mt-0.5" />
-                <span className="text-white/50 text-xs">{booking.location_notes}</span>
+                <MessageCircle className="w-4 h-4 text-foreground/25 mt-0.5" />
+                <span className="text-foreground/50 text-xs">{booking.location_notes}</span>
               </div>
             )}
             <div className="flex items-center gap-3">
-              <Clock className="w-4 h-4 text-white/25" />
-              <span className="text-white/70">Est. {formatDuration(booking.estimated_duration_min || 0)}</span>
+              <Clock className="w-4 h-4 text-foreground/25" />
+              <span className="text-foreground/70">Est. {formatDuration(booking.estimated_duration_min || 0)}</span>
             </div>
 
             {/* Price breakdown */}
-            <div className="border-t border-white/[0.06] pt-3 space-y-2">
+            <div className="border-t border-border pt-3 space-y-2">
               <div className="flex justify-between">
-                <span className="text-white/40">{PLAN_LABELS[booking.wash_plan]}</span>
-                <span className="text-white/70">{centsToDisplay(booking.base_price)}</span>
+                <span className="text-foreground/40">{PLAN_LABELS[booking.wash_plan]}</span>
+                <span className="text-foreground/70">{centsToDisplay(booking.base_price)}</span>
               </div>
               {booking.vehicle_multiplier !== 1 && (
                 <div className="flex justify-between">
-                  <span className="text-white/40">Vehicle ({booking.vehicle_multiplier}x)</span>
-                  <span className="text-white/50">+{centsToDisplay(Math.round(booking.base_price * (booking.vehicle_multiplier - 1)))}</span>
+                  <span className="text-foreground/40">Vehicle ({booking.vehicle_multiplier}x)</span>
+                  <span className="text-foreground/50">+{centsToDisplay(Math.round(booking.base_price * (booking.vehicle_multiplier - 1)))}</span>
                 </div>
               )}
               {booking.dirt_multiplier !== 1 && (
                 <div className="flex justify-between">
-                  <span className="text-white/40">Dirt level {booking.dirt_level} ({booking.dirt_multiplier}x)</span>
+                  <span className="text-foreground/40">Dirt level {booking.dirt_level} ({booking.dirt_multiplier}x)</span>
                   <span className="text-amber-400/70">+{centsToDisplay(Math.round(booking.base_price * booking.vehicle_multiplier * (booking.dirt_multiplier - 1)))}</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span className="text-white/40">HST (13%)</span>
-                <span className="text-white/50">{centsToDisplay(booking.hst_amount)}</span>
+                <span className="text-foreground/40">HST (13%)</span>
+                <span className="text-foreground/50">{centsToDisplay(booking.hst_amount)}</span>
               </div>
-              <div className="border-t border-white/[0.06] pt-2 flex justify-between font-semibold">
-                <span className="text-white">Total</span>
+              <div className="border-t border-border pt-2 flex justify-between font-semibold">
+                <span className="text-foreground">Total</span>
                 <span className="text-[#E23232] text-lg">{centsToDisplay(booking.total_price)}</span>
               </div>
-              <p className="text-white/20 text-[10px] flex items-center gap-1">
+              <p className="text-foreground/20 text-[10px] flex items-center gap-1">
                 <CreditCard className="w-3 h-3" />
                 {status === 'paid' ? 'Payment captured' : 'Pre-authorized. Charged after wash is complete.'}
               </p>
@@ -549,7 +549,7 @@ export default function TrackingPage() {
                 router.push('/app/bookings');
               }
             }}
-            className="w-full border-white/[0.08] text-white/40 hover:text-red-400 hover:border-red-500/20 rounded-xl"
+            className="w-full border-border text-foreground/40 hover:text-red-400 hover:border-red-500/20 rounded-xl"
           >
             {cancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
             {cancelling ? 'Cancelling...' : 'Cancel booking'}
