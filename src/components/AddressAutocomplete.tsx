@@ -174,47 +174,53 @@ export function AddressAutocomplete({
   }
 
   return (
-    <div ref={wrapperRef} className="space-y-2">
+    <div ref={wrapperRef} className="space-y-3">
       <div className="relative">
-        <MapPin className="absolute left-3 top-3 w-4 h-4 text-foreground/55 dark:text-foreground/30" />
+        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-[#E23232]/10 flex items-center justify-center pointer-events-none">
+          <MapPin className="w-3 h-3 text-[#E23232]" />
+        </div>
         <Input
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={() => predictions.length > 0 && setOpen(true)}
           placeholder={placeholder}
           autoComplete="off"
-          className={cn('pl-10 pr-10', className)}
+          className={cn('pl-11 pr-4', className)}
         />
         {open && predictions.length > 0 && (
-          <div className="absolute z-50 mt-1 w-full max-h-48 overflow-y-auto rounded-lg border border-border bg-card shadow-xl">
-            {predictions.map((p) => (
+          <div className="absolute z-50 mt-1.5 w-full max-h-52 overflow-y-auto rounded-xl border border-border bg-card shadow-2xl">
+            {predictions.map((p, i) => (
               <button
                 key={p.place_id}
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => selectPrediction(p)}
-                className="w-full px-3 py-2.5 text-left text-sm text-foreground/80 hover:bg-foreground/10 transition-colors flex items-start gap-2"
+                className={cn(
+                  'w-full px-4 py-3 text-left text-sm text-foreground/70 hover:bg-[#E23232]/[0.04] hover:text-foreground transition-colors flex items-start gap-3',
+                  i !== 0 && 'border-t border-border/50'
+                )}
               >
-                <MapPin className="w-3.5 h-3.5 text-foreground/55 dark:text-foreground/30 mt-0.5 shrink-0" />
-                <span className="line-clamp-2">{p.description}</span>
+                <div className="w-7 h-7 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0 mt-0.5">
+                  <MapPin className="w-3.5 h-3.5 text-foreground/30" />
+                </div>
+                <span className="line-clamp-2 leading-snug">{p.description}</span>
               </button>
             ))}
           </div>
         )}
       </div>
-      <Button
+      <button
         type="button"
-        variant="outline"
         onClick={detectLocation}
         disabled={detecting}
-        className="w-full border-border text-foreground/60 hover:text-foreground hover:bg-foreground/5 text-sm"
+        className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-dashed border-foreground/10 hover:border-[#E23232]/30 hover:bg-[#E23232]/[0.03] text-foreground/45 hover:text-[#E23232] text-sm font-medium transition-all disabled:opacity-40"
       >
         {detecting ? (
-          <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Detecting location...</>
+          <><Loader2 className="w-4 h-4 animate-spin" /> Detecting location...</>
         ) : (
-          <><LocateFixed className="w-4 h-4 mr-2" /> Use my current location</>
+          <><LocateFixed className="w-4 h-4" /> Use my current location</>
         )}
-      </Button>
+      </button>
     </div>
   );
 }

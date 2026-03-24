@@ -40,7 +40,7 @@ export function CustomerNav() {
         </Link>
         <div className="flex items-center gap-0.5">
           {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
+            const isActive = pathname === item.href || (pathname.startsWith(item.href + '/'));
             return (
               <Link
                 key={item.href}
@@ -68,7 +68,7 @@ export function CustomerNav() {
       <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl">
         <div className="flex justify-around items-center h-[56px] px-2">
           {navItems.map((item) => {
-            const isActive = pathname.startsWith(item.href);
+            const isActive = pathname === item.href || (pathname.startsWith(item.href + '/'));
             return (
               <Link
                 key={item.href}

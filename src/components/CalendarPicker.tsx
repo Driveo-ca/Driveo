@@ -67,7 +67,7 @@ function WheelColumn({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const userScrolling = useRef(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [typedValue, setTypedValue] = useState('');
 
   // Scroll to selected when index changes (not during user scroll)

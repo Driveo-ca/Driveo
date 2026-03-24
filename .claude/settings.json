@@ -13,7 +13,15 @@
       "Bash(sed -i 's/dark:text-foreground\\\\/15/dark:text-foreground\\\\/45/g; s/dark:text-foreground\\\\/20/dark:text-foreground\\\\/45/g; s/dark:text-foreground\\\\/25/dark:text-foreground\\\\/50/g; s/dark:text-foreground\\\\/30/dark:text-foreground\\\\/50/g' \"$f\")",
       "Bash(echo \"Fixed: $f\")",
       "Bash(done)",
-      "mcp__claude_ai_Supabase__apply_migration"
+      "mcp__claude_ai_Supabase__apply_migration",
+      "Bash(npx next build)",
+      "Bash(curl -s http://localhost:3000/app/home)",
+      "Bash(curl -s http://localhost:3000/app/book)",
+      "Bash(curl -v http://localhost:3000/app/home)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000/app/home)",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(npx next dev --turbopack --port 3000)"
     ]
   },
   "enabledPlugins": {

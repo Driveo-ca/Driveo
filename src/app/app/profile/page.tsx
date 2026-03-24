@@ -5,12 +5,13 @@ import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 import {
   User, Mail, Phone, Copy, Check, Pencil, Save,
   LogOut, Shield, ChevronRight, X, Camera, Loader2,
+  Gift, Car, CreditCard, HelpCircle, Bell,
 } from 'lucide-react';
 
 interface ProfileData {
@@ -54,7 +55,6 @@ export default function ProfilePage() {
         .eq('id', user.id)
         .single();
 
-      // Build name from every possible source
       const fullName =
         (data?.full_name && data.full_name.trim()) ||
         user.user_metadata?.full_name ||
@@ -107,32 +107,21 @@ export default function ProfilePage() {
     }
 
     setUploadingPhoto(true);
-    const supabase = createClient();
-    const ext = file.name.split('.').pop();
-    const path = `avatars/${profile.id}.${ext}`;
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
 
-    const { error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(path, file, { upsert: true });
+      const res = await fetch('/api/auth/upload-avatar', { method: 'POST', body: formData });
+      const json = await res.json();
 
-    if (uploadError) {
+      if (!res.ok) {
+        toast.error(json.error || 'Failed to upload photo');
+      } else {
+        setProfile({ ...profile, avatar_url: json.url });
+        toast.success('Profile photo updated');
+      }
+    } catch {
       toast.error('Failed to upload photo');
-      setUploadingPhoto(false);
-      return;
-    }
-
-    const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path);
-
-    const { error: updateError } = await supabase
-      .from('profiles')
-      .update({ avatar_url: publicUrl })
-      .eq('id', profile.id);
-
-    if (updateError) {
-      toast.error('Failed to update profile photo');
-    } else {
-      setProfile({ ...profile, avatar_url: publicUrl });
-      toast.success('Profile photo updated');
     }
     setUploadingPhoto(false);
   };
@@ -158,206 +147,276 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="max-w-lg mx-auto px-4 py-8 space-y-4">
-        <Skeleton className="h-10 w-48 bg-foreground/5 rounded-lg" />
-        <Skeleton className="h-28 w-full bg-foreground/5 rounded-2xl" />
-        <Skeleton className="h-56 w-full bg-foreground/5 rounded-2xl" />
+      <div className="min-h-screen text-foreground">
+        <div className="max-w-xl mx-auto px-4 py-8 space-y-4">
+          <Skeleton className="h-10 w-48 bg-foreground/[0.04] rounded-lg" />
+          <Skeleton className="h-36 w-full bg-foreground/[0.04] rounded-2xl" />
+          <Skeleton className="h-56 w-full bg-foreground/[0.04] rounded-2xl" />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-8 space-y-5">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-display text-foreground tracking-tight">Profile</h1>
-        {!editing ? (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setEditing(true)}
-            className="border-border text-foreground/70 hover:bg-foreground/5 hover:text-foreground rounded-xl gap-2"
-          >
-            <Pencil className="w-3.5 h-3.5" />
-            Edit
-          </Button>
-        ) : (
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setEditing(false);
-                setForm({ full_name: profile?.full_name || '', phone: profile?.phone || '' });
-              }}
-              className="border-border text-foreground/60 dark:text-foreground/40 hover:text-foreground hover:bg-foreground/5 rounded-xl"
+    <div className="min-h-screen text-foreground">
+      <div className="max-w-xl mx-auto px-4 py-8">
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <h1 className="text-2xl font-bold text-foreground tracking-tight">Profile</h1>
+          {!editing ? (
+            <button
+              onClick={() => setEditing(true)}
+              className="flex items-center gap-2 text-xs font-medium text-foreground/50 hover:text-foreground/70 px-3 py-1.5 rounded-lg hover:bg-foreground/[0.05] transition-all"
             >
-              <X className="w-3.5 h-3.5" />
-            </Button>
-            <Button
-              size="sm"
-              onClick={handleSave}
-              disabled={saving}
-              className="bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl gap-2"
-            >
-              <Save className="w-3.5 h-3.5" />
-              {saving ? 'Saving…' : 'Save'}
-            </Button>
+              <Pencil className="w-3.5 h-3.5" />
+              Edit
+            </button>
+          ) : (
+            <div className="flex gap-2">
+              <button
+                onClick={() => {
+                  setEditing(false);
+                  setForm({ full_name: profile?.full_name || '', phone: profile?.phone || '' });
+                }}
+                className="flex items-center gap-1.5 text-xs font-medium text-foreground/50 hover:text-foreground/70 px-3 py-1.5 rounded-lg hover:bg-foreground/[0.05] transition-all"
+              >
+                <X className="w-3.5 h-3.5" />
+                Cancel
+              </button>
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="flex items-center gap-1.5 text-xs font-semibold text-white bg-[#E23232] hover:bg-[#c92a2a] px-4 py-1.5 rounded-lg transition-all active:scale-[0.97] disabled:opacity-60"
+              >
+                {saving ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Save className="w-3.5 h-3.5" />}
+                {saving ? 'Saving...' : 'Save'}
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* ─── Avatar Hero Card ─── */}
+        <div className="relative rounded-2xl border border-border/50 overflow-hidden mb-5">
+          {/* Gradient background */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#E23232]/[0.06] via-transparent to-[#E23232]/[0.03]" />
+          <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#E23232]/40 via-[#E23232]/15 to-transparent" />
+
+          <div className="relative flex items-center gap-5 p-6">
+            {/* Avatar */}
+            <div className="relative shrink-0">
+              <div className="w-20 h-20 rounded-2xl bg-[#E23232]/10 border-2 border-[#E23232]/20 flex items-center justify-center overflow-hidden">
+                {uploadingPhoto ? (
+                  <Loader2 className="w-6 h-6 text-[#E23232] animate-spin" />
+                ) : profile?.avatar_url ? (
+                  <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <span className="text-[#E23232] font-bold text-3xl">{initials}</span>
+                )}
+              </div>
+              <button
+                onClick={() => fileRef.current?.click()}
+                disabled={uploadingPhoto}
+                className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-lg bg-[#E23232] flex items-center justify-center border-2 border-background hover:bg-[#c92a2a] transition-colors shadow-md"
+              >
+                <Camera className="w-3.5 h-3.5 text-white" />
+              </button>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handlePhotoUpload}
+              />
+            </div>
+
+            {/* Name & meta */}
+            <div className="min-w-0 flex-1">
+              <p className="text-lg font-bold text-foreground truncate leading-tight">
+                {profile?.full_name || <span className="text-foreground/40 italic text-base font-normal">No name set</span>}
+              </p>
+              <div className="flex items-center gap-2 mt-1.5">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#E23232]/10 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#E23232]">
+                  {profile?.role || 'Customer'}
+                </span>
+              </div>
+              {displayEmail && (
+                <p className="text-xs text-foreground/50 mt-2 truncate">{displayEmail}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ─── Personal Information ─── */}
+        <div className="rounded-2xl border border-border/50 overflow-hidden mb-5">
+          <div className="px-5 pt-5 pb-2">
+            <div className="flex items-center gap-3 mb-1">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Personal Information</span>
+              <div className="h-px flex-1 bg-border/50" />
+            </div>
+          </div>
+
+          <div className="divide-y divide-border/40">
+            {/* Full Name */}
+            <div className="px-5 py-4">
+              {editing ? (
+                <div>
+                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-2 block">Full Name</label>
+                  <Input
+                    value={form.full_name}
+                    onChange={(e) => setForm({ ...form, full_name: e.target.value })}
+                    placeholder="Enter your full name"
+                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 placeholder:text-foreground/30"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
+                    <User className="w-4 h-4 text-foreground/40" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-0.5">Full Name</p>
+                    <p className={cn('text-sm', profile?.full_name ? 'text-foreground/80 font-medium' : 'text-foreground/35 italic')}>
+                      {profile?.full_name || 'Not set'}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Email */}
+            <div className="px-5 py-4">
+              <div className="flex items-center gap-3.5">
+                <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
+                  <Mail className="w-4 h-4 text-foreground/40" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-0.5">Email</p>
+                  <p className={cn('text-sm', displayEmail ? 'text-foreground/80 font-medium' : 'text-foreground/35 italic')}>
+                    {displayEmail || 'Not set'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Phone */}
+            <div className="px-5 py-4">
+              {editing ? (
+                <div>
+                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-2 block">Phone</label>
+                  <Input
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    placeholder="+1 (416) 555-0123"
+                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 placeholder:text-foreground/30"
+                  />
+                </div>
+              ) : (
+                <div className="flex items-center gap-3.5">
+                  <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
+                    <Phone className="w-4 h-4 text-foreground/40" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-0.5">Phone</p>
+                    <p className={cn('text-sm', profile?.phone ? 'text-foreground/80 font-medium' : 'text-foreground/35 italic')}>
+                      {profile?.phone || 'Not set'}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* ─── Referral Code ─── */}
+        {profile?.customer_profiles?.referral_code && (
+          <div className="relative rounded-2xl border border-[#E23232]/20 overflow-hidden mb-5">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#E23232]/[0.05] via-transparent to-[#E23232]/[0.02]" />
+            <div className="relative p-5">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-9 h-9 rounded-xl bg-[#E23232]/10 flex items-center justify-center">
+                  <Gift className="w-4 h-4 text-[#E23232]" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-foreground">Referral Code</p>
+                  <p className="text-[11px] text-foreground/45 mt-0.5">Share with friends to earn rewards</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2.5">
+                <div className="flex-1 bg-foreground/[0.04] border border-border/50 rounded-xl px-4 py-3 text-center">
+                  <code className="text-lg font-mono text-[#E23232] tracking-[0.25em] font-bold">
+                    {profile.customer_profiles.referral_code}
+                  </code>
+                </div>
+                <button
+                  onClick={copyReferral}
+                  className={cn(
+                    'w-12 h-12 rounded-xl border flex items-center justify-center shrink-0 transition-all',
+                    copied
+                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500'
+                      : 'bg-foreground/[0.04] border-border/50 text-foreground/50 hover:text-foreground/70 hover:bg-foreground/[0.06]'
+                  )}
+                >
+                  {copied ? <Check className="w-4.5 h-4.5" /> : <Copy className="w-4.5 h-4.5" />}
+                </button>
+              </div>
+            </div>
           </div>
         )}
-      </div>
 
-      {/* Avatar Hero */}
-      <div className="bg-surface border border-border rounded-2xl p-6 flex items-center gap-5">
-        {/* Avatar with upload */}
-        <div className="relative shrink-0">
-          <div className="w-[72px] h-[72px] rounded-full bg-[#E23232]/10 border-2 border-[#E23232]/30 flex items-center justify-center overflow-hidden">
-            {uploadingPhoto ? (
-              <Loader2 className="w-6 h-6 text-[#E23232] animate-spin" />
-            ) : profile?.avatar_url ? (
-              <img src={profile.avatar_url} alt="" className="w-full h-full object-cover" />
-            ) : (
-              <span className="text-[#E23232] font-display text-2xl">{initials}</span>
-            )}
-          </div>
-          {/* Camera button */}
-          <button
-            onClick={() => fileRef.current?.click()}
-            disabled={uploadingPhoto}
-            className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[#E23232] flex items-center justify-center border-2 border-[#050505] hover:bg-[#c92a2a] transition-colors"
-          >
-            <Camera className="w-3.5 h-3.5 text-white" />
-          </button>
-          <input
-            ref={fileRef}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handlePhotoUpload}
-          />
-        </div>
-
-        <div className="min-w-0">
-          <p className="text-xl font-semibold text-foreground truncate">
-            {profile?.full_name || <span className="text-foreground/55 dark:text-foreground/50 italic text-base">No name set</span>}
-          </p>
-          <p className="text-sm text-foreground/60 dark:text-foreground/40 mt-0.5 capitalize">{profile?.role || 'Customer'}</p>
-          {displayEmail && (
-            <p className="text-xs text-foreground/55 dark:text-foreground/50 mt-1 truncate">{displayEmail}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Personal Information */}
-      <div className="bg-surface border border-border rounded-2xl p-6 space-y-5">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/60 dark:text-foreground/40 font-semibold">Personal Information</h2>
-
-        {/* Full Name */}
-        <div>
-          <Label className="text-foreground/60 dark:text-foreground/40 text-xs uppercase tracking-widest font-medium">Full Name</Label>
-          {editing ? (
-            <Input
-              value={form.full_name}
-              onChange={(e) => setForm({ ...form, full_name: e.target.value })}
-              placeholder="Enter your full name"
-              className="mt-2 bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/50 dark:placeholder:text-foreground/20"
-            />
-          ) : (
-            <div className="flex items-center gap-3 mt-2">
-              <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center shrink-0">
-                <User className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
-              </div>
-              <span className={profile?.full_name ? 'text-foreground/70' : 'text-foreground/50 dark:text-foreground/45 italic'}>
-                {profile?.full_name || 'Not set'}
-              </span>
+        {/* ─── Quick Links ─── */}
+        <div className="rounded-2xl border border-border/50 overflow-hidden mb-5">
+          <div className="px-5 pt-5 pb-2">
+            <div className="flex items-center gap-3 mb-1">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Account</span>
+              <div className="h-px flex-1 bg-border/50" />
             </div>
-          )}
-        </div>
+          </div>
 
-        {/* Email */}
-        <div>
-          <Label className="text-foreground/60 dark:text-foreground/40 text-xs uppercase tracking-widest font-medium">Email</Label>
-          <div className="flex items-center gap-3 mt-2">
-            <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center shrink-0">
-              <Mail className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
-            </div>
-            <span className={displayEmail ? 'text-foreground/70' : 'text-foreground/50 dark:text-foreground/45 italic'}>
-              {displayEmail || 'Not set'}
-            </span>
+          <div className="divide-y divide-border/40">
+            {([
+              { icon: Car, label: 'My Vehicles', desc: 'Manage your cars', href: '/app/vehicles' },
+              { icon: CreditCard, label: 'Subscription', desc: 'Membership & billing', href: '/app/subscription' },
+              { icon: Bell, label: 'Notifications', desc: 'Alerts & preferences', href: '/app/notifications' },
+              { icon: Shield, label: 'Privacy & Security', desc: 'Password & data', href: '/app/privacy-security' },
+            ] as const).map((item) => (
+              <button
+                key={item.label}
+                onClick={() => item.href !== '#' && router.push(item.href)}
+                className="w-full flex items-center gap-3.5 px-5 py-3.5 hover:bg-foreground/[0.03] transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] group-hover:bg-foreground/[0.07] flex items-center justify-center shrink-0 transition-colors">
+                  <item.icon className="w-4 h-4 text-foreground/40 group-hover:text-foreground/60 transition-colors" />
+                </div>
+                <div className="flex-1 min-w-0 text-left">
+                  <p className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">{item.label}</p>
+                  <p className="text-[11px] text-foreground/35 mt-0.5">{item.desc}</p>
+                </div>
+                <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/40 transition-colors" />
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Phone */}
-        <div>
-          <Label className="text-foreground/60 dark:text-foreground/40 text-xs uppercase tracking-widest font-medium">Phone</Label>
-          {editing ? (
-            <Input
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-              placeholder="+1 (416) 555-0123"
-              className="mt-2 bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/50 dark:placeholder:text-foreground/20"
-            />
-          ) : (
-            <div className="flex items-center gap-3 mt-2">
-              <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center shrink-0">
-                <Phone className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
-              </div>
-              <span className={profile?.phone ? 'text-foreground/70' : 'text-foreground/50 dark:text-foreground/45 italic'}>
-                {profile?.phone || 'Not set'}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Referral Code */}
-      {profile?.customer_profiles?.referral_code && (
-        <div className="bg-surface border border-[#E23232]/20 rounded-2xl p-6">
-          <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/60 dark:text-foreground/40 font-semibold mb-4">Referral Code</h2>
-          <div className="flex items-center gap-3">
-            <code className="flex-1 bg-foreground/[0.06] dark:bg-foreground/[0.03] border border-border rounded-xl px-4 py-3 text-lg font-mono text-[#E23232] tracking-[0.2em] text-center font-bold">
-              {profile.customer_profiles.referral_code}
-            </code>
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={copyReferral}
-              className="border-border text-foreground hover:bg-foreground/5 shrink-0 rounded-xl w-12 h-12"
-            >
-              {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-            </Button>
-          </div>
-          <p className="text-xs text-foreground/55 dark:text-foreground/50 mt-3">Share this code with friends to earn rewards</p>
-        </div>
-      )}
-
-      {/* Account Actions */}
-      <div className="bg-surface border border-border rounded-2xl overflow-hidden">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/60 dark:text-foreground/40 font-semibold px-6 pt-5 pb-3">Account</h2>
-
-        <button className="w-full flex items-center gap-4 px-6 py-4 hover:bg-foreground/[0.06] dark:bg-foreground/[0.03] transition-colors border-t border-border">
-          <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center">
-            <Shield className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
-          </div>
-          <span className="flex-1 text-left text-foreground/70 text-sm">Privacy & Security</span>
-          <ChevronRight className="w-4 h-4 text-foreground/50 dark:text-foreground/45" />
-        </button>
-
+        {/* ─── Sign Out ─── */}
         <button
           onClick={handleLogout}
           disabled={loggingOut}
-          className="w-full flex items-center gap-4 px-6 py-4 hover:bg-red-500/5 transition-colors border-t border-border disabled:opacity-60"
+          className="w-full flex items-center justify-center gap-2.5 px-5 py-3.5 rounded-2xl border border-red-500/20 hover:border-red-500/30 bg-red-500/[0.04] hover:bg-red-500/[0.07] transition-all disabled:opacity-50 group"
         >
-          <div className="w-8 h-8 rounded-lg bg-red-500/10 flex items-center justify-center">
-            {loggingOut ? <Loader2 className="w-4 h-4 text-red-400 animate-spin" /> : <LogOut className="w-4 h-4 text-red-400" />}
-          </div>
-          <span className="flex-1 text-left text-red-400 text-sm font-medium">
-            {loggingOut ? 'Signing out…' : 'Sign Out'}
+          {loggingOut ? (
+            <Loader2 className="w-4 h-4 text-red-500 dark:text-red-400 animate-spin" />
+          ) : (
+            <LogOut className="w-4 h-4 text-red-500 dark:text-red-400 group-hover:text-red-600 dark:group-hover:text-red-300 transition-colors" />
+          )}
+          <span className="text-sm font-medium text-red-500 dark:text-red-400">
+            {loggingOut ? 'Signing out...' : 'Sign Out'}
           </span>
         </button>
-      </div>
 
-      <div className="pb-6" />
+        <div className="pb-20" />
+      </div>
     </div>
   );
 }
