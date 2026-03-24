@@ -3,11 +3,6 @@ import { createClient } from '@/lib/supabase/server';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { stripe, getOrCreateStripeCustomer } from '@/lib/stripe';
 
-/**
- * Creates a Stripe Embedded Checkout session for subscription payment.
- * Returns `clientSecret` for the EmbeddedCheckout component.
- * DB record is created after payment via /api/subscriptions/activate or webhook.
- */
 export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
@@ -40,7 +35,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (planError || !plan) {
-      return NextResponse.json({ error: 'Subscription plan not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Plan not found' }, { status: 404 });
     }
 
     if (!plan.stripe_price_id) {
@@ -59,7 +54,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
     }
 
-    // Check for existing active subscription in DB
+    // Check for existing active subscription
     const { data: existingSub } = await adminSupabase
       .from('subscriptions')
       .select('id')
@@ -82,15 +77,15 @@ export async function POST(request: NextRequest) {
       adminSupabase
     );
 
+    // Create Stripe Checkout Session
     const origin = request.headers.get('origin') || 'http://localhost:3000';
 
-    // Create Embedded Checkout Session for subscription
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
       mode: 'subscription',
-      ui_mode: 'embedded',
       line_items: [{ price: plan.stripe_price_id, quantity: 1 }],
-      return_url: `${origin}/app/membership?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${origin}/app/membership?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${origin}/app/membership?cancelled=true`,
       metadata: {
         driveo_user_id: user.id,
         plan_id: planId,
@@ -102,16 +97,13 @@ export async function POST(request: NextRequest) {
           driveo_user_id: user.id,
           plan_id: planId,
           vehicle_id: vehicleId,
-          washes_per_month: String(plan.washes_per_month),
         },
       },
     });
 
-    return NextResponse.json({
-      clientSecret: session.client_secret,
-    });
+    return NextResponse.json({ url: session.url });
   } catch (err) {
-    console.error('Subscription create API error:', err);
+    console.error('Checkout session error:', err);
     const message = err instanceof Error ? err.message : 'Internal server error';
     return NextResponse.json({ error: message }, { status: 500 });
   }

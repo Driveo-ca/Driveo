@@ -118,6 +118,72 @@ export async function POST(request: Request) {
         break;
       }
 
+      case 'checkout.session.completed': {
+        const session = event.data.object as Stripe.Checkout.Session;
+
+        // Only handle subscription checkouts
+        if (session.mode === 'subscription' && session.metadata?.driveo_user_id) {
+          const userId = session.metadata.driveo_user_id;
+          const planId = session.metadata.plan_id;
+          const vehicleId = session.metadata.vehicle_id;
+          const washesPerMonth = parseInt(session.metadata.washes_per_month || '8', 10);
+          const stripeSubId = typeof session.subscription === 'string'
+            ? session.subscription
+            : (session.subscription as unknown as { id: string })?.id;
+
+          // Idempotency check
+          if (stripeSubId) {
+            const { data: existing } = await adminSupabase
+              .from('subscriptions')
+              .select('id')
+              .eq('stripe_subscription_id', stripeSubId)
+              .single();
+
+            if (!existing) {
+              // Retrieve subscription for period dates
+              const stripeSub = await stripe.subscriptions.retrieve(stripeSubId);
+              const rawStart = (stripeSub as unknown as Record<string, unknown>).current_period_start;
+              const rawEnd = (stripeSub as unknown as Record<string, unknown>).current_period_end;
+
+              let periodStart = new Date().toISOString();
+              let periodEnd = new Date(Date.now() + 30 * 86400000).toISOString();
+              if (typeof rawStart === 'number') periodStart = new Date(rawStart * 1000).toISOString();
+              else if (typeof rawStart === 'string') periodStart = new Date(rawStart).toISOString();
+              if (typeof rawEnd === 'number') periodEnd = new Date(rawEnd * 1000).toISOString();
+              else if (typeof rawEnd === 'string') periodEnd = new Date(rawEnd).toISOString();
+
+              const { data: sub } = await adminSupabase
+                .from('subscriptions')
+                .insert({
+                  customer_id: userId,
+                  plan_id: planId,
+                  vehicle_id: vehicleId,
+                  stripe_subscription_id: stripeSubId,
+                  status: 'active',
+                  current_period_start: periodStart,
+                  current_period_end: periodEnd,
+                  cancel_at_period_end: false,
+                })
+                .select()
+                .single();
+
+              if (sub) {
+                await adminSupabase.from('subscription_usage').insert({
+                  subscription_id: sub.id,
+                  period_start: periodStart,
+                  period_end: periodEnd,
+                  allocated: washesPerMonth,
+                  used: 0,
+                });
+              }
+
+              console.log(`[Webhook] checkout.session.completed — subscription created for user ${userId}`);
+            }
+          }
+        }
+        break;
+      }
+
       case 'account.updated': {
         // Stripe Connect account status updates
         const account = event.data.object as Stripe.Account;

@@ -890,46 +890,50 @@ function BookingForm() {
                   key={v.id}
                   onClick={() => setForm(f => ({ ...f, vehicleId: v.id, vehicle: v }))}
                   className={cn(
-                    'w-full flex items-center gap-3 p-3 rounded-xl border transition-all text-left group',
+                    'w-full flex items-center gap-3.5 p-3.5 rounded-2xl border transition-all duration-200 text-left group relative overflow-hidden',
                     selected
-                      ? 'border-[#E23232]/60 bg-[#E23232]/[0.06] ring-1 ring-[#E23232]/20'
-                      : 'border-border hover:border-foreground/15 hover:bg-foreground/[0.02]'
+                      ? 'border-foreground/15 bg-foreground/[0.04]'
+                      : 'border-border/50 hover:border-border hover:bg-foreground/[0.02]'
                   )}
                 >
+                  {/* Selected left accent */}
+                  {selected && (
+                    <div className="absolute left-0 top-3 bottom-3 w-[3px] rounded-r-full bg-[#E23232]" />
+                  )}
+
                   {/* Car image thumbnail */}
                   <div className={cn(
-                    'w-16 h-12 rounded-lg overflow-hidden shrink-0 relative',
-                    selected ? 'bg-[#E23232]/[0.08]' : 'bg-foreground/[0.04]'
+                    'w-14 h-14 rounded-xl overflow-hidden shrink-0 relative transition-colors',
+                    selected ? 'bg-foreground/[0.06]' : 'bg-foreground/[0.03]'
                   )}>
                     <img
                       src={imgUrl}
                       alt={`${v.make} ${v.model}`}
-                      className="absolute inset-0 w-full h-full object-contain p-0.5"
+                      className="absolute inset-0 w-full h-full object-contain p-1"
                       onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                     />
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <Car className="w-5 h-5 text-foreground/[0.06]" />
+                      <Car className="w-5 h-5 text-foreground/[0.04]" />
                     </div>
                   </div>
 
                   {/* Info */}
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <p className={cn('font-semibold text-[14px] truncate', selected ? 'text-foreground' : 'text-foreground/80')}>
-                        {v.year} {v.make} {v.model}
-                      </p>
-                      {v.is_primary && (
-                        <span className="text-[8px] uppercase tracking-wider text-[#E23232] bg-[#E23232]/10 px-1.5 py-0.5 rounded font-bold shrink-0">
-                          Primary
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-2 mt-0.5">
+                    <p className={cn('font-semibold text-sm truncate', selected ? 'text-foreground' : 'text-foreground/70')}>
+                      {v.year} {v.make} {v.model}
+                    </p>
+                    <div className="flex items-center gap-1.5 mt-1">
                       <span className="text-foreground/35 text-[11px] capitalize">{VEHICLE_TYPE_LABELS[v.type]}</span>
                       {v.color && (
                         <>
-                          <span className="text-foreground/15">·</span>
+                          <span className="text-foreground/20">·</span>
                           <span className="text-foreground/35 text-[11px]">{v.color}</span>
+                        </>
+                      )}
+                      {v.is_primary && (
+                        <>
+                          <span className="text-foreground/20">·</span>
+                          <span className="text-[10px] font-semibold text-foreground/40">Default</span>
                         </>
                       )}
                     </div>
@@ -937,10 +941,12 @@ function BookingForm() {
 
                   {/* Selection indicator */}
                   <div className={cn(
-                    'w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 transition-all',
-                    selected ? 'border-[#E23232] bg-[#E23232]' : 'border-foreground/15'
+                    'w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-all duration-200',
+                    selected
+                      ? 'bg-[#E23232] shadow-[0_0_8px_rgba(226,50,50,0.3)]'
+                      : 'border-2 border-foreground/10 group-hover:border-foreground/20'
                   )}>
-                    {selected && <Check className="w-2.5 h-2.5 text-white" />}
+                    {selected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
                   </div>
                 </button>
               );
