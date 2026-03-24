@@ -100,7 +100,7 @@ export function DirtCanvas({ vehicleId, vehicleLabel, vehicleColor, dirtLevel }:
   const readyCount   = Object.keys(aiImages).length;
 
   return (
-    <div className="relative w-full rounded-2xl overflow-hidden border border-white/10 bg-[#0a0a0a]"
+    <div className="relative w-full rounded-2xl overflow-hidden border border-border bg-card"
       style={{ aspectRatio: '16/10' }}>
 
       {layerA && (
@@ -115,14 +115,14 @@ export function DirtCanvas({ vehicleId, vehicleLabel, vehicleColor, dirtLevel }:
       {!isAIReady && !layerA && !layerB && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
           <Loader2 className="w-8 h-8 text-[#E23232] animate-spin" />
-          <p className="text-white/30 text-xs">Generating your car...</p>
+          <p className="text-foreground/55 dark:text-foreground/30 text-xs">Generating your car...</p>
         </div>
       )}
 
       {isGenerating && (
         <div className="absolute top-3 right-3 flex items-center gap-1.5 bg-black/70 backdrop-blur-sm rounded-full px-3 py-1.5">
           <Loader2 className="w-3 h-3 text-[#E23232] animate-spin" />
-          <span className="text-[10px] text-white/60 font-medium">Generating level {dirtLevel}...</span>
+          <span className="text-[10px] text-foreground/60 font-medium">Generating level {dirtLevel}...</span>
         </div>
       )}
 
@@ -141,7 +141,7 @@ export function DirtCanvas({ vehicleId, vehicleLabel, vehicleColor, dirtLevel }:
 
       {readyCount < 11 && readyCount > 0 && (
         <div className="absolute bottom-8 left-0 right-0 flex justify-center">
-          <span className="text-[9px] text-white/20">{readyCount}/11 levels ready</span>
+          <span className="text-[9px] text-foreground/50 dark:text-foreground/20">{readyCount}/11 levels ready</span>
         </div>
       )}
     </div>

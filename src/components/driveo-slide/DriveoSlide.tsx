@@ -78,7 +78,7 @@ export function DriveoSlide({
     <div className="space-y-5">
       {/* Car Image with Dirt Overlay */}
       <div className="text-center">
-        <p className="text-white/40 text-xs mb-3 uppercase tracking-wider">
+        <p className="text-foreground/60 dark:text-foreground/40 text-xs mb-3 uppercase tracking-wider">
           How dirty is your car?
         </p>
         <DirtCanvas
@@ -87,17 +87,17 @@ export function DriveoSlide({
           vehicleColor={vehicleColor}
           dirtLevel={dirtLevel}
         />
-        <p className="text-white/60 text-xs mt-2">{vehicleLabel}</p>
+        <p className="text-foreground/60 text-xs mt-2">{vehicleLabel}</p>
       </div>
 
       {/* Dirt Level Slider */}
       <div className="space-y-3 px-2">
         <div className="flex items-center justify-between">
-          <span className="text-white/40 text-xs">Clean</span>
+          <span className="text-foreground/60 dark:text-foreground/40 text-xs">Clean</span>
           <span className={cn('text-sm font-semibold', sliderColor)}>
             Level {dirtLevel} — {DIRT_LABELS[dirtLevel]}
           </span>
-          <span className="text-white/40 text-xs">Extreme</span>
+          <span className="text-foreground/60 dark:text-foreground/40 text-xs">Extreme</span>
         </div>
         <Slider
           value={[dirtLevel]}
@@ -107,7 +107,7 @@ export function DriveoSlide({
           step={1}
           className="w-full"
         />
-        <div className="flex justify-between text-white/20 text-[10px] px-0.5">
+        <div className="flex justify-between text-foreground/50 dark:text-foreground/20 text-[10px] px-0.5">
           {Array.from({ length: 11 }, (_, i) => (
             <span key={i}>{i}</span>
           ))}
@@ -127,19 +127,19 @@ export function DriveoSlide({
                 'rounded-xl border p-3 text-center transition-all',
                 isActive
                   ? 'border-[#E23232] bg-[#E23232]/10 ring-1 ring-[#E23232]/30'
-                  : 'border-white/10 bg-white/5 hover:border-white/20'
+                  : 'border-border bg-foreground/5 hover:border-border'
               )}
             >
-              <div className={cn('mx-auto mb-1.5', isActive ? 'text-[#E23232]' : 'text-white/50')}>
+              <div className={cn('mx-auto mb-1.5', isActive ? 'text-[#E23232]' : 'text-foreground/50')}>
                 {planIcons[plan]}
               </div>
-              <p className={cn('text-xs font-medium leading-tight', isActive ? 'text-white' : 'text-white/70')}>
+              <p className={cn('text-xs font-medium leading-tight', isActive ? 'text-foreground' : 'text-foreground/70')}>
                 {PLAN_LABELS[plan]}
               </p>
-              <p className={cn('text-sm font-bold mt-1', isActive ? 'text-[#E23232]' : 'text-white/60')}>
+              <p className={cn('text-sm font-bold mt-1', isActive ? 'text-[#E23232]' : 'text-foreground/60')}>
                 {centsToDisplay(price.totalCents)}
               </p>
-              <p className="text-white/30 text-[10px] mt-0.5">
+              <p className="text-foreground/55 dark:text-foreground/30 text-[10px] mt-0.5">
                 {formatDuration(price.estimatedDurationMin)}
               </p>
             </button>
@@ -148,37 +148,37 @@ export function DriveoSlide({
       </div>
 
       {/* Price Breakdown for Selected Plan */}
-      <Card className="bg-[#0a0a0a] border-white/10">
+      <Card className="bg-card border-border">
         <CardContent className="p-4 space-y-2">
           <div className="flex justify-between text-sm">
-            <span className="text-white/50">{activePrice.planLabel}</span>
-            <span className="text-white">{centsToDisplay(activePrice.basePriceCents)}</span>
+            <span className="text-foreground/50">{activePrice.planLabel}</span>
+            <span className="text-foreground">{centsToDisplay(activePrice.basePriceCents)}</span>
           </div>
           {activePrice.vehicleMultiplier !== 1 && (
             <div className="flex justify-between text-sm">
-              <span className="text-white/50">Vehicle surcharge ({activePrice.vehicleMultiplier}x)</span>
-              <span className="text-white/70">
+              <span className="text-foreground/50">Vehicle surcharge ({activePrice.vehicleMultiplier}x)</span>
+              <span className="text-foreground/70">
                 +{centsToDisplay(Math.round(activePrice.basePriceCents * (activePrice.vehicleMultiplier - 1)))}
               </span>
             </div>
           )}
           {activePrice.dirtMultiplier !== 1 && (
             <div className="flex justify-between text-sm">
-              <span className="text-white/50">Dirt surcharge ({activePrice.dirtMultiplier}x)</span>
+              <span className="text-foreground/50">Dirt surcharge ({activePrice.dirtMultiplier}x)</span>
               <span className="text-amber-400">
                 +{centsToDisplay(Math.round(activePrice.basePriceCents * activePrice.vehicleMultiplier * (activePrice.dirtMultiplier - 1)))}
               </span>
             </div>
           )}
           <div className="flex justify-between text-sm">
-            <span className="text-white/50">HST (13%)</span>
-            <span className="text-white/70">{centsToDisplay(activePrice.hstCents)}</span>
+            <span className="text-foreground/50">HST (13%)</span>
+            <span className="text-foreground/70">{centsToDisplay(activePrice.hstCents)}</span>
           </div>
-          <div className="border-t border-white/10 pt-2 flex justify-between text-sm font-semibold">
-            <span className="text-white">Total</span>
+          <div className="border-t border-border pt-2 flex justify-between text-sm font-semibold">
+            <span className="text-foreground">Total</span>
             <span className="text-[#E23232] text-lg">{centsToDisplay(activePrice.totalCents)}</span>
           </div>
-          <div className="flex items-center gap-4 pt-1 text-white/40 text-xs">
+          <div className="flex items-center gap-4 pt-1 text-foreground/60 dark:text-foreground/40 text-xs">
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3" /> ~{formatDuration(activePrice.estimatedDurationMin)}
             </span>

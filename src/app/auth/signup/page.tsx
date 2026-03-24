@@ -10,6 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
 import { ArrowRight, Loader2 } from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 import type { UserRole } from '@/types';
 
 function SignupForm() {
@@ -59,7 +60,10 @@ function SignupForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-background">
+    <div className="relative min-h-screen flex items-center justify-center px-4 py-12 bg-background">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
       <div className="w-full max-w-[400px] animate-fade-in-up">
         {/* Logo */}
         <div className="text-center mb-10">
@@ -69,7 +73,7 @@ function SignupForm() {
           <h1 className="font-display text-2xl text-foreground mt-5 tracking-wide">
             {isWasher ? 'JOIN THE TEAM' : 'GET STARTED'}
           </h1>
-          <p className="text-foreground/40 text-sm mt-2">
+          <p className="text-foreground/60 dark:text-foreground/40 text-sm mt-2">
             {isWasher ? 'Apply as a washer and start earning' : 'Book your first car wash in 60 seconds'}
           </p>
         </div>
@@ -95,7 +99,7 @@ function SignupForm() {
                   });
                   if (error) { toast.error(error.message); setLoading(false); }
                 }}
-                className="w-full h-12 bg-foreground/[0.04] border-border text-foreground hover:bg-foreground/[0.08] font-medium rounded-xl"
+                className="w-full h-12 bg-foreground/[0.07] dark:bg-foreground/[0.04] border-border text-foreground hover:bg-foreground/[0.12] dark:hover:bg-foreground/[0.08] font-medium rounded-xl"
               >
                 <svg className="w-5 h-5 mr-2.5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -109,7 +113,7 @@ function SignupForm() {
               <div className="relative my-6">
                 <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-border" /></div>
                 <div className="relative flex justify-center text-xs">
-                  <span className="px-4 text-foreground/30 bg-surface">or sign up with email</span>
+                  <span className="px-4 text-foreground/55 dark:text-foreground/30 bg-surface">or sign up with email</span>
                 </div>
               </div>
             </>
@@ -118,19 +122,19 @@ function SignupForm() {
           <form onSubmit={handleSignup} className="space-y-4">
             <div className="space-y-1.5">
               <Label htmlFor="fullName" className="text-foreground/50 text-xs font-medium">Full Name</Label>
-              <Input id="fullName" type="text" placeholder="John Doe" value={fullName} onChange={(e) => setFullName(e.target.value)} required className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
+              <Input id="fullName" type="text" placeholder="John Doe" value={fullName} onChange={(e) => setFullName(e.target.value)} required className="h-12 bg-foreground/[0.07] dark:bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="email" className="text-foreground/50 text-xs font-medium">Email</Label>
-              <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
+              <Input id="email" type="email" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required className="h-12 bg-foreground/[0.07] dark:bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="phone" className="text-foreground/50 text-xs font-medium">Phone Number</Label>
-              <Input id="phone" type="tel" placeholder="+1 (416) 555-0123" value={phone} onChange={(e) => setPhone(e.target.value)} className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
+              <Input id="phone" type="tel" placeholder="+1 (416) 555-0123" value={phone} onChange={(e) => setPhone(e.target.value)} className="h-12 bg-foreground/[0.07] dark:bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <div className="space-y-1.5">
               <Label htmlFor="password" className="text-foreground/50 text-xs font-medium">Password</Label>
-              <Input id="password" type="password" placeholder="Min. 8 characters" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} className="h-12 bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 rounded-xl premium-input" />
+              <Input id="password" type="password" placeholder="Min. 8 characters" value={password} onChange={(e) => setPassword(e.target.value)} required minLength={8} className="h-12 bg-foreground/[0.07] dark:bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/25 rounded-xl premium-input" />
             </div>
             <Button type="submit" disabled={loading} className="w-full h-12 bg-[#E23232] hover:bg-[#c92a2a] text-white font-semibold rounded-xl mt-2">
               {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (<>{isWasher ? 'Apply Now' : 'Create Account'}<ArrowRight className="w-4 h-4 ml-2" /></>)}
@@ -138,12 +142,12 @@ function SignupForm() {
           </form>
 
           <div className="mt-7 text-center space-y-2">
-            <p className="text-sm text-foreground/40">
+            <p className="text-sm text-foreground/60 dark:text-foreground/40">
               Already have an account?{' '}
               <Link href="/auth/login" className="text-[#E23232] font-medium">Sign in</Link>
             </p>
             {!isWasher && (
-              <p className="text-sm text-foreground/40">
+              <p className="text-sm text-foreground/60 dark:text-foreground/40">
                 Want to wash cars?{' '}
                 <Link href="/apply" className="text-[#E23232] font-medium">Apply as a washer</Link>
               </p>

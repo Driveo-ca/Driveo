@@ -92,13 +92,13 @@ export default function CustomerHomePage() {
   if (loading) {
     return (
       <div className="px-5 md:px-10 pt-6 pb-8 max-w-[1280px] mx-auto">
-        <Skeleton className="h-4 w-28 bg-foreground/[0.04] rounded mb-2" />
-        <Skeleton className="h-9 w-40 bg-foreground/[0.06] rounded mb-8" />
-        <Skeleton className="h-60 w-full bg-foreground/[0.04] rounded-xl mb-6" />
+        <Skeleton className="h-4 w-28 bg-foreground/[0.07] dark:bg-foreground/[0.04] rounded mb-2" />
+        <Skeleton className="h-9 w-40 bg-foreground/[0.10] dark:bg-foreground/[0.06] rounded mb-8" />
+        <Skeleton className="h-60 w-full bg-foreground/[0.07] dark:bg-foreground/[0.04] rounded-xl mb-6" />
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <Skeleton className="h-52 bg-foreground/[0.04] rounded-xl" />
-          <Skeleton className="h-52 bg-foreground/[0.04] rounded-xl" />
-          <Skeleton className="h-52 bg-foreground/[0.04] rounded-xl hidden md:block" />
+          <Skeleton className="h-52 bg-foreground/[0.07] dark:bg-foreground/[0.04] rounded-xl" />
+          <Skeleton className="h-52 bg-foreground/[0.07] dark:bg-foreground/[0.04] rounded-xl" />
+          <Skeleton className="h-52 bg-foreground/[0.07] dark:bg-foreground/[0.04] rounded-xl hidden md:block" />
         </div>
       </div>
     );
@@ -113,7 +113,7 @@ export default function CustomerHomePage() {
       {/* ═══════════════════ HEADER ═══════════════════ */}
       <div className="flex items-end justify-between mb-6 md:mb-10 border-b border-border pb-5 md:pb-6">
         <div>
-          <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-foreground/25 mb-1">
+          <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-foreground/55 dark:text-foreground/50 mb-1">
             Welcome back
           </p>
           <h1 className="text-[28px] md:text-[40px] text-foreground font-light tracking-[-0.02em] leading-none">
@@ -122,7 +122,7 @@ export default function CustomerHomePage() {
         </div>
         {primaryVehicle && (
           <div className="text-right">
-            <p className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.18em] text-foreground/25 mb-0.5 md:mb-1">
+            <p className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.18em] text-foreground/55 dark:text-foreground/50 mb-0.5 md:mb-1">
               <span className="hidden md:inline">Current Vehicle</span>
               <span className="md:hidden">{primaryVehicle.year} {primaryVehicle.make}</span>
             </p>
@@ -146,12 +146,12 @@ export default function CustomerHomePage() {
 
               {/* top row: labels */}
               <div className="flex items-center justify-between">
-                <span className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-foreground/20">
+                <span className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-foreground/50 dark:text-foreground/45">
                   On-Demand Service
                 </span>
                 <span className="flex items-center gap-2">
                   <span className="w-[6px] h-[6px] rounded-full bg-emerald-500" />
-                  <span className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.15em] text-foreground/25">
+                  <span className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.15em] text-foreground/55 dark:text-foreground/50">
                     Next Slot: {nextSlot}
                   </span>
                 </span>
@@ -162,7 +162,7 @@ export default function CustomerHomePage() {
                 <h2 className="font-sans text-[clamp(4rem,11vw,6.5rem)] font-light leading-none text-foreground tracking-[-0.02em]">
                   BOOK
                 </h2>
-                <h2 className="font-sans text-[clamp(4rem,11vw,6.5rem)] font-light leading-none text-foreground/40 tracking-[-0.02em]">
+                <h2 className="font-sans text-[clamp(4rem,11vw,6.5rem)] font-light leading-none text-foreground/60 dark:text-foreground/40 tracking-[-0.02em]">
                   A WASH
                 </h2>
               </div>
@@ -170,7 +170,7 @@ export default function CustomerHomePage() {
               {/* bottom row: location + arrow */}
               <div className="flex items-end justify-between">
                 <div>
-                  <p className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.2em] text-foreground/15 mb-1.5">
+                  <p className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.2em] text-foreground/50 dark:text-foreground/45 mb-1.5">
                     Location
                   </p>
                   <span className="flex items-center gap-2">
@@ -197,7 +197,7 @@ export default function CustomerHomePage() {
                     Active Session
                   </span>
                 </span>
-                <span className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/15">
+                <span className="text-[9px] font-mono uppercase tracking-[0.15em] text-foreground/50 dark:text-foreground/45">
                   ID: WSH-{activeBooking.id.slice(0, 4).toUpperCase()}
                 </span>
               </div>
@@ -207,13 +207,13 @@ export default function CustomerHomePage() {
                   <h3 className="text-foreground text-[17px] font-medium leading-tight">
                     {PLAN_LABELS[activeBooking.wash_plan]}
                   </h3>
-                  <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/25 mt-1">
+                  <p className="text-[10px] font-mono uppercase tracking-[0.15em] text-foreground/55 dark:text-foreground/50 mt-1">
                     Vehicle: {primaryVehicle ? `${primaryVehicle.year} ${primaryVehicle.model}` : '—'}
                   </p>
                 </div>
                 <Link
                   href={`/app/track/${activeBooking.id}`}
-                  className="text-[10px] font-mono uppercase tracking-[0.18em] text-foreground/40 hover:text-foreground/70 transition-colors"
+                  className="text-[10px] font-mono uppercase tracking-[0.18em] text-foreground/60 dark:text-foreground/40 hover:text-foreground/70 transition-colors"
                 >
                   Live Track
                 </Link>
@@ -223,7 +223,7 @@ export default function CustomerHomePage() {
               <div className="pt-3 pb-1">
                 <div className="relative flex items-start">
                   {/* track bg */}
-                  <div className="absolute top-[4px] left-0 right-0 h-[2px] bg-foreground/[0.06]" />
+                  <div className="absolute top-[4px] left-0 right-0 h-[2px] bg-foreground/[0.10] dark:bg-foreground/[0.06]" />
                   {/* track fill */}
                   <div
                     className="absolute top-[4px] left-0 h-[2px] bg-[#E23232] transition-all duration-700"
@@ -237,7 +237,7 @@ export default function CustomerHomePage() {
                             ? 'border-[#E23232] bg-[#E23232]'
                             : 'border-border bg-card'
                           }`} />
-                        <span className={`text-[8px] md:text-[9px] font-mono uppercase tracking-[0.15em] mt-2 ${i <= currentStage ? 'text-foreground/50' : 'text-foreground/15'
+                        <span className={`text-[8px] md:text-[9px] font-mono uppercase tracking-[0.15em] mt-2 ${i <= currentStage ? 'text-foreground/50' : 'text-foreground/50 dark:text-foreground/45'
                           }`}>{s}</span>
                       </div>
                     );
@@ -251,7 +251,7 @@ export default function CustomerHomePage() {
 
           {/* SELECT SERVICE */}
           <div>
-            <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-foreground/25 mb-4 md:mb-5">
+            <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.2em] text-foreground/55 dark:text-foreground/50 mb-4 md:mb-5">
               Select Service
             </p>
 
@@ -270,7 +270,7 @@ export default function CustomerHomePage() {
 
                     <div className="relative z-10 p-4 md:p-5 pb-0">
                       <div className="flex items-center justify-between mb-3 md:mb-4">
-                        <span className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/15">
+                        <span className="text-[8px] md:text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/50 dark:text-foreground/45">
                           {sku}
                         </span>
                         {tag && (
@@ -280,17 +280,17 @@ export default function CustomerHomePage() {
                         )}
                       </div>
                       <h3 className="text-foreground text-[14px] md:text-[16px] font-semibold mb-1.5">{label}</h3>
-                      <p className="text-foreground/25 text-[12px] md:text-[13px] leading-[1.55]">{desc}</p>
+                      <p className="text-foreground/55 dark:text-foreground/50 text-[12px] md:text-[13px] leading-[1.55]">{desc}</p>
                     </div>
 
                     <div className="relative z-10 mx-4 md:mx-5 border-t border-border" />
 
                     <div className="relative z-10 p-4 md:p-5 pt-3 flex items-end justify-between">
                       <div>
-                        <p className="text-[8px] font-mono uppercase tracking-[0.18em] text-foreground/15 mb-0.5">
+                        <p className="text-[8px] font-mono uppercase tracking-[0.18em] text-foreground/50 dark:text-foreground/45 mb-0.5">
                           Est. Time
                         </p>
-                        <p className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.1em] text-foreground/30">
+                        <p className="text-[9px] md:text-[10px] font-mono uppercase tracking-[0.1em] text-foreground/55 dark:text-foreground/30">
                           {time}
                         </p>
                       </div>
@@ -313,11 +313,11 @@ export default function CustomerHomePage() {
             <div className="rounded-xl bg-card border border-border p-6 md:p-7 relative overflow-hidden">
               {/* top row: icon + status */}
               <div className="flex items-start justify-between mb-8">
-                <div className="w-11 h-11 rounded-lg bg-foreground/[0.03] border border-border flex items-center justify-center">
-                  <Car className="w-[18px] h-[18px] text-foreground/40" />
+                <div className="w-11 h-11 rounded-lg bg-foreground/[0.06] dark:bg-foreground/[0.03] border border-border flex items-center justify-center">
+                  <Car className="w-[18px] h-[18px] text-foreground/60 dark:text-foreground/40" />
                 </div>
                 <div className="text-right">
-                  <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/20 mb-1">
+                  <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/50 dark:text-foreground/45 mb-1">
                     Status
                   </p>
                   <span className="flex items-center gap-2 justify-end">
@@ -335,7 +335,7 @@ export default function CustomerHomePage() {
                   <h3 className="text-foreground text-[22px] md:text-[26px] font-medium leading-tight tracking-[-0.01em]">
                     {primaryVehicle.year} {primaryVehicle.make} {primaryVehicle.model}
                   </h3>
-                  <p className="text-foreground/30 text-[14px] mt-1.5 capitalize">
+                  <p className="text-foreground/55 dark:text-foreground/30 text-[14px] mt-1.5 capitalize">
                     {primaryVehicle.type.replace('_', ' ')}
                     {primaryVehicle.color ? ` \u00B7 ${primaryVehicle.color}` : ''}
                   </p>
@@ -348,10 +348,10 @@ export default function CustomerHomePage() {
               {/* VIN + manage */}
               <div className="flex items-end justify-between mt-8 pt-5 border-t border-border">
                 <div>
-                  <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/20 mb-1">
+                  <p className="text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/50 dark:text-foreground/45 mb-1">
                     VIN
                   </p>
-                  <p className="text-[12px] font-mono tracking-[0.05em] text-foreground/35">
+                  <p className="text-[12px] font-mono tracking-[0.05em] text-foreground/55">
                     {primaryVehicle.plate || 'WP0AB299...'}
                   </p>
                 </div>
@@ -370,7 +370,7 @@ export default function CustomerHomePage() {
                   <Car className="w-5 h-5 text-[#E23232]" />
                 </div>
                 <p className="text-foreground text-sm font-medium">Add your vehicle</p>
-                <p className="text-foreground/25 text-xs mt-1">Required to book a wash</p>
+                <p className="text-foreground/55 dark:text-foreground/50 text-xs mt-1">Required to book a wash</p>
               </div>
             </Link>
           )}
@@ -379,16 +379,16 @@ export default function CustomerHomePage() {
           <div className="grid grid-cols-2 gap-3 md:gap-4">
             <Link href="/app/bookings" className="block">
               <div className="rounded-xl bg-card border border-border p-5 hover:border-border transition-colors min-h-[120px] md:min-h-[140px] flex flex-col justify-between">
-                <Clock className="w-[22px] h-[22px] text-foreground/20" />
-                <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.18em] text-foreground/35">
+                <Clock className="w-[22px] h-[22px] text-foreground/50 dark:text-foreground/45" />
+                <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.18em] text-foreground/55">
                   History
                 </p>
               </div>
             </Link>
             <Link href="/app/membership" className="block">
               <div className="rounded-xl bg-card border border-border p-5 hover:border-border transition-colors min-h-[120px] md:min-h-[140px] flex flex-col justify-between">
-                <CreditCard className="w-[22px] h-[22px] text-foreground/20" />
-                <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.18em] text-foreground/35">
+                <CreditCard className="w-[22px] h-[22px] text-foreground/50 dark:text-foreground/45" />
+                <p className="text-[10px] md:text-[11px] font-mono uppercase tracking-[0.18em] text-foreground/55">
                   Plans
                 </p>
               </div>
@@ -407,7 +407,7 @@ export default function CustomerHomePage() {
               <p className="text-foreground/50 text-[13px] leading-[1.6] mb-4">
                 Unlimited exterior washes and priority booking for $79/mo.
               </p>
-              <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-foreground/30 border-b border-border pb-0.5">
+              <span className="text-[10px] font-mono uppercase tracking-[0.18em] text-foreground/55 dark:text-foreground/30 border-b border-border pb-0.5">
                 View Membership
               </span>
             </div>

@@ -176,7 +176,7 @@ export function AddressAutocomplete({
   return (
     <div ref={wrapperRef} className="space-y-2">
       <div className="relative">
-        <MapPin className="absolute left-3 top-3 w-4 h-4 text-white/30" />
+        <MapPin className="absolute left-3 top-3 w-4 h-4 text-foreground/55 dark:text-foreground/30" />
         <Input
           value={inputValue}
           onChange={(e) => handleInputChange(e.target.value)}
@@ -186,16 +186,16 @@ export function AddressAutocomplete({
           className={cn('pl-10 pr-10', className)}
         />
         {open && predictions.length > 0 && (
-          <div className="absolute z-50 mt-1 w-full max-h-48 overflow-y-auto rounded-lg border border-white/10 bg-[#0a0a0a] shadow-xl">
+          <div className="absolute z-50 mt-1 w-full max-h-48 overflow-y-auto rounded-lg border border-border bg-card shadow-xl">
             {predictions.map((p) => (
               <button
                 key={p.place_id}
                 type="button"
                 onMouseDown={(e) => e.preventDefault()}
                 onClick={() => selectPrediction(p)}
-                className="w-full px-3 py-2.5 text-left text-sm text-white/80 hover:bg-white/10 transition-colors flex items-start gap-2"
+                className="w-full px-3 py-2.5 text-left text-sm text-foreground/80 hover:bg-foreground/10 transition-colors flex items-start gap-2"
               >
-                <MapPin className="w-3.5 h-3.5 text-white/30 mt-0.5 shrink-0" />
+                <MapPin className="w-3.5 h-3.5 text-foreground/55 dark:text-foreground/30 mt-0.5 shrink-0" />
                 <span className="line-clamp-2">{p.description}</span>
               </button>
             ))}
@@ -207,7 +207,7 @@ export function AddressAutocomplete({
         variant="outline"
         onClick={detectLocation}
         disabled={detecting}
-        className="w-full border-white/10 text-white/60 hover:text-white hover:bg-white/5 text-sm"
+        className="w-full border-border text-foreground/60 hover:text-foreground hover:bg-foreground/5 text-sm"
       >
         {detecting ? (
           <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Detecting location...</>

@@ -139,7 +139,7 @@ export default function WasherAvailabilityPage() {
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[10px] font-bold tracking-wider transition-colors duration-200 ${
                         slot.is_available
                           ? 'bg-green-500/10 text-green-400'
-                          : 'bg-card text-foreground/20'
+                          : 'bg-card text-foreground/50 dark:text-foreground/20'
                       }`}>
                         {SHORT_DAYS[displayIdx]}
                       </div>
@@ -159,7 +159,7 @@ export default function WasherAvailabilityPage() {
                     <div className="flex items-center gap-3 animate-fade-in">
                       <div className="flex items-center gap-2 flex-1">
                         <div className="w-6 h-6 rounded-md bg-card flex items-center justify-center">
-                          <Clock className="w-3 h-3 text-foreground/30" />
+                          <Clock className="w-3 h-3 text-foreground/55 dark:text-foreground/30" />
                         </div>
                         <Input
                           type="time"
@@ -170,7 +170,7 @@ export default function WasherAvailabilityPage() {
                           className="bg-card border-border text-foreground text-sm h-9 rounded-lg"
                         />
                       </div>
-                      <span className="text-foreground/20 text-xs font-medium tracking-wider">TO</span>
+                      <span className="text-foreground/50 dark:text-foreground/20 text-xs font-medium tracking-wider">TO</span>
                       <div className="flex-1">
                         <Input
                           type="time"

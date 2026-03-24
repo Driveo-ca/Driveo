@@ -82,7 +82,7 @@ export default function WasherProfilePage() {
           {/* Avatar */}
           <div className="relative">
             <div className="w-20 h-20 rounded-full bg-card border border-border flex items-center justify-center">
-              <User className="w-9 h-9 text-foreground/30" />
+              <User className="w-9 h-9 text-foreground/55 dark:text-foreground/30" />
             </div>
             {wp?.is_online && (
               <div className="absolute -bottom-0.5 -right-0.5 w-5 h-5 rounded-full bg-surface flex items-center justify-center">
@@ -121,14 +121,14 @@ export default function WasherProfilePage() {
                   {Number(wp.rating_avg).toFixed(1)}
                 </span>
               </div>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-wider">Rating</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-wider">Rating</p>
             </div>
             <div className="stat-card bg-card border border-border rounded-xl p-4 text-center">
               <div className="flex items-center justify-center gap-1.5 mb-1.5">
-                <Briefcase className="w-4 h-4 text-foreground/40" />
+                <Briefcase className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
                 <span className="text-foreground font-bold text-xl">{wp.jobs_completed}</span>
               </div>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-wider">Jobs Done</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-wider">Jobs Done</p>
             </div>
           </div>
         )}
@@ -137,7 +137,7 @@ export default function WasherProfilePage() {
       {/* Bio */}
       {wp?.bio && (
         <div className="bg-surface border border-border rounded-2xl p-5 mb-4">
-          <p className="text-[10px] uppercase tracking-widest text-foreground/40 font-medium mb-3">Bio</p>
+          <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium mb-3">Bio</p>
           <p className="text-sm text-foreground/60 leading-relaxed">{wp.bio}</p>
         </div>
       )}
@@ -146,8 +146,8 @@ export default function WasherProfilePage() {
       {wp?.service_zones && wp.service_zones.length > 0 && (
         <div className="bg-surface border border-border rounded-2xl p-5 mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <MapPin className="w-3.5 h-3.5 text-foreground/40" />
-            <p className="text-[10px] uppercase tracking-widest text-foreground/40 font-medium">Service Zones</p>
+            <MapPin className="w-3.5 h-3.5 text-foreground/60 dark:text-foreground/40" />
+            <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium">Service Zones</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {wp.service_zones.map((zone) => (
@@ -166,8 +166,8 @@ export default function WasherProfilePage() {
       {wp?.vehicle_make && (
         <div className="bg-surface border border-border rounded-2xl p-5 mb-4">
           <div className="flex items-center gap-2 mb-3">
-            <Car className="w-3.5 h-3.5 text-foreground/40" />
-            <p className="text-[10px] uppercase tracking-widest text-foreground/40 font-medium">Vehicle</p>
+            <Car className="w-3.5 h-3.5 text-foreground/60 dark:text-foreground/40" />
+            <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium">Vehicle</p>
           </div>
           <p className="text-foreground/60 text-sm font-medium">
             {wp.vehicle_year} {wp.vehicle_make} {wp.vehicle_model}
@@ -179,8 +179,8 @@ export default function WasherProfilePage() {
       {wp?.tools_owned && wp.tools_owned.length > 0 && (
         <div className="bg-surface border border-border rounded-2xl p-5">
           <div className="flex items-center gap-2 mb-3">
-            <Wrench className="w-3.5 h-3.5 text-foreground/40" />
-            <p className="text-[10px] uppercase tracking-widest text-foreground/40 font-medium">Tools Owned</p>
+            <Wrench className="w-3.5 h-3.5 text-foreground/60 dark:text-foreground/40" />
+            <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium">Tools Owned</p>
           </div>
           <div className="flex flex-wrap gap-2">
             {wp.tools_owned.map((tool) => (

@@ -73,7 +73,7 @@ export default function BookingsPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-display text-foreground tracking-tight">My Bookings</h1>
-            <p className="text-foreground/40 text-sm mt-1">Your wash history and active bookings</p>
+            <p className="text-foreground/60 dark:text-foreground/40 text-sm mt-1">Your wash history and active bookings</p>
           </div>
           {bookings.length > 0 && (
             <div className="bg-surface border border-border rounded-full px-3 py-1.5">
@@ -92,11 +92,11 @@ export default function BookingsPage() {
           <div className="mt-12">
             <div className="bg-surface border border-border rounded-2xl">
               <div className="py-20 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-foreground/[0.04] border border-border flex items-center justify-center mx-auto mb-5">
-                  <Calendar className="w-7 h-7 text-foreground/20" />
+                <div className="w-16 h-16 rounded-2xl bg-foreground/[0.07] dark:bg-foreground/[0.04] border border-border flex items-center justify-center mx-auto mb-5">
+                  <Calendar className="w-7 h-7 text-foreground/50 dark:text-foreground/45" />
                 </div>
-                <p className="text-foreground/40 text-sm font-medium">No bookings yet</p>
-                <p className="text-foreground/20 text-xs mt-1.5">Your wash history will appear here</p>
+                <p className="text-foreground/60 dark:text-foreground/40 text-sm font-medium">No bookings yet</p>
+                <p className="text-foreground/50 dark:text-foreground/45 text-xs mt-1.5">Your wash history will appear here</p>
                 <Link href="/app/book">
                   <button className="mt-6 px-5 py-2.5 rounded-xl bg-[#E23232] hover:bg-[#c92a2a] text-white text-sm font-medium transition-colors">
                     Book Your First Wash
@@ -126,7 +126,7 @@ export default function BookingsPage() {
                         >
                           {booking.status.replace('_', ' ')}
                         </Badge>
-                        <ChevronRight className="w-4 h-4 text-foreground/20 mt-0.5" />
+                        <ChevronRight className="w-4 h-4 text-foreground/50 dark:text-foreground/45 mt-0.5" />
                       </div>
 
                       <div className="space-y-2.5">
@@ -134,15 +134,15 @@ export default function BookingsPage() {
                           <span className="text-[#E23232] font-semibold">
                             {planLabel[booking.wash_plan] || booking.wash_plan}
                           </span>
-                          <span className="w-1 h-1 rounded-full bg-foreground/20" />
-                          <span className="text-foreground/40 text-xs">
+                          <span className="w-1 h-1 rounded-full bg-foreground/50 dark:bg-foreground/20" />
+                          <span className="text-foreground/60 dark:text-foreground/40 text-xs">
                             Dirt Level {booking.dirt_level}
                           </span>
                         </div>
 
                         {vehicle && (
                           <div className="flex items-center gap-2 text-sm text-foreground/60">
-                            <Car className="w-3.5 h-3.5 text-foreground/30" />
+                            <Car className="w-3.5 h-3.5 text-foreground/55 dark:text-foreground/50" />
                             <span>
                               {vehicle.year} {vehicle.make} {vehicle.model}
                             </span>
@@ -150,7 +150,7 @@ export default function BookingsPage() {
                         )}
 
                         <div className="flex items-center justify-between pt-2 border-t border-border">
-                          <div className="flex items-center gap-2 text-foreground/40">
+                          <div className="flex items-center gap-2 text-foreground/60 dark:text-foreground/40">
                             <Calendar className="w-3.5 h-3.5" />
                             <span className="text-xs">
                               {new Date(booking.created_at).toLocaleDateString('en-CA', {

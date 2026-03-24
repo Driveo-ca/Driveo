@@ -322,7 +322,7 @@ export default function LiveTrackingMap({
               <div className="w-12 h-12 rounded-full bg-[#E23232]/10 flex items-center justify-center">
                 <MapPin className="w-6 h-6 text-[#E23232]" />
               </div>
-              <span className="text-sm text-white/40 font-medium tracking-wide">
+              <span className="text-sm text-foreground/60 dark:text-foreground/40 font-medium tracking-wide">
                 Loading map...
               </span>
             </div>
@@ -349,7 +349,7 @@ export default function LiveTrackingMap({
             }}
           >
             <Navigation className="w-4 h-4 text-[#E23232] animate-pulse" />
-            <span className="text-white text-sm font-medium tracking-wide">
+            <span className="text-foreground text-sm font-medium tracking-wide">
               {washerName} is{' '}
               <span className="text-[#E23232] font-bold">
                 {eta ?? '...'}
@@ -364,7 +364,7 @@ export default function LiveTrackingMap({
       {status !== 'en_route' && status && (
         <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10">
           <div
-            className="px-4 py-2 rounded-full backdrop-blur-md text-white/70 text-xs font-medium uppercase tracking-widest"
+            className="px-4 py-2 rounded-full backdrop-blur-md text-foreground/70 text-xs font-medium uppercase tracking-widest"
             style={{
               background: 'rgba(5, 5, 5, 0.85)',
               border: '1px solid rgba(255, 255, 255, 0.08)',

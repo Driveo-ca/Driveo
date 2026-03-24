@@ -192,15 +192,15 @@ export default function MembershipPage() {
         <div className="max-w-lg mx-auto px-4 py-8 space-y-6">
           {/* Header shimmer */}
           <div className="space-y-2">
-            <div className="h-8 w-48 bg-foreground/[0.06] shimmer rounded-lg" />
-            <div className="h-4 w-64 bg-foreground/[0.06] shimmer rounded-md" />
+            <div className="h-8 w-48 bg-foreground/[0.10] dark:bg-foreground/[0.06] shimmer rounded-lg" />
+            <div className="h-4 w-64 bg-foreground/[0.10] dark:bg-foreground/[0.06] shimmer rounded-md" />
           </div>
           {/* Card shimmer */}
-          <div className="h-52 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
-          <div className="h-6 w-40 bg-foreground/[0.06] shimmer rounded-lg" />
-          <div className="h-72 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
-          <div className="h-72 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
-          <div className="h-72 w-full bg-foreground/[0.06] shimmer rounded-2xl" />
+          <div className="h-52 w-full bg-foreground/[0.10] dark:bg-foreground/[0.06] shimmer rounded-2xl" />
+          <div className="h-6 w-40 bg-foreground/[0.10] dark:bg-foreground/[0.06] shimmer rounded-lg" />
+          <div className="h-72 w-full bg-foreground/[0.10] dark:bg-foreground/[0.06] shimmer rounded-2xl" />
+          <div className="h-72 w-full bg-foreground/[0.10] dark:bg-foreground/[0.06] shimmer rounded-2xl" />
+          <div className="h-72 w-full bg-foreground/[0.10] dark:bg-foreground/[0.06] shimmer rounded-2xl" />
         </div>
       </div>
     );
@@ -214,7 +214,7 @@ export default function MembershipPage() {
           <h1 className="text-3xl font-bold tracking-tight text-foreground mb-1">
             Membership
           </h1>
-          <p className="text-foreground/40 text-sm">
+          <p className="text-foreground/60 dark:text-foreground/40 text-sm">
             8 washes per month, delivered to your door.
           </p>
         </div>
@@ -239,7 +239,7 @@ export default function MembershipPage() {
                         <span className="text-2xl font-bold text-foreground">
                           ${(subscription.plan.monthly_price / 100).toFixed(0)}
                         </span>
-                        <span className="text-sm text-foreground/30">/month</span>
+                        <span className="text-sm text-foreground/55 dark:text-foreground/30">/month</span>
                       </div>
                     </div>
                   </div>
@@ -263,7 +263,7 @@ export default function MembershipPage() {
                         {usage.used} of {usage.allocated}
                       </span>
                     </div>
-                    <div className="h-3 bg-foreground/[0.06] rounded-full overflow-hidden">
+                    <div className="h-3 bg-foreground/[0.10] dark:bg-foreground/[0.06] rounded-full overflow-hidden">
                       <div
                         className="h-full bg-[#E23232] rounded-full transition-all duration-700 ease-out"
                         style={{
@@ -274,7 +274,7 @@ export default function MembershipPage() {
                         }}
                       />
                     </div>
-                    <p className="text-xs text-foreground/30 mt-2.5">
+                    <p className="text-xs text-foreground/55 dark:text-foreground/30 mt-2.5">
                       {usage.allocated - usage.used} washes remaining this period
                     </p>
                   </div>
@@ -282,7 +282,7 @@ export default function MembershipPage() {
 
                 {/* Next Billing Date */}
                 {subscription.currentPeriodEnd && (
-                  <p className="text-xs text-foreground/40">
+                  <p className="text-xs text-foreground/60 dark:text-foreground/40">
                     {subscription.cancelAtPeriodEnd
                       ? 'Access ends '
                       : 'Next billing date: '}
@@ -339,7 +339,7 @@ export default function MembershipPage() {
                   <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
                       <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-2xl bg-foreground/[0.04] text-foreground/50">
+                        <div className="p-3 rounded-2xl bg-foreground/[0.07] dark:bg-foreground/[0.04] text-foreground/50">
                           {planIcons[plan.washPlan]}
                         </div>
                         <div>
@@ -350,13 +350,13 @@ export default function MembershipPage() {
                             <span className="text-3xl font-bold text-foreground tracking-tight">
                               ${plan.monthlyTotal}
                             </span>
-                            <span className="text-sm text-foreground/30 ml-0.5">/mo</span>
+                            <span className="text-sm text-foreground/55 dark:text-foreground/30 ml-0.5">/mo</span>
                           </div>
                         </div>
                       </div>
                       <Badge
                         variant="outline"
-                        className="border-border text-foreground/40 text-xs"
+                        className="border-border text-foreground/60 dark:text-foreground/40 text-xs"
                       >
                         ${plan.pricePerWash}/wash
                       </Badge>

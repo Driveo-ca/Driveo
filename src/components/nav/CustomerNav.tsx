@@ -75,7 +75,7 @@ export function CustomerNav() {
                 href={item.href}
                 className={cn(
                   'flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1 transition-colors',
-                  isActive ? 'text-foreground' : 'text-foreground/25 active:text-foreground/40'
+                  isActive ? 'text-foreground' : 'text-foreground/55 dark:text-foreground/25 active:text-foreground/60 dark:active:text-foreground/40'
                 )}
               >
                 <item.icon className={cn('w-[20px] h-[20px]', isActive && 'stroke-[2px]')} />

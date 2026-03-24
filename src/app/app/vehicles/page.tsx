@@ -133,7 +133,7 @@ export default function VehiclesPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-display text-foreground tracking-tight">My Vehicles</h1>
-          <p className="text-foreground/40 text-sm mt-1">Manage your vehicle garage</p>
+          <p className="text-foreground/60 dark:text-foreground/40 text-sm mt-1">Manage your vehicle garage</p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger>
@@ -148,7 +148,7 @@ export default function VehiclesPage() {
             <div className="space-y-5 mt-2">
               {/* Vehicle Type Grid */}
               <div className="space-y-2.5">
-                <Label className="text-xs uppercase tracking-widest text-foreground/40 font-semibold">Type</Label>
+                <Label className="text-xs uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-semibold">Type</Label>
                 <div className="grid grid-cols-4 gap-2">
                   {vehicleTypes.map((t) => (
                     <button
@@ -158,7 +158,7 @@ export default function VehiclesPage() {
                         'p-2.5 rounded-xl border text-xs text-center transition-all duration-200 font-medium',
                         formType === t
                           ? 'border-[#E23232]/60 bg-[#E23232]/10 text-white'
-                          : 'border-border bg-foreground/[0.02] text-foreground/40 hover:border-border hover:text-foreground/60'
+                          : 'border-border bg-foreground/[0.02] text-foreground/60 dark:text-foreground/40 hover:border-border hover:text-foreground/60'
                       )}
                     >
                       {VEHICLE_TYPE_LABELS[t]}
@@ -170,22 +170,22 @@ export default function VehiclesPage() {
               {/* Form Fields */}
               <div className="space-y-3">
                 <div className="space-y-1.5">
-                  <Label className="text-xs text-foreground/40">Year</Label>
-                  <AutocompleteInput options={yearOptions} value={formYear} onChange={setFormYear} placeholder="e.g. 2024" className="bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  <Label className="text-xs text-foreground/60 dark:text-foreground/40">Year</Label>
+                  <AutocompleteInput options={yearOptions} value={formYear} onChange={setFormYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 dark:placeholder:text-foreground/20 rounded-xl" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs text-foreground/40">Make</Label>
-                  <AutocompleteInput options={VEHICLE_MAKE_LIST} value={formMake} onChange={(val) => { setFormMake(val); if (val !== formMake) setFormModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  <Label className="text-xs text-foreground/60 dark:text-foreground/40">Make</Label>
+                  <AutocompleteInput options={VEHICLE_MAKE_LIST} value={formMake} onChange={(val) => { setFormMake(val); if (val !== formMake) setFormModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 dark:placeholder:text-foreground/20 rounded-xl" />
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs text-foreground/40">Model</Label>
-                  <AutocompleteInput options={getModelsForMake(formMake)} value={formModel} onChange={setFormModel} placeholder={formMake ? `${formMake} model` : 'Select make first'} className="bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  <Label className="text-xs text-foreground/60 dark:text-foreground/40">Model</Label>
+                  <AutocompleteInput options={getModelsForMake(formMake)} value={formModel} onChange={setFormModel} placeholder={formMake ? `${formMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 dark:placeholder:text-foreground/20 rounded-xl" />
                 </div>
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs text-foreground/40">Color (optional)</Label>
-                <Input placeholder="Silver" value={formColor} onChange={(e) => setFormColor(e.target.value)} className="bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                <Label className="text-xs text-foreground/60 dark:text-foreground/40">Color (optional)</Label>
+                <Input placeholder="Silver" value={formColor} onChange={(e) => setFormColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 dark:placeholder:text-foreground/20 rounded-xl" />
               </div>
 
               <Button onClick={addVehicle} disabled={saving || !formMake || !formModel} className="w-full bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl h-11 font-semibold transition-all">
@@ -208,11 +208,11 @@ export default function VehiclesPage() {
         <div className="mt-8">
           <div className="rounded-2xl border-2 border-dashed border-border hover:border-border transition-colors duration-300">
             <div className="p-12 text-center">
-              <div className="w-16 h-16 rounded-2xl bg-foreground/[0.03] border border-border flex items-center justify-center mx-auto mb-5">
-                <Car className="w-7 h-7 text-foreground/15" />
+              <div className="w-16 h-16 rounded-2xl bg-foreground/[0.06] dark:bg-foreground/[0.03] border border-border flex items-center justify-center mx-auto mb-5">
+                <Car className="w-7 h-7 text-foreground/50 dark:text-foreground/45" />
               </div>
-              <p className="text-foreground/40 text-sm font-medium">No vehicles yet</p>
-              <p className="text-foreground/20 text-xs mt-1.5">Add one to get started</p>
+              <p className="text-foreground/60 dark:text-foreground/40 text-sm font-medium">No vehicles yet</p>
+              <p className="text-foreground/50 dark:text-foreground/45 text-xs mt-1.5">Add one to get started</p>
             </div>
           </div>
         </div>
@@ -227,8 +227,8 @@ export default function VehiclesPage() {
               )}
             >
               <div className="p-4 flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-foreground/[0.04] border border-border flex items-center justify-center">
-                  <Car className="w-5 h-5 text-foreground/40" />
+                <div className="w-12 h-12 rounded-xl bg-foreground/[0.07] dark:bg-foreground/[0.04] border border-border flex items-center justify-center">
+                  <Car className="w-5 h-5 text-foreground/60 dark:text-foreground/40" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2.5">
@@ -241,7 +241,7 @@ export default function VehiclesPage() {
                       </span>
                     )}
                   </div>
-                  <p className="text-foreground/40 text-xs capitalize mt-0.5">
+                  <p className="text-foreground/60 dark:text-foreground/40 text-xs capitalize mt-0.5">
                     {VEHICLE_TYPE_LABELS[v.type]}{v.color ? ` · ${v.color}` : ''}
                   </p>
                 </div>
@@ -249,7 +249,7 @@ export default function VehiclesPage() {
                   {!v.is_primary && (
                     <button
                       onClick={() => setPrimary(v.id)}
-                      className="p-2.5 rounded-lg text-foreground/25 hover:text-[#E23232] hover:bg-[#E23232]/10 transition-all duration-200"
+                      className="p-2.5 rounded-lg text-foreground/55 dark:text-foreground/50 hover:text-[#E23232] hover:bg-[#E23232]/10 transition-all duration-200"
                       title="Set as primary"
                     >
                       <Star className="w-4 h-4" />
@@ -257,7 +257,7 @@ export default function VehiclesPage() {
                   )}
                   <button
                     onClick={() => deleteVehicle(v.id)}
-                    className="p-2.5 rounded-lg text-foreground/25 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
+                    className="p-2.5 rounded-lg text-foreground/55 dark:text-foreground/50 hover:text-red-400 hover:bg-red-400/10 transition-all duration-200"
                     title="Delete"
                   >
                     <Trash2 className="w-4 h-4" />

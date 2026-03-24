@@ -134,7 +134,7 @@ export default function OnboardingPage() {
                   value={year}
                   onChange={setYear}
                   placeholder="e.g. 2024"
-                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/30"
                 />
               </div>
               <div className="space-y-2">
@@ -147,7 +147,7 @@ export default function OnboardingPage() {
                     if (val !== make) setModel('');
                   }}
                   placeholder="e.g. Honda, Toyota, BMW"
-                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/30"
                 />
               </div>
               <div className="space-y-2">
@@ -157,7 +157,7 @@ export default function OnboardingPage() {
                   value={model}
                   onChange={setModel}
                   placeholder={make ? `Select ${make} model` : 'Select make first'}
-                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/30"
                 />
               </div>
               <div className="space-y-2">
@@ -166,7 +166,7 @@ export default function OnboardingPage() {
                   placeholder="e.g. Silver, Black"
                   value={color}
                   onChange={(e) => setColor(e.target.value)}
-                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
+                  className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/30"
                 />
               </div>
               <div className="flex gap-3">

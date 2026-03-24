@@ -111,7 +111,7 @@ export default function AdminPricingPage() {
           </div>
           <div>
             <h1 className="text-3xl font-display text-foreground tracking-tight">Pricing</h1>
-            <p className="text-foreground/30 text-sm mt-0.5">Configure plans, multipliers, and rates</p>
+            <p className="text-foreground/55 dark:text-foreground/30 text-sm mt-0.5">Configure plans, multipliers, and rates</p>
           </div>
         </div>
         <Button
@@ -141,7 +141,7 @@ export default function AdminPricingPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-display text-foreground">Base Prices</h2>
-                  <p className="text-foreground/25 text-xs">Per wash pricing for each plan</p>
+                  <p className="text-foreground/55 dark:text-foreground/25 text-xs">Per wash pricing for each plan</p>
                 </div>
               </div>
             </div>
@@ -152,7 +152,7 @@ export default function AdminPricingPage() {
                     key={plan}
                     className="bg-card border border-border rounded-xl p-5 group hover:border-border transition-colors duration-200"
                   >
-                    <Label className="text-foreground/30 text-[10px] uppercase tracking-widest">
+                    <Label className="text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest">
                       {plan === 'interior_exterior'
                         ? 'Interior & Exterior'
                         : plan.charAt(0).toUpperCase() + plan.slice(1)}
@@ -160,7 +160,7 @@ export default function AdminPricingPage() {
                     <p className="text-3xl font-bold text-[#E23232] mt-2">
                       ${(cents / 100).toFixed(0)}
                     </p>
-                    <p className="text-[10px] text-foreground/20 mt-2 uppercase tracking-widest">per wash</p>
+                    <p className="text-[10px] text-foreground/50 dark:text-foreground/20 mt-2 uppercase tracking-widest">per wash</p>
                   </div>
                 ))}
               </div>
@@ -176,7 +176,7 @@ export default function AdminPricingPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-display text-foreground">Monthly Subscriptions</h2>
-                  <p className="text-foreground/25 text-xs">Recurring plan pricing</p>
+                  <p className="text-foreground/55 dark:text-foreground/25 text-xs">Recurring plan pricing</p>
                 </div>
               </div>
             </div>
@@ -188,12 +188,12 @@ export default function AdminPricingPage() {
                 >
                   <div>
                     <p className="font-medium text-foreground text-sm">{plan.name}</p>
-                    <p className="text-[10px] text-foreground/20 uppercase tracking-widest mt-0.5">
+                    <p className="text-[10px] text-foreground/50 dark:text-foreground/20 uppercase tracking-widest mt-0.5">
                       {plan.washes_per_month} washes/month
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-foreground/25 text-sm">$</span>
+                    <span className="text-foreground/55 dark:text-foreground/25 text-sm">$</span>
                     <Input
                       type="number"
                       value={(plan.monthly_price / 100).toFixed(0)}
@@ -205,7 +205,7 @@ export default function AdminPricingPage() {
                       }
                       className="bg-surface border border-border w-24 text-right text-sm rounded-lg text-foreground focus:border-border focus:ring-0"
                     />
-                    <span className="text-foreground/20 text-xs font-mono">/mo</span>
+                    <span className="text-foreground/50 dark:text-foreground/20 text-xs font-mono">/mo</span>
                   </div>
                 </div>
               ))}
@@ -221,7 +221,7 @@ export default function AdminPricingPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-display text-foreground">Vehicle Multipliers</h2>
-                  <p className="text-foreground/25 text-xs">Price adjustments by vehicle type</p>
+                  <p className="text-foreground/55 dark:text-foreground/25 text-xs">Price adjustments by vehicle type</p>
                 </div>
               </div>
             </div>
@@ -245,7 +245,7 @@ export default function AdminPricingPage() {
                       }
                       className="bg-surface border border-border w-20 text-right text-sm rounded-lg text-foreground focus:border-border focus:ring-0"
                     />
-                    <span className="text-foreground/20 text-xs font-mono w-4">x</span>
+                    <span className="text-foreground/50 dark:text-foreground/20 text-xs font-mono w-4">x</span>
                   </div>
                 </div>
               ))}
@@ -261,7 +261,7 @@ export default function AdminPricingPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-display text-foreground">Dirt Multipliers</h2>
-                  <p className="text-foreground/25 text-xs">Driveo Slide surcharge levels</p>
+                  <p className="text-foreground/55 dark:text-foreground/25 text-xs">Driveo Slide surcharge levels</p>
                 </div>
               </div>
             </div>
@@ -275,7 +275,7 @@ export default function AdminPricingPage() {
                     <span className="text-sm text-foreground/60">
                       Level {d.level}
                     </span>
-                    <span className="text-[10px] text-foreground/20 bg-surface border border-border rounded-full px-2.5 py-0.5">
+                    <span className="text-[10px] text-foreground/50 dark:text-foreground/20 bg-surface border border-border rounded-full px-2.5 py-0.5">
                       {d.description}
                     </span>
                   </div>
@@ -293,7 +293,7 @@ export default function AdminPricingPage() {
                       }
                       className="bg-surface border border-border w-20 text-right text-sm rounded-lg text-foreground focus:border-border focus:ring-0"
                     />
-                    <span className="text-foreground/20 text-xs font-mono w-4">x</span>
+                    <span className="text-foreground/50 dark:text-foreground/20 text-xs font-mono w-4">x</span>
                   </div>
                 </div>
               ))}

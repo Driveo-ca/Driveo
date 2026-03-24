@@ -79,7 +79,7 @@ export default function NotificationsPage() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-2xl font-display text-foreground tracking-tight">Notifications</h1>
-            <p className="text-foreground/40 text-sm mt-1">Stay updated on your washes</p>
+            <p className="text-foreground/60 dark:text-foreground/40 text-sm mt-1">Stay updated on your washes</p>
           </div>
           {notifications.some((n) => !n.is_read) && (
             <div className="bg-[#E23232]/10 border border-[#E23232]/20 rounded-full px-3 py-1.5">
@@ -100,11 +100,11 @@ export default function NotificationsPage() {
           <div className="mt-12">
             <div className="bg-surface border border-border rounded-2xl">
               <div className="py-20 text-center">
-                <div className="w-16 h-16 rounded-2xl bg-foreground/[0.04] border border-border flex items-center justify-center mx-auto mb-5">
-                  <BellOff className="w-7 h-7 text-foreground/15" />
+                <div className="w-16 h-16 rounded-2xl bg-foreground/[0.07] dark:bg-foreground/[0.04] border border-border flex items-center justify-center mx-auto mb-5">
+                  <BellOff className="w-7 h-7 text-foreground/50 dark:text-foreground/45" />
                 </div>
-                <p className="text-foreground/40 text-sm font-medium">No notifications yet</p>
-                <p className="text-foreground/20 text-xs mt-1.5">We will notify you about your washes</p>
+                <p className="text-foreground/60 dark:text-foreground/40 text-sm font-medium">No notifications yet</p>
+                <p className="text-foreground/50 dark:text-foreground/45 text-xs mt-1.5">We will notify you about your washes</p>
               </div>
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function NotificationsPage() {
                       className={`mt-0.5 w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                         !notification.is_read
                           ? 'bg-[#E23232]/15 text-[#E23232]'
-                          : 'bg-foreground/[0.03] text-foreground/25'
+                          : 'bg-foreground/[0.06] dark:bg-foreground/[0.03] text-foreground/55 dark:text-foreground/50'
                       }`}
                     >
                       {notification.is_read ? (
@@ -150,13 +150,13 @@ export default function NotificationsPage() {
                           {notification.title}
                         </p>
                         <span className={`text-[11px] shrink-0 mt-0.5 font-medium ${
-                          !notification.is_read ? 'text-foreground/40' : 'text-foreground/20'
+                          !notification.is_read ? 'text-foreground/60 dark:text-foreground/40' : 'text-foreground/50 dark:text-foreground/45'
                         }`}>
                           {formatTime(notification.created_at)}
                         </span>
                       </div>
                       <p className={`text-sm mt-1.5 line-clamp-2 leading-relaxed ${
-                        !notification.is_read ? 'text-foreground/40' : 'text-foreground/25'
+                        !notification.is_read ? 'text-foreground/60 dark:text-foreground/40' : 'text-foreground/55 dark:text-foreground/50'
                       }`}>
                         {notification.body}
                       </p>

@@ -100,7 +100,7 @@ function PaymentForm({
 
           <div className="flex items-center gap-2 pt-2">
             <ShieldCheck className="w-4 h-4 text-green-500/60" />
-            <p className="text-foreground/30 text-[11px]">
+            <p className="text-foreground/55 dark:text-foreground/50 text-[11px]">
               Your card will be pre-authorized for {centsToDisplay(totalCents)}. You are only charged after the wash is completed.
             </p>
           </div>
@@ -159,6 +159,38 @@ function BookingForm() {
     isInstant: true,
     scheduledAt: null,
   });
+
+  // Auto-detect location when reaching step 1
+  useEffect(() => {
+    if (step !== 1 || form.address) return;
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        const hasGoogle = typeof window !== 'undefined' && !!(window as typeof window & { google?: { maps?: { places?: unknown } } }).google?.maps?.places;
+        if (hasGoogle) {
+          const geocoder = new google.maps.Geocoder();
+          geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
+            if (status === 'OK' && results?.[0]) {
+              setForm((f) => ({ ...f, address: results[0].formatted_address, lat: latitude, lng: longitude }));
+            }
+          });
+        } else {
+          try {
+            const res = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`,
+              { headers: { 'User-Agent': 'Driveo/1.0' } }
+            );
+            const data = await res.json();
+            if (data.display_name) setForm((f) => ({ ...f, address: data.display_name, lat: latitude, lng: longitude }));
+          } catch { /* ignore */ }
+        }
+      },
+      () => {},
+      { enableHighAccuracy: false, timeout: 5000 }
+    );
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step]);
 
   useEffect(() => {
     async function loadVehicles() {
@@ -273,7 +305,7 @@ function BookingForm() {
             />
             <span className={cn(
               'text-[10px]',
-              i <= step ? 'text-foreground/60' : 'text-foreground/20'
+              i <= step ? 'text-foreground/60' : 'text-foreground/50 dark:text-foreground/45'
             )}>
               {s}
             </span>
@@ -288,7 +320,7 @@ function BookingForm() {
           {vehicles.length === 0 ? (
             <Card className="bg-card border-dashed border-border">
               <CardContent className="p-6 text-center">
-                <p className="text-foreground/40 text-sm mb-3">No vehicles saved yet</p>
+                <p className="text-foreground/60 dark:text-foreground/40 text-sm mb-3">No vehicles saved yet</p>
                 <Button onClick={() => router.push('/app/onboarding')} className="bg-[#E23232] text-white">
                   Add Vehicle
                 </Button>
@@ -307,10 +339,10 @@ function BookingForm() {
                       : 'border-border bg-foreground/5 hover:border-border'
                   )}
                 >
-                  <Car className={cn('w-5 h-5', form.vehicleId === v.id ? 'text-[#E23232]' : 'text-foreground/40')} />
+                  <Car className={cn('w-5 h-5', form.vehicleId === v.id ? 'text-[#E23232]' : 'text-foreground/60 dark:text-foreground/40')} />
                   <div>
                     <p className="text-foreground text-sm font-medium">{v.year} {v.make} {v.model}</p>
-                    <p className="text-foreground/40 text-xs capitalize">{v.type.replace('_', ' ')}{v.color ? ` · ${v.color}` : ''}</p>
+                    <p className="text-foreground/60 dark:text-foreground/40 text-xs capitalize">{v.type.replace('_', ' ')}{v.color ? ` · ${v.color}` : ''}</p>
                   </div>
                 </button>
               ))}
@@ -331,13 +363,13 @@ function BookingForm() {
               value={form.address}
               onChange={(address, lat, lng) => setForm((f) => ({ ...f, address, lat, lng }))}
               placeholder="Enter your address"
-              className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
+              className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/30"
             />
             <Input
               placeholder="Notes (e.g. parking spot P2, gate code 1234)"
               value={form.locationNotes}
               onChange={(e) => setForm((f) => ({ ...f, locationNotes: e.target.value }))}
-              className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/30"
+              className="bg-foreground/5 border-border text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/30"
             />
           </div>
           <div className="flex gap-3">
@@ -389,12 +421,16 @@ function BookingForm() {
                   : 'border-border bg-foreground/5 hover:border-border'
               )}
             >
-              <Zap className={cn('w-6 h-6 mx-auto mb-2', form.isInstant ? 'text-[#E23232]' : 'text-foreground/40')} />
+              <Zap className={cn('w-6 h-6 mx-auto mb-2', form.isInstant ? 'text-[#E23232]' : 'text-foreground/60 dark:text-foreground/40')} />
               <p className={cn('text-sm font-semibold', form.isInstant ? 'text-foreground' : 'text-foreground/60')}>Now</p>
-              <p className="text-foreground/30 text-xs mt-1">Next available washer</p>
+              <p className="text-foreground/55 dark:text-foreground/50 text-xs mt-1">Next available washer</p>
             </button>
             <button
-              onClick={() => setForm((f) => ({ ...f, isInstant: false }))}
+              onClick={() => {
+                const next = new Date();
+                next.setHours(next.getHours() + 1, 0, 0, 0);
+                setForm((f) => ({ ...f, isInstant: false, scheduledAt: f.scheduledAt || next.toISOString() }));
+              }}
               className={cn(
                 'p-5 rounded-xl border text-center transition-all',
                 !form.isInstant
@@ -402,9 +438,9 @@ function BookingForm() {
                   : 'border-border bg-foreground/5 hover:border-border'
               )}
             >
-              <CalendarDays className={cn('w-6 h-6 mx-auto mb-2', !form.isInstant ? 'text-[#E23232]' : 'text-foreground/40')} />
+              <CalendarDays className={cn('w-6 h-6 mx-auto mb-2', !form.isInstant ? 'text-[#E23232]' : 'text-foreground/60 dark:text-foreground/40')} />
               <p className={cn('text-sm font-semibold', !form.isInstant ? 'text-foreground' : 'text-foreground/60')}>Schedule</p>
-              <p className="text-foreground/30 text-xs mt-1">Pick date & time</p>
+              <p className="text-foreground/55 dark:text-foreground/50 text-xs mt-1">Pick date & time</p>
             </button>
           </div>
 
@@ -438,25 +474,25 @@ function BookingForm() {
           <Card className="bg-card border-border">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center gap-3">
-                <Car className="w-4 h-4 text-foreground/40" />
+                <Car className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
                 <span className="text-foreground text-sm">{form.vehicle.year} {form.vehicle.make} {form.vehicle.model}</span>
               </div>
               <div className="flex items-center gap-3">
-                <MapPin className="w-4 h-4 text-foreground/40" />
+                <MapPin className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
                 <span className="text-foreground text-sm">{form.address}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Sparkles className="w-4 h-4 text-foreground/40" />
+                <Sparkles className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
                 <span className="text-foreground text-sm">{PLAN_LABELS[form.washPlan]} · Dirt level {form.dirtLevel}</span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-4 h-4 text-foreground/40" />
+                <Clock className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
                 <span className="text-foreground text-sm">
                   {form.isInstant ? 'Now — next available' : new Date(form.scheduledAt!).toLocaleString()}
                 </span>
               </div>
               <div className="flex items-center gap-3">
-                <Clock className="w-4 h-4 text-foreground/40" />
+                <Clock className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
                 <span className="text-foreground/50 text-sm">Est. {formatDuration(price.estimatedDurationMin)}</span>
               </div>
             </CardContent>
@@ -488,7 +524,7 @@ function BookingForm() {
                 <span className="text-foreground">Total</span>
                 <span className="text-[#E23232] text-lg">{centsToDisplay(price.totalCents)}</span>
               </div>
-              <p className="text-foreground/30 text-[10px] flex items-center gap-1 pt-1">
+              <p className="text-foreground/55 dark:text-foreground/50 text-[10px] flex items-center gap-1 pt-1">
                 <CreditCard className="w-3 h-3" />
                 Card pre-authorized. Charged only after wash is complete.
               </p>

@@ -61,7 +61,7 @@ export function AutocompleteInput({
         className={className}
       />
       {open && filtered.length > 0 && (
-        <div className="absolute z-50 mt-1 w-full max-h-48 overflow-y-auto rounded-lg border border-white/10 bg-[#0a0a0a] shadow-xl">
+        <div className="absolute z-50 mt-1 w-full max-h-48 overflow-y-auto rounded-lg border border-border bg-card shadow-xl">
           {filtered.map((option) => (
             <button
               key={option}
@@ -72,8 +72,8 @@ export function AutocompleteInput({
                 setOpen(false);
               }}
               className={cn(
-                'w-full px-3 py-2 text-left text-sm transition-colors hover:bg-white/10',
-                option === value ? 'text-[#E23232]' : 'text-white/80'
+                'w-full px-3 py-2 text-left text-sm transition-colors hover:bg-foreground/10',
+                option === value ? 'text-[#E23232]' : 'text-foreground/80'
               )}
             >
               {option}

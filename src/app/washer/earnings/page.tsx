@@ -95,9 +95,9 @@ export default function WasherEarningsPage() {
           <div className="grid grid-cols-3 gap-3 mb-8">
             <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
               <div className="w-8 h-8 rounded-full bg-card flex items-center justify-center mx-auto mb-2">
-                <Clock className="w-4 h-4 text-foreground/40" />
+                <Clock className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
               </div>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-wider mb-1.5">Today</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-wider mb-1.5">Today</p>
               <p className="text-[#E23232] font-bold text-lg">
                 {formatCents(todayEarnings)}
               </p>
@@ -107,7 +107,7 @@ export default function WasherEarningsPage() {
               <div className="w-8 h-8 rounded-full bg-[#E23232]/10 flex items-center justify-center mx-auto mb-2">
                 <Calendar className="w-4 h-4 text-[#E23232]/60" />
               </div>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-wider mb-1.5">This Month</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-wider mb-1.5">This Month</p>
               <p className="text-[#E23232] font-bold text-lg">
                 {formatCents(monthEarnings)}
               </p>
@@ -115,9 +115,9 @@ export default function WasherEarningsPage() {
 
             <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
               <div className="w-8 h-8 rounded-full bg-card flex items-center justify-center mx-auto mb-2">
-                <TrendingUp className="w-4 h-4 text-foreground/40" />
+                <TrendingUp className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
               </div>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-wider mb-1.5">All Time</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-wider mb-1.5">All Time</p>
               <p className="text-[#E23232] font-bold text-lg">
                 {formatCents(allTimeEarnings)}
               </p>
@@ -126,13 +126,13 @@ export default function WasherEarningsPage() {
 
           {/* Job History */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xs font-semibold text-foreground/40 uppercase tracking-widest">Job History</h2>
-            <span className="text-[10px] text-foreground/20">{jobs.length} jobs</span>
+            <h2 className="text-xs font-semibold text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Job History</h2>
+            <span className="text-[10px] text-foreground/50 dark:text-foreground/20">{jobs.length} jobs</span>
           </div>
 
           {jobs.length === 0 ? (
             <div className="bg-surface border border-border rounded-2xl p-12 text-center">
-              <p className="text-foreground/40 text-sm">No completed jobs yet</p>
+              <p className="text-foreground/60 dark:text-foreground/40 text-sm">No completed jobs yet</p>
             </div>
           ) : (
             <div className="space-y-2.5">
@@ -148,13 +148,13 @@ export default function WasherEarningsPage() {
                           {planLabel[job.wash_plan] || job.wash_plan}
                         </span>
                         {job.vehicles && (
-                          <span className="text-xs text-foreground/30">
+                          <span className="text-xs text-foreground/55 dark:text-foreground/30">
                             {job.vehicles.year} {job.vehicles.make}{' '}
                             {job.vehicles.model}
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-foreground/30">
+                      <p className="text-xs text-foreground/55 dark:text-foreground/30">
                         {job.wash_completed_at
                           ? new Date(job.wash_completed_at).toLocaleDateString(
                               'en-CA',

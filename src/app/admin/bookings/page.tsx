@@ -47,7 +47,7 @@ export default function AdminBookingsPage() {
     if (['assigned', 'en_route', 'arrived', 'washing'].includes(status)) return 'text-blue-400 border-blue-500/30 bg-blue-500/10';
     if (['completed', 'paid'].includes(status)) return 'text-green-400 border-green-500/30 bg-green-500/10';
     if (status === 'cancelled') return 'text-red-400 border-red-500/30 bg-red-500/10';
-    return 'text-foreground/40';
+    return 'text-foreground/60 dark:text-foreground/40';
   };
 
   return (
@@ -55,7 +55,7 @@ export default function AdminBookingsPage() {
       {/* Header */}
       <div>
         <h1 className="text-3xl font-display text-foreground tracking-tight">Bookings</h1>
-        <p className="text-foreground/30 text-sm mt-1">Manage and track all wash bookings</p>
+        <p className="text-foreground/55 dark:text-foreground/30 text-sm mt-1">Manage and track all wash bookings</p>
       </div>
 
       {/* Filter Tabs */}
@@ -71,7 +71,7 @@ export default function AdminBookingsPage() {
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              className="text-xs rounded-full px-4 py-1.5 data-[state=active]:bg-[#E23232] data-[state=active]:text-white transition-colors duration-200 text-foreground/40 hover:text-foreground/60"
+              className="text-xs rounded-full px-4 py-1.5 data-[state=active]:bg-[#E23232] data-[state=active]:text-white transition-colors duration-200 text-foreground/60 dark:text-foreground/40 hover:text-foreground/80 dark:hover:text-foreground/60"
             >
               {tab.label}
             </TabsTrigger>
@@ -89,29 +89,29 @@ export default function AdminBookingsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border">
-                  <th className="text-left p-4 text-foreground/30 text-[10px] uppercase tracking-widest font-medium">ID</th>
-                  <th className="text-left p-4 text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Plan</th>
-                  <th className="text-left p-4 text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Vehicle</th>
-                  <th className="text-left p-4 text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Dirt</th>
-                  <th className="text-left p-4 text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Status</th>
-                  <th className="text-right p-4 text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Total</th>
-                  <th className="text-right p-4 text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Date</th>
+                  <th className="text-left p-4 text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest font-medium">ID</th>
+                  <th className="text-left p-4 text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Plan</th>
+                  <th className="text-left p-4 text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Vehicle</th>
+                  <th className="text-left p-4 text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Dirt</th>
+                  <th className="text-left p-4 text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Status</th>
+                  <th className="text-right p-4 text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Total</th>
+                  <th className="text-right p-4 text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-widest font-medium">Date</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
                 {bookings.map((b, idx) => (
                   <tr
                     key={b.id}
-                    className="bg-surface hover:bg-foreground/[0.03] transition-colors duration-200 group"
+                    className="bg-surface hover:bg-foreground/[0.06] dark:hover:bg-foreground/[0.03] transition-colors duration-200 group"
                     style={{ animationDelay: `${0.03 * idx}s` }}
                   >
-                    <td className="p-4 text-foreground/30 font-mono text-xs">#{b.id.slice(0, 8)}</td>
+                    <td className="p-4 text-foreground/55 dark:text-foreground/30 font-mono text-xs">#{b.id.slice(0, 8)}</td>
                     <td className="p-4">
                       <span className="text-foreground/80 font-medium">{PLAN_LABELS[b.wash_plan]}</span>
                     </td>
                     <td className="p-4 text-foreground/50">{b.vehicles?.year} {b.vehicles?.make} {b.vehicles?.model}</td>
                     <td className="p-4">
-                      <span className="text-foreground/40 font-mono text-xs bg-card border border-border rounded-full px-2.5 py-1">
+                      <span className="text-foreground/60 dark:text-foreground/40 font-mono text-xs bg-card border border-border rounded-full px-2.5 py-1">
                         {b.dirt_level}/10
                       </span>
                     </td>
@@ -124,14 +124,14 @@ export default function AdminBookingsPage() {
                       </Badge>
                     </td>
                     <td className="p-4 text-right text-foreground/80 font-semibold">{centsToDisplay(b.total_price)}</td>
-                    <td className="p-4 text-right text-foreground/20 text-xs font-mono">{new Date(b.created_at).toLocaleDateString()}</td>
+                    <td className="p-4 text-right text-foreground/50 dark:text-foreground/20 text-xs font-mono">{new Date(b.created_at).toLocaleDateString()}</td>
                   </tr>
                 ))}
                 {bookings.length === 0 && (
                   <tr>
-                    <td colSpan={7} className="p-12 text-center text-foreground/20">
+                    <td colSpan={7} className="p-12 text-center text-foreground/50 dark:text-foreground/20">
                       <div className="flex flex-col items-center gap-2">
-                        <div className="w-12 h-12 rounded-2xl bg-foreground/[0.03] flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-2xl bg-foreground/[0.06] dark:bg-foreground/[0.03] flex items-center justify-center">
                           <svg className="w-6 h-6 text-foreground/10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
                         </div>
                         <p className="text-sm">No bookings found</p>

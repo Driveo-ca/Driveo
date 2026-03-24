@@ -116,7 +116,20 @@ export function Navbar() {
           </motion.button>
         </Link>
       </div>
-      <button className="md:hidden text-white"><Menu /></button>
+      <div className="md:hidden flex items-center gap-3">
+        <Link href="/auth/signup">
+          <motion.button
+            className="font-mono text-xs uppercase tracking-widest bg-[#E23232] border border-[#E23232] text-white px-4 py-2 rounded-full"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            Book Now
+          </motion.button>
+        </Link>
+        <button className="text-white"><Menu /></button>
+      </div>
     </motion.nav>
   );
 }

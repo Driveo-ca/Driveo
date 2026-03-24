@@ -1,11 +1,23 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(grep -v \"^$\")",
+      "Bash(npx kill-port 3000)",
+      "Bash(pkill -f \"next dev\")",
+      "Bash(rm -rf .next)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(xargs grep -l \"next-themes\\\\|ThemeProvider\")",
+      "Bash(for f in \"src/app/app/track/[id]/page.tsx\" \"src/app/app/bookings/page.tsx\" \"src/app/app/notifications/page.tsx\" \"src/app/app/review/[id]/page.tsx\" \"src/app/app/vehicles/page.tsx\" \"src/app/app/profile/page.tsx\")",
+      "Bash(do)",
+      "Bash(sed -i 's/dark:text-foreground\\\\/15/dark:text-foreground\\\\/45/g; s/dark:text-foreground\\\\/20/dark:text-foreground\\\\/45/g; s/dark:text-foreground\\\\/25/dark:text-foreground\\\\/50/g; s/dark:text-foreground\\\\/30/dark:text-foreground\\\\/50/g' \"$f\")",
+      "Bash(echo \"Fixed: $f\")",
+      "Bash(done)",
+      "mcp__claude_ai_Supabase__apply_migration"
+    ]
+  },
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": true,
     "supabase@claude-plugins-official": true
-  },
-  "permissions": {
-    "allow": [
-      "Bash(npm run build)"
-    ]
   }
 }

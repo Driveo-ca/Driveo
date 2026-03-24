@@ -107,7 +107,7 @@ export default function AdminWashersPage() {
       case 'approved': return 'text-green-400 border-green-500/30 bg-green-500/5';
       case 'suspended': case 'rejected': return 'text-red-400 border-red-500/30 bg-red-500/5';
       case 'query': return 'text-blue-400 border-blue-500/30 bg-blue-500/5';
-      default: return 'text-foreground/40';
+      default: return 'text-foreground/60 dark:text-foreground/40';
     }
   };
 
@@ -117,7 +117,7 @@ export default function AdminWashersPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-display text-foreground tracking-tight">Washers</h1>
-          <p className="text-foreground/30 text-sm mt-1">
+          <p className="text-foreground/55 dark:text-foreground/30 text-sm mt-1">
             <span className="text-foreground/50 font-medium">{washers.length}</span> {filter === 'all' ? 'total' : filter}
           </p>
         </div>
@@ -135,7 +135,7 @@ export default function AdminWashersPage() {
             <TabsTrigger
               key={tab.value}
               value={tab.value}
-              className="text-xs rounded-full px-4 py-1.5 data-[state=active]:bg-[#E23232] data-[state=active]:text-white transition-colors duration-200 text-foreground/40 hover:text-foreground/60"
+              className="text-xs rounded-full px-4 py-1.5 data-[state=active]:bg-[#E23232] data-[state=active]:text-white transition-colors duration-200 text-foreground/60 dark:text-foreground/40 hover:text-foreground/80 dark:hover:text-foreground/60"
             >
               {tab.label}
             </TabsTrigger>
@@ -149,10 +149,10 @@ export default function AdminWashersPage() {
         </div>
       ) : washers.length === 0 ? (
         <div className="bg-surface border border-border rounded-2xl p-12 text-center">
-          <div className="w-16 h-16 rounded-2xl bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
+          <div className="w-16 h-16 rounded-2xl bg-foreground/[0.06] dark:bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
             <UserCheck className="w-7 h-7 text-foreground/10" />
           </div>
-          <p className="text-foreground/30 text-sm">No washers found</p>
+          <p className="text-foreground/55 dark:text-foreground/30 text-sm">No washers found</p>
         </div>
       ) : (
         <div className="space-y-3 stagger-children">
@@ -170,7 +170,7 @@ export default function AdminWashersPage() {
                   onClick={() => setExpandedId(isExpanded ? null : w.id)}
                 >
                   <div className="flex items-start gap-4">
-                    <div className="w-11 h-11 rounded-xl bg-foreground/[0.06] flex items-center justify-center text-foreground/50 font-display text-lg shrink-0">
+                    <div className="w-11 h-11 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center text-foreground/50 font-display text-lg shrink-0">
                       {w.full_name.charAt(0)}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -189,8 +189,8 @@ export default function AdminWashersPage() {
                           </span>
                         )}
                       </div>
-                      <p className="text-foreground/25 text-xs mt-1 font-mono">{w.email} · {w.phone}</p>
-                      <div className="flex items-center gap-4 mt-2.5 text-foreground/25 text-xs">
+                      <p className="text-foreground/55 dark:text-foreground/25 text-xs mt-1 font-mono">{w.email} · {w.phone}</p>
+                      <div className="flex items-center gap-4 mt-2.5 text-foreground/55 dark:text-foreground/25 text-xs">
                         <span className="flex items-center gap-1.5 bg-card border border-border rounded-full px-2.5 py-1">
                           <Star className="w-3 h-3 text-yellow-500" /> {wp.rating_avg?.toFixed(1) || '--'}
                         </span>
@@ -256,11 +256,11 @@ export default function AdminWashersPage() {
                           </Button>
                         )}
                       </div>
-                      <div className="w-8 h-8 rounded-lg bg-foreground/[0.03] flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-lg bg-foreground/[0.06] dark:bg-foreground/[0.03] flex items-center justify-center">
                         {isExpanded ? (
-                          <ChevronUp className="w-4 h-4 text-foreground/30" />
+                          <ChevronUp className="w-4 h-4 text-foreground/55 dark:text-foreground/30" />
                         ) : (
-                          <ChevronDown className="w-4 h-4 text-foreground/30" />
+                          <ChevronDown className="w-4 h-4 text-foreground/55 dark:text-foreground/30" />
                         )}
                       </div>
                     </div>
@@ -274,7 +274,7 @@ export default function AdminWashersPage() {
                       <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-5">
                         {/* Personal Info */}
                         <div className="bg-surface border border-border rounded-xl p-4 space-y-3">
-                          <h4 className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
+                          <h4 className="text-foreground/60 dark:text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
                             <Phone className="w-3 h-3" /> Personal Info
                           </h4>
                           <div className="space-y-2.5">
@@ -286,7 +286,7 @@ export default function AdminWashersPage() {
 
                         {/* Location */}
                         <div className="bg-surface border border-border rounded-xl p-4 space-y-3">
-                          <h4 className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
+                          <h4 className="text-foreground/60 dark:text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
                             <Home className="w-3 h-3" /> Location
                           </h4>
                           <div className="space-y-2.5">
@@ -299,7 +299,7 @@ export default function AdminWashersPage() {
 
                         {/* Experience */}
                         <div className="bg-surface border border-border rounded-xl p-4 space-y-3">
-                          <h4 className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
+                          <h4 className="text-foreground/60 dark:text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
                             <Briefcase className="w-3 h-3" /> Experience
                           </h4>
                           <div className="space-y-2.5">
@@ -323,7 +323,7 @@ export default function AdminWashersPage() {
 
                         {/* Documents */}
                         <div className="md:col-span-3 space-y-3 pt-2 border-t border-border">
-                          <h4 className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
+                          <h4 className="text-foreground/60 dark:text-foreground/40 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">
                             <FileText className="w-3 h-3" /> Documents
                           </h4>
                           <div className="flex gap-4 flex-wrap">
@@ -342,7 +342,7 @@ export default function AdminWashersPage() {
                                   <p className="text-foreground text-sm font-medium">Government ID</p>
                                   <p className="text-green-400 text-[10px] uppercase tracking-wider">Uploaded</p>
                                 </div>
-                                <ExternalLink className="w-3.5 h-3.5 text-foreground/15 group-hover:text-[#E23232] ml-2 transition-colors" />
+                                <ExternalLink className="w-3.5 h-3.5 text-foreground/50 dark:text-foreground/15 group-hover:text-[#E23232] ml-2 transition-colors" />
                               </button>
                             ) : (
                               <div className="flex items-center gap-3 bg-surface border border-border rounded-xl px-5 py-4 border-l-2 border-l-red-500/40">
@@ -371,16 +371,16 @@ export default function AdminWashersPage() {
                                   <p className="text-foreground text-sm font-medium">Insurance Certificate</p>
                                   <p className="text-green-400 text-[10px] uppercase tracking-wider">Uploaded</p>
                                 </div>
-                                <ExternalLink className="w-3.5 h-3.5 text-foreground/15 group-hover:text-[#E23232] ml-2 transition-colors" />
+                                <ExternalLink className="w-3.5 h-3.5 text-foreground/50 dark:text-foreground/15 group-hover:text-[#E23232] ml-2 transition-colors" />
                               </button>
                             ) : (
                               <div className="flex items-center gap-3 bg-surface border border-border rounded-xl px-5 py-4 opacity-40">
                                 <div className="w-11 h-11 rounded-xl bg-foreground/5 flex items-center justify-center">
-                                  <FileText className="w-5 h-5 text-foreground/30" />
+                                  <FileText className="w-5 h-5 text-foreground/55 dark:text-foreground/30" />
                                 </div>
                                 <div>
                                   <p className="text-foreground text-sm font-medium">Insurance Certificate</p>
-                                  <p className="text-foreground/30 text-[10px] uppercase tracking-wider">Not provided</p>
+                                  <p className="text-foreground/55 dark:text-foreground/30 text-[10px] uppercase tracking-wider">Not provided</p>
                                 </div>
                               </div>
                             )}
@@ -392,15 +392,15 @@ export default function AdminWashersPage() {
                       <div className="p-6">
                         {bioText ? (
                           <div className="bg-surface border border-border rounded-xl p-4 space-y-2">
-                            <h4 className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest">Bio</h4>
+                            <h4 className="text-foreground/60 dark:text-foreground/40 text-[10px] font-mono uppercase tracking-widest">Bio</h4>
                             <p className="text-foreground/60 text-sm leading-relaxed">{bioText}</p>
                           </div>
                         ) : (
-                          <p className="text-foreground/20 text-sm">No application details available</p>
+                          <p className="text-foreground/50 dark:text-foreground/20 text-sm">No application details available</p>
                         )}
                         {wp.tools_owned && wp.tools_owned.length > 0 && (
                           <div className="mt-4 bg-surface border border-border rounded-xl p-4 space-y-2">
-                            <h4 className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest">Tools Owned</h4>
+                            <h4 className="text-foreground/60 dark:text-foreground/40 text-[10px] font-mono uppercase tracking-widest">Tools Owned</h4>
                             <div className="flex gap-2 flex-wrap">
                               {wp.tools_owned.map((t: string) => (
                                 <span key={t} className="text-xs bg-card border border-border rounded-full px-3 py-1 text-foreground/50">{t}</span>
@@ -410,7 +410,7 @@ export default function AdminWashersPage() {
                         )}
                         {wp.vehicle_make && (
                           <div className="mt-4 bg-surface border border-border rounded-xl p-4 space-y-2">
-                            <h4 className="text-foreground/40 text-[10px] font-mono uppercase tracking-widest">Vehicle</h4>
+                            <h4 className="text-foreground/60 dark:text-foreground/40 text-[10px] font-mono uppercase tracking-widest">Vehicle</h4>
                             <p className="text-foreground/60 text-sm">{wp.vehicle_year} {wp.vehicle_make} {wp.vehicle_model} · {wp.vehicle_plate}</p>
                           </div>
                         )}
@@ -436,16 +436,16 @@ export default function AdminWashersPage() {
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <p className="text-foreground/40 text-sm">This message will be sent to the washer via email.</p>
+            <p className="text-foreground/60 dark:text-foreground/40 text-sm">This message will be sent to the washer via email.</p>
             <textarea
               value={queryMessage}
               onChange={(e) => setQueryMessage(e.target.value)}
               placeholder="e.g., Please provide a clearer photo of your government ID..."
               rows={4}
-              className="w-full bg-card border border-border rounded-xl px-4 py-3 text-foreground text-sm placeholder:text-foreground/20 focus:outline-none focus:border-border resize-none"
+              className="w-full bg-card border border-border rounded-xl px-4 py-3 text-foreground text-sm placeholder:text-foreground/50 dark:placeholder:text-foreground/20 focus:outline-none focus:border-border resize-none"
             />
             <div className="flex gap-3 justify-end">
-              <Button variant="outline" onClick={() => setQueryDialogOpen(false)} className="border-border text-foreground/50 rounded-xl hover:bg-foreground/[0.03]">
+              <Button variant="outline" onClick={() => setQueryDialogOpen(false)} className="border-border text-foreground/50 rounded-xl hover:bg-foreground/[0.06] dark:hover:bg-foreground/[0.03]">
                 Cancel
               </Button>
               <Button onClick={submitQuery} className="bg-blue-600 hover:bg-blue-500 text-white rounded-xl transition-colors">
@@ -466,8 +466,8 @@ export default function AdminWashersPage() {
             <div className="space-y-3">
               {docPreview.url.match(/\.pdf/) ? (
                 <div className="text-center py-12">
-                  <div className="w-16 h-16 rounded-2xl bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
-                    <FileText className="w-8 h-8 text-foreground/20" />
+                  <div className="w-16 h-16 rounded-2xl bg-foreground/[0.06] dark:bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
+                    <FileText className="w-8 h-8 text-foreground/50 dark:text-foreground/20" />
                   </div>
                   <a
                     href={docPreview.url}
@@ -488,7 +488,7 @@ export default function AdminWashersPage() {
               )}
             </div>
           ) : (
-            <p className="text-foreground/20 text-center py-12">Document not available. The storage bucket may not be configured.</p>
+            <p className="text-foreground/50 dark:text-foreground/20 text-center py-12">Document not available. The storage bucket may not be configured.</p>
           )}
         </DialogContent>
       </Dialog>
@@ -499,7 +499,7 @@ export default function AdminWashersPage() {
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between items-center py-1">
-      <span className="text-foreground/25 text-xs">{label}</span>
+      <span className="text-foreground/55 dark:text-foreground/25 text-xs">{label}</span>
       <span className="text-foreground/70 text-sm text-right">{value || '--'}</span>
     </div>
   );

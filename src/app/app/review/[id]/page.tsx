@@ -137,7 +137,7 @@ export default function ReviewPage() {
   if (!booking) {
     return (
       <div className="px-4 pt-20 text-center">
-        <p className="text-foreground/40">Booking not found</p>
+        <p className="text-foreground/60 dark:text-foreground/40">Booking not found</p>
       </div>
     );
   }
@@ -151,7 +151,7 @@ export default function ReviewPage() {
         </div>
         <div>
           <h2 className="text-foreground text-xl font-display">Thank you!</h2>
-          <p className="text-foreground/40 text-sm mt-2">
+          <p className="text-foreground/60 dark:text-foreground/40 text-sm mt-2">
             Your {rating}-star review has been submitted.
           </p>
         </div>
@@ -167,7 +167,7 @@ export default function ReviewPage() {
           ))}
         </div>
         {comment && (
-          <p className="text-foreground/30 text-sm italic">&quot;{comment}&quot;</p>
+          <p className="text-foreground/55 dark:text-foreground/50 text-sm italic">&quot;{comment}&quot;</p>
         )}
         <Button
           onClick={() => router.push('/app/bookings')}
@@ -185,7 +185,7 @@ export default function ReviewPage() {
       <div className="sticky top-0 z-30 bg-background border-b border-border px-4 py-3 flex items-center gap-3">
         <button
           onClick={() => router.back()}
-          className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-foreground/[0.06] transition-colors"
+          className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-foreground/[0.10] dark:hover:bg-foreground/[0.06] transition-colors"
         >
           <ArrowLeft className="w-4 h-4 text-foreground/60" />
         </button>
@@ -205,7 +205,7 @@ export default function ReviewPage() {
             </div>
             <div className="text-center">
               <p className="text-foreground font-semibold">{washer.full_name}</p>
-              <p className="text-foreground/30 text-xs mt-0.5">
+              <p className="text-foreground/55 dark:text-foreground/50 text-xs mt-0.5">
                 {PLAN_LABELS[booking.wash_plan]} · {centsToDisplay(booking.total_price)}
               </p>
             </div>
@@ -229,7 +229,7 @@ export default function ReviewPage() {
                     'w-10 h-10 transition-colors',
                     s <= (hoveredStar || rating)
                       ? 'text-amber-400 fill-amber-400'
-                      : 'text-foreground/10 hover:text-foreground/20'
+                      : 'text-foreground/30 dark:text-foreground/10 hover:text-foreground/50 dark:hover:text-foreground/20'
                   )}
                 />
               </button>
@@ -254,7 +254,7 @@ export default function ReviewPage() {
             onChange={(e) => setComment(e.target.value)}
             placeholder="Tell us more about your experience (optional)"
             rows={4}
-            className="w-full bg-foreground/[0.03] border border-border rounded-xl px-4 py-3 text-foreground text-sm placeholder:text-foreground/20 resize-none focus:outline-none focus:border-[#E23232]/40 transition-colors"
+            className="w-full bg-foreground/[0.06] dark:bg-foreground/[0.03] border border-border rounded-xl px-4 py-3 text-foreground text-sm placeholder:text-foreground/50 dark:placeholder:text-foreground/20 resize-none focus:outline-none focus:border-[#E23232]/40 transition-colors"
           />
         </div>
 
@@ -280,7 +280,7 @@ export default function ReviewPage() {
                     'px-3 py-1.5 rounded-full text-xs font-medium border transition-all',
                     isSelected
                       ? 'bg-[#E23232]/10 border-[#E23232]/30 text-[#E23232]'
-                      : 'bg-foreground/[0.03] border-border text-foreground/40 hover:border-border'
+                      : 'bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground/60 dark:text-foreground/40 hover:border-border'
                   )}
                 >
                   {tag}
@@ -298,7 +298,7 @@ export default function ReviewPage() {
             'w-full py-3.5 rounded-xl font-semibold text-sm transition-all',
             rating
               ? 'bg-[#E23232] hover:bg-[#c92a2a] text-white'
-              : 'bg-foreground/[0.05] text-foreground/20 cursor-not-allowed'
+              : 'bg-foreground/[0.05] text-foreground/50 dark:text-foreground/45 cursor-not-allowed'
           )}
         >
           {submitting ? (

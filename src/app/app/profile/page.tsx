@@ -190,7 +190,7 @@ export default function ProfilePage() {
                 setEditing(false);
                 setForm({ full_name: profile?.full_name || '', phone: profile?.phone || '' });
               }}
-              className="border-border text-foreground/40 hover:text-foreground hover:bg-foreground/5 rounded-xl"
+              className="border-border text-foreground/60 dark:text-foreground/40 hover:text-foreground hover:bg-foreground/5 rounded-xl"
             >
               <X className="w-3.5 h-3.5" />
             </Button>
@@ -239,35 +239,35 @@ export default function ProfilePage() {
 
         <div className="min-w-0">
           <p className="text-xl font-semibold text-foreground truncate">
-            {profile?.full_name || <span className="text-foreground/30 italic text-base">No name set</span>}
+            {profile?.full_name || <span className="text-foreground/55 dark:text-foreground/50 italic text-base">No name set</span>}
           </p>
-          <p className="text-sm text-foreground/40 mt-0.5 capitalize">{profile?.role || 'Customer'}</p>
+          <p className="text-sm text-foreground/60 dark:text-foreground/40 mt-0.5 capitalize">{profile?.role || 'Customer'}</p>
           {displayEmail && (
-            <p className="text-xs text-foreground/30 mt-1 truncate">{displayEmail}</p>
+            <p className="text-xs text-foreground/55 dark:text-foreground/50 mt-1 truncate">{displayEmail}</p>
           )}
         </div>
       </div>
 
       {/* Personal Information */}
       <div className="bg-surface border border-border rounded-2xl p-6 space-y-5">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/40 font-semibold">Personal Information</h2>
+        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/60 dark:text-foreground/40 font-semibold">Personal Information</h2>
 
         {/* Full Name */}
         <div>
-          <Label className="text-foreground/40 text-xs uppercase tracking-widest font-medium">Full Name</Label>
+          <Label className="text-foreground/60 dark:text-foreground/40 text-xs uppercase tracking-widest font-medium">Full Name</Label>
           {editing ? (
             <Input
               value={form.full_name}
               onChange={(e) => setForm({ ...form, full_name: e.target.value })}
               placeholder="Enter your full name"
-              className="mt-2 bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/20"
+              className="mt-2 bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/50 dark:placeholder:text-foreground/20"
             />
           ) : (
             <div className="flex items-center gap-3 mt-2">
-              <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0">
-                <User className="w-4 h-4 text-foreground/30" />
+              <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center shrink-0">
+                <User className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
               </div>
-              <span className={profile?.full_name ? 'text-foreground/70' : 'text-foreground/20 italic'}>
+              <span className={profile?.full_name ? 'text-foreground/70' : 'text-foreground/50 dark:text-foreground/45 italic'}>
                 {profile?.full_name || 'Not set'}
               </span>
             </div>
@@ -276,12 +276,12 @@ export default function ProfilePage() {
 
         {/* Email */}
         <div>
-          <Label className="text-foreground/40 text-xs uppercase tracking-widest font-medium">Email</Label>
+          <Label className="text-foreground/60 dark:text-foreground/40 text-xs uppercase tracking-widest font-medium">Email</Label>
           <div className="flex items-center gap-3 mt-2">
-            <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0">
-              <Mail className="w-4 h-4 text-foreground/30" />
+            <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center shrink-0">
+              <Mail className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
             </div>
-            <span className={displayEmail ? 'text-foreground/70' : 'text-foreground/20 italic'}>
+            <span className={displayEmail ? 'text-foreground/70' : 'text-foreground/50 dark:text-foreground/45 italic'}>
               {displayEmail || 'Not set'}
             </span>
           </div>
@@ -289,20 +289,20 @@ export default function ProfilePage() {
 
         {/* Phone */}
         <div>
-          <Label className="text-foreground/40 text-xs uppercase tracking-widest font-medium">Phone</Label>
+          <Label className="text-foreground/60 dark:text-foreground/40 text-xs uppercase tracking-widest font-medium">Phone</Label>
           {editing ? (
             <Input
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
               placeholder="+1 (416) 555-0123"
-              className="mt-2 bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/20"
+              className="mt-2 bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground rounded-xl placeholder:text-foreground/50 dark:placeholder:text-foreground/20"
             />
           ) : (
             <div className="flex items-center gap-3 mt-2">
-              <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0">
-                <Phone className="w-4 h-4 text-foreground/30" />
+              <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center shrink-0">
+                <Phone className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
               </div>
-              <span className={profile?.phone ? 'text-foreground/70' : 'text-foreground/20 italic'}>
+              <span className={profile?.phone ? 'text-foreground/70' : 'text-foreground/50 dark:text-foreground/45 italic'}>
                 {profile?.phone || 'Not set'}
               </span>
             </div>
@@ -313,9 +313,9 @@ export default function ProfilePage() {
       {/* Referral Code */}
       {profile?.customer_profiles?.referral_code && (
         <div className="bg-surface border border-[#E23232]/20 rounded-2xl p-6">
-          <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/40 font-semibold mb-4">Referral Code</h2>
+          <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/60 dark:text-foreground/40 font-semibold mb-4">Referral Code</h2>
           <div className="flex items-center gap-3">
-            <code className="flex-1 bg-foreground/[0.03] border border-border rounded-xl px-4 py-3 text-lg font-mono text-[#E23232] tracking-[0.2em] text-center font-bold">
+            <code className="flex-1 bg-foreground/[0.06] dark:bg-foreground/[0.03] border border-border rounded-xl px-4 py-3 text-lg font-mono text-[#E23232] tracking-[0.2em] text-center font-bold">
               {profile.customer_profiles.referral_code}
             </code>
             <Button
@@ -327,20 +327,20 @@ export default function ProfilePage() {
               {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
             </Button>
           </div>
-          <p className="text-xs text-foreground/25 mt-3">Share this code with friends to earn rewards</p>
+          <p className="text-xs text-foreground/55 dark:text-foreground/50 mt-3">Share this code with friends to earn rewards</p>
         </div>
       )}
 
       {/* Account Actions */}
       <div className="bg-surface border border-border rounded-2xl overflow-hidden">
-        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/40 font-semibold px-6 pt-5 pb-3">Account</h2>
+        <h2 className="text-xs uppercase tracking-[0.2em] text-foreground/60 dark:text-foreground/40 font-semibold px-6 pt-5 pb-3">Account</h2>
 
-        <button className="w-full flex items-center gap-4 px-6 py-4 hover:bg-foreground/[0.03] transition-colors border-t border-border">
-          <div className="w-8 h-8 rounded-lg bg-foreground/[0.04] flex items-center justify-center">
-            <Shield className="w-4 h-4 text-foreground/30" />
+        <button className="w-full flex items-center gap-4 px-6 py-4 hover:bg-foreground/[0.06] dark:bg-foreground/[0.03] transition-colors border-t border-border">
+          <div className="w-8 h-8 rounded-lg bg-foreground/[0.07] dark:bg-foreground/[0.04] flex items-center justify-center">
+            <Shield className="w-4 h-4 text-foreground/55 dark:text-foreground/50" />
           </div>
           <span className="flex-1 text-left text-foreground/70 text-sm">Privacy & Security</span>
-          <ChevronRight className="w-4 h-4 text-foreground/20" />
+          <ChevronRight className="w-4 h-4 text-foreground/50 dark:text-foreground/45" />
         </button>
 
         <button

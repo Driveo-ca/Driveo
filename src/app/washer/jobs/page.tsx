@@ -115,26 +115,26 @@ export default function WasherJobsPage() {
               <span className="text-foreground font-semibold">
                 {planLabel[job.wash_plan] || job.wash_plan}
               </span>
-              <span className="text-foreground/15">|</span>
-              <span className="text-foreground/40 text-xs">Dirt {job.dirt_level}</span>
+              <span className="text-foreground/50 dark:text-foreground/15">|</span>
+              <span className="text-foreground/60 dark:text-foreground/40 text-xs">Dirt {job.dirt_level}</span>
             </div>
 
             {job.vehicles && (
               <div className="flex items-center gap-2 text-sm text-foreground/60">
-                <Car className="w-3.5 h-3.5 text-foreground/30" />
+                <Car className="w-3.5 h-3.5 text-foreground/55 dark:text-foreground/30" />
                 <span>
                   {job.vehicles.year} {job.vehicles.make} {job.vehicles.model}
                 </span>
-                <span className="text-foreground/20 capitalize text-xs">({job.vehicles.type})</span>
+                <span className="text-foreground/50 dark:text-foreground/20 capitalize text-xs">({job.vehicles.type})</span>
               </div>
             )}
 
-            <div className="flex items-center gap-2 text-sm text-foreground/40">
+            <div className="flex items-center gap-2 text-sm text-foreground/60 dark:text-foreground/40">
               <MapPin className="w-3.5 h-3.5" />
               <span className="line-clamp-1">{job.service_address}</span>
             </div>
 
-            <div className="flex items-center justify-between text-xs text-foreground/30 pt-1 border-t border-border">
+            <div className="flex items-center justify-between text-xs text-foreground/55 dark:text-foreground/30 pt-1 border-t border-border">
               <div className="flex items-center gap-2">
                 {job.scheduled_at ? (
                   <>
@@ -155,7 +155,7 @@ export default function WasherJobsPage() {
                   </>
                 )}
               </div>
-              <ChevronRight className="w-4 h-4 text-foreground/15" />
+              <ChevronRight className="w-4 h-4 text-foreground/50 dark:text-foreground/15" />
             </div>
           </div>
         </div>
@@ -165,7 +165,7 @@ export default function WasherJobsPage() {
 
   const renderEmptyState = (message: string) => (
     <div className="bg-surface border border-border rounded-2xl p-12 text-center">
-      <p className="text-foreground/40 text-sm">{message}</p>
+      <p className="text-foreground/60 dark:text-foreground/40 text-sm">{message}</p>
     </div>
   );
 
@@ -184,19 +184,19 @@ export default function WasherJobsPage() {
           <TabsList className="w-full bg-card rounded-full p-1 border border-border mb-6 h-auto">
             <TabsTrigger
               value="active"
-              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/40 transition-colors duration-200"
+              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/60 dark:text-foreground/40 transition-colors duration-200"
             >
               Active ({activeJobs.length})
             </TabsTrigger>
             <TabsTrigger
               value="upcoming"
-              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/40 transition-colors duration-200"
+              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/60 dark:text-foreground/40 transition-colors duration-200"
             >
               Upcoming ({upcomingJobs.length})
             </TabsTrigger>
             <TabsTrigger
               value="completed"
-              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/40 transition-colors duration-200"
+              className="flex-1 rounded-full py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/60 dark:text-foreground/40 transition-colors duration-200"
             >
               Done ({completedJobs.length})
             </TabsTrigger>
