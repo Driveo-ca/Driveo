@@ -50,11 +50,10 @@ export function Footer() {
             </ul>
           </motion.div>
           <motion.div variants={columnVariants}>
-            <h3 className="text-white mb-6 font-bold">Hours</h3>
+            <h3 className="text-white mb-6 font-bold">Legal</h3>
             <ul className="space-y-4">
-              <li>Mon - Sat: 8AM - 7PM</li>
-              <li>Sunday: 9AM - 5PM</li>
-              <li className="text-[#E23232]">Now Booking Spring Washes</li>
+              <li><a href="/privacy" className="hover:text-[#E23232] transition-colors">Privacy Policy</a></li>
+              <li><a href="/terms" className="hover:text-[#E23232] transition-colors">Terms of Service</a></li>
             </ul>
           </motion.div>
         </motion.div>
