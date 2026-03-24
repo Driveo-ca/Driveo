@@ -146,12 +146,22 @@ function SignupForm() {
     const supabase = createClient();
     const { data, error } = await supabase.auth.signUp({
       email, password,
-      options: { data: { full_name: fullName, phone, role } },
+      options: {
+        data: { full_name: fullName, phone, role },
+        emailRedirectTo: `${window.location.origin}/auth/callback`,
+      },
     });
 
     if (error) { toast.error(error.message); setLoading(false); return; }
 
     if (data.user) {
+      // If email already exists (identities empty = duplicate)
+      if (data.user.identities?.length === 0) {
+        toast.error('An account with this email already exists.');
+        setLoading(false);
+        return;
+      }
+
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -163,13 +173,11 @@ function SignupForm() {
         setLoading(false);
         return;
       }
-    }
 
-    toast.success('Account created! Welcome to Driveo.');
-    if (redirectTo) router.push(redirectTo);
-    else if (isWasher) router.push('/washer/dashboard');
-    else router.push('/app/onboarding');
-    router.refresh();
+      // Redirect to verify email page
+      router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`);
+      return;
+    }
   }
 
   return (
