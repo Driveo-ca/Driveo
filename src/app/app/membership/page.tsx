@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { Suspense, useEffect, useState, useCallback } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { getVehicleImageUrl } from '@/lib/vehicle-image';
@@ -73,7 +73,15 @@ const PLAN_META: Record<string, {
   },
 };
 
-export default function MembershipPage() {
+export default function MembershipPageWrapper() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-6 h-6 border-2 border-foreground/20 border-t-foreground/60 rounded-full animate-spin" /></div>}>
+      <MembershipPage />
+    </Suspense>
+  );
+}
+
+function MembershipPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [plans, setPlans] = useState<DBPlan[]>([]);

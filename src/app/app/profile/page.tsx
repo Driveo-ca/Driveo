@@ -384,7 +384,7 @@ export default function ProfilePage() {
             ] as const).map((item) => (
               <button
                 key={item.label}
-                onClick={() => item.href !== '#' && router.push(item.href)}
+                onClick={() => router.push(item.href)}
                 className="w-full flex items-center gap-3.5 px-5 py-3.5 hover:bg-foreground/[0.03] transition-colors group"
               >
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] group-hover:bg-foreground/[0.07] flex items-center justify-center shrink-0 transition-colors">

@@ -7,7 +7,7 @@ import { ArrowLeft, Shield, Database, MapPin, CreditCard, Camera, Bell, Lock, Us
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const sections = [
+const sections: { icon: React.ComponentType<{ className?: string }>; title: string; content: { subtitle?: string; text: string }[] }[] = [
   {
     icon: Database,
     title: '1. Information We Collect',

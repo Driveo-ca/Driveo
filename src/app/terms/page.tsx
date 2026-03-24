@@ -7,7 +7,7 @@ import { ArrowLeft, FileText, Users, Car, CreditCard, Calendar, AlertTriangle, S
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const sections = [
+const sections: { icon: React.ComponentType<{ className?: string }>; number: string; title: string; content: { subtitle?: string; text: string }[] }[] = [
   {
     icon: FileText,
     number: '01',
