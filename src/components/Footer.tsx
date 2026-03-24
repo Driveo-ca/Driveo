@@ -66,7 +66,7 @@ export function Footer() {
           transition={{ duration: 0.6, delay: 0.4 }}
           className="mt-24 text-center font-mono text-xs text-white/50 uppercase tracking-widest"
         >
-          &copy; 2026 DRIVEO Auto Care Inc. $2M insured. Satisfaction guaranteed. Serving the Greater Toronto Area.
+          &copy; 2026 TASKLY Technology. $2M insured. Satisfaction guaranteed. Serving the Greater Toronto Area.
         </motion.div>
       </div>
     </footer>

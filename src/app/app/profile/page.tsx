@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils';
 import {
   User, Mail, Phone, Copy, Check, Pencil, Save,
   LogOut, Shield, ChevronRight, X, Camera, Loader2,
-  Gift, Car, CreditCard, HelpCircle, Bell,
+  Gift, Car, CreditCard, HelpCircle, Bell, Receipt,
 } from 'lucide-react';
 
 interface ProfileData {
@@ -378,6 +378,7 @@ export default function ProfilePage() {
             {([
               { icon: Car, label: 'My Vehicles', desc: 'Manage your cars', href: '/app/vehicles' },
               { icon: CreditCard, label: 'Subscription', desc: 'Membership & billing', href: '/app/subscription' },
+              { icon: Receipt, label: 'Billing & History', desc: 'Payments & transactions', href: '/app/billing' },
               { icon: Bell, label: 'Notifications', desc: 'Alerts & preferences', href: '/app/notifications' },
               { icon: Shield, label: 'Privacy & Security', desc: 'Password & data', href: '/app/privacy-security' },
             ] as const).map((item) => (
