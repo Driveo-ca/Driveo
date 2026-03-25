@@ -301,6 +301,52 @@ function BookingForm() {
   const searchParams = useSearchParams();
   const preselectedPlan = searchParams.get('plan') as WashPlan | null;
 
+  const [isDark, setIsDark] = useState(() =>
+    typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+  );
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'));
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    return () => observer.disconnect();
+  }, []);
+
+  const stripeAppearance = isDark
+    ? {
+        theme: 'night' as const,
+        variables: {
+          colorPrimary: '#E23232', colorBackground: '#0a0a0a',
+          colorText: '#f5f5f5', colorTextSecondary: '#999999',
+          colorDanger: '#ef4444', fontFamily: 'Inter, system-ui, sans-serif',
+          borderRadius: '12px', spacingUnit: '4px',
+        },
+        rules: {
+          '.Input': { backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#f5f5f5' },
+          '.Input:focus': { border: '1px solid #E23232', boxShadow: '0 0 0 1px #E23232' },
+          '.Label': { color: 'rgba(255,255,255,0.5)' },
+          '.Tab': { backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' },
+          '.Tab--selected': { backgroundColor: 'rgba(226,50,50,0.1)', border: '1px solid #E23232', color: '#f5f5f5' },
+        },
+      }
+    : {
+        theme: 'stripe' as const,
+        variables: {
+          colorPrimary: '#E23232', colorBackground: '#ffffff',
+          colorText: '#111111', colorTextSecondary: '#555555',
+          colorDanger: '#ef4444', fontFamily: 'Inter, system-ui, sans-serif',
+          borderRadius: '12px', spacingUnit: '4px',
+        },
+        rules: {
+          '.Input': { backgroundColor: '#f9f9f9', border: '1px solid #e0e0e0', color: '#111111' },
+          '.Input:focus': { border: '1px solid #E23232', boxShadow: '0 0 0 1px #E23232' },
+          '.Label': { color: '#555555' },
+          '.Tab': { backgroundColor: '#f5f5f5', border: '1px solid #e0e0e0', color: '#555555' },
+          '.Tab--selected': { backgroundColor: 'rgba(226,50,50,0.08)', border: '1px solid #E23232', color: '#111111' },
+        },
+      };
+
   const [step, setStep] = useState(0);
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
@@ -789,22 +835,7 @@ function BookingForm() {
                   stripe={stripePromise}
                   options={{
                     clientSecret,
-                    appearance: {
-                      theme: 'night',
-                      variables: {
-                        colorPrimary: '#E23232', colorBackground: '#0a0a0a',
-                        colorText: '#f5f5f5', colorTextSecondary: '#999999',
-                        colorDanger: '#ef4444', fontFamily: 'Inter, system-ui, sans-serif',
-                        borderRadius: '12px', spacingUnit: '4px',
-                      },
-                      rules: {
-                        '.Input': { backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#f5f5f5' },
-                        '.Input:focus': { border: '1px solid #E23232', boxShadow: '0 0 0 1px #E23232' },
-                        '.Label': { color: 'rgba(255,255,255,0.5)' },
-                        '.Tab': { backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' },
-                        '.Tab--selected': { backgroundColor: 'rgba(226,50,50,0.1)', border: '1px solid #E23232', color: '#f5f5f5' },
-                      },
-                    },
+                    appearance: stripeAppearance,
                   }}
                 >
                   <PaymentForm
@@ -1190,22 +1221,7 @@ function BookingForm() {
           stripe={stripePromise}
           options={{
             clientSecret,
-            appearance: {
-              theme: 'night',
-              variables: {
-                colorPrimary: '#E23232', colorBackground: '#0a0a0a',
-                colorText: '#f5f5f5', colorTextSecondary: '#999999',
-                colorDanger: '#ef4444', fontFamily: 'Inter, system-ui, sans-serif',
-                borderRadius: '12px', spacingUnit: '4px',
-              },
-              rules: {
-                '.Input': { backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#f5f5f5' },
-                '.Input:focus': { border: '1px solid #E23232', boxShadow: '0 0 0 1px #E23232' },
-                '.Label': { color: 'rgba(255,255,255,0.5)' },
-                '.Tab': { backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.5)' },
-                '.Tab--selected': { backgroundColor: 'rgba(226,50,50,0.1)', border: '1px solid #E23232', color: '#f5f5f5' },
-              },
-            },
+            appearance: stripeAppearance,
           }}
         >
           <PaymentForm
