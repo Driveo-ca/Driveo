@@ -33,20 +33,20 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
    Map styles
    ═══════════════════════════════════════════════════════════════ */
 const DARK_MAP_STYLES: google.maps.MapTypeStyle[] = [
-  { elementType: 'geometry', stylers: [{ color: '#0a0a0a' }] },
-  { elementType: 'labels.text.stroke', stylers: [{ color: '#0a0a0a' }] },
-  { elementType: 'labels.text.fill', stylers: [{ color: '#555555' }] },
-  { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#1a1a1a' }] },
-  { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#0d0d0d' }] },
-  { featureType: 'poi', elementType: 'geometry', stylers: [{ color: '#111111' }] },
-  { featureType: 'poi', elementType: 'labels.text.fill', stylers: [{ color: '#555555' }] },
-  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#0f1a0f' }] },
-  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#1a1a1a' }] },
-  { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#111111' }] },
-  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#222222' }] },
-  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#666666' }] },
-  { featureType: 'transit', elementType: 'geometry', stylers: [{ color: '#111111' }] },
-  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#050510' }] },
+  { elementType: 'geometry', stylers: [{ color: '#1a1a2e' }] },
+  { elementType: 'labels.text.stroke', stylers: [{ color: '#1a1a2e' }] },
+  { elementType: 'labels.text.fill', stylers: [{ color: '#8a8a9a' }] },
+  { featureType: 'administrative', elementType: 'geometry.stroke', stylers: [{ color: '#2a2a3e' }] },
+  { featureType: 'landscape', elementType: 'geometry', stylers: [{ color: '#1e1e32' }] },
+  { featureType: 'poi', elementType: 'geometry', stylers: [{ color: '#242438' }] },
+  { featureType: 'poi', elementType: 'labels.text.fill', stylers: [{ color: '#7a7a8a' }] },
+  { featureType: 'poi.park', elementType: 'geometry', stylers: [{ color: '#1a2e1a' }] },
+  { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#2e2e42' }] },
+  { featureType: 'road', elementType: 'geometry.stroke', stylers: [{ color: '#252538' }] },
+  { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#3a3a50' }] },
+  { featureType: 'road', elementType: 'labels.text.fill', stylers: [{ color: '#9a9aaa' }] },
+  { featureType: 'transit', elementType: 'geometry', stylers: [{ color: '#242438' }] },
+  { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#121228' }] },
 ];
 
 const LIGHT_MAP_STYLES: google.maps.MapTypeStyle[] = [
@@ -95,7 +95,7 @@ function BookingMap({ lat, lng, className }: { lat: number; lng: number; classNa
       zoomControl: true,
       gestureHandling: 'greedy',
       styles: isDark ? DARK_MAP_STYLES : LIGHT_MAP_STYLES,
-      backgroundColor: isDark ? '#050505' : '#f5f5f5',
+      backgroundColor: isDark ? '#1a1a2e' : '#f5f5f5',
       zoomControlOptions: { position: 6 }, // RIGHT_CENTER
     });
   }, [ready, lat, lng]);
@@ -107,7 +107,7 @@ function BookingMap({ lat, lng, className }: { lat: number; lng: number; classNa
       const isDark = document.documentElement.classList.contains('dark');
       mapInstance.current?.setOptions({
         styles: isDark ? DARK_MAP_STYLES : LIGHT_MAP_STYLES,
-        backgroundColor: isDark ? '#050505' : '#f5f5f5',
+        backgroundColor: isDark ? '#1a1a2e' : '#f5f5f5',
       });
     });
     observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
