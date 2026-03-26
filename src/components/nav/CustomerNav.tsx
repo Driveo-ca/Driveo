@@ -49,7 +49,7 @@ export function CustomerNav() {
                   'relative flex items-center gap-2 px-4 py-4 text-[13px] font-medium transition-colors',
                   isActive
                     ? 'text-[#E23232]'
-                    : 'text-foreground/35 hover:text-foreground/60'
+                    : 'text-foreground/70 hover:text-foreground/90'
                 )}
               >
                 <item.icon className="w-4 h-4" />
@@ -75,7 +75,7 @@ export function CustomerNav() {
                 href={item.href}
                 className={cn(
                   'flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1 transition-colors',
-                  isActive ? 'text-foreground' : 'text-foreground/55 dark:text-foreground/25 active:text-foreground/60 dark:active:text-foreground/40'
+                  isActive ? 'text-foreground' : 'text-foreground/70 dark:text-foreground/50 active:text-foreground/80 dark:active:text-foreground/60'
                 )}
               >
                 <item.icon className={cn('w-[20px] h-[20px]', isActive && 'stroke-[2px]')} />
