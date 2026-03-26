@@ -19,18 +19,6 @@ import {
 import { cn } from '@/lib/utils';
 import type { Vehicle, VehicleType } from '@/types';
 
-/** Fire-and-forget: generate all 11 dirty images using Gemini */
-function triggerDirtyCarGeneration(vehicleId: string, make: string, model: string, year: number, color?: string) {
-  const vehicleLabel = `${year} ${make} ${model}`;
-  for (let level = 0; level <= 10; level++) {
-    fetch('/api/generate-dirty-car', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ vehicleId, dirtLevel: level, vehicleLabel, vehicleColor: color || 'Pearl White' }),
-    }).catch(() => {});
-  }
-}
-
 const yearOptions = getYearRange().map(String);
 
 const vehicleTypes: VehicleType[] = [
@@ -116,10 +104,7 @@ export default function VehiclesPage() {
     if (error) {
       toast.error('Failed to add vehicle');
     } else {
-      toast.success('Vehicle added — generating car images in the background');
-      if (inserted?.id) {
-        triggerDirtyCarGeneration(inserted.id, formMake, formModel, parseInt(formYear), formColor || undefined);
-      }
+      toast.success('Vehicle added');
       setDialogOpen(false);
       setFormStep(1);
       setFormMake('');

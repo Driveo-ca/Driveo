@@ -487,7 +487,7 @@ function BookingForm() {
           'hidden lg:flex absolute z-10 top-0 left-0 bottom-0',
           'transition-[width] duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]',
           isExpanded
-            ? step === 5 ? 'w-[860px]' : 'w-[1120px]'
+            ? step === 5 ? 'w-[860px]' : 'w-[1320px]'
             : 'w-[420px]',
         )}
       >
@@ -737,11 +737,12 @@ function BookingForm() {
                 {/* Subtle floor reflection line */}
                 <div className="absolute bottom-[38%] left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-foreground/[0.06] to-transparent" />
 
-                <div className="relative z-10 w-full px-6">
+                <div className="relative z-10 w-full max-w-[600px] px-2">
                   <DirtCanvas
-                    vehicleId={form.vehicle.id}
-                    vehicleLabel={`${form.vehicle.year} ${form.vehicle.make} ${form.vehicle.model}`}
-                    vehicleColor={form.vehicle.color || undefined}
+                    make={form.vehicle.make}
+                    model={form.vehicle.model}
+                    year={form.vehicle.year}
+                    color={form.vehicle.color || undefined}
                     dirtLevel={form.dirtLevel}
                   />
                 </div>
@@ -1310,10 +1311,12 @@ function BookingForm() {
         <div>
           <p className="text-foreground/50 text-xs font-semibold uppercase tracking-[0.12em] mb-2">Dirt Level</p>
           <DriveoSlide
-            vehicleId={form.vehicle.id}
+            make={form.vehicle.make}
+            model={form.vehicle.model}
+            year={form.vehicle.year}
+            color={form.vehicle.color || undefined}
             vehicleType={form.vehicle.type}
             vehicleLabel={`${form.vehicle.year} ${form.vehicle.make} ${form.vehicle.model}`}
-            vehicleColor={form.vehicle.color || undefined}
             selectedPlan={form.washPlan}
             onPlanSelect={plan => setForm(f => ({ ...f, washPlan: plan }))}
             onDirtLevelChange={level => setForm(f => ({ ...f, dirtLevel: level }))}
