@@ -224,10 +224,8 @@ export default function VehiclesPage() {
           <p className="text-foreground/55 text-sm mt-1">Your vehicles, ready to shine</p>
         </div>
         <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setFormStep(1); }}>
-          <DialogTrigger>
-            <Button size="sm" className="bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl gap-1.5">
-              <Plus className="w-4 h-4" /> Add
-            </Button>
+          <DialogTrigger className="inline-flex items-center justify-center gap-1.5 px-3 h-8 text-sm font-medium bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl transition-colors cursor-pointer">
+            <Plus className="w-4 h-4" /> Add
           </DialogTrigger>
           <DialogContent className={cn(
             'bg-secondary border border-border text-foreground rounded-2xl transition-all',

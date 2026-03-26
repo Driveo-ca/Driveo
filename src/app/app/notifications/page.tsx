@@ -6,7 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
 import {
   Bell, BellOff, CheckCheck, Car, CreditCard, UserCheck,
-  MapPin, AlertTriangle, Sparkles, XCircle, Clock,
+  MapPin, AlertTriangle, Sparkles, XCircle, Clock, ChevronDown,
 } from 'lucide-react';
 
 interface Notification {
@@ -38,6 +38,7 @@ const DEFAULT_CONFIG = { icon: Bell, accent: 'text-[#E23232]', bg: 'bg-[#E23232]
 export default function NotificationsPage() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
   const supabase = createClient();
 
   useEffect(() => {
@@ -163,14 +164,20 @@ export default function NotificationsPage() {
                     const cfg = TYPE_CONFIG[notification.type] || DEFAULT_CONFIG;
                     const Icon = cfg.icon;
                     const isUnread = !notification.is_read;
+                    const isExpanded = expandedId === notification.id;
 
                     return (
                       <button
                         key={notification.id}
-                        onClick={() => { if (isUnread) markAsRead(notification.id); }}
+                        onClick={() => {
+                          setExpandedId(isExpanded ? null : notification.id);
+                          if (isUnread) markAsRead(notification.id);
+                        }}
                         className={cn(
                           'w-full text-left rounded-xl transition-all duration-200 group relative',
-                          isUnread
+                          isExpanded
+                            ? 'bg-foreground/[0.04] ring-1 ring-border'
+                            : isUnread
                             ? 'bg-foreground/[0.03] hover:bg-foreground/[0.05]'
                             : 'opacity-55 hover:opacity-75 hover:bg-foreground/[0.02]'
                         )}
@@ -179,9 +186,9 @@ export default function NotificationsPage() {
                           {/* Icon */}
                           <div className={cn(
                             'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors',
-                            isUnread ? cfg.bg : 'bg-foreground/[0.05]'
+                            isUnread || isExpanded ? cfg.bg : 'bg-foreground/[0.05]'
                           )}>
-                            <Icon className={cn('w-[18px] h-[18px]', isUnread ? cfg.accent : 'text-foreground/55')} />
+                            <Icon className={cn('w-[18px] h-[18px]', isUnread || isExpanded ? cfg.accent : 'text-foreground/55')} />
                           </div>
 
                           {/* Content */}
@@ -189,28 +196,66 @@ export default function NotificationsPage() {
                             <div className="flex items-start justify-between gap-3">
                               <p className={cn(
                                 'text-sm font-semibold leading-snug',
-                                isUnread ? 'text-foreground' : 'text-foreground/70'
+                                isUnread || isExpanded ? 'text-foreground' : 'text-foreground/70'
                               )}>
                                 {notification.title}
                               </p>
-                              <span className="text-[11px] text-foreground/55 shrink-0 mt-0.5 tabular-nums">
-                                {formatTime(notification.created_at)}
-                              </span>
+                              <div className="flex items-center gap-1.5 shrink-0 mt-0.5">
+                                <span className="text-[11px] text-foreground/55 tabular-nums">
+                                  {formatTime(notification.created_at)}
+                                </span>
+                                {isUnread && (
+                                  <div className="w-2 h-2 rounded-full bg-[#E23232]" />
+                                )}
+                              </div>
                             </div>
                             <p className={cn(
-                              'text-[13px] mt-0.5 line-clamp-2 leading-relaxed',
-                              isUnread ? 'text-foreground/55' : 'text-foreground/60'
+                              'text-[13px] mt-0.5 leading-relaxed',
+                              isExpanded ? '' : 'line-clamp-1',
+                              isUnread || isExpanded ? 'text-foreground/55' : 'text-foreground/60'
                             )}>
                               {notification.body}
                             </p>
+
+                            {/* Expanded details */}
+                            <div className={cn(
+                              'overflow-hidden transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]',
+                              isExpanded ? 'max-h-[200px] opacity-100 mt-3' : 'max-h-0 opacity-0'
+                            )}>
+                              <div className="border-t border-border/50 pt-3 space-y-2">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[11px] text-foreground/40 uppercase tracking-wider font-medium">Type</span>
+                                  <span className={cn('text-xs font-medium', cfg.accent)}>
+                                    {notification.type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-[11px] text-foreground/40 uppercase tracking-wider font-medium">Time</span>
+                                  <span className="text-xs text-foreground/60">
+                                    {new Date(notification.created_at).toLocaleString('en-CA', {
+                                      month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit', hour12: true,
+                                    })}
+                                  </span>
+                                </div>
+                                {notification.data && Object.keys(notification.data).length > 0 && (
+                                  Object.entries(notification.data).map(([key, val]) => (
+                                    <div key={key} className="flex items-center justify-between">
+                                      <span className="text-[11px] text-foreground/40 uppercase tracking-wider font-medium">
+                                        {key.replace(/_/g, ' ')}
+                                      </span>
+                                      <span className="text-xs text-foreground/60">{String(val)}</span>
+                                    </div>
+                                  ))
+                                )}
+                              </div>
+                            </div>
                           </div>
 
-                          {/* Unread dot */}
-                          {isUnread && (
-                            <div className="absolute top-4 right-3.5">
-                              <div className="w-2 h-2 rounded-full bg-[#E23232]" />
-                            </div>
-                          )}
+                          {/* Chevron */}
+                          <ChevronDown className={cn(
+                            'w-4 h-4 text-foreground/30 shrink-0 mt-1 transition-transform duration-300',
+                            isExpanded && 'rotate-180 text-foreground/50'
+                          )} />
                         </div>
                       </button>
                     );
