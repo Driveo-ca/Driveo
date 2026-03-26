@@ -89,7 +89,7 @@ export function PricingCards() {
           ))}
         </motion.div>
 
-        {/* GLEAM Prime */}
+        {/* Driveo Prime */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -111,11 +111,11 @@ export function PricingCards() {
               <h3 className="text-6xl font-display text-[#E23232]">$179</h3>
               <span className="font-mono text-sm text-white/80">/month</span>
             </div>
-            <h4 className="text-3xl font-display uppercase mb-4">GLEAM Prime</h4>
+            <h4 className="text-3xl font-display uppercase mb-4">Driveo Prime</h4>
             <p className="font-serif italic text-lg text-white/80 max-w-xl mb-6">
-              Everything in GLEAM Full, plus a monthly salt flush in winter, priority scheduling so you always get your preferred time slot, and 15% off any add-on services. For anyone who wants their car looking showroom-clean at all times — without thinking about it.
+              Everything in Driveo Full, plus a monthly salt flush in winter, priority scheduling so you always get your preferred time slot, and 15% off any add-on services. For anyone who wants their car looking showroom-clean at all times — without thinking about it.
             </p>
-            <span className="font-mono text-xs text-white/50 uppercase tracking-widest">All GLEAM Full Washes + Salt Flush + Priority + 15% Off Add-Ons</span>
+            <span className="font-mono text-xs text-white/50 uppercase tracking-widest">All Driveo Full Washes + Salt Flush + Priority + 15% Off Add-Ons</span>
           </div>
           <motion.button
             whileHover={{ scale: 1.05 }}
