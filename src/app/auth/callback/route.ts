@@ -1,14 +1,44 @@
-import { NextResponse } from 'next/server';
-import { createClient, createAdminClient } from '@/lib/supabase/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
+import { createAdminClient } from '@/lib/supabase/server';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/';
 
   if (code) {
-    const supabase = await createClient();
+    // Capture cookies that Supabase wants to set so we can forward them
+    // on the redirect response — using cookies() API alone doesn't work
+    // because NextResponse.redirect() doesn't inherit those cookies.
+    const cookiesToSet: Array<{ name: string; value: string; options: Record<string, unknown> }> = [];
+
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          getAll() { return request.cookies.getAll(); },
+          setAll(cookies) { cookiesToSet.push(...cookies); },
+        },
+      },
+    );
+
+    // Helper: create a redirect response with session cookies attached
+    function redirect(url: string) {
+      const res = NextResponse.redirect(url);
+      cookiesToSet.forEach(({ name, value, options }) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        res.cookies.set(name, value, options as any);
+      });
+      return res;
+    }
+
     const { error } = await supabase.auth.exchangeCodeForSession(code);
+
+    if (error) {
+      console.error('OAuth code exchange failed:', error.message);
+    }
 
     if (!error) {
       const { data: { user } } = await supabase.auth.getUser();
@@ -55,7 +85,7 @@ export async function GET(request: Request) {
           });
 
           // Redirect new OAuth users to onboarding
-          return NextResponse.redirect(`${origin}/app/onboarding`);
+          return redirect(`${origin}/app/onboarding`);
         }
 
         // Fetch role from profiles table (source of truth)
@@ -69,15 +99,15 @@ export async function GET(request: Request) {
 
         // Route based on role
         if (next !== '/') {
-          return NextResponse.redirect(`${origin}${next}`);
+          return redirect(`${origin}${next}`);
         }
         if (role === 'washer') {
-          return NextResponse.redirect(`${origin}/washer/dashboard`);
+          return redirect(`${origin}/washer/dashboard`);
         }
         if (role === 'admin') {
-          return NextResponse.redirect(`${origin}/admin`);
+          return redirect(`${origin}/admin`);
         }
-        return NextResponse.redirect(`${origin}/app/home`);
+        return redirect(`${origin}/app/home`);
       }
     }
   }

@@ -25,15 +25,30 @@ export function HeroSection() {
   const placesService = useRef<google.maps.places.PlacesService | null>(null);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const hasGoogleMaps = typeof window !== 'undefined' && window.google?.maps?.places;
+  const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
+
+  // Watch for Google Maps to finish loading
+  useEffect(() => {
+    if (window.google?.maps?.places) {
+      setGoogleMapsLoaded(true);
+      return;
+    }
+    const interval = setInterval(() => {
+      if (window.google?.maps?.places) {
+        setGoogleMapsLoaded(true);
+        clearInterval(interval);
+      }
+    }, 200);
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
-    if (hasGoogleMaps) {
+    if (googleMapsLoaded) {
       autocompleteService.current = new google.maps.places.AutocompleteService();
       const div = document.createElement('div');
       placesService.current = new google.maps.places.PlacesService(div);
     }
-  }, [hasGoogleMaps]);
+  }, [googleMapsLoaded]);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -45,13 +60,15 @@ export function HeroSection() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Auto-detect location on mount
+  // Auto-detect location on mount (or once Google Maps loads)
   useEffect(() => {
     if (!navigator.geolocation) return;
+    // Only run once address is still empty
+    if (address) return;
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        if (hasGoogleMaps) {
+        if (window.google?.maps?.places) {
           const geocoder = new google.maps.Geocoder();
           geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
             if (status === 'OK' && results?.[0]) {
@@ -72,8 +89,9 @@ export function HeroSection() {
       () => { /* permission denied — leave empty */ },
       { enableHighAccuracy: false, timeout: 5000 }
     );
+  // Re-run when Google Maps becomes available so geocoding works on first load
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [googleMapsLoaded]);
 
   const fetchPredictions = useCallback((input: string) => {
     if (!autocompleteService.current || input.length < 3) {
@@ -107,7 +125,7 @@ export function HeroSection() {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude } = position.coords;
-        if (hasGoogleMaps) {
+        if (window.google?.maps?.places) {
           const geocoder = new google.maps.Geocoder();
           geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
             setDetecting(false);
