@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient, createAdminClient } from '@/lib/supabase/server';
 
 export async function DELETE(request: NextRequest) {
-  const { id } = await request.json();
+  const { id, force } = await request.json();
   if (!id) {
     return NextResponse.json({ error: 'Missing vehicle id' }, { status: 400 });
   }
@@ -28,7 +28,34 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
   }
 
-  // Delete associated bookings first (foreign key constraint)
+  // Check for subscriptions on this vehicle (any status)
+  const { data: subs } = await admin
+    .from('subscriptions')
+    .select('id, plan_id, status')
+    .eq('vehicle_id', id);
+
+  const activeSubs = subs?.filter(s => s.status === 'active' || s.status === 'paused' || s.status === 'past_due') || [];
+
+  if (activeSubs.length > 0 && !force) {
+    return NextResponse.json({
+      error: 'has_subscriptions',
+      subscriptionCount: activeSubs.length,
+    }, { status: 409 });
+  }
+
+  // Delete all associated records in correct order (respecting FK chains):
+  // subscription_usage → subscriptions → vehicles
+  // bookings → vehicles (also bookings.subscription_id → subscriptions)
+  if (subs && subs.length > 0) {
+    const subIds = subs.map(s => s.id);
+    // 1. Remove subscription_usage (references subscriptions)
+    await admin.from('subscription_usage').delete().in('subscription_id', subIds);
+    // 2. Nullify subscription_id on bookings so they don't block subscription deletion
+    await admin.from('bookings').update({ subscription_id: null }).in('subscription_id', subIds);
+  }
+  // 3. Delete subscriptions (references vehicles)
+  await admin.from('subscriptions').delete().eq('vehicle_id', id);
+  // 4. Delete bookings (references vehicles)
   await admin.from('bookings').delete().eq('vehicle_id', id);
 
   const { error } = await admin.from('vehicles').delete().eq('id', id);

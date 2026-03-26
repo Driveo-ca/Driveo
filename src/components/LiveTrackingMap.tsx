@@ -322,7 +322,7 @@ export default function LiveTrackingMap({
               <div className="w-12 h-12 rounded-full bg-[#E23232]/10 flex items-center justify-center">
                 <MapPin className="w-6 h-6 text-[#E23232]" />
               </div>
-              <span className="text-sm text-foreground/60 dark:text-foreground/40 font-medium tracking-wide">
+              <span className="text-sm text-foreground/60 dark:text-foreground/55 font-medium tracking-wide">
                 Loading map...
               </span>
             </div>

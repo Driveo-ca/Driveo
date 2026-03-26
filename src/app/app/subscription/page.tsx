@@ -142,7 +142,7 @@ export default function SubscriptionPage() {
           <h1 className="text-3xl font-bold tracking-tight text-foreground mb-1">
             Subscription
           </h1>
-          <p className="text-sm text-foreground/60 dark:text-foreground/40">
+          <p className="text-sm text-foreground/60 dark:text-foreground/55">
             Manage your plan and track usage
           </p>
         </div>
@@ -156,7 +156,7 @@ export default function SubscriptionPage() {
                   <CardTitle className="text-lg text-foreground font-semibold">
                     Current Plan
                   </CardTitle>
-                  <Badge className="bg-green-500/15 text-green-400 border border-green-500/20">
+                  <Badge className="bg-green-500/15 text-green-600 dark:text-green-400 border border-green-500/20">
                     Active
                   </Badge>
                 </div>
@@ -170,11 +170,11 @@ export default function SubscriptionPage() {
                     <p className="font-semibold text-foreground text-lg">
                       {subscription.subscription_plans.name}
                     </p>
-                    <p className="text-sm text-foreground/60 dark:text-foreground/40">
+                    <p className="text-sm text-foreground/60 dark:text-foreground/55">
                       <span className="text-2xl font-bold text-foreground">
                         ${(subscription.subscription_plans.monthly_price / 100).toFixed(0)}
                       </span>
-                      <span className="text-foreground/55 dark:text-foreground/30 ml-0.5">/month</span>
+                      <span className="text-foreground/55 dark:text-foreground/50 ml-0.5">/month</span>
                     </p>
                   </div>
                 </div>
@@ -196,7 +196,7 @@ export default function SubscriptionPage() {
                         }}
                       />
                     </div>
-                    <p className="text-xs text-foreground/55 dark:text-foreground/30 mt-2.5">
+                    <p className="text-xs text-foreground/55 dark:text-foreground/50 mt-2.5">
                       Period ends{' '}
                       {new Date(usage.period_end).toLocaleDateString('en-CA', {
                         month: 'short',
@@ -237,7 +237,7 @@ export default function SubscriptionPage() {
                         className={`p-3 rounded-2xl transition-colors ${
                           isCurrentPlan
                             ? 'bg-[#E23232]/15 text-[#E23232]'
-                            : 'bg-foreground/[0.07] dark:bg-foreground/[0.04] text-foreground/60 dark:text-foreground/40'
+                            : 'bg-foreground/[0.07] dark:bg-foreground/[0.04] text-foreground/60 dark:text-foreground/55'
                         }`}
                       >
                         {planIcons[plan.wash_plan]}
@@ -250,7 +250,7 @@ export default function SubscriptionPage() {
                           <span className="text-3xl font-bold text-foreground tracking-tight">
                             ${(plan.monthly_price / 100).toFixed(0)}
                           </span>
-                          <span className="text-sm font-normal text-foreground/55 dark:text-foreground/30 ml-0.5">
+                          <span className="text-sm font-normal text-foreground/55 dark:text-foreground/50 ml-0.5">
                             /mo
                           </span>
                         </div>

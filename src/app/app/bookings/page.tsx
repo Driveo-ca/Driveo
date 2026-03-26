@@ -122,10 +122,10 @@ export default function BookingsPage() {
         ) : bookings.length === 0 ? (
           <div className="mt-16 text-center">
             <div className="w-16 h-16 rounded-2xl bg-foreground/[0.05] border border-border/50 flex items-center justify-center mx-auto mb-5">
-              <Calendar className="w-7 h-7 text-foreground/30" />
+              <Calendar className="w-7 h-7 text-foreground/50" />
             </div>
             <p className="text-foreground/70 text-sm font-medium">No washes yet</p>
-            <p className="text-foreground/45 text-xs mt-1.5">Your wash history will appear here</p>
+            <p className="text-foreground/60 text-xs mt-1.5">Your wash history will appear here</p>
             <Link href="/app/book">
               <button className="mt-6 px-6 py-2.5 rounded-xl bg-[#E23232] hover:bg-[#c92a2a] text-white text-sm font-semibold transition-all active:scale-[0.98]">
                 Book Your First Wash
@@ -183,7 +183,7 @@ export default function BookingsPage() {
                           <span className="text-foreground font-semibold text-sm truncate">
                             {PLAN_LABELS[booking.wash_plan] || booking.wash_plan}
                           </span>
-                          <span className="text-foreground/30 text-xs shrink-0">·</span>
+                          <span className="text-foreground/50 text-xs shrink-0">·</span>
                           <span className="text-foreground/50 text-xs shrink-0">Lvl {booking.dirt_level}</span>
                         </div>
 
@@ -208,7 +208,7 @@ export default function BookingsPage() {
                             </span>
                           </div>
 
-                          <span className="text-foreground/35 text-[11px]">
+                          <span className="text-foreground/55 text-[11px]">
                             {date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' })}
                           </span>
                         </div>
@@ -219,7 +219,7 @@ export default function BookingsPage() {
                         <span className="text-foreground font-bold text-base tabular-nums">
                           ${(booking.total_price / 100).toFixed(2)}
                         </span>
-                        <ChevronRight className="w-4 h-4 text-foreground/25 group-hover:text-foreground/50 transition-colors" />
+                        <ChevronRight className="w-4 h-4 text-foreground/50 group-hover:text-foreground/50 transition-colors" />
                       </div>
                     </div>
                   </div>

@@ -142,10 +142,10 @@ export default function NotificationsPage() {
         ) : notifications.length === 0 ? (
           <div className="mt-16 text-center">
             <div className="w-16 h-16 rounded-2xl bg-foreground/[0.05] border border-border/50 flex items-center justify-center mx-auto mb-5">
-              <BellOff className="w-7 h-7 text-foreground/30" />
+              <BellOff className="w-7 h-7 text-foreground/50" />
             </div>
             <p className="text-foreground/70 text-sm font-medium">No notifications yet</p>
-            <p className="text-foreground/45 text-xs mt-1.5">We&apos;ll notify you about your washes</p>
+            <p className="text-foreground/60 text-xs mt-1.5">We&apos;ll notify you about your washes</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -153,7 +153,7 @@ export default function NotificationsPage() {
               <div key={group.label}>
                 {/* Group label */}
                 <div className="flex items-center gap-3 mb-2.5 px-1">
-                  <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">{group.label}</span>
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55">{group.label}</span>
                   <div className="h-px flex-1 bg-border/50" />
                 </div>
 
@@ -181,7 +181,7 @@ export default function NotificationsPage() {
                             'w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors',
                             isUnread ? cfg.bg : 'bg-foreground/[0.05]'
                           )}>
-                            <Icon className={cn('w-[18px] h-[18px]', isUnread ? cfg.accent : 'text-foreground/40')} />
+                            <Icon className={cn('w-[18px] h-[18px]', isUnread ? cfg.accent : 'text-foreground/55')} />
                           </div>
 
                           {/* Content */}
@@ -193,13 +193,13 @@ export default function NotificationsPage() {
                               )}>
                                 {notification.title}
                               </p>
-                              <span className="text-[11px] text-foreground/40 shrink-0 mt-0.5 tabular-nums">
+                              <span className="text-[11px] text-foreground/55 shrink-0 mt-0.5 tabular-nums">
                                 {formatTime(notification.created_at)}
                               </span>
                             </div>
                             <p className={cn(
                               'text-[13px] mt-0.5 line-clamp-2 leading-relaxed',
-                              isUnread ? 'text-foreground/55' : 'text-foreground/45'
+                              isUnread ? 'text-foreground/55' : 'text-foreground/60'
                             )}>
                               {notification.body}
                             </p>

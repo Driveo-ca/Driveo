@@ -293,7 +293,7 @@ export default function WasherJobPage() {
     return (
       <div className="px-4 pt-20 text-center">
         <div className="bg-surface border border-border rounded-2xl p-8 max-w-lg mx-auto">
-          <p className="text-foreground/60 dark:text-foreground/40">Job not found</p>
+          <p className="text-foreground/60 dark:text-foreground/55">Job not found</p>
         </div>
       </div>
     );
@@ -344,14 +344,14 @@ export default function WasherJobPage() {
       {/* Customer Info */}
       {customer && (
         <div className="bg-surface border border-border rounded-2xl p-4">
-          <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 mb-3 font-medium">Customer</p>
+          <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/55 mb-3 font-medium">Customer</p>
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-card flex items-center justify-center border border-border">
-              <User className="w-5 h-5 text-foreground/60 dark:text-foreground/40" />
+              <User className="w-5 h-5 text-foreground/60 dark:text-foreground/55" />
             </div>
             <div className="flex-1">
               <p className="text-foreground text-sm font-semibold">{customer.full_name}</p>
-              <p className="text-foreground/60 dark:text-foreground/40 text-xs mt-0.5">{customer.phone || customer.email}</p>
+              <p className="text-foreground/60 dark:text-foreground/55 text-xs mt-0.5">{customer.phone || customer.email}</p>
             </div>
             {customer.phone && (
               <a href={`tel:${customer.phone}`} className="w-10 h-10 rounded-full bg-card flex items-center justify-center border border-border hover:border-[#E23232]/30 transition-colors duration-200">
@@ -364,39 +364,39 @@ export default function WasherJobPage() {
 
       {/* Vehicle & Location */}
       <div className="bg-surface border border-border rounded-2xl p-5 space-y-4">
-        <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium">Job Details</p>
+        <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/55 font-medium">Job Details</p>
 
         <div className="space-y-3 text-sm">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-card flex items-center justify-center">
-              <Car className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
+              <Car className="w-4 h-4 text-foreground/60 dark:text-foreground/55" />
             </div>
-            <span className="text-foreground font-medium">{vehicle.year} {vehicle.make} {vehicle.model} <span className="text-foreground/60 dark:text-foreground/40 font-normal">({vehicle.type.replace('_', ' ')})</span></span>
+            <span className="text-foreground font-medium">{vehicle.year} {vehicle.make} {vehicle.model} <span className="text-foreground/60 dark:text-foreground/55 font-normal">({vehicle.type.replace('_', ' ')})</span></span>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-card flex items-center justify-center">
-              <MapPin className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
+              <MapPin className="w-4 h-4 text-foreground/60 dark:text-foreground/55" />
             </div>
             <span className="text-foreground/60">{booking.service_address}</span>
           </div>
 
           {booking.location_notes && (
             <div className="ml-11 px-3 py-2 rounded-lg bg-amber-500/5 border border-amber-500/10">
-              <p className="text-amber-400/80 text-xs">{booking.location_notes}</p>
+              <p className="text-amber-600/80 dark:text-amber-400/80 text-xs">{booking.location_notes}</p>
             </div>
           )}
 
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-card flex items-center justify-center">
-              <Clock className="w-4 h-4 text-foreground/60 dark:text-foreground/40" />
+              <Clock className="w-4 h-4 text-foreground/60 dark:text-foreground/55" />
             </div>
-            <span className="text-foreground/60 dark:text-foreground/40">~{formatDuration(booking.estimated_duration_min || 0)} · Dirt level {booking.dirt_level}</span>
+            <span className="text-foreground/60 dark:text-foreground/55">~{formatDuration(booking.estimated_duration_min || 0)} · Dirt level {booking.dirt_level}</span>
           </div>
 
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center">
-              <DollarSign className="w-4 h-4 text-green-400/60" />
+              <DollarSign className="w-4 h-4 text-green-600/60 dark:text-green-400/60" />
             </div>
             <span className="text-[#E23232] font-semibold">You earn {centsToDisplay(booking.washer_payout)}</span>
           </div>
@@ -415,12 +415,12 @@ export default function WasherJobPage() {
       {/* Photo Upload */}
       {['arrived', 'washing', 'completed'].includes(booking.status) && (
         <div className="bg-surface border border-border rounded-2xl p-5 space-y-5">
-          <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium">Photos</p>
+          <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/55 font-medium">Photos</p>
 
           {/* Before Photos */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-foreground text-sm font-semibold">Before Photos <span className="text-foreground/60 dark:text-foreground/40 font-normal">({beforePhotos.length}/5)</span></p>
+              <p className="text-foreground text-sm font-semibold">Before Photos <span className="text-foreground/60 dark:text-foreground/55 font-normal">({beforePhotos.length}/5)</span></p>
               {booking.status === 'arrived' && beforePhotos.length < 5 && (
                 <label className="cursor-pointer">
                   <input
@@ -469,7 +469,7 @@ export default function WasherJobPage() {
                       </>
                     ) : photo ? (
                       <div className="w-full h-full rounded-xl border-2 border-green-500/30 bg-green-500/10 flex items-center justify-center">
-                        <Loader2 className="w-4 h-4 text-green-400 animate-spin" />
+                        <Loader2 className="w-4 h-4 text-green-600 dark:text-green-400 animate-spin" />
                       </div>
                     ) : (
                       <div className="w-full h-full rounded-xl border-2 border-dashed border-border bg-card flex items-center justify-center text-[10px] font-medium text-foreground/50 dark:text-foreground/20">
@@ -488,7 +488,7 @@ export default function WasherJobPage() {
           {/* After Photos */}
           <div>
             <div className="flex items-center justify-between mb-3">
-              <p className="text-foreground text-sm font-semibold">After Photos <span className="text-foreground/60 dark:text-foreground/40 font-normal">({afterPhotos.length}/5)</span></p>
+              <p className="text-foreground text-sm font-semibold">After Photos <span className="text-foreground/60 dark:text-foreground/55 font-normal">({afterPhotos.length}/5)</span></p>
               {booking.status === 'washing' && afterPhotos.length < 5 && (
                 <label className="cursor-pointer">
                   <input
@@ -537,7 +537,7 @@ export default function WasherJobPage() {
                       </>
                     ) : photo ? (
                       <div className="w-full h-full rounded-xl border-2 border-green-500/30 bg-green-500/10 flex items-center justify-center">
-                        <Loader2 className="w-4 h-4 text-green-400 animate-spin" />
+                        <Loader2 className="w-4 h-4 text-green-600 dark:text-green-400 animate-spin" />
                       </div>
                     ) : (
                       <div className="w-full h-full rounded-xl border-2 border-dashed border-border bg-card flex items-center justify-center text-[10px] font-medium text-foreground/50 dark:text-foreground/20">

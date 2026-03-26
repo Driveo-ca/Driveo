@@ -201,7 +201,7 @@ export function AddressAutocomplete({
                 )}
               >
                 <div className="w-7 h-7 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0 mt-0.5">
-                  <MapPin className="w-3.5 h-3.5 text-foreground/30" />
+                  <MapPin className="w-3.5 h-3.5 text-foreground/50" />
                 </div>
                 <span className="line-clamp-2 leading-snug">{p.description}</span>
               </button>
@@ -213,7 +213,7 @@ export function AddressAutocomplete({
         type="button"
         onClick={detectLocation}
         disabled={detecting}
-        className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-dashed border-foreground/10 hover:border-[#E23232]/30 hover:bg-[#E23232]/[0.03] text-foreground/45 hover:text-[#E23232] text-sm font-medium transition-all disabled:opacity-40"
+        className="w-full flex items-center justify-center gap-2.5 py-3 rounded-xl border border-dashed border-foreground/10 hover:border-[#E23232]/30 hover:bg-[#E23232]/[0.03] text-foreground/60 hover:text-[#E23232] text-sm font-medium transition-all disabled:opacity-40"
       >
         {detecting ? (
           <><Loader2 className="w-4 h-4 animate-spin" /> Detecting location...</>

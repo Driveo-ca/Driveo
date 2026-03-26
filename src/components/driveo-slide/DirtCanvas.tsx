@@ -115,7 +115,7 @@ export function DirtCanvas({ vehicleId, vehicleLabel, vehicleColor, dirtLevel }:
       {!isAIReady && !layerA && !layerB && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
           <Loader2 className="w-8 h-8 text-[#E23232] animate-spin" />
-          <p className="text-foreground/55 dark:text-foreground/30 text-xs">Generating your car...</p>
+          <p className="text-foreground/55 dark:text-foreground/50 text-xs">Generating your car...</p>
         </div>
       )}
 

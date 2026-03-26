@@ -53,13 +53,13 @@ export function AdminNav() {
               'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors duration-200 relative group',
               isActive(item)
                 ? 'bg-[#E23232]/10 text-[#E23232]'
-                : 'text-foreground/45 hover:text-foreground hover:bg-foreground/[0.07] dark:hover:bg-foreground/[0.04]'
+                : 'text-foreground/60 hover:text-foreground hover:bg-foreground/[0.07] dark:hover:bg-foreground/[0.04]'
             )}
           >
             {isActive(item) && (
               <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 bg-[#E23232] rounded-r-full" />
             )}
-            <item.icon className={cn('w-[18px] h-[18px] transition-colors', isActive(item) ? 'text-[#E23232]' : 'text-foreground/55 dark:text-foreground/30 group-hover:text-foreground/60')} />
+            <item.icon className={cn('w-[18px] h-[18px] transition-colors', isActive(item) ? 'text-[#E23232]' : 'text-foreground/55 dark:text-foreground/50 group-hover:text-foreground/60')} />
             {item.label}
           </Link>
         ))}
@@ -72,7 +72,7 @@ export function AdminNav() {
 
       {/* Bottom */}
       <div className="p-4 mx-3 mb-3 rounded-xl bg-card border border-border">
-        <p className="text-[10px] text-foreground/55 dark:text-foreground/25 uppercase tracking-wider">Driveo Admin v1.0</p>
+        <p className="text-[10px] text-foreground/55 dark:text-foreground/50 uppercase tracking-wider">Driveo Admin v1.0</p>
       </div>
     </div>
   );

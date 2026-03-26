@@ -131,7 +131,7 @@ export default function OnboardingPage() {
                 step >= 2 ? 'w-8 bg-[#E23232]' : 'w-4 bg-foreground/10'
               )} />
             </div>
-            <span className="text-[11px] font-mono text-foreground/30 uppercase tracking-wider">
+            <span className="text-[11px] font-mono text-foreground/50 uppercase tracking-wider">
               Step {step}/2
             </span>
           </div>
@@ -139,7 +139,7 @@ export default function OnboardingPage() {
           {/* Skip */}
           <button
             onClick={() => { router.push('/app/home'); router.refresh(); }}
-            className="text-[12px] text-foreground/30 hover:text-foreground/50 transition-colors font-medium"
+            className="text-[12px] text-foreground/50 hover:text-foreground/50 transition-colors font-medium"
           >
             Skip for now
           </button>
@@ -161,7 +161,7 @@ export default function OnboardingPage() {
                   <h1 className="font-display text-3xl sm:text-4xl text-foreground tracking-wide leading-none">
                     WHAT DO YOU DRIVE?
                   </h1>
-                  <p className="text-foreground/40 text-sm mt-2">
+                  <p className="text-foreground/55 text-sm mt-2">
                     Select your vehicle type for accurate pricing
                   </p>
                 </div>
@@ -198,7 +198,7 @@ export default function OnboardingPage() {
                       )}>
                         {VEHICLE_TYPE_LABELS[type]}
                       </p>
-                      <p className="text-[11px] text-foreground/30 mt-0.5 leading-tight">{desc}</p>
+                      <p className="text-[11px] text-foreground/50 mt-0.5 leading-tight">{desc}</p>
                     </button>
                   ))}
                 </div>
@@ -229,7 +229,7 @@ export default function OnboardingPage() {
                   <h1 className="font-display text-3xl sm:text-4xl text-foreground tracking-wide leading-none">
                     YOUR RIDE DETAILS
                   </h1>
-                  <p className="text-foreground/40 text-sm mt-2">
+                  <p className="text-foreground/55 text-sm mt-2">
                     We&apos;ll use this to match you with the right wash
                   </p>
                 </div>
@@ -238,50 +238,50 @@ export default function OnboardingPage() {
                 <div className="space-y-4">
                   {/* Year */}
                   <div className="onb-in" style={{ animationDelay: '0.1s' }}>
-                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/40 font-semibold mb-2">Year</label>
+                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-2">Year</label>
                     <AutocompleteInput
                       options={yearOptions}
                       value={year}
                       onChange={setYear}
                       placeholder="e.g. 2024"
-                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/25 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
+                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/50 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
                     />
                   </div>
 
                   {/* Make */}
                   <div className="onb-in" style={{ animationDelay: '0.15s' }}>
-                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/40 font-semibold mb-2">Make</label>
+                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-2">Make</label>
                     <AutocompleteInput
                       options={VEHICLE_MAKE_LIST}
                       value={make}
                       onChange={(val) => { setMake(val); if (val !== make) setModel(''); }}
                       placeholder="e.g. Honda, Toyota, BMW"
-                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/25 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
+                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/50 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
                     />
                   </div>
 
                   {/* Model */}
                   <div className="onb-in" style={{ animationDelay: '0.2s' }}>
-                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/40 font-semibold mb-2">Model</label>
+                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-2">Model</label>
                     <AutocompleteInput
                       options={modelOptions}
                       value={model}
                       onChange={setModel}
                       placeholder={make ? `Select ${make} model` : 'Select make first'}
-                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/25 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
+                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/50 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
                     />
                   </div>
 
                   {/* Color */}
                   <div className="onb-in" style={{ animationDelay: '0.25s' }}>
-                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/40 font-semibold mb-2">
+                    <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-2">
                       Color <span className="text-foreground/20 normal-case tracking-normal">(optional)</span>
                     </label>
                     <Input
                       placeholder="e.g. Silver, Black, White"
                       value={color}
                       onChange={(e) => setColor(e.target.value)}
-                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/25 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
+                      className="h-12 rounded-xl bg-foreground/[0.03] border-foreground/[0.08] text-foreground placeholder:text-foreground/50 focus:border-[#E23232]/50 focus:ring-[#E23232]/10"
                     />
                   </div>
                 </div>

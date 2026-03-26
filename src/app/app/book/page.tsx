@@ -189,8 +189,8 @@ function PaymentForm({
     <div className="space-y-4">
       <div className="rounded-xl border border-border p-4 space-y-3">
         <div className="flex items-center gap-2">
-          <Lock className="w-3.5 h-3.5 text-foreground/40" />
-          <span className="text-[11px] font-mono uppercase tracking-widest text-foreground/40">Secured by Stripe</span>
+          <Lock className="w-3.5 h-3.5 text-foreground/55" />
+          <span className="text-[11px] font-mono uppercase tracking-widest text-foreground/55">Secured by Stripe</span>
         </div>
         <PaymentElement onReady={() => setPaymentReady(true)} options={{ layout: 'tabs' }} />
         {errorMessage && (
@@ -199,7 +199,7 @@ function PaymentForm({
       </div>
       <div className="flex items-start gap-2 px-1">
         <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
-        <p className="text-foreground/45 text-[11px] leading-relaxed">
+        <p className="text-foreground/60 text-[11px] leading-relaxed">
           Pre-authorized for <strong className="text-foreground/65">{centsToDisplay(totalCents)}</strong>. Charged after wash.
         </p>
       </div>
@@ -235,7 +235,7 @@ function ContextSidebar({
     <div className="flex flex-col h-full">
       {/* Header + car preview */}
       <div className="px-5 pt-6 pb-2">
-        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-foreground/45 mb-3">Your wash</p>
+        <p className="text-[10px] font-semibold uppercase tracking-[0.15em] text-foreground/60 mb-3">Your wash</p>
         {form.vehicle && (
           <div className="relative h-24 rounded-xl bg-gradient-to-br from-foreground/[0.04] via-foreground/[0.02] to-transparent overflow-hidden mb-1">
             <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, currentColor 0.5px, transparent 0.5px)', backgroundSize: '12px 12px' }} />
@@ -252,7 +252,7 @@ function ContextSidebar({
           {form.vehicle && (
             <button onClick={onEditVehicle} className="relative w-full text-left group">
               <div className="absolute -left-[19px] top-1 w-3 h-3 rounded-full border-2 border-foreground/20 bg-background group-hover:border-[#E23232]/40 transition-colors" />
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/45 mb-0.5">Vehicle</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/60 mb-0.5">Vehicle</p>
               <p className="text-foreground/80 text-sm font-medium truncate">{form.vehicle.year} {form.vehicle.make} {form.vehicle.model}</p>
               <p className="text-foreground/50 text-[11px] capitalize">{form.vehicle.type.replace('_', ' ')}</p>
             </button>
@@ -261,16 +261,16 @@ function ContextSidebar({
           {form.address && (
             <button onClick={onEditLocation} className="relative w-full text-left group">
               <div className="absolute -left-[19px] top-1 w-3 h-3 rounded-sm bg-[#E23232] shadow-[0_0_6px_rgba(226,50,50,0.3)] group-hover:shadow-[0_0_10px_rgba(226,50,50,0.4)] transition-shadow" />
-              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/45 mb-0.5">Location</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/60 mb-0.5">Location</p>
               <p className="text-foreground/80 text-sm leading-snug">{form.address}</p>
             </button>
           )}
 
           <button onClick={onEditSchedule} className="relative w-full text-left group">
             <div className="absolute -left-[20px] top-1">
-              <Clock className="w-3.5 h-3.5 text-foreground/35 group-hover:text-[#E23232]/50 transition-colors" />
+              <Clock className="w-3.5 h-3.5 text-foreground/55 group-hover:text-[#E23232]/50 transition-colors" />
             </div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/45 mb-0.5">When</p>
+            <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/60 mb-0.5">When</p>
             <p className="text-foreground/80 text-sm font-medium">
               {form.isInstant ? 'Now' : form.scheduledAt
                 ? new Date(form.scheduledAt).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })
@@ -284,7 +284,7 @@ function ContextSidebar({
       {price && (
         <div className="px-5 py-4 border-t border-border/50 mt-auto">
           <div className="flex items-baseline justify-between">
-            <span className="text-foreground/45 text-[10px] font-semibold uppercase tracking-[0.12em]">Estimated</span>
+            <span className="text-foreground/60 text-[10px] font-semibold uppercase tracking-[0.12em]">Estimated</span>
             <span className="text-[#E23232] text-xl font-bold tabular-nums tracking-tight">{centsToDisplay(price.totalCents)}</span>
           </div>
         </div>
@@ -534,7 +534,7 @@ function BookingForm() {
                       </div>
                     )}
                     <div className="flex items-start gap-3">
-                      <Clock className="w-3.5 h-3.5 text-foreground/40 mt-1 shrink-0" />
+                      <Clock className="w-3.5 h-3.5 text-foreground/55 mt-1 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] text-foreground/50 font-medium uppercase tracking-wider">When</p>
                         <p className="text-foreground text-sm font-medium mt-0.5">
@@ -545,7 +545,7 @@ function BookingForm() {
                       </div>
                     </div>
                     <div className="flex items-start gap-3">
-                      <Sparkles className="w-3.5 h-3.5 text-foreground/40 mt-1 shrink-0" />
+                      <Sparkles className="w-3.5 h-3.5 text-foreground/55 mt-1 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-[11px] text-foreground/50 font-medium uppercase tracking-wider">Service</p>
                         <p className="text-foreground text-sm font-medium mt-0.5">{PLAN_LABELS[form.washPlan]}</p>
@@ -609,13 +609,13 @@ function BookingForm() {
                         <X className="w-4 h-4 text-foreground/60" />
                       </button>
                     )}
-                    {step === 4 && <span className="text-foreground/35 text-xs font-mono">Almost done</span>}
+                    {step === 4 && <span className="text-foreground/55 text-xs font-mono">Almost done</span>}
                   </div>
                   <h1 className="text-foreground font-semibold text-xl leading-tight mt-3">
                     {stepTitles[step]}
                   </h1>
                   {step <= 3 && form.vehicle && step > 0 && (
-                    <p className="text-foreground/40 text-sm mt-1">
+                    <p className="text-foreground/55 text-sm mt-1">
                       {form.vehicle.year} {form.vehicle.make} {form.vehicle.model}
                     </p>
                   )}
@@ -647,7 +647,7 @@ function BookingForm() {
                   </button>
                   <div className="flex items-center gap-1.5">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#E23232]" />
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/40">Step 3 of 5</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/55">Step 3 of 5</span>
                   </div>
                 </div>
                 <h1 className="text-foreground font-bold text-[22px] leading-tight tracking-tight">
@@ -686,7 +686,7 @@ function BookingForm() {
                             ? 'bg-[#E23232]/12 shadow-[0_0_16px_rgba(226,50,50,0.1)]'
                             : 'bg-foreground/[0.06] group-hover:bg-foreground/[0.08]'
                         )}>
-                          <Icon className={cn('w-5 h-5 transition-colors duration-300', active ? 'text-[#E23232]' : 'text-foreground/40 group-hover:text-foreground/50')} />
+                          <Icon className={cn('w-5 h-5 transition-colors duration-300', active ? 'text-[#E23232]' : 'text-foreground/55 group-hover:text-foreground/50')} />
                         </div>
 
                         <div className="flex-1 min-w-0">
@@ -696,7 +696,7 @@ function BookingForm() {
                               <span className="text-[9px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-full border border-amber-500/20">Popular</span>
                             )}
                           </div>
-                          <p className={cn('text-[13px] mt-1 leading-relaxed transition-colors', active ? 'text-foreground/55' : 'text-foreground/45')}>{time} · {desc}</p>
+                          <p className={cn('text-[13px] mt-1 leading-relaxed transition-colors', active ? 'text-foreground/55' : 'text-foreground/60')}>{time} · {desc}</p>
                         </div>
 
                         <p className={cn(
@@ -752,7 +752,7 @@ function BookingForm() {
               <div className="px-6 pb-4">
                 <div className="flex items-center justify-between mb-2.5">
                   <div className="flex items-center gap-2">
-                    <Gauge className="w-3.5 h-3.5 text-foreground/40" />
+                    <Gauge className="w-3.5 h-3.5 text-foreground/55" />
                     <span className="text-foreground/55 text-xs font-medium">Dirt level</span>
                   </div>
                   <span className={cn('text-sm font-bold px-3 py-0.5 rounded-lg',
@@ -771,7 +771,7 @@ function BookingForm() {
                   step={1}
                   className="w-full"
                 />
-                <div className="flex justify-between text-foreground/35 text-[10px] px-0.5 mt-1.5">
+                <div className="flex justify-between text-foreground/55 text-[10px] px-0.5 mt-1.5">
                   <span>Clean</span>
                   <span>Extreme</span>
                 </div>
@@ -781,7 +781,7 @@ function BookingForm() {
               <div className="px-6 pb-6">
                 <div className="rounded-2xl border border-border/40 bg-foreground/[0.015] overflow-hidden">
                   <div className="px-5 pt-4 pb-3 border-b border-border/30">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/45">Price breakdown</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-foreground/60">Price breakdown</p>
                   </div>
                   <div className="px-5 py-4 space-y-2.5">
                     <div className="flex justify-between items-center">
@@ -822,11 +822,11 @@ function BookingForm() {
                 <div className="flex items-center justify-between mb-1">
                   <h1 className="text-foreground font-semibold text-xl leading-tight">Payment</h1>
                   <div className="flex items-center gap-1.5">
-                    <Lock className="w-3 h-3 text-foreground/30" />
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/30">Secured by Stripe</span>
+                    <Lock className="w-3 h-3 text-foreground/50" />
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/50">Secured by Stripe</span>
                   </div>
                 </div>
-                <p className="text-foreground/40 text-sm mt-1">Complete your booking</p>
+                <p className="text-foreground/55 text-sm mt-1">Complete your booking</p>
               </div>
 
               {/* Stripe form */}
@@ -907,7 +907,7 @@ function BookingForm() {
           {vehicles.length === 0 ? (
             <div className="py-10 text-center">
               <Car className="w-10 h-10 text-foreground/15 mx-auto mb-3" />
-              <p className="text-foreground/45 text-sm mb-5">No vehicles yet</p>
+              <p className="text-foreground/60 text-sm mb-5">No vehicles yet</p>
               <button onClick={() => router.push('/app/onboarding')} className="px-6 py-2.5 rounded-xl bg-[#E23232] hover:bg-[#c92a2a] text-white text-sm font-medium transition-all">
                 Add Vehicle
               </button>
@@ -954,17 +954,17 @@ function BookingForm() {
                       {v.year} {v.make} {v.model}
                     </p>
                     <div className="flex items-center gap-1.5 mt-1">
-                      <span className="text-foreground/35 text-[11px] capitalize">{VEHICLE_TYPE_LABELS[v.type]}</span>
+                      <span className="text-foreground/55 text-[11px] capitalize">{VEHICLE_TYPE_LABELS[v.type]}</span>
                       {v.color && (
                         <>
                           <span className="text-foreground/20">·</span>
-                          <span className="text-foreground/35 text-[11px]">{v.color}</span>
+                          <span className="text-foreground/55 text-[11px]">{v.color}</span>
                         </>
                       )}
                       {v.is_primary && (
                         <>
                           <span className="text-foreground/20">·</span>
-                          <span className="text-[10px] font-semibold text-foreground/40">Default</span>
+                          <span className="text-[10px] font-semibold text-foreground/55">Default</span>
                         </>
                       )}
                     </div>
@@ -998,7 +998,7 @@ function BookingForm() {
               value={form.address}
               onChange={(address, lat, lng) => setForm(f => ({ ...f, address, lat, lng }))}
               placeholder="Search for your address..."
-              className="h-12 rounded-xl bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/25 text-sm"
+              className="h-12 rounded-xl bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/50 text-sm"
             />
           </div>
 
@@ -1069,11 +1069,11 @@ function BookingForm() {
                   'w-9 h-9 rounded-xl flex items-center justify-center transition-all',
                   form.isInstant ? 'bg-[#E23232]/15 shadow-[0_0_10px_rgba(226,50,50,0.08)]' : 'bg-foreground/[0.04]'
                 )}>
-                  <Zap className={cn('w-4 h-4 transition-colors', form.isInstant ? 'text-[#E23232]' : 'text-foreground/25')} />
+                  <Zap className={cn('w-4 h-4 transition-colors', form.isInstant ? 'text-[#E23232]' : 'text-foreground/50')} />
                 </div>
                 <div className="text-left">
-                  <p className={cn('text-sm font-bold transition-colors', form.isInstant ? 'text-foreground' : 'text-foreground/40')}>Now</p>
-                  <p className={cn('text-[10px] transition-colors', form.isInstant ? 'text-foreground/40' : 'text-foreground/20')}>Next available</p>
+                  <p className={cn('text-sm font-bold transition-colors', form.isInstant ? 'text-foreground' : 'text-foreground/55')}>Now</p>
+                  <p className={cn('text-[10px] transition-colors', form.isInstant ? 'text-foreground/55' : 'text-foreground/20')}>Next available</p>
                 </div>
               </button>
 
@@ -1094,11 +1094,11 @@ function BookingForm() {
                   'w-9 h-9 rounded-xl flex items-center justify-center transition-all',
                   !form.isInstant ? 'bg-[#E23232]/15 shadow-[0_0_10px_rgba(226,50,50,0.08)]' : 'bg-foreground/[0.04]'
                 )}>
-                  <CalendarDays className={cn('w-4 h-4 transition-colors', !form.isInstant ? 'text-[#E23232]' : 'text-foreground/25')} />
+                  <CalendarDays className={cn('w-4 h-4 transition-colors', !form.isInstant ? 'text-[#E23232]' : 'text-foreground/50')} />
                 </div>
                 <div className="text-left">
-                  <p className={cn('text-sm font-bold transition-colors', !form.isInstant ? 'text-foreground' : 'text-foreground/40')}>Schedule</p>
-                  <p className={cn('text-[10px] transition-colors', !form.isInstant ? 'text-foreground/40' : 'text-foreground/20')}>Pick a time</p>
+                  <p className={cn('text-sm font-bold transition-colors', !form.isInstant ? 'text-foreground' : 'text-foreground/55')}>Schedule</p>
+                  <p className={cn('text-[10px] transition-colors', !form.isInstant ? 'text-foreground/55' : 'text-foreground/20')}>Pick a time</p>
                 </div>
               </button>
             </div>
@@ -1206,7 +1206,7 @@ function BookingForm() {
             </div>
           </div>
 
-          <p className="text-foreground/45 text-[11px] flex items-center gap-1.5">
+          <p className="text-foreground/60 text-[11px] flex items-center gap-1.5">
             <ShieldCheck className="w-3 h-3" />
             Pre-authorized only. Charged after wash completion.
           </p>
@@ -1286,7 +1286,7 @@ function BookingForm() {
                     'w-11 h-11 rounded-xl flex items-center justify-center shrink-0 transition-all',
                     active ? 'bg-[#E23232]/12 shadow-[0_0_12px_rgba(226,50,50,0.08)]' : 'bg-foreground/[0.06]'
                   )}>
-                    <Icon className={cn('w-5 h-5 transition-colors', active ? 'text-[#E23232]' : 'text-foreground/40')} />
+                    <Icon className={cn('w-5 h-5 transition-colors', active ? 'text-[#E23232]' : 'text-foreground/55')} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
@@ -1295,7 +1295,7 @@ function BookingForm() {
                         <span className="text-[8px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-600 dark:text-amber-400 px-1.5 py-0.5 rounded-full border border-amber-500/20">Popular</span>
                       )}
                     </div>
-                    <p className={cn('text-xs mt-0.5 leading-relaxed transition-colors', active ? 'text-foreground/55' : 'text-foreground/45')}>{time} · {desc}</p>
+                    <p className={cn('text-xs mt-0.5 leading-relaxed transition-colors', active ? 'text-foreground/55' : 'text-foreground/60')}>{time} · {desc}</p>
                   </div>
                   <p className={cn('text-base font-bold tabular-nums shrink-0', active ? 'text-foreground' : 'text-foreground/50')}>
                     {centsToDisplay(planPrice.totalCents)}

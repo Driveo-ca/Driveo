@@ -178,7 +178,7 @@ export default function CustomerHomePage() {
 
       {/* ═══════════════════ GREETING ═══════════════════ */}
       <div className="mb-6 md:mb-8">
-        <p className="text-xs text-foreground/45 font-medium mb-0.5">{greeting}</p>
+        <p className="text-xs text-foreground/60 font-medium mb-0.5">{greeting}</p>
         <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">
           {firstName}<span className="text-[#E23232]">.</span>
         </h1>
@@ -187,48 +187,37 @@ export default function CustomerHomePage() {
       {/* ═══════════════════ ACTIVE BOOKING BANNER ═══════════════════ */}
       {activeBooking && statusInfo && (
         <Link href={`/app/track/${activeBooking.id}`} className="block mb-6 group">
-          <div className="relative rounded-2xl border border-[#E23232]/25 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#E23232]/[0.06] via-[#E23232]/[0.02] to-transparent" />
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#E23232]/60 via-[#E23232]/20 to-transparent" />
-
-            <div className="relative px-5 py-4">
+          <div className="rounded-2xl border border-border/60 overflow-hidden">
+            <div className="px-4 md:px-5 py-4">
+              {/* Top: status + track */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2.5">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E23232] opacity-75" />
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E23232] opacity-60" />
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-[#E23232]" />
                   </span>
-                  <span className="text-sm font-semibold text-foreground">{PLAN_LABELS[activeBooking.wash_plan]}</span>
-                  <span className="text-[10px] text-foreground/35">WSH-{activeBooking.id.slice(0, 4).toUpperCase()}</span>
+                  <span className="text-[13px] font-semibold text-foreground">{PLAN_LABELS[activeBooking.wash_plan]}</span>
+                  <span className="text-[10px] text-foreground/50 font-mono">WSH-{activeBooking.id.slice(0, 4).toUpperCase()}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-xs font-medium text-[#E23232] group-hover:gap-2.5 transition-all">
-                  Track
-                  <ArrowRight className="w-3.5 h-3.5" />
+                <div className="flex items-center gap-1.5 text-xs font-medium text-[#E23232] group-hover:gap-2 transition-all">
+                  Track <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               </div>
 
-              {/* Progress steps */}
-              <div className="flex items-center gap-1">
+              {/* Progress: segmented bar with labels */}
+              <div className="flex gap-1.5">
                 {STAGE_STEPS.map((step, i) => (
-                  <div key={step} className="flex items-center flex-1 last:flex-none">
-                    <div className="flex items-center gap-1.5 flex-1">
-                      <div className={cn(
-                        'w-1.5 h-1.5 rounded-full shrink-0',
-                        i <= currentStage ? 'bg-[#E23232]' : 'bg-foreground/[0.1]'
-                      )} />
-                      <span className={cn(
-                        'text-[10px] font-medium whitespace-nowrap',
-                        i <= currentStage ? 'text-foreground/70' : 'text-foreground/30'
-                      )}>
-                        {step}
-                      </span>
-                      {i < STAGE_STEPS.length - 1 && (
-                        <div className={cn(
-                          'flex-1 h-px ml-1',
-                          i < currentStage ? 'bg-[#E23232]/40' : 'bg-foreground/[0.08]'
-                        )} />
-                      )}
-                    </div>
+                  <div key={step} className="flex-1">
+                    <div className={cn(
+                      'h-[3px] rounded-full mb-1.5',
+                      i <= currentStage ? 'bg-[#E23232]' : 'bg-foreground/[0.08]'
+                    )} />
+                    <span className={cn(
+                      'text-[10px] font-medium',
+                      i === currentStage ? 'text-[#E23232]' : i < currentStage ? 'text-foreground/50' : 'text-foreground/50'
+                    )}>
+                      {step}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -270,7 +259,7 @@ export default function CustomerHomePage() {
                   </div>
                   <div className="flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                    <span className="text-[11px] font-medium text-foreground/45">Next: {nextSlot}</span>
+                    <span className="text-[11px] font-medium text-foreground/60">Next: {nextSlot}</span>
                   </div>
                 </div>
 
@@ -279,7 +268,7 @@ export default function CustomerHomePage() {
                   <h2 className="text-4xl md:text-6xl font-display uppercase text-foreground tracking-wide leading-[1]">
                     Book a Wash
                   </h2>
-                  <p className="text-sm text-foreground/45 mt-3 max-w-[320px]">
+                  <p className="text-sm text-foreground/60 mt-3 max-w-[320px]">
                     Professional car wash at your doorstep. We come to you.
                   </p>
                 </div>
@@ -306,10 +295,10 @@ export default function CustomerHomePage() {
           <div>
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
-                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Services</span>
+                <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55">Services</span>
                 <div className="h-px w-12 bg-border/50" />
               </div>
-              <Link href="/app/book" className="text-[11px] font-medium text-foreground/35 hover:text-foreground/55 transition-colors">
+              <Link href="/app/book" className="text-[11px] font-medium text-foreground/55 hover:text-foreground/55 transition-colors">
                 View all
               </Link>
             </div>
@@ -332,7 +321,7 @@ export default function CustomerHomePage() {
                           'w-9 h-9 rounded-xl flex items-center justify-center',
                           tag ? 'bg-[#E23232]/10' : 'bg-foreground/[0.05]'
                         )}>
-                          <Icon className={cn('w-4 h-4', tag ? 'text-[#E23232]' : 'text-foreground/40')} />
+                          <Icon className={cn('w-4 h-4', tag ? 'text-[#E23232]' : 'text-foreground/55')} />
                         </div>
                         {tag && (
                           <span className="text-[9px] font-semibold uppercase tracking-[0.06em] text-[#E23232] bg-[#E23232]/10 px-2 py-0.5 rounded-md">
@@ -341,12 +330,12 @@ export default function CustomerHomePage() {
                         )}
                       </div>
                       <h3 className="text-foreground text-sm font-semibold mb-1">{label}</h3>
-                      <p className="text-foreground/40 text-xs leading-relaxed">{desc}</p>
+                      <p className="text-foreground/55 text-xs leading-relaxed">{desc}</p>
                     </div>
 
                     <div className="p-4 md:p-5 pt-3">
                       <div className="flex items-end justify-between pt-3 border-t border-border/40">
-                        <span className="text-[11px] text-foreground/35">{time}</span>
+                        <span className="text-[11px] text-foreground/55">{time}</span>
                         <span className="text-lg font-bold text-foreground tracking-tight">
                           {centsToDisplay(PLAN_PRICES[plan])}
                         </span>
@@ -399,7 +388,7 @@ export default function CustomerHomePage() {
                       {primaryVehicle.year} {primaryVehicle.make}
                     </h3>
                     <p className="text-foreground/70 text-sm font-medium">{primaryVehicle.model}</p>
-                    <p className="text-foreground/35 text-xs mt-1 capitalize">
+                    <p className="text-foreground/55 text-xs mt-1 capitalize">
                       {primaryVehicle.type.replace('_', ' ')}
                       {primaryVehicle.color ? ` · ${primaryVehicle.color}` : ''}
                     </p>
@@ -413,7 +402,7 @@ export default function CustomerHomePage() {
                 </div>
 
                 {vehicles.length > 1 && (
-                  <p className="text-[11px] text-foreground/30 mt-3 pt-3 border-t border-border/40">
+                  <p className="text-[11px] text-foreground/50 mt-3 pt-3 border-t border-border/40">
                     +{vehicles.length - 1} other vehicle{vehicles.length > 2 ? 's' : ''} registered
                   </p>
                 )}
@@ -426,7 +415,7 @@ export default function CustomerHomePage() {
                   <Plus className="w-6 h-6 text-[#E23232]" />
                 </div>
                 <p className="text-foreground font-semibold text-sm">Add Your Vehicle</p>
-                <p className="text-foreground/40 text-xs mt-1">Required to book a wash</p>
+                <p className="text-foreground/55 text-xs mt-1">Required to book a wash</p>
               </div>
             </Link>
           )}
@@ -436,22 +425,22 @@ export default function CustomerHomePage() {
             <Link href="/app/bookings" className="block group">
               <div className="rounded-2xl border border-border/50 hover:border-border p-4 transition-all hover:bg-foreground/[0.02] min-h-[100px] flex flex-col justify-between">
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] group-hover:bg-foreground/[0.07] flex items-center justify-center transition-colors">
-                  <CalendarDays className="w-4 h-4 text-foreground/40 group-hover:text-foreground/60 transition-colors" />
+                  <CalendarDays className="w-4 h-4 text-foreground/55 group-hover:text-foreground/60 transition-colors" />
                 </div>
                 <div className="mt-3">
                   <p className="text-sm font-medium text-foreground/70 group-hover:text-foreground transition-colors">Wash History</p>
-                  <p className="text-[11px] text-foreground/30 mt-0.5">View past washes</p>
+                  <p className="text-[11px] text-foreground/50 mt-0.5">View past washes</p>
                 </div>
               </div>
             </Link>
             <Link href="/app/membership" className="block group">
               <div className="rounded-2xl border border-border/50 hover:border-border p-4 transition-all hover:bg-foreground/[0.02] min-h-[100px] flex flex-col justify-between">
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] group-hover:bg-foreground/[0.07] flex items-center justify-center transition-colors">
-                  <CreditCard className="w-4 h-4 text-foreground/40 group-hover:text-foreground/60 transition-colors" />
+                  <CreditCard className="w-4 h-4 text-foreground/55 group-hover:text-foreground/60 transition-colors" />
                 </div>
                 <div className="mt-3">
                   <p className="text-sm font-medium text-foreground/70 group-hover:text-foreground transition-colors">Subscription</p>
-                  <p className="text-[11px] text-foreground/30 mt-0.5">Manage plan</p>
+                  <p className="text-[11px] text-foreground/50 mt-0.5">Manage plan</p>
                 </div>
               </div>
             </Link>

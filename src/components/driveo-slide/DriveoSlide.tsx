@@ -78,7 +78,7 @@ export function DriveoSlide({
     <div className="space-y-5">
       {/* Car Image with Dirt Overlay */}
       <div className="text-center">
-        <p className="text-foreground/60 dark:text-foreground/40 text-xs mb-3 uppercase tracking-wider">
+        <p className="text-foreground/60 dark:text-foreground/55 text-xs mb-3 uppercase tracking-wider">
           How dirty is your car?
         </p>
         <DirtCanvas
@@ -93,11 +93,11 @@ export function DriveoSlide({
       {/* Dirt Level Slider */}
       <div className="space-y-3 px-2">
         <div className="flex items-center justify-between">
-          <span className="text-foreground/60 dark:text-foreground/40 text-xs">Clean</span>
+          <span className="text-foreground/60 dark:text-foreground/55 text-xs">Clean</span>
           <span className={cn('text-sm font-semibold', sliderColor)}>
             Level {dirtLevel} — {DIRT_LABELS[dirtLevel]}
           </span>
-          <span className="text-foreground/60 dark:text-foreground/40 text-xs">Extreme</span>
+          <span className="text-foreground/60 dark:text-foreground/55 text-xs">Extreme</span>
         </div>
         <Slider
           value={[dirtLevel]}
@@ -139,7 +139,7 @@ export function DriveoSlide({
               <p className={cn('text-sm font-bold mt-1', isActive ? 'text-[#E23232]' : 'text-foreground/60')}>
                 {centsToDisplay(price.totalCents)}
               </p>
-              <p className="text-foreground/55 dark:text-foreground/30 text-[10px] mt-0.5">
+              <p className="text-foreground/55 dark:text-foreground/50 text-[10px] mt-0.5">
                 {formatDuration(price.estimatedDurationMin)}
               </p>
             </button>
@@ -165,7 +165,7 @@ export function DriveoSlide({
           {activePrice.dirtMultiplier !== 1 && (
             <div className="flex justify-between text-sm">
               <span className="text-foreground/50">Dirt surcharge ({activePrice.dirtMultiplier}x)</span>
-              <span className="text-amber-400">
+              <span className="text-amber-600 dark:text-amber-400">
                 +{centsToDisplay(Math.round(activePrice.basePriceCents * activePrice.vehicleMultiplier * (activePrice.dirtMultiplier - 1)))}
               </span>
             </div>
@@ -178,7 +178,7 @@ export function DriveoSlide({
             <span className="text-foreground">Total</span>
             <span className="text-[#E23232] text-lg">{centsToDisplay(activePrice.totalCents)}</span>
           </div>
-          <div className="flex items-center gap-4 pt-1 text-foreground/60 dark:text-foreground/40 text-xs">
+          <div className="flex items-center gap-4 pt-1 text-foreground/60 dark:text-foreground/55 text-xs">
             <span className="flex items-center gap-1">
               <Clock className="w-3 h-3" /> ~{formatDuration(activePrice.estimatedDurationMin)}
             </span>

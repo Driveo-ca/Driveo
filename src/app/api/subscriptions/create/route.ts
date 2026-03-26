@@ -59,17 +59,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 });
     }
 
-    // Check for existing active subscription in DB
+    // Check for existing active subscription on the same plan
     const { data: existingSub } = await adminSupabase
       .from('subscriptions')
       .select('id')
       .eq('customer_id', user.id)
+      .eq('plan_id', planId)
       .eq('status', 'active')
       .single();
 
     if (existingSub) {
       return NextResponse.json(
-        { error: 'You already have an active subscription. Cancel it first.' },
+        { error: 'You already have an active subscription for this plan.' },
         { status: 409 }
       );
     }

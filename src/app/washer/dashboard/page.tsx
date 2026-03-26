@@ -120,7 +120,7 @@ export default function WasherDashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-display text-foreground tracking-tight">Dashboard</h1>
-          <p className="text-foreground/60 dark:text-foreground/40 text-sm mt-0.5">
+          <p className="text-foreground/60 dark:text-foreground/55 text-sm mt-0.5">
             {washerProfile?.status === 'approved' ? (isOnline ? 'You\'re online' : 'You\'re offline') : 'Pending approval'}
           </p>
         </div>
@@ -134,11 +134,11 @@ export default function WasherDashboardPage() {
             )}>
               <Power className={cn(
                 'w-4 h-4 transition-colors duration-300',
-                isOnline ? 'text-green-400' : 'text-foreground/55 dark:text-foreground/30'
+                isOnline ? 'text-green-600 dark:text-green-400' : 'text-foreground/55 dark:text-foreground/50'
               )} />
               <span className={cn(
                 'text-xs font-medium transition-colors duration-300',
-                isOnline ? 'text-green-400' : 'text-foreground/55 dark:text-foreground/30'
+                isOnline ? 'text-green-600 dark:text-green-400' : 'text-foreground/55 dark:text-foreground/50'
               )}>
                 {isOnline ? 'ONLINE' : 'OFFLINE'}
               </span>
@@ -152,24 +152,24 @@ export default function WasherDashboardPage() {
       <div className="grid grid-cols-3 gap-3">
         <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
           <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center mx-auto mb-2">
-            <DollarSign className="w-4 h-4 text-green-400" />
+            <DollarSign className="w-4 h-4 text-green-600 dark:text-green-400" />
           </div>
           <p className="text-[#E23232] font-bold text-lg">{centsToDisplay(todayEarnings)}</p>
-          <p className="text-foreground/60 dark:text-foreground/40 text-[11px] uppercase tracking-wider mt-1">Today</p>
+          <p className="text-foreground/60 dark:text-foreground/55 text-[11px] uppercase tracking-wider mt-1">Today</p>
         </div>
         <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
           <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center mx-auto mb-2">
             <Car className="w-4 h-4 text-blue-400" />
           </div>
           <p className="text-foreground font-bold text-lg">{completedToday}</p>
-          <p className="text-foreground/60 dark:text-foreground/40 text-[11px] uppercase tracking-wider mt-1">Washes</p>
+          <p className="text-foreground/60 dark:text-foreground/55 text-[11px] uppercase tracking-wider mt-1">Washes</p>
         </div>
         <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
           <div className="w-8 h-8 rounded-full bg-yellow-500/10 flex items-center justify-center mx-auto mb-2">
-            <Star className="w-4 h-4 text-yellow-400" />
+            <Star className="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
           </div>
           <p className="text-foreground font-bold text-lg">{washerProfile?.rating_avg?.toFixed(1) || '—'}</p>
-          <p className="text-foreground/60 dark:text-foreground/40 text-[11px] uppercase tracking-wider mt-1">Rating</p>
+          <p className="text-foreground/60 dark:text-foreground/55 text-[11px] uppercase tracking-wider mt-1">Rating</p>
         </div>
       </div>
 
@@ -192,7 +192,7 @@ export default function WasherDashboardPage() {
                 <DollarSign className="w-3.5 h-3.5" /> {centsToDisplay(activeJob.washer_payout)}
               </span>
             </div>
-            <div className="flex items-center gap-1.5 mt-2 text-foreground/60 dark:text-foreground/40 text-xs">
+            <div className="flex items-center gap-1.5 mt-2 text-foreground/60 dark:text-foreground/55 text-xs">
               <MapPin className="w-3.5 h-3.5" /> {activeJob.service_address}
             </div>
           </div>
@@ -202,12 +202,12 @@ export default function WasherDashboardPage() {
       {/* Today's Jobs */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xs font-semibold text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Today&apos;s Jobs</h2>
+          <h2 className="text-xs font-semibold text-foreground/60 dark:text-foreground/55 uppercase tracking-widest">Today&apos;s Jobs</h2>
           <Link href="/washer/jobs" className="text-[#E23232] text-xs hover:text-[#E23232]/80 transition-colors font-medium">View all</Link>
         </div>
         {todayJobs.length === 0 ? (
           <div className="bg-surface border border-border rounded-2xl p-8 text-center">
-            <p className="text-foreground/60 dark:text-foreground/40 text-sm">
+            <p className="text-foreground/60 dark:text-foreground/55 text-sm">
               {isOnline ? 'No jobs yet today. Stay online!' : 'Go online to receive jobs.'}
             </p>
           </div>
@@ -223,7 +223,7 @@ export default function WasherDashboardPage() {
                         {job.status.replace('_', ' ')}
                       </Badge>
                     </div>
-                    <p className="text-foreground/60 dark:text-foreground/40 text-xs mt-1">
+                    <p className="text-foreground/60 dark:text-foreground/55 text-xs mt-1">
                       {job.vehicles.year} {job.vehicles.make} {job.vehicles.model}
                     </p>
                   </div>

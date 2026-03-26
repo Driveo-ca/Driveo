@@ -137,7 +137,7 @@ export default function ReviewPage() {
   if (!booking) {
     return (
       <div className="px-4 pt-20 text-center">
-        <p className="text-foreground/60 dark:text-foreground/40">Booking not found</p>
+        <p className="text-foreground/60 dark:text-foreground/55">Booking not found</p>
       </div>
     );
   }
@@ -147,11 +147,11 @@ export default function ReviewPage() {
     return (
       <div className="max-w-lg mx-auto px-4 pt-20 text-center space-y-6">
         <div className="w-16 h-16 rounded-full bg-green-500/10 flex items-center justify-center mx-auto">
-          <CheckCircle2 className="w-8 h-8 text-green-400" />
+          <CheckCircle2 className="w-8 h-8 text-green-600 dark:text-green-400" />
         </div>
         <div>
           <h2 className="text-foreground text-xl font-display">Thank you!</h2>
-          <p className="text-foreground/60 dark:text-foreground/40 text-sm mt-2">
+          <p className="text-foreground/60 dark:text-foreground/55 text-sm mt-2">
             Your {rating}-star review has been submitted.
           </p>
         </div>
@@ -161,7 +161,7 @@ export default function ReviewPage() {
               key={s}
               className={cn(
                 'w-6 h-6',
-                s <= rating ? 'text-amber-400 fill-amber-400' : 'text-foreground/10'
+                s <= rating ? 'text-amber-600 dark:text-amber-400 fill-amber-500' : 'text-foreground/10'
               )}
             />
           ))}
@@ -228,8 +228,8 @@ export default function ReviewPage() {
                   className={cn(
                     'w-10 h-10 transition-colors',
                     s <= (hoveredStar || rating)
-                      ? 'text-amber-400 fill-amber-400'
-                      : 'text-foreground/30 dark:text-foreground/10 hover:text-foreground/50 dark:hover:text-foreground/20'
+                      ? 'text-amber-600 dark:text-amber-400 fill-amber-500'
+                      : 'text-foreground/50 dark:text-foreground/10 hover:text-foreground/50 dark:hover:text-foreground/20'
                   )}
                 />
               </button>
@@ -238,7 +238,7 @@ export default function ReviewPage() {
           {(hoveredStar || rating) > 0 && (
             <p className={cn(
               'text-sm font-medium',
-              (hoveredStar || rating) >= 4 ? 'text-amber-400' :
+              (hoveredStar || rating) >= 4 ? 'text-amber-600 dark:text-amber-400' :
               (hoveredStar || rating) >= 3 ? 'text-foreground/50' :
               'text-red-400'
             )}>
@@ -280,7 +280,7 @@ export default function ReviewPage() {
                     'px-3 py-1.5 rounded-full text-xs font-medium border transition-all',
                     isSelected
                       ? 'bg-[#E23232]/10 border-[#E23232]/30 text-[#E23232]'
-                      : 'bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground/60 dark:text-foreground/40 hover:border-border'
+                      : 'bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground/60 dark:text-foreground/55 hover:border-border'
                   )}
                 >
                   {tag}
@@ -298,7 +298,7 @@ export default function ReviewPage() {
             'w-full py-3.5 rounded-xl font-semibold text-sm transition-all',
             rating
               ? 'bg-[#E23232] hover:bg-[#c92a2a] text-white'
-              : 'bg-foreground/[0.05] text-foreground/50 dark:text-foreground/45 cursor-not-allowed'
+              : 'bg-foreground/[0.05] text-foreground/50 dark:text-foreground/60 cursor-not-allowed'
           )}
         >
           {submitting ? (

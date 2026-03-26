@@ -6,15 +6,15 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from '@/components/ui/dialog';
 import { AutocompleteInput } from '@/components/AutocompleteInput';
-import { VEHICLE_TYPE_LABELS } from '@/lib/pricing';
-import { VEHICLE_MAKE_LIST, getModelsForMake, getYearRange } from '@/lib/vehicle-data';
+import { VEHICLE_TYPE_LABELS, VEHICLE_MULTIPLIERS } from '@/lib/pricing';
+import { VEHICLE_MAKE_LIST, getModelsForMake, getYearRange, getModelVehicleType } from '@/lib/vehicle-data';
 import { getVehicleImageUrl } from '@/lib/vehicle-image';
 import { toast } from 'sonner';
 import {
   Car, Plus, Star, Trash2, ChevronRight, Pencil, CalendarDays,
-  Droplets, Shield, Gauge, Palette, X,
+  Droplets, Shield, Gauge, Palette, X, AlertTriangle,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Vehicle, VehicleType } from '@/types';
@@ -37,11 +37,24 @@ const vehicleTypes: VehicleType[] = [
   'sedan', 'coupe', 'crossover', 'suv', 'minivan', 'pickup', 'large_suv', 'convertible',
 ];
 
+/** Representative car for each vehicle type (popular/iconic models) */
+const TYPE_SHOWCASE: Record<VehicleType, { make: string; model: string; year: number }> = {
+  sedan: { make: 'BMW', model: '3 Series', year: 2024 },
+  coupe: { make: 'Audi', model: 'A5', year: 2024 },
+  crossover: { make: 'Mazda', model: 'CX-5', year: 2024 },
+  suv: { make: 'Range Rover', model: 'Sport', year: 2024 },
+  minivan: { make: 'Toyota', model: 'Sienna', year: 2024 },
+  pickup: { make: 'Ford', model: 'F-150', year: 2024 },
+  large_suv: { make: 'Cadillac', model: 'Escalade', year: 2024 },
+  convertible: { make: 'Porsche', model: 'Boxster', year: 2024 },
+};
+
 export default function VehiclesPage() {
   const router = useRouter();
   const [vehicles, setVehicles] = useState<Vehicle[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [formStep, setFormStep] = useState<1 | 2>(1);
   const [formType, setFormType] = useState<VehicleType>('sedan');
   const [formMake, setFormMake] = useState('');
   const [formModel, setFormModel] = useState('');
@@ -49,6 +62,13 @@ export default function VehiclesPage() {
   const [formColor, setFormColor] = useState('');
   const [saving, setSaving] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  // Delete state
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [deleteSubCount, setDeleteSubCount] = useState(0);
+  const [deleting, setDeleting] = useState(false);
 
   // Edit state
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -101,6 +121,7 @@ export default function VehiclesPage() {
         triggerDirtyCarGeneration(inserted.id, formMake, formModel, parseInt(formYear), formColor || undefined);
       }
       setDialogOpen(false);
+      setFormStep(1);
       setFormMake('');
       setFormModel('');
       setFormColor('');
@@ -120,17 +141,27 @@ export default function VehiclesPage() {
     loadVehicles();
   }
 
-  async function deleteVehicle(id: string) {
-    if (!confirm('Remove this vehicle?')) return;
+  async function deleteVehicle(id: string, force = false) {
+    setDeletingId(id);
     try {
       const res = await fetch('/api/vehicles', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id }),
+        body: JSON.stringify({ id, force }),
       });
       const result = await res.json();
+
+      if (res.status === 409 && result.error === 'has_subscriptions') {
+        setDeleteTargetId(id);
+        setDeleteSubCount(result.subscriptionCount);
+        setDeleteConfirmOpen(true);
+        setDeletingId(null);
+        return;
+      }
+
       if (!res.ok) {
         toast.error(result.error || 'Failed to delete vehicle');
+        setDeletingId(null);
         return;
       }
       toast.success('Vehicle removed');
@@ -139,6 +170,16 @@ export default function VehiclesPage() {
     } catch {
       toast.error('Failed to delete vehicle');
     }
+    setDeletingId(null);
+  }
+
+  async function confirmDeleteWithSubs() {
+    if (!deleteTargetId) return;
+    setDeleting(true);
+    await deleteVehicle(deleteTargetId, true);
+    setDeleting(false);
+    setDeleteConfirmOpen(false);
+    setDeleteTargetId(null);
   }
 
   function openEdit(v: Vehicle) {
@@ -180,63 +221,169 @@ export default function VehiclesPage() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-display text-foreground tracking-tight">My Garage</h1>
-          <p className="text-foreground/40 text-sm mt-1">Your vehicles, ready to shine</p>
+          <p className="text-foreground/55 text-sm mt-1">Your vehicles, ready to shine</p>
         </div>
-        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <Dialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setFormStep(1); }}>
           <DialogTrigger>
             <Button size="sm" className="bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl gap-1.5">
               <Plus className="w-4 h-4" /> Add
             </Button>
           </DialogTrigger>
-          <DialogContent className="bg-secondary border border-border text-foreground rounded-2xl max-w-md">
+          <DialogContent className={cn(
+            'bg-secondary border border-border text-foreground rounded-2xl transition-all',
+            formStep === 1 ? 'max-w-lg sm:max-w-xl' : 'max-w-md'
+          )}>
             <DialogHeader>
-              <DialogTitle className="font-display text-lg tracking-tight">Add Vehicle</DialogTitle>
+              <div className="flex items-center justify-between">
+                <div>
+                  <DialogTitle className="font-display text-lg tracking-tight">
+                    {formStep === 1 ? 'What type of vehicle?' : 'Vehicle Details'}
+                  </DialogTitle>
+                  <p className="text-foreground/55 text-xs mt-0.5">
+                    {formStep === 1 ? 'Select your vehicle category' : `${VEHICLE_TYPE_LABELS[formType]} — tell us more`}
+                  </p>
+                </div>
+                <div className="flex items-center gap-1.5 mr-6">
+                  <div className={cn('w-6 h-1 rounded-full transition-colors', 'bg-[#E23232]')} />
+                  <div className={cn('w-6 h-1 rounded-full transition-colors', formStep === 2 ? 'bg-[#E23232]' : 'bg-foreground/10')} />
+                </div>
+              </div>
             </DialogHeader>
-            <div className="space-y-5 mt-2">
-              <div className="space-y-2.5">
-                <Label className="text-xs uppercase tracking-widest text-foreground/40 font-semibold">Type</Label>
-                <div className="grid grid-cols-4 gap-2">
-                  {vehicleTypes.map((t) => (
+
+            {/* ── Step 1: Vehicle Type Cards ── */}
+            {formStep === 1 && (
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3">
+                {vehicleTypes.map((t) => {
+                  const showcase = TYPE_SHOWCASE[t];
+                  const imgUrl = getVehicleImageUrl(showcase.make, showcase.model, showcase.year, {
+                    angle: 'front-side',
+                    width: 400,
+                  });
+                  const isSelected = formType === t;
+                  return (
                     <button
                       key={t}
-                      onClick={() => setFormType(t)}
+                      onClick={() => { setFormType(t); setFormStep(2); }}
                       className={cn(
-                        'p-2.5 rounded-xl border text-xs text-center transition-all duration-200 font-medium',
-                        formType === t
-                          ? 'border-[#E23232]/60 bg-[#E23232]/10 text-white'
-                          : 'border-border bg-foreground/[0.02] text-foreground/40 hover:border-border hover:text-foreground/60'
+                        'group relative rounded-xl border overflow-hidden text-left transition-all duration-200',
+                        isSelected
+                          ? 'border-[#E23232]/60 ring-1 ring-[#E23232]/30'
+                          : 'border-border hover:border-foreground/20'
                       )}
                     >
-                      {VEHICLE_TYPE_LABELS[t]}
+                      {/* Car image */}
+                      <div className="relative h-[90px] sm:h-[80px] bg-gradient-to-br from-foreground/[0.03] to-foreground/[0.01] overflow-hidden">
+                        <img
+                          src={imgUrl}
+                          alt={VEHICLE_TYPE_LABELS[t]}
+                          className="absolute inset-0 w-full h-full object-contain object-center p-1 transition-transform duration-300 group-hover:scale-105"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Car className="w-8 h-8 text-foreground/[0.04]" />
+                        </div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-secondary/80 via-transparent to-transparent" />
+                      </div>
+                      {/* Label */}
+                      <div className="px-2.5 py-2">
+                        <span className={cn(
+                          'text-xs font-semibold transition-colors',
+                          isSelected ? 'text-[#E23232]' : 'text-foreground/70 group-hover:text-foreground'
+                        )}>
+                          {VEHICLE_TYPE_LABELS[t]}
+                        </span>
+                        <span className="block text-[9px] text-foreground/40 mt-0.5">
+                          {VEHICLE_MULTIPLIERS[t] === 1 ? 'Standard' : `${VEHICLE_MULTIPLIERS[t]}x pricing`}
+                        </span>
+                      </div>
                     </button>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
-              <div className="space-y-3">
-                <div className="space-y-1.5">
-                  <Label className="text-xs text-foreground/40">Year</Label>
-                  <AutocompleteInput options={yearOptions} value={formYear} onChange={setFormYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+            )}
+
+            {/* ── Step 2: Vehicle Details Form ── */}
+            {formStep === 2 && (
+              <div className="space-y-5 mt-2">
+                {/* Selected type preview */}
+                <button
+                  onClick={() => setFormStep(1)}
+                  className="w-full flex items-center gap-3 p-3 rounded-xl border border-border bg-foreground/[0.02] hover:bg-foreground/[0.04] transition-colors group"
+                >
+                  <div className="w-16 h-12 rounded-lg bg-foreground/[0.03] overflow-hidden shrink-0">
+                    <img
+                      src={getVehicleImageUrl(TYPE_SHOWCASE[formType].make, TYPE_SHOWCASE[formType].model, TYPE_SHOWCASE[formType].year, { angle: 'front-side', width: 200 })}
+                      alt={VEHICLE_TYPE_LABELS[formType]}
+                      className="w-full h-full object-contain"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                    />
+                  </div>
+                  <div className="flex-1 text-left">
+                    <span className="text-sm font-semibold text-foreground">{VEHICLE_TYPE_LABELS[formType]}</span>
+                    <span className="block text-[10px] text-foreground/50">Tap to change type</span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-foreground/30 group-hover:text-foreground/50 rotate-180 transition-colors" />
+                </button>
+
+                <div className="space-y-3">
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-foreground/55">Year</Label>
+                    <AutocompleteInput options={yearOptions} value={formYear} onChange={setFormYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-foreground/55">Make</Label>
+                    <AutocompleteInput options={VEHICLE_MAKE_LIST} value={formMake} onChange={(val) => { setFormMake(val); if (val !== formMake) setFormModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-foreground/55">Model</Label>
+                    <AutocompleteInput options={getModelsForMake(formMake)} value={formModel} onChange={(val) => { setFormModel(val); const detected = getModelVehicleType(formMake, val); if (detected) setFormType(detected); }} placeholder={formMake ? `${formMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-xs text-foreground/40">Make</Label>
-                  <AutocompleteInput options={VEHICLE_MAKE_LIST} value={formMake} onChange={(val) => { setFormMake(val); if (val !== formMake) setFormModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  <Label className="text-xs text-foreground/55">Color (optional)</Label>
+                  <Input placeholder="Silver" value={formColor} onChange={(e) => setFormColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
                 </div>
-                <div className="space-y-1.5">
-                  <Label className="text-xs text-foreground/40">Model</Label>
-                  <AutocompleteInput options={getModelsForMake(formMake)} value={formModel} onChange={setFormModel} placeholder={formMake ? `${formMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
-                </div>
+                <Button onClick={addVehicle} disabled={saving || !formMake || !formModel} className="w-full bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl h-11 font-semibold transition-all">
+                  {saving ? 'Adding...' : 'Add Vehicle'}
+                </Button>
               </div>
-              <div className="space-y-1.5">
-                <Label className="text-xs text-foreground/40">Color (optional)</Label>
-                <Input placeholder="Silver" value={formColor} onChange={(e) => setFormColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
-              </div>
-              <Button onClick={addVehicle} disabled={saving || !formMake || !formModel} className="w-full bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl h-11 font-semibold transition-all">
-                {saving ? 'Adding...' : 'Add Vehicle'}
-              </Button>
-            </div>
+            )}
           </DialogContent>
         </Dialog>
       </div>
+
+      {/* Delete Confirmation Dialog (subscription warning) */}
+      <Dialog open={deleteConfirmOpen} onOpenChange={(open) => { setDeleteConfirmOpen(open); if (!open) setDeleteTargetId(null); }}>
+        <DialogContent className="bg-secondary border border-border text-foreground rounded-2xl max-w-sm">
+          <DialogHeader>
+            <div className="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-3">
+              <AlertTriangle className="w-6 h-6 text-amber-600 dark:text-amber-400" />
+            </div>
+            <DialogTitle className="font-display text-lg tracking-tight text-center">
+              Active Subscription
+            </DialogTitle>
+            <DialogDescription className="text-foreground/55 text-sm text-center mt-2">
+              This vehicle has {deleteSubCount} active subscription{deleteSubCount > 1 ? 's' : ''}. Removing it will cancel the subscription{deleteSubCount > 1 ? 's' : ''} and you won&apos;t be billed further.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex gap-2.5 mt-4">
+            <Button
+              variant="outline"
+              onClick={() => { setDeleteConfirmOpen(false); setDeleteTargetId(null); }}
+              className="flex-1 rounded-xl border-border text-foreground/70 hover:text-foreground"
+            >
+              Keep Vehicle
+            </Button>
+            <Button
+              onClick={confirmDeleteWithSubs}
+              disabled={deleting}
+              className="flex-1 rounded-xl bg-red-600 hover:bg-red-700 text-white"
+            >
+              {deleting ? 'Removing...' : 'Remove & Cancel'}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Edit Vehicle Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
@@ -246,7 +393,7 @@ export default function VehiclesPage() {
           </DialogHeader>
           <div className="space-y-5 mt-2">
             <div className="space-y-2.5">
-              <Label className="text-xs uppercase tracking-widest text-foreground/40 font-semibold">Type</Label>
+              <Label className="text-xs uppercase tracking-widest text-foreground/55 font-semibold">Type</Label>
               <div className="grid grid-cols-4 gap-2">
                 {vehicleTypes.map((t) => (
                   <button
@@ -256,7 +403,7 @@ export default function VehiclesPage() {
                       'p-2.5 rounded-xl border text-xs text-center transition-all duration-200 font-medium',
                       editType === t
                         ? 'border-[#E23232]/60 bg-[#E23232]/10 text-white'
-                        : 'border-border bg-foreground/[0.02] text-foreground/40 hover:border-border hover:text-foreground/60'
+                        : 'border-border bg-foreground/[0.02] text-foreground/55 hover:border-border hover:text-foreground/60'
                     )}
                   >
                     {VEHICLE_TYPE_LABELS[t]}
@@ -266,20 +413,20 @@ export default function VehiclesPage() {
             </div>
             <div className="space-y-3">
               <div className="space-y-1.5">
-                <Label className="text-xs text-foreground/40">Year</Label>
+                <Label className="text-xs text-foreground/55">Year</Label>
                 <AutocompleteInput options={yearOptions} value={editYear} onChange={setEditYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-foreground/40">Make</Label>
+                <Label className="text-xs text-foreground/55">Make</Label>
                 <AutocompleteInput options={VEHICLE_MAKE_LIST} value={editMake} onChange={(val) => { setEditMake(val); if (val !== editMake) setEditModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
               </div>
               <div className="space-y-1.5">
-                <Label className="text-xs text-foreground/40">Model</Label>
-                <AutocompleteInput options={getModelsForMake(editMake)} value={editModel} onChange={setEditModel} placeholder={editMake ? `${editMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                <Label className="text-xs text-foreground/55">Model</Label>
+                <AutocompleteInput options={getModelsForMake(editMake)} value={editModel} onChange={(val) => { setEditModel(val); const detected = getModelVehicleType(editMake, val); if (detected) setEditType(detected); }} placeholder={editMake ? `${editMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
               </div>
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs text-foreground/40">Color (optional)</Label>
+              <Label className="text-xs text-foreground/55">Color (optional)</Label>
               <Input placeholder="Silver" value={editColor} onChange={(e) => setEditColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
             </div>
             <Button onClick={saveEdit} disabled={editSaving || !editMake || !editModel} className="w-full bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl h-11 font-semibold transition-all">
@@ -300,10 +447,10 @@ export default function VehiclesPage() {
           <div className="rounded-2xl border-2 border-dashed border-border hover:border-foreground/15 transition-colors duration-300">
             <div className="p-12 text-center">
               <div className="w-16 h-16 rounded-2xl bg-foreground/[0.04] border border-border flex items-center justify-center mx-auto mb-5">
-                <Car className="w-7 h-7 text-foreground/30" />
+                <Car className="w-7 h-7 text-foreground/50" />
               </div>
               <p className="text-foreground/50 text-sm font-medium">No vehicles yet</p>
-              <p className="text-foreground/30 text-xs mt-1.5">Add your first car to get started</p>
+              <p className="text-foreground/50 text-xs mt-1.5">Add your first car to get started</p>
             </div>
           </div>
         </div>
@@ -366,8 +513,14 @@ export default function VehiclesPage() {
 
                   {/* Delete button */}
                   <button
+                    disabled={deletingId === v.id}
                     onClick={(e) => { e.stopPropagation(); deleteVehicle(v.id); }}
-                    className="absolute top-3 right-3 z-20 w-7 h-7 rounded-lg bg-background/60 backdrop-blur-sm border border-border flex items-center justify-center text-foreground/40 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 transition-all opacity-0 group-hover:opacity-100"
+                    className={cn(
+                      'absolute top-3 right-3 z-20 w-7 h-7 rounded-lg backdrop-blur-sm border flex items-center justify-center transition-all',
+                      deletingId === v.id
+                        ? 'bg-foreground/10 border-border text-foreground/30 opacity-100 cursor-not-allowed animate-pulse'
+                        : 'bg-background/60 border-border text-foreground/55 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 opacity-0 group-hover:opacity-100'
+                    )}
                   >
                     <Trash2 className="w-3 h-3" />
                   </button>
@@ -382,13 +535,13 @@ export default function VehiclesPage() {
                       </h3>
                       <div className="flex items-center gap-3 mt-1">
                         <div className="flex items-center gap-1">
-                          <Gauge className="w-3 h-3 text-foreground/25" />
-                          <span className="text-foreground/40 text-xs">{VEHICLE_TYPE_LABELS[v.type]}</span>
+                          <Gauge className="w-3 h-3 text-foreground/50" />
+                          <span className="text-foreground/55 text-xs">{VEHICLE_TYPE_LABELS[v.type]}</span>
                         </div>
                         {v.color && (
                           <div className="flex items-center gap-1">
-                            <Palette className="w-3 h-3 text-foreground/25" />
-                            <span className="text-foreground/40 text-xs">{v.color}</span>
+                            <Palette className="w-3 h-3 text-foreground/50" />
+                            <span className="text-foreground/55 text-xs">{v.color}</span>
                           </div>
                         )}
                       </div>
@@ -396,7 +549,7 @@ export default function VehiclesPage() {
                     {!v.is_primary && (
                       <button
                         onClick={(e) => { e.stopPropagation(); setPrimary(v.id); }}
-                        className="p-1.5 rounded-lg text-foreground/25 hover:text-amber-400 hover:bg-amber-400/10 transition-all"
+                        className="p-1.5 rounded-lg text-foreground/50 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-400/10 transition-all"
                         title="Set as primary"
                       >
                         <Star className="w-4 h-4" />

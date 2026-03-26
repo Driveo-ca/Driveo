@@ -141,7 +141,7 @@ function WheelColumn({
                 i === selectedIndex
                   ? 'text-foreground text-[28px] cursor-text'
                   : dist === 1
-                  ? 'text-foreground/40 text-[22px] cursor-default'
+                  ? 'text-foreground/55 text-[22px] cursor-default'
                   : 'text-foreground/15 text-[18px] cursor-default'
               )}
             >
@@ -382,7 +382,7 @@ export function CalendarPicker({ value, onChange }: CalendarPickerProps) {
                         disabled={past}
                         className={cn(
                           'relative h-10 w-full rounded-xl text-sm font-medium transition-all flex items-center justify-center',
-                          past && 'text-foreground/25 cursor-not-allowed',
+                          past && 'text-foreground/50 cursor-not-allowed',
                           !past && !selected && 'text-foreground/70 hover:bg-foreground/10 hover:text-foreground',
                           selected && 'bg-[#E23232] text-white',
                           todayDay && !selected && 'text-[#E23232] font-semibold',
@@ -403,7 +403,7 @@ export function CalendarPicker({ value, onChange }: CalendarPickerProps) {
             {step === 'time' && (
               <div className="px-4 pb-5">
                 {/* Hint */}
-                <p className="text-[11px] font-mono text-foreground/45 text-center pt-4 pb-2 uppercase tracking-widest">
+                <p className="text-[11px] font-mono text-foreground/60 text-center pt-4 pb-2 uppercase tracking-widest">
                   Scroll or tap to type
                 </p>
 
@@ -421,7 +421,7 @@ export function CalendarPicker({ value, onChange }: CalendarPickerProps) {
                   />
 
                   {/* Colon separator */}
-                  <div className="flex items-center justify-center w-5 text-foreground/40 text-2xl font-light select-none pb-0.5">
+                  <div className="flex items-center justify-center w-5 text-foreground/55 text-2xl font-light select-none pb-0.5">
                     :
                   </div>
 

@@ -233,7 +233,7 @@ export default function ProfilePage() {
             {/* Name & meta */}
             <div className="min-w-0 flex-1">
               <p className="text-lg font-bold text-foreground truncate leading-tight">
-                {profile?.full_name || <span className="text-foreground/40 italic text-base font-normal">No name set</span>}
+                {profile?.full_name || <span className="text-foreground/55 italic text-base font-normal">No name set</span>}
               </p>
               <div className="flex items-center gap-2 mt-1.5">
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#E23232]/10 text-[10px] font-semibold uppercase tracking-[0.08em] text-[#E23232]">
@@ -251,7 +251,7 @@ export default function ProfilePage() {
         <div className="rounded-2xl border border-border/50 overflow-hidden mb-5">
           <div className="px-5 pt-5 pb-2">
             <div className="flex items-center gap-3 mb-1">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Personal Information</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55">Personal Information</span>
               <div className="h-px flex-1 bg-border/50" />
             </div>
           </div>
@@ -261,22 +261,22 @@ export default function ProfilePage() {
             <div className="px-5 py-4">
               {editing ? (
                 <div>
-                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-2 block">Full Name</label>
+                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-2 block">Full Name</label>
                   <Input
                     value={form.full_name}
                     onChange={(e) => setForm({ ...form, full_name: e.target.value })}
                     placeholder="Enter your full name"
-                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 placeholder:text-foreground/30"
+                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 placeholder:text-foreground/50"
                   />
                 </div>
               ) : (
                 <div className="flex items-center gap-3.5">
                   <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
-                    <User className="w-4 h-4 text-foreground/40" />
+                    <User className="w-4 h-4 text-foreground/55" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-0.5">Full Name</p>
-                    <p className={cn('text-sm', profile?.full_name ? 'text-foreground/80 font-medium' : 'text-foreground/35 italic')}>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-0.5">Full Name</p>
+                    <p className={cn('text-sm', profile?.full_name ? 'text-foreground/80 font-medium' : 'text-foreground/55 italic')}>
                       {profile?.full_name || 'Not set'}
                     </p>
                   </div>
@@ -288,11 +288,11 @@ export default function ProfilePage() {
             <div className="px-5 py-4">
               <div className="flex items-center gap-3.5">
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
-                  <Mail className="w-4 h-4 text-foreground/40" />
+                  <Mail className="w-4 h-4 text-foreground/55" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-0.5">Email</p>
-                  <p className={cn('text-sm', displayEmail ? 'text-foreground/80 font-medium' : 'text-foreground/35 italic')}>
+                  <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-0.5">Email</p>
+                  <p className={cn('text-sm', displayEmail ? 'text-foreground/80 font-medium' : 'text-foreground/55 italic')}>
                     {displayEmail || 'Not set'}
                   </p>
                 </div>
@@ -303,22 +303,22 @@ export default function ProfilePage() {
             <div className="px-5 py-4">
               {editing ? (
                 <div>
-                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-2 block">Phone</label>
+                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-2 block">Phone</label>
                   <Input
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     placeholder="+1 (416) 555-0123"
-                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 placeholder:text-foreground/30"
+                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 placeholder:text-foreground/50"
                   />
                 </div>
               ) : (
                 <div className="flex items-center gap-3.5">
                   <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
-                    <Phone className="w-4 h-4 text-foreground/40" />
+                    <Phone className="w-4 h-4 text-foreground/55" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-0.5">Phone</p>
-                    <p className={cn('text-sm', profile?.phone ? 'text-foreground/80 font-medium' : 'text-foreground/35 italic')}>
+                    <p className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-0.5">Phone</p>
+                    <p className={cn('text-sm', profile?.phone ? 'text-foreground/80 font-medium' : 'text-foreground/55 italic')}>
                       {profile?.phone || 'Not set'}
                     </p>
                   </div>
@@ -339,7 +339,7 @@ export default function ProfilePage() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-foreground">Referral Code</p>
-                  <p className="text-[11px] text-foreground/45 mt-0.5">Share with friends to earn rewards</p>
+                  <p className="text-[11px] text-foreground/60 mt-0.5">Share with friends to earn rewards</p>
                 </div>
               </div>
 
@@ -369,7 +369,7 @@ export default function ProfilePage() {
         <div className="rounded-2xl border border-border/50 overflow-hidden mb-5">
           <div className="px-5 pt-5 pb-2">
             <div className="flex items-center gap-3 mb-1">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Account</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55">Account</span>
               <div className="h-px flex-1 bg-border/50" />
             </div>
           </div>
@@ -388,13 +388,13 @@ export default function ProfilePage() {
                 className="w-full flex items-center gap-3.5 px-5 py-3.5 hover:bg-foreground/[0.03] transition-colors group"
               >
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] group-hover:bg-foreground/[0.07] flex items-center justify-center shrink-0 transition-colors">
-                  <item.icon className="w-4 h-4 text-foreground/40 group-hover:text-foreground/60 transition-colors" />
+                  <item.icon className="w-4 h-4 text-foreground/55 group-hover:text-foreground/60 transition-colors" />
                 </div>
                 <div className="flex-1 min-w-0 text-left">
                   <p className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">{item.label}</p>
-                  <p className="text-[11px] text-foreground/35 mt-0.5">{item.desc}</p>
+                  <p className="text-[11px] text-foreground/55 mt-0.5">{item.desc}</p>
                 </div>
-                <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/40 transition-colors" />
+                <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/55 transition-colors" />
               </button>
             ))}
           </div>

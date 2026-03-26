@@ -109,7 +109,7 @@ export default function PrivacySecurityPage() {
           </button>
           <div>
             <h1 className="text-2xl font-bold text-foreground tracking-tight">Privacy & Security</h1>
-            <p className="text-xs text-foreground/40 mt-0.5">Manage your account security</p>
+            <p className="text-xs text-foreground/55 mt-0.5">Manage your account security</p>
           </div>
         </div>
 
@@ -117,7 +117,7 @@ export default function PrivacySecurityPage() {
         <div className="rounded-2xl border border-border/50 overflow-hidden mb-5">
           <div className="px-5 pt-5 pb-2">
             <div className="flex items-center gap-3 mb-1">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Password</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55">Password</span>
               <div className="h-px flex-1 bg-border/50" />
             </div>
           </div>
@@ -126,11 +126,11 @@ export default function PrivacySecurityPage() {
             <div className="px-5 py-4">
               <div className="flex items-center gap-3.5">
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
-                  <KeyRound className="w-4 h-4 text-foreground/40" />
+                  <KeyRound className="w-4 h-4 text-foreground/55" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground/80">Password</p>
-                  <p className="text-[11px] text-foreground/35 mt-0.5">Last changed: Unknown</p>
+                  <p className="text-[11px] text-foreground/55 mt-0.5">Last changed: Unknown</p>
                 </div>
                 <button
                   onClick={() => setChangingPassword(true)}
@@ -144,19 +144,19 @@ export default function PrivacySecurityPage() {
             <div className="px-5 py-4 space-y-4">
               {/* New Password */}
               <div>
-                <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-2 block">New Password</label>
+                <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-2 block">New Password</label>
                 <div className="relative">
                   <Input
                     type={showPassword ? 'text' : 'password'}
                     value={passwordForm.password}
                     onChange={(e) => setPasswordForm({ ...passwordForm, password: e.target.value })}
                     placeholder="Enter new password"
-                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 pr-10 placeholder:text-foreground/30"
+                    className="bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 pr-10 placeholder:text-foreground/50"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-foreground/50 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/50 hover:text-foreground/50 transition-colors"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -190,7 +190,7 @@ export default function PrivacySecurityPage() {
 
               {/* Confirm Password */}
               <div>
-                <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-2 block">Confirm Password</label>
+                <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-2 block">Confirm Password</label>
                 <div className="relative">
                   <Input
                     type={showConfirm ? 'text' : 'password'}
@@ -198,14 +198,14 @@ export default function PrivacySecurityPage() {
                     onChange={(e) => setPasswordForm({ ...passwordForm, confirm: e.target.value })}
                     placeholder="Confirm new password"
                     className={cn(
-                      'bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 pr-10 placeholder:text-foreground/30',
+                      'bg-foreground/[0.04] border-border/60 text-foreground rounded-xl h-11 pr-10 placeholder:text-foreground/50',
                       passwordForm.confirm.length > 0 && passwordForm.password !== passwordForm.confirm && 'border-red-500/50'
                     )}
                   />
                   <button
                     type="button"
                     onClick={() => setShowConfirm(!showConfirm)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/30 hover:text-foreground/50 transition-colors"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-foreground/50 hover:text-foreground/50 transition-colors"
                   >
                     {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -248,7 +248,7 @@ export default function PrivacySecurityPage() {
         <div className="rounded-2xl border border-border/50 overflow-hidden mb-5">
           <div className="px-5 pt-5 pb-2">
             <div className="flex items-center gap-3 mb-1">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Sessions</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55">Sessions</span>
               <div className="h-px flex-1 bg-border/50" />
             </div>
           </div>
@@ -267,7 +267,7 @@ export default function PrivacySecurityPage() {
                       Active
                     </span>
                   </div>
-                  <p className="text-[11px] text-foreground/35 mt-0.5">This device</p>
+                  <p className="text-[11px] text-foreground/55 mt-0.5">This device</p>
                 </div>
               </div>
             </div>
@@ -276,11 +276,11 @@ export default function PrivacySecurityPage() {
             <div className="px-5 py-4">
               <div className="flex items-center gap-3.5">
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
-                  <LogOut className="w-4 h-4 text-foreground/40" />
+                  <LogOut className="w-4 h-4 text-foreground/55" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground/80">Sign Out Everywhere</p>
-                  <p className="text-[11px] text-foreground/35 mt-0.5">End all sessions on other devices</p>
+                  <p className="text-[11px] text-foreground/55 mt-0.5">End all sessions on other devices</p>
                 </div>
                 <button
                   onClick={handleSignOutAll}
@@ -298,7 +298,7 @@ export default function PrivacySecurityPage() {
         <div className="rounded-2xl border border-border/50 overflow-hidden mb-5">
           <div className="px-5 pt-5 pb-2">
             <div className="flex items-center gap-3 mb-1">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/40">Data & Privacy</span>
+              <span className="text-[11px] font-semibold uppercase tracking-[0.1em] text-foreground/55">Data & Privacy</span>
               <div className="h-px flex-1 bg-border/50" />
             </div>
           </div>
@@ -307,11 +307,11 @@ export default function PrivacySecurityPage() {
             <div className="px-5 py-4">
               <div className="flex items-center gap-3.5">
                 <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center shrink-0">
-                  <Shield className="w-4 h-4 text-foreground/40" />
+                  <Shield className="w-4 h-4 text-foreground/55" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-foreground/80">Your Data</p>
-                  <p className="text-[11px] text-foreground/35 mt-0.5 leading-relaxed">
+                  <p className="text-[11px] text-foreground/55 mt-0.5 leading-relaxed">
                     We store your profile, booking history, and vehicle info to provide our service. Your data is encrypted and never sold.
                   </p>
                 </div>
@@ -339,12 +339,12 @@ export default function PrivacySecurityPage() {
               </div>
               <div className="flex-1 min-w-0 text-left">
                 <p className="text-sm font-medium text-red-500 dark:text-red-400">Delete Account</p>
-                <p className="text-[11px] text-foreground/35 mt-0.5">Permanently delete your account and all data</p>
+                <p className="text-[11px] text-foreground/55 mt-0.5">Permanently delete your account and all data</p>
               </div>
               {deleteExpanded ? (
-                <ChevronUp className="w-4 h-4 text-foreground/25" />
+                <ChevronUp className="w-4 h-4 text-foreground/50" />
               ) : (
-                <ChevronDown className="w-4 h-4 text-foreground/25" />
+                <ChevronDown className="w-4 h-4 text-foreground/50" />
               )}
             </button>
 
@@ -358,7 +358,7 @@ export default function PrivacySecurityPage() {
                 </div>
 
                 <div>
-                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/40 mb-2 block">
+                  <label className="text-[11px] font-medium uppercase tracking-[0.08em] text-foreground/55 mb-2 block">
                     Type DELETE to confirm
                   </label>
                   <Input

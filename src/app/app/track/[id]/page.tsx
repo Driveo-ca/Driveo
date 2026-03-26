@@ -34,50 +34,50 @@ const STATUS_CONFIG: Record<StatusKey, {
     label: 'Finding a washer',
     description: 'We\'re searching for the best available washer near you.',
     icon: Loader2,
-    color: 'text-amber-400',
-    bgColor: 'bg-amber-400/10',
+    color: 'text-amber-600 dark:text-amber-400',
+    bgColor: 'bg-amber-500/10',
   },
   assigned: {
     label: 'Washer assigned',
     description: 'Your washer has accepted the job and is getting ready.',
     icon: User,
-    color: 'text-blue-400',
-    bgColor: 'bg-blue-400/10',
+    color: 'text-blue-600 dark:text-blue-400',
+    bgColor: 'bg-blue-500/10',
   },
   en_route: {
     label: 'On the way',
     description: 'Your washer is driving to your location.',
     icon: Navigation,
-    color: 'text-blue-400',
-    bgColor: 'bg-blue-400/10',
+    color: 'text-blue-600 dark:text-blue-400',
+    bgColor: 'bg-blue-500/10',
   },
   arrived: {
     label: 'Washer arrived',
     description: 'Your washer has arrived at the location.',
     icon: MapPin,
-    color: 'text-green-400',
-    bgColor: 'bg-green-400/10',
+    color: 'text-green-600 dark:text-green-400',
+    bgColor: 'bg-green-500/10',
   },
   washing: {
     label: 'Wash in progress',
     description: 'Your car is being washed right now.',
     icon: Droplets,
-    color: 'text-purple-400',
-    bgColor: 'bg-purple-400/10',
+    color: 'text-purple-600 dark:text-purple-400',
+    bgColor: 'bg-purple-500/10',
   },
   completed: {
     label: 'Wash complete',
     description: 'Your wash is done! Review the before/after photos.',
     icon: Camera,
-    color: 'text-green-400',
-    bgColor: 'bg-green-400/10',
+    color: 'text-green-600 dark:text-green-400',
+    bgColor: 'bg-green-500/10',
   },
   paid: {
     label: 'Payment processed',
     description: 'Payment has been captured. Thank you!',
     icon: CreditCard,
-    color: 'text-green-400',
-    bgColor: 'bg-green-400/10',
+    color: 'text-green-600 dark:text-green-400',
+    bgColor: 'bg-green-500/10',
   },
 };
 
@@ -291,7 +291,7 @@ function TrackingFullMap({
               <div className="w-12 h-12 rounded-full bg-[#E23232]/10 flex items-center justify-center">
                 <MapPin className="w-6 h-6 text-[#E23232]" />
               </div>
-              <span className="text-sm text-foreground/40 font-medium tracking-wide">Loading map...</span>
+              <span className="text-sm text-foreground/55 font-medium tracking-wide">Loading map...</span>
             </div>
           </div>
         </div>
@@ -459,7 +459,7 @@ export default function TrackingPage() {
       <div className="flex items-center justify-center h-[calc(100dvh-56px)] md:h-[calc(100dvh-64px)]">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-5 h-5 text-[#E23232] animate-spin" />
-          <span className="text-foreground/40 text-sm">Loading tracking...</span>
+          <span className="text-foreground/55 text-sm">Loading tracking...</span>
         </div>
       </div>
     );
@@ -468,7 +468,7 @@ export default function TrackingPage() {
   if (!booking) {
     return (
       <div className="flex items-center justify-center h-[calc(100dvh-56px)] md:h-[calc(100dvh-64px)]">
-        <p className="text-foreground/40">Booking not found</p>
+        <p className="text-foreground/55">Booking not found</p>
       </div>
     );
   }
@@ -507,7 +507,7 @@ export default function TrackingPage() {
                 'bg-foreground/[0.04]'
               )}>
                 {isPast ? (
-                  <CheckCircle2 className="w-3.5 h-3.5 text-green-500" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-green-600 dark:text-green-500" />
                 ) : isCurrent ? (
                   <StepIcon className={cn('w-3.5 h-3.5', stepConfig.color, s === 'pending' && 'animate-spin')} />
                 ) : (
@@ -522,18 +522,18 @@ export default function TrackingPage() {
               <div>
                 <span className={cn(
                   'text-[13px]',
-                  isPast ? 'text-foreground/40' :
+                  isPast ? 'text-foreground/55' :
                   isCurrent ? 'text-foreground font-medium' :
-                  'text-foreground/30'
+                  'text-foreground/50'
                 )}>
                   {stepConfig.label}
                 </span>
                 {isCurrent && (
-                  <p className="text-foreground/40 text-[10px] mt-0.5">{stepConfig.description}</p>
+                  <p className="text-foreground/55 text-[10px] mt-0.5">{stepConfig.description}</p>
                 )}
               </div>
               {(isPast || isCurrent) && timestamp && (
-                <span className="text-foreground/30 text-[10px] pt-0.5 tabular-nums">
+                <span className="text-foreground/50 text-[10px] pt-0.5 tabular-nums">
                   {new Date(timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </span>
               )}
@@ -548,51 +548,51 @@ export default function TrackingPage() {
   const renderBookingDetails = () => (
     <div className="space-y-3 text-[13px]">
       <div className="flex items-center gap-2.5">
-        <Car className="w-3.5 h-3.5 text-foreground/40 shrink-0" />
+        <Car className="w-3.5 h-3.5 text-foreground/55 shrink-0" />
         <span className="text-foreground/60">{vehicle.year} {vehicle.make} {vehicle.model}</span>
       </div>
       <div className="flex items-start gap-2.5">
-        <MapPin className="w-3.5 h-3.5 text-foreground/40 shrink-0 mt-0.5" />
+        <MapPin className="w-3.5 h-3.5 text-foreground/55 shrink-0 mt-0.5" />
         <span className="text-foreground/60 leading-snug">{booking.service_address}</span>
       </div>
       {booking.location_notes && (
         <div className="flex items-start gap-2.5">
-          <MessageCircle className="w-3.5 h-3.5 text-foreground/40 mt-0.5 shrink-0" />
-          <span className="text-foreground/40 text-xs">{booking.location_notes}</span>
+          <MessageCircle className="w-3.5 h-3.5 text-foreground/55 mt-0.5 shrink-0" />
+          <span className="text-foreground/55 text-xs">{booking.location_notes}</span>
         </div>
       )}
       <div className="flex items-center gap-2.5">
-        <Clock className="w-3.5 h-3.5 text-foreground/40 shrink-0" />
+        <Clock className="w-3.5 h-3.5 text-foreground/55 shrink-0" />
         <span className="text-foreground/60">Est. {formatDuration(booking.estimated_duration_min || 0)}</span>
       </div>
 
       {/* Price breakdown */}
       <div className="border-t border-border pt-3 space-y-1.5">
         <div className="flex justify-between">
-          <span className="text-foreground/40">{PLAN_LABELS[booking.wash_plan]}</span>
+          <span className="text-foreground/55">{PLAN_LABELS[booking.wash_plan]}</span>
           <span className="text-foreground/60">{centsToDisplay(booking.base_price)}</span>
         </div>
         {booking.vehicle_multiplier !== 1 && (
           <div className="flex justify-between text-xs">
-            <span className="text-foreground/30">Vehicle ({booking.vehicle_multiplier}x)</span>
-            <span className="text-foreground/40">+{centsToDisplay(Math.round(booking.base_price * (booking.vehicle_multiplier - 1)))}</span>
+            <span className="text-foreground/50">Vehicle ({booking.vehicle_multiplier}x)</span>
+            <span className="text-foreground/55">+{centsToDisplay(Math.round(booking.base_price * (booking.vehicle_multiplier - 1)))}</span>
           </div>
         )}
         {booking.dirt_multiplier !== 1 && (
           <div className="flex justify-between text-xs">
-            <span className="text-foreground/30">Dirt level {booking.dirt_level} ({booking.dirt_multiplier}x)</span>
-            <span className="text-amber-400/70">+{centsToDisplay(Math.round(booking.base_price * booking.vehicle_multiplier * (booking.dirt_multiplier - 1)))}</span>
+            <span className="text-foreground/50">Dirt level {booking.dirt_level} ({booking.dirt_multiplier}x)</span>
+            <span className="text-amber-600 dark:text-amber-400/70">+{centsToDisplay(Math.round(booking.base_price * booking.vehicle_multiplier * (booking.dirt_multiplier - 1)))}</span>
           </div>
         )}
         <div className="flex justify-between text-xs">
-          <span className="text-foreground/30">HST (13%)</span>
-          <span className="text-foreground/40">{centsToDisplay(booking.hst_amount)}</span>
+          <span className="text-foreground/50">HST (13%)</span>
+          <span className="text-foreground/55">{centsToDisplay(booking.hst_amount)}</span>
         </div>
         <div className="border-t border-border pt-2 flex justify-between items-baseline">
           <span className="text-foreground font-semibold text-sm">Total</span>
           <span className="text-[#E23232] text-lg font-semibold tabular-nums">{centsToDisplay(booking.total_price)}</span>
         </div>
-        <p className="text-foreground/30 text-[10px] flex items-center gap-1">
+        <p className="text-foreground/50 text-[10px] flex items-center gap-1">
           <CreditCard className="w-3 h-3" />
           {status === 'paid' ? 'Payment captured' : 'Pre-authorized. Charged after wash.'}
         </p>
@@ -643,14 +643,14 @@ export default function TrackingPage() {
                   <p className="text-foreground font-semibold text-[15px]">
                     {PLAN_LABELS[booking.wash_plan]}
                   </p>
-                  <p className="text-foreground/35 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
+                  <p className="text-foreground/55 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
                 </div>
               </div>
             </div>
 
             {/* Booking details — always visible */}
             <div className="flex-1 overflow-y-auto px-5 py-5">
-              <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/35 mb-4">Booking Details</p>
+              <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/55 mb-4">Booking Details</p>
               {renderBookingDetails()}
             </div>
 
@@ -684,7 +684,7 @@ export default function TrackingPage() {
                       router.push('/app/bookings');
                     }
                   }}
-                  className="w-full border-border text-foreground/40 hover:text-red-400 hover:border-red-500/20 rounded-xl"
+                  className="w-full border-foreground/30 text-foreground/70 hover:text-red-400 hover:border-red-500/20 rounded-xl"
                 >
                   {cancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                   {cancelling ? 'Cancelling...' : 'Cancel booking'}
@@ -702,10 +702,10 @@ export default function TrackingPage() {
                 <Badge
                   className={cn(
                     'text-[10px] font-medium',
-                    status === 'pending' ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' :
-                    ['en_route', 'assigned'].includes(status) ? 'bg-blue-500/15 text-blue-400 border-blue-500/25' :
-                    status === 'washing' ? 'bg-purple-500/15 text-purple-400 border-purple-500/25' :
-                    ['completed', 'paid'].includes(status) ? 'bg-green-500/15 text-green-400 border-green-500/25' :
+                    status === 'pending' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25' :
+                    ['en_route', 'assigned'].includes(status) ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/25' :
+                    status === 'washing' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/25' :
+                    ['completed', 'paid'].includes(status) ? 'bg-green-500/15 text-green-600 dark:text-green-400 border-green-500/25' :
                     'bg-foreground/10 text-foreground/60 border-border'
                   )}
                 >
@@ -748,19 +748,19 @@ export default function TrackingPage() {
                       <p className="text-foreground font-semibold text-base">{washer.full_name}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <div className="flex items-center gap-1">
-                          <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                          <Star className="w-3 h-3 text-amber-500 dark:text-amber-400 fill-amber-500" />
                           <span className="text-foreground/60 text-xs font-medium">
                             {washer.washer_profiles?.rating_avg?.toFixed(1) || '—'}
                           </span>
                         </div>
                         <span className="text-foreground/20">·</span>
-                        <span className="text-foreground/40 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
+                        <span className="text-foreground/55 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
                         {washer.washer_profiles?.background_check_done && (
                           <>
                             <span className="text-foreground/20">·</span>
                             <div className="flex items-center gap-1">
-                              <Shield className="w-3 h-3 text-green-400" />
-                              <span className="text-green-400/70 text-xs">Verified</span>
+                              <Shield className="w-3 h-3 text-green-600 dark:text-green-400" />
+                              <span className="text-green-600/70 dark:text-green-400/70 text-xs">Verified</span>
                             </div>
                           </>
                         )}
@@ -776,8 +776,8 @@ export default function TrackingPage() {
 
                   {washer.washer_profiles?.vehicle_make && (
                     <div className="mt-3 pt-3 border-t border-border flex items-center gap-2">
-                      <Car className="w-3 h-3 text-foreground/40" />
-                      <span className="text-foreground/35 text-[11px]">
+                      <Car className="w-3 h-3 text-foreground/55" />
+                      <span className="text-foreground/55 text-[11px]">
                         {washer.washer_profiles.vehicle_make} {washer.washer_profiles.vehicle_model}
                         {washer.washer_profiles.vehicle_year ? ` · ${washer.washer_profiles.vehicle_year}` : ''}
                         {washer.washer_profiles.vehicle_plate ? ` · ${washer.washer_profiles.vehicle_plate}` : ''}
@@ -791,17 +791,17 @@ export default function TrackingPage() {
               {['completed', 'paid'].includes(status) && (
                 <div className="bg-foreground/[0.03] border border-border rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <Camera className="w-4 h-4 text-foreground/40" />
+                    <Camera className="w-4 h-4 text-foreground/55" />
                     <span className="text-foreground/50 text-[10px] font-medium uppercase tracking-wider">Before & After</span>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Camera className="w-5 h-5 text-foreground/30" />
-                      <span className="text-foreground/30 text-xs">Before</span>
+                      <Camera className="w-5 h-5 text-foreground/50" />
+                      <span className="text-foreground/50 text-xs">Before</span>
                     </div>
                     <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Sparkles className="w-5 h-5 text-foreground/30" />
-                      <span className="text-foreground/30 text-xs">After</span>
+                      <Sparkles className="w-5 h-5 text-foreground/50" />
+                      <span className="text-foreground/50 text-xs">After</span>
                     </div>
                   </div>
                 </div>
@@ -809,7 +809,7 @@ export default function TrackingPage() {
 
               {/* Progress Timeline — always visible, no collapse */}
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/35 mb-3">Progress Timeline</p>
+                <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/55 mb-3">Progress Timeline</p>
                 <div className="bg-foreground/[0.03] border border-border rounded-xl p-4">
                   {renderTimeline()}
                 </div>
@@ -845,15 +845,15 @@ export default function TrackingPage() {
                 <p className="text-foreground font-semibold text-base">
                   {PLAN_LABELS[booking.wash_plan]}
                 </p>
-                <p className="text-foreground/35 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
+                <p className="text-foreground/55 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
               </div>
               <Badge
                 className={cn(
                   'text-[10px] font-medium shrink-0',
-                  status === 'pending' ? 'bg-amber-500/15 text-amber-400 border-amber-500/25' :
-                  ['en_route', 'assigned'].includes(status) ? 'bg-blue-500/15 text-blue-400 border-blue-500/25' :
-                  status === 'washing' ? 'bg-purple-500/15 text-purple-400 border-purple-500/25' :
-                  ['completed', 'paid'].includes(status) ? 'bg-green-500/15 text-green-400 border-green-500/25' :
+                  status === 'pending' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25' :
+                  ['en_route', 'assigned'].includes(status) ? 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/25' :
+                  status === 'washing' ? 'bg-purple-500/15 text-purple-600 dark:text-purple-400 border-purple-500/25' :
+                  ['completed', 'paid'].includes(status) ? 'bg-green-500/15 text-green-600 dark:text-green-400 border-green-500/25' :
                   'bg-foreground/10 text-foreground/60 border-border'
                 )}
               >
@@ -899,17 +899,17 @@ export default function TrackingPage() {
                       <p className="text-foreground font-semibold text-[15px]">{washer.full_name}</p>
                       <div className="flex items-center gap-2 mt-0.5">
                         <div className="flex items-center gap-1">
-                          <Star className="w-3 h-3 text-amber-400 fill-amber-400" />
+                          <Star className="w-3 h-3 text-amber-500 dark:text-amber-400 fill-amber-500" />
                           <span className="text-foreground/60 text-xs font-medium">
                             {washer.washer_profiles?.rating_avg?.toFixed(1) || '—'}
                           </span>
                         </div>
                         <span className="text-foreground/20">·</span>
-                        <span className="text-foreground/40 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
+                        <span className="text-foreground/55 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
                         {washer.washer_profiles?.background_check_done && (
                           <>
                             <span className="text-foreground/20">·</span>
-                            <Shield className="w-3 h-3 text-green-400" />
+                            <Shield className="w-3 h-3 text-green-600 dark:text-green-400" />
                           </>
                         )}
                       </div>
@@ -924,8 +924,8 @@ export default function TrackingPage() {
 
                   {washer.washer_profiles?.vehicle_make && (
                     <div className="mt-2.5 pt-2.5 border-t border-border flex items-center gap-2">
-                      <Car className="w-3 h-3 text-foreground/40" />
-                      <span className="text-foreground/35 text-[11px]">
+                      <Car className="w-3 h-3 text-foreground/55" />
+                      <span className="text-foreground/55 text-[11px]">
                         {washer.washer_profiles.vehicle_make} {washer.washer_profiles.vehicle_model}
                         {washer.washer_profiles.vehicle_year ? ` · ${washer.washer_profiles.vehicle_year}` : ''}
                         {washer.washer_profiles.vehicle_plate ? ` · ${washer.washer_profiles.vehicle_plate}` : ''}
@@ -941,17 +941,17 @@ export default function TrackingPage() {
               <div className="px-5 pb-2">
                 <div className="bg-foreground/[0.03] border border-border rounded-xl p-3.5">
                   <div className="flex items-center gap-2 mb-2.5">
-                    <Camera className="w-3.5 h-3.5 text-foreground/40" />
+                    <Camera className="w-3.5 h-3.5 text-foreground/55" />
                     <span className="text-foreground/50 text-[10px] font-medium uppercase tracking-wider">Before & After</span>
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Camera className="w-4 h-4 text-foreground/30" />
-                      <span className="text-foreground/30 text-[10px]">Before</span>
+                      <Camera className="w-4 h-4 text-foreground/50" />
+                      <span className="text-foreground/50 text-[10px]">Before</span>
                     </div>
                     <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-foreground/30" />
-                      <span className="text-foreground/30 text-[10px]">After</span>
+                      <Sparkles className="w-4 h-4 text-foreground/50" />
+                      <span className="text-foreground/50 text-[10px]">After</span>
                     </div>
                   </div>
                 </div>
@@ -962,7 +962,7 @@ export default function TrackingPage() {
             <div className="px-5 pb-2">
               <button
                 onClick={() => setShowTimeline(!showTimeline)}
-                className="w-full flex items-center justify-between py-2.5 text-foreground/40 hover:text-foreground/60 transition-colors"
+                className="w-full flex items-center justify-between py-2.5 text-foreground/55 hover:text-foreground/60 transition-colors"
               >
                 <span className="text-[10px] font-medium uppercase tracking-wider">Progress Timeline</span>
                 {showTimeline ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -978,7 +978,7 @@ export default function TrackingPage() {
             <div className="px-5 pb-2">
               <button
                 onClick={() => setShowDetails(!showDetails)}
-                className="w-full flex items-center justify-between py-2.5 text-foreground/40 hover:text-foreground/60 transition-colors"
+                className="w-full flex items-center justify-between py-2.5 text-foreground/55 hover:text-foreground/60 transition-colors"
               >
                 <span className="text-[10px] font-medium uppercase tracking-wider">Booking Details</span>
                 {showDetails ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -1021,7 +1021,7 @@ export default function TrackingPage() {
                     router.push('/app/bookings');
                   }
                 }}
-                className="w-full border-border text-foreground/40 hover:text-red-400 hover:border-red-500/20 rounded-xl"
+                className="w-full border-foreground/30 text-foreground/70 hover:text-red-400 hover:border-red-500/20 rounded-xl"
               >
                 {cancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 {cancelling ? 'Cancelling...' : 'Cancel booking'}

@@ -237,7 +237,7 @@ export default function BillingPage() {
                   {formatCents(subscription.monthly_price)}/mo · Renews {formatDate(subscription.current_period_end)}
                 </p>
               </div>
-              <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/40 transition-colors" />
+              <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/55 transition-colors" />
             </button>
           </div>
         )}
@@ -271,7 +271,7 @@ export default function BillingPage() {
             <div className="w-14 h-14 rounded-2xl bg-foreground/[0.04] flex items-center justify-center mb-4">
               <Receipt className="w-6 h-6 text-foreground/20" />
             </div>
-            <p className="text-sm font-medium text-foreground/40">No transactions yet</p>
+            <p className="text-sm font-medium text-foreground/55">No transactions yet</p>
             <p className="text-xs text-muted-foreground/60 mt-1">Your payment history will appear here</p>
           </div>
         ) : (
@@ -314,7 +314,7 @@ export default function BillingPage() {
                         >
                           {/* Icon */}
                           <div className="w-10 h-10 rounded-xl bg-foreground/[0.04] flex items-center justify-center shrink-0">
-                            <PlanIcon className="w-4.5 h-4.5 text-foreground/40" />
+                            <PlanIcon className="w-4.5 h-4.5 text-foreground/55" />
                           </div>
 
                           {/* Details */}

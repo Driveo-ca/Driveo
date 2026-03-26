@@ -174,13 +174,13 @@ export function BookingChat({
         <div className="flex-1 overflow-y-auto px-4 py-3 space-y-1 min-h-0">
           {loading ? (
             <div className="flex items-center justify-center h-32">
-              <Loader2 className="w-5 h-5 text-foreground/40 animate-spin" />
+              <Loader2 className="w-5 h-5 text-foreground/55 animate-spin" />
             </div>
           ) : messages.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-32 gap-2">
-              <MessageCircle className="w-8 h-8 text-foreground/25" />
-              <p className="text-foreground/45 text-sm">No messages yet</p>
-              <p className="text-foreground/30 text-xs">Say hello to your washer!</p>
+              <MessageCircle className="w-8 h-8 text-foreground/50" />
+              <p className="text-foreground/60 text-sm">No messages yet</p>
+              <p className="text-foreground/50 text-xs">Say hello to your washer!</p>
             </div>
           ) : (
             grouped.map(({ day, msgs }) => (
@@ -188,7 +188,7 @@ export function BookingChat({
                 {/* Day separator */}
                 <div className="flex items-center gap-3 my-3">
                   <div className="flex-1 h-px bg-border" />
-                  <span className="text-[10px] font-mono text-foreground/40 uppercase tracking-widest">{day}</span>
+                  <span className="text-[10px] font-mono text-foreground/55 uppercase tracking-widest">{day}</span>
                   <div className="flex-1 h-px bg-border" />
                 </div>
 
@@ -235,7 +235,7 @@ export function BookingChat({
                         </div>
                         {/* Timestamp — only show on last msg in group or last overall */}
                         {(i === msgs.length - 1 || msgs[i + 1]?.sender_id !== msg.sender_id) && (
-                          <span className="text-[10px] text-foreground/35 mt-1 px-1">
+                          <span className="text-[10px] text-foreground/55 mt-1 px-1">
                             {formatTime(msg.created_at)}
                           </span>
                         )}
@@ -259,7 +259,7 @@ export function BookingChat({
             onKeyDown={handleKeyDown}
             placeholder="Message your washer…"
             maxLength={1000}
-            className="flex-1 bg-foreground/[0.06] dark:bg-foreground/[0.04] border border-border rounded-2xl px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/40 outline-none focus:border-[#E23232]/50 transition-colors"
+            className="flex-1 bg-foreground/[0.06] dark:bg-foreground/[0.04] border border-border rounded-2xl px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/55 outline-none focus:border-[#E23232]/50 transition-colors"
           />
           <button
             onClick={sendMessage}
@@ -268,7 +268,7 @@ export function BookingChat({
               'w-10 h-10 rounded-2xl flex items-center justify-center shrink-0 transition-all',
               input.trim()
                 ? 'bg-[#E23232] text-white hover:bg-[#c92a2a] active:scale-95'
-                : 'bg-foreground/[0.07] text-foreground/30 cursor-not-allowed'
+                : 'bg-foreground/[0.07] text-foreground/50 cursor-not-allowed'
             )}
           >
             {sending

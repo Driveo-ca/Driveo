@@ -112,11 +112,11 @@ export default function AdminPayoutsPage() {
           </div>
           <div>
             <h1 className="text-3xl font-display text-foreground tracking-tight">Payouts</h1>
-            <p className="text-foreground/55 dark:text-foreground/30 text-sm mt-0.5">Manage washer earnings and transfers</p>
+            <p className="text-foreground/55 dark:text-foreground/50 text-sm mt-0.5">Manage washer earnings and transfers</p>
           </div>
         </div>
         <div className="bg-surface border border-border rounded-2xl px-5 py-3 border-l-4 border-l-[#E23232]">
-          <p className="text-[10px] text-foreground/55 dark:text-foreground/30 uppercase tracking-widest">Total Pending</p>
+          <p className="text-[10px] text-foreground/55 dark:text-foreground/50 uppercase tracking-widest">Total Pending</p>
           <p className="text-xl font-bold text-[#E23232] mt-0.5">
             ${(totalPending / 100).toFixed(2)}
           </p>
@@ -127,15 +127,15 @@ export default function AdminPayoutsPage() {
       <div className="grid grid-cols-3 gap-4 animate-fade-in-up">
         <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
           <p className="text-2xl font-bold text-foreground">{washers.length}</p>
-          <p className="text-[10px] text-foreground/55 dark:text-foreground/25 uppercase tracking-widest mt-1">Washers</p>
+          <p className="text-[10px] text-foreground/55 dark:text-foreground/50 uppercase tracking-widest mt-1">Washers</p>
         </div>
         <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
           <p className="text-2xl font-bold text-foreground">{washers.filter(w => w.pending_earnings > 0).length}</p>
-          <p className="text-[10px] text-foreground/55 dark:text-foreground/25 uppercase tracking-widest mt-1">With Pending</p>
+          <p className="text-[10px] text-foreground/55 dark:text-foreground/50 uppercase tracking-widest mt-1">With Pending</p>
         </div>
         <div className="stat-card bg-surface border border-border rounded-2xl p-4 text-center">
           <p className="text-2xl font-bold text-foreground">{washers.filter(w => w.stripe_account_id).length}</p>
-          <p className="text-[10px] text-foreground/55 dark:text-foreground/25 uppercase tracking-widest mt-1">Stripe Connected</p>
+          <p className="text-[10px] text-foreground/55 dark:text-foreground/50 uppercase tracking-widest mt-1">Stripe Connected</p>
         </div>
       </div>
 
@@ -150,7 +150,7 @@ export default function AdminPayoutsPage() {
           <div className="w-16 h-16 rounded-2xl bg-foreground/[0.06] dark:bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
             <User className="w-7 h-7 text-foreground/10" />
           </div>
-          <p className="text-foreground/55 dark:text-foreground/30 text-sm">No washers found</p>
+          <p className="text-foreground/55 dark:text-foreground/50 text-sm">No washers found</p>
         </div>
       ) : (
         <div className="space-y-3 stagger-children">
@@ -163,7 +163,7 @@ export default function AdminPayoutsPage() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4 flex-1">
                     <div className="w-11 h-11 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center shrink-0 group-hover:bg-[#E23232]/10 transition-colors">
-                      <User className="w-5 h-5 text-foreground/55 dark:text-foreground/30 group-hover:text-[#E23232] transition-colors" />
+                      <User className="w-5 h-5 text-foreground/55 dark:text-foreground/50 group-hover:text-[#E23232] transition-colors" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2.5">
@@ -171,7 +171,7 @@ export default function AdminPayoutsPage() {
                           {washer.full_name}
                         </p>
                         {washer.stripe_account_id ? (
-                          <span className="text-[10px] text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full flex items-center gap-1">
+                          <span className="text-[10px] text-green-600 dark:text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
                             Stripe
                           </span>

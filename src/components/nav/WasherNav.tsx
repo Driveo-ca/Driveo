@@ -38,7 +38,7 @@ export function WasherNav() {
                   'flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-colors duration-200',
                   isActive
                     ? 'bg-[#E23232]/10 text-[#E23232]'
-                    : 'text-foreground/60 dark:text-foreground/40 hover:text-foreground hover:bg-foreground/[0.07] dark:hover:bg-foreground/[0.04]'
+                    : 'text-foreground/60 dark:text-foreground/55 hover:text-foreground hover:bg-foreground/[0.07] dark:hover:bg-foreground/[0.04]'
                 )}
               >
                 <item.icon className={cn('w-4 h-4', isActive && 'stroke-[2.5px]')} />
@@ -61,7 +61,7 @@ export function WasherNav() {
                 href={item.href}
                 className={cn(
                   'flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl text-[10px] font-medium transition-colors duration-200',
-                  isActive ? 'text-[#E23232]' : 'text-foreground/60 dark:text-foreground/40 active:scale-95'
+                  isActive ? 'text-[#E23232]' : 'text-foreground/60 dark:text-foreground/55 active:scale-95'
                 )}
               >
                 <item.icon className={cn('w-5 h-5', isActive && 'stroke-[2.5px]')} />

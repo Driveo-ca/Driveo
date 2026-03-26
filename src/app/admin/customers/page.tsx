@@ -59,7 +59,7 @@ export default function AdminCustomersPage() {
             </div>
             <div>
               <h1 className="text-3xl font-display text-foreground tracking-tight">Customers</h1>
-              <p className="text-foreground/55 dark:text-foreground/30 text-sm mt-0.5">
+              <p className="text-foreground/55 dark:text-foreground/50 text-sm mt-0.5">
                 <span className="text-foreground/50 font-medium">{customers.length}</span> registered customers
               </p>
             </div>
@@ -74,7 +74,7 @@ export default function AdminCustomersPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search by name or email..."
-          className="bg-surface border border-border pl-11 h-12 rounded-xl text-sm text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/25 focus:border-border focus:ring-0"
+          className="bg-surface border border-border pl-11 h-12 rounded-xl text-sm text-foreground placeholder:text-foreground/55 dark:placeholder:text-foreground/50 focus:border-border focus:ring-0"
         />
       </div>
 
@@ -87,7 +87,7 @@ export default function AdminCustomersPage() {
       ) : (
         <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
           {/* Table Header */}
-          <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 text-[10px] text-foreground/55 dark:text-foreground/25 uppercase tracking-widest mb-2">
+          <div className="hidden md:grid grid-cols-12 gap-4 px-5 py-3 text-[10px] text-foreground/55 dark:text-foreground/50 uppercase tracking-widest mb-2">
             <div className="col-span-4">Customer</div>
             <div className="col-span-3">Contact</div>
             <div className="col-span-2 text-center">Vehicles</div>
@@ -100,7 +100,7 @@ export default function AdminCustomersPage() {
               <div className="w-16 h-16 rounded-2xl bg-foreground/[0.06] dark:bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
                 <Users className="w-7 h-7 text-foreground/10" />
               </div>
-              <p className="text-foreground/55 dark:text-foreground/30 text-sm">No customers found</p>
+              <p className="text-foreground/55 dark:text-foreground/50 text-sm">No customers found</p>
               <p className="text-foreground/50 dark:text-foreground/15 text-xs mt-1">Try adjusting your search</p>
             </div>
           ) : (
@@ -114,7 +114,7 @@ export default function AdminCustomersPage() {
                     {/* Desktop */}
                     <div className="hidden md:grid grid-cols-12 gap-4 items-center">
                       <div className="col-span-4 flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center text-foreground/60 dark:text-foreground/40 font-display text-sm shrink-0 group-hover:bg-[#E23232]/10 group-hover:text-[#E23232] transition-colors">
+                        <div className="w-9 h-9 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center text-foreground/60 dark:text-foreground/55 font-display text-sm shrink-0 group-hover:bg-[#E23232]/10 group-hover:text-[#E23232] transition-colors">
                           {customer.full_name.charAt(0)}
                         </div>
                         <div>
@@ -126,7 +126,7 @@ export default function AdminCustomersPage() {
                           )}
                         </div>
                       </div>
-                      <div className="col-span-3 text-sm text-foreground/60 dark:text-foreground/40 truncate font-mono text-xs">
+                      <div className="col-span-3 text-sm text-foreground/60 dark:text-foreground/55 truncate font-mono text-xs">
                         {customer.email}
                       </div>
                       <div className="col-span-2 text-center">
@@ -153,7 +153,7 @@ export default function AdminCustomersPage() {
                     <div className="md:hidden">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center text-foreground/60 dark:text-foreground/40 font-display text-sm">
+                          <div className="w-9 h-9 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center text-foreground/60 dark:text-foreground/55 font-display text-sm">
                             {customer.full_name.charAt(0)}
                           </div>
                           <p className="font-medium text-foreground text-sm">
@@ -167,16 +167,16 @@ export default function AdminCustomersPage() {
                           )}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 text-xs text-foreground/55 dark:text-foreground/30 mb-3 ml-12">
+                      <div className="flex items-center gap-2 text-xs text-foreground/55 dark:text-foreground/50 mb-3 ml-12">
                         <Mail className="w-3 h-3" />
                         <span className="truncate">{customer.email}</span>
                       </div>
                       <div className="flex items-center gap-3 ml-12">
-                        <span className="inline-flex items-center gap-1.5 text-xs text-foreground/60 dark:text-foreground/40 bg-card border border-border rounded-full px-3 py-1">
+                        <span className="inline-flex items-center gap-1.5 text-xs text-foreground/60 dark:text-foreground/55 bg-card border border-border rounded-full px-3 py-1">
                           <Car className="w-3 h-3 text-blue-400/60" />
                           {customer.vehicles.length} vehicles
                         </span>
-                        <span className="inline-flex items-center gap-1.5 text-xs text-foreground/60 dark:text-foreground/40 bg-card border border-border rounded-full px-3 py-1">
+                        <span className="inline-flex items-center gap-1.5 text-xs text-foreground/60 dark:text-foreground/55 bg-card border border-border rounded-full px-3 py-1">
                           <ClipboardList className="w-3 h-3 text-purple-400/60" />
                           {customer.bookings.length} bookings
                         </span>
