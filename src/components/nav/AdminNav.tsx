@@ -10,6 +10,7 @@ import {
   UserCheck,
   DollarSign,
   Settings,
+  BarChart3,
   Menu,
   X,
 } from 'lucide-react';
@@ -19,6 +20,7 @@ import { ThemeToggle } from '@/components/ThemeToggle';
 
 const navItems = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard, exact: true },
+  { href: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
   { href: '/admin/bookings', label: 'Bookings', icon: CalendarDays },
   { href: '/admin/washers', label: 'Washers', icon: UserCheck },
   { href: '/admin/customers', label: 'Customers', icon: Users },
