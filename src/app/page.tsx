@@ -34,8 +34,10 @@ const jsonLd = {
       paymentAccepted: 'Credit Card, Debit Card',
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Toronto',
+        streetAddress: '30 Eglinton Ave W',
+        addressLocality: 'Mississauga',
         addressRegion: 'ON',
+        postalCode: 'L5R 3E7',
         addressCountry: 'CA',
       },
       geo: {
