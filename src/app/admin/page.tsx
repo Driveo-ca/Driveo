@@ -185,7 +185,7 @@ export default function AdminDashboardPage() {
         const v = Array.isArray(b.vehicles) ? b.vehicles[0] : b.vehicles;
         return {
           id: b.id, type: b.status, title: activityTitles[b.status] || b.status,
-          detail: `${PLAN_LABELS[b.wash_plan]} — ${(v as { make: string; model: string })?.make || ''} ${(v as { make: string; model: string })?.model || ''}`,
+          detail: `${PLAN_LABELS[b.wash_plan as keyof typeof PLAN_LABELS] || b.wash_plan} — ${(v as { make: string; model: string })?.make || ''} ${(v as { make: string; model: string })?.model || ''}`,
           time: relativeTime(b.created_at), color: activityColors[b.status] || 'bg-gray-500',
         };
       }));

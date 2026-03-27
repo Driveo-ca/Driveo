@@ -109,7 +109,7 @@ export default function AdminAnalyticsPage() {
       const planColors: Record<string, string> = { regular: 'bg-blue-500', interior_exterior: 'bg-violet-500', detailing: 'bg-[#E23232]' };
       setPlanData(
         Object.entries(planMap).map(([plan, v]) => ({
-          plan, label: PLAN_LABELS[plan] || plan, count: v.count, revenue: v.revenue, color: planColors[plan] || 'bg-gray-500',
+          plan, label: PLAN_LABELS[plan as keyof typeof PLAN_LABELS] || plan, count: v.count, revenue: v.revenue, color: planColors[plan] || 'bg-gray-500',
         })).sort((a, b) => b.count - a.count)
       );
 
