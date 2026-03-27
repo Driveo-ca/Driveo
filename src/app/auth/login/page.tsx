@@ -131,7 +131,17 @@ function LoginForm() {
   const searchParams = useSearchParams();
   const redirect = searchParams.get('redirect') || '/';
 
-  useEffect(() => { setMounted(true); }, []);
+  useEffect(() => {
+    setMounted(true);
+    const error = searchParams.get('error');
+    if (error === 'washer_pending') {
+      toast.error('Your washer application is still under review. You\'ll be notified once approved.');
+    } else if (error === 'washer_rejected') {
+      toast.error('Your washer application was not approved. Please contact support.');
+    } else if (error === 'auth_failed') {
+      toast.error('Authentication failed. Please try again.');
+    }
+  }, [searchParams]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -153,6 +163,24 @@ function LoginForm() {
       .eq('id', data.user.id)
       .single();
     if (profile?.role) role = profile.role;
+
+    if (role === 'washer') {
+      const { data: washerProfile } = await supabase
+        .from('washer_profiles')
+        .select('status')
+        .eq('id', data.user.id)
+        .single();
+
+      if (!washerProfile || washerProfile.status !== 'approved') {
+        await supabase.auth.signOut();
+        const msg = washerProfile?.status === 'rejected'
+          ? 'Your washer application was not approved. Please contact support.'
+          : 'Your washer application is still under review. You\'ll be notified once approved.';
+        toast.error(msg);
+        setLoading(false);
+        return;
+      }
+    }
 
     if (redirect && redirect !== '/') router.push(redirect);
     else if (role === 'washer') router.push('/washer/dashboard');

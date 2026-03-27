@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
   const next = searchParams.get('next') ?? '/';
+  const signupRole = searchParams.get('role');
 
   if (code) {
     // Capture cookies that Supabase wants to set so we can forward them
@@ -53,11 +54,10 @@ export async function GET(request: NextRequest) {
           .single();
 
         if (!existingProfile) {
-          // First-time Google OAuth user — create profile as customer
           const fullName = user.user_metadata?.full_name || user.user_metadata?.name || 'Driveo User';
           const email = user.email || '';
           const phone = user.user_metadata?.phone || null;
-          const role = 'customer';
+          const role = signupRole === 'washer' ? 'washer' : 'customer';
 
           // Set role in user_metadata so middleware can route correctly
           await adminSupabase.auth.admin.updateUserById(user.id, {
@@ -73,7 +73,20 @@ export async function GET(request: NextRequest) {
             phone,
           });
 
-          // Create customer profile with referral code
+          if (role === 'washer') {
+            // Create washer profile (pending approval)
+            await adminSupabase.from('washer_profiles').insert({
+              id: user.id,
+              status: 'pending',
+              service_zones: [],
+              tools_owned: [],
+            });
+
+            // Redirect to washer onboarding form
+            return redirect(`${origin}/apply/onboarding`);
+          }
+
+          // Customer: create customer profile with referral code
           const referralCode = fullName
             .replace(/\s+/g, '')
             .toUpperCase()
@@ -84,7 +97,7 @@ export async function GET(request: NextRequest) {
             referral_code: referralCode,
           });
 
-          // Redirect new OAuth users to onboarding
+          // Redirect new customer OAuth users to onboarding
           return redirect(`${origin}/app/onboarding`);
         }
 
@@ -96,6 +109,22 @@ export async function GET(request: NextRequest) {
           .eq('id', user.id)
           .single();
         if (profileData?.role) role = profileData.role;
+
+        // Block unapproved washers from accessing the app
+        if (role === 'washer') {
+          const { data: washerProfile } = await adminSupabase
+            .from('washer_profiles')
+            .select('status')
+            .eq('id', user.id)
+            .single();
+
+          if (!washerProfile || washerProfile.status !== 'approved') {
+            // Sign out the pending/rejected washer
+            await supabase.auth.signOut();
+            const errorType = washerProfile?.status === 'rejected' ? 'washer_rejected' : 'washer_pending';
+            return redirect(`${origin}/auth/login?error=${errorType}`);
+          }
+        }
 
         // Route based on role
         if (next !== '/') {
