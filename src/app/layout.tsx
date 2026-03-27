@@ -42,17 +42,66 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'DRIVEO — Mobile Car Detailing Across the GTA | We Come to You',
-  description: 'Pro hand-wash at your door. Book in 30 seconds. Before/after photo proof. No scratches. Ever. Serving Etobicoke, Mississauga, and the Greater Toronto Area.',
-  keywords: ['car detailing', 'mobile car wash', 'GTA', 'Etobicoke', 'Mississauga', 'condo car wash'],
+  metadataBase: new URL('https://driveo.ca'),
+  title: {
+    default: 'DRIVEO — Mobile Car Detailing Across the GTA | We Come to You',
+    template: '%s | DRIVEO',
+  },
+  description: 'Pro hand-wash at your door. Book in 30 seconds. Before/after photo proof. No scratches. Ever. Serving Etobicoke, Mississauga, Brampton, Oakville, and the Greater Toronto Area. From $18.',
+  keywords: [
+    'mobile car wash', 'mobile car detailing', 'car detailing GTA', 'car detailing Toronto',
+    'car detailing Mississauga', 'car detailing Etobicoke', 'car detailing Brampton',
+    'car detailing Oakville', 'mobile auto detailing', 'condo car wash', 'condo parking car wash',
+    'waterless car wash', 'hand car wash near me', 'car wash at home', 'interior car detailing',
+    'exterior car detailing', 'car wash subscription', 'monthly car wash plan',
+    'on demand car wash', 'doorstep car wash', 'professional car cleaning',
+    'car wash Uber drivers', 'mobile detailing near me', 'best car detailing GTA',
+    'DRIVEO', 'driveo car wash',
+  ],
+  authors: [{ name: 'DRIVEO Auto Care Inc.' }],
+  creator: 'DRIVEO',
+  publisher: 'DRIVEO Auto Care Inc.',
+  formatDetection: { telephone: true, email: true, address: true },
   icons: {
-    icon: '/Driveo-logo.png',
-    apple: '/Driveo-logo.png',
+    icon: [
+      { url: '/Driveo-logo.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/Driveo-logo.png', sizes: '512x512', type: 'image/png' },
+    ],
   },
   openGraph: {
-    title: 'DRIVEO — Mobile Car Detailing Across the GTA',
-    description: 'Pro hand-wash at your door. Book in 30 seconds. Before/after photo proof.',
     type: 'website',
+    locale: 'en_CA',
+    url: 'https://driveo.ca',
+    siteName: 'DRIVEO',
+    title: 'DRIVEO — Mobile Car Detailing Across the GTA | We Come to You',
+    description: 'Pro hand-wash at your door. Book in 30 seconds. Before/after photo proof. No scratches. Ever. Serving the Greater Toronto Area.',
+    images: [
+      {
+        url: '/collage.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'DRIVEO Mobile Car Detailing — Before and After',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DRIVEO — Mobile Car Detailing Across the GTA',
+    description: 'Pro hand-wash at your door. Book in 30 seconds. Before/after photo proof. No scratches. Ever.',
+    images: ['/collage.jpg'],
+    creator: '@driveoca',
+  },
+  alternates: {
+    canonical: 'https://driveo.ca',
+  },
+  category: 'automotive',
+  other: {
+    'geo.region': 'CA-ON',
+    'geo.placename': 'Greater Toronto Area',
+    'geo.position': '43.6532;-79.3832',
+    'ICBM': '43.6532, -79.3832',
   },
 };
 
