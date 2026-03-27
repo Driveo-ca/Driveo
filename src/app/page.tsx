@@ -255,17 +255,19 @@ export default function HomePage() {
         />
         <NoiseOverlay />
         <Navbar />
-        <HeroSection />
-        <Marquee />
-        <BeforeAfterSlider />
-        <GoogleReviews />
-        <CondoSection />
-        <PainCollage />
-        <USPGrid />
-        <HowItWorks />
-        <PricingCards />
-        <BookingForm />
-        <FAQAccordion />
+        <main>
+          <HeroSection />
+          <Marquee />
+          <BeforeAfterSlider />
+          <GoogleReviews />
+          <CondoSection />
+          <PainCollage />
+          <USPGrid />
+          <HowItWorks />
+          <PricingCards />
+          <BookingForm />
+          <FAQAccordion />
+        </main>
         <Footer />
       </div>
     </CursorProvider>

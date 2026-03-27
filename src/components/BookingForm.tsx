@@ -113,8 +113,8 @@ export function BookingForm() {
               </motion.div>
               <motion.div variants={formFieldVariants} className="flex flex-col md:flex-row gap-6">
                 <div className="w-full group">
-                  <label className="font-mono text-[10px] text-white/70 uppercase tracking-widest block mb-2">Wash Type</label>
-                  <select className="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-[#E23232] transition-colors text-white appearance-none cursor-pointer" defaultValue="">
+                  <label htmlFor="wash-type" className="font-mono text-[10px] text-white/70 uppercase tracking-widest block mb-2">Wash Type</label>
+                  <select id="wash-type" className="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-[#E23232] transition-colors text-white appearance-none cursor-pointer" defaultValue="">
                     <option value="" disabled className="bg-[#111]">Select a wash</option>
                     <option value="express" className="bg-[#111]">Express Wash ($49+)</option>
                     <option value="interior" className="bg-[#111]">Interior Clean ($69+)</option>
@@ -123,8 +123,8 @@ export function BookingForm() {
                   </select>
                 </div>
                 <div className="w-full group">
-                  <label className="font-mono text-[10px] text-white/70 uppercase tracking-widest block mb-2">Location</label>
-                  <select className="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-[#E23232] transition-colors text-white appearance-none cursor-pointer" defaultValue="">
+                  <label htmlFor="wash-location" className="font-mono text-[10px] text-white/70 uppercase tracking-widest block mb-2">Location</label>
+                  <select id="wash-location" className="w-full bg-[#111] border border-white/10 rounded-xl px-5 py-4 font-mono text-sm outline-none focus:border-[#E23232] transition-colors text-white appearance-none cursor-pointer" defaultValue="">
                     <option value="" disabled className="bg-[#111]">Where&apos;s your car?</option>
                     <option value="condo" className="bg-[#111]">Condo Underground</option>
                     <option value="driveway" className="bg-[#111]">Home Driveway</option>

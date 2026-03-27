@@ -32,10 +32,10 @@ export function PainCollage() {
         </motion.h2>
 
         <div ref={collageRef} className="flex justify-center items-center h-[300px] lg:h-[450px] relative mb-24 w-full max-w-5xl mx-auto">
-          <motion.img style={{ x: x1 }} src="/swirl-marks.jpeg" alt="Swirl marks from automated wash" className={`${imgClass} -rotate-[15deg] z-10`} />
-          <motion.img style={{ x: x2 }} src="/automated-brush.jpeg" alt="Automated brush damage" className={`${imgClass} -rotate-[5deg] z-20`} />
-          <motion.img style={{ x: x3 }} src="/deep-scratch.jpeg" alt="Deep scratch and clear coat failure" className={`${imgClass} rotate-[5deg] z-40`} />
-          <motion.img style={{ x: x4 }} src="/water-spot.jpeg" alt="Water spot etching damage" className={`${imgClass} rotate-[15deg] z-30`} />
+          <motion.img style={{ x: x1 }} src="/swirl-marks.jpeg" alt="Swirl marks from automated wash" width={280} height={380} loading="lazy" className={`${imgClass} -rotate-[15deg] z-10`} />
+          <motion.img style={{ x: x2 }} src="/automated-brush.jpeg" alt="Automated brush damage" width={280} height={380} loading="lazy" className={`${imgClass} -rotate-[5deg] z-20`} />
+          <motion.img style={{ x: x3 }} src="/deep-scratch.jpeg" alt="Deep scratch and clear coat failure" width={280} height={380} loading="lazy" className={`${imgClass} rotate-[5deg] z-40`} />
+          <motion.img style={{ x: x4 }} src="/water-spot.jpeg" alt="Water spot etching damage" width={280} height={380} loading="lazy" className={`${imgClass} rotate-[15deg] z-30`} />
         </div>
 
         <motion.p

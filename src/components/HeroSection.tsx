@@ -60,38 +60,7 @@ export function HeroSection() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Auto-detect location on mount (or once Google Maps loads)
-  useEffect(() => {
-    if (!navigator.geolocation) return;
-    // Only run once address is still empty
-    if (address) return;
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        if (window.google?.maps?.places) {
-          const geocoder = new google.maps.Geocoder();
-          geocoder.geocode({ location: { lat: latitude, lng: longitude } }, (results, status) => {
-            if (status === 'OK' && results?.[0]) {
-              setAddress(results[0].formatted_address);
-            }
-          });
-        } else {
-          try {
-            const res = await fetch(
-              `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`,
-              { headers: { 'User-Agent': 'Driveo/1.0' } }
-            );
-            const data = await res.json();
-            if (data.display_name) setAddress(data.display_name);
-          } catch { /* ignore */ }
-        }
-      },
-      () => { /* permission denied — leave empty */ },
-      { enableHighAccuracy: false, timeout: 5000 }
-    );
-  // Re-run when Google Maps becomes available so geocoding works on first load
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [googleMapsLoaded]);
+  // Geolocation is only triggered by the detect button — not on page load
 
   const fetchPredictions = useCallback((input: string) => {
     if (!autocompleteService.current || input.length < 3) {
@@ -159,7 +128,7 @@ export function HeroSection() {
     <section ref={containerRef} className="relative min-h-screen flex flex-col justify-center px-6 md:px-12 pb-20 overflow-hidden -mt-[88px] pt-[88px]">
       {/* Video Background */}
       <motion.div style={{ y: heroY }} className="absolute inset-0 z-0 pointer-events-none">
-        <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+        <video autoPlay muted loop playsInline preload="metadata" poster="/collage.jpg" className="w-full h-full object-cover">
           <source src="/hero.mp4" type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-[#050505]/40" />
