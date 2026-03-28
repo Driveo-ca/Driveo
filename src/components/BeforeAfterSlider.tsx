@@ -71,11 +71,11 @@ export function BeforeAfterSlider() {
           onClick={(e) => handleSliderMove(e.clientX)}
         >
           {/* After image (full, sits behind) */}
-          <img src="/Driveo Effect After.png" alt="After DRIVEO wash" width={1400} height={800} className="w-full h-auto block" />
+          <img src="/Driveo Effect After.webp" alt="After DRIVEO wash" width={1400} height={800} className="w-full h-auto block" />
 
           {/* Before image (clipped) */}
           <div className="absolute inset-0 overflow-hidden" style={{ width: `${sliderPos}%` }}>
-            <img src="/Driveo Effect Before.png" alt="Before DRIVEO wash" width={1400} height={800} className="h-full object-cover" style={{ width: `${containerWidth}px`, maxWidth: 'none' }} />
+            <img src="/Driveo Effect Before.webp" alt="Before DRIVEO wash" width={1400} height={800} className="h-full object-cover" style={{ width: `${containerWidth}px`, maxWidth: 'none' }} />
           </div>
 
           {/* Slider line */}

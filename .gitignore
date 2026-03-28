@@ -14,6 +14,9 @@ node_modules/
 .DS_Store
 *.log
 
+# Original uncompressed images
+public/originals/
+
 # Large files (ffmpeg, raw videos)
 ffmpeg-8.0.1-essentials_build/
 ffmpeg.zip
