@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -10,12 +10,13 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { PLAN_LABELS, centsToDisplay, formatDuration } from '@/lib/pricing';
 import { toast } from 'sonner';
 import {
-  Car, MapPin, Phone, Navigation, Camera, Clock,
+  Car, MapPin, Navigation, Camera, Clock,
   DollarSign, CheckCircle2, Loader2, ArrowRight,
-  User, X,
+  User, X, MessageCircle,
 } from 'lucide-react';
 import type { Booking, Profile, Vehicle, BookingPhoto } from '@/types';
 import { cn } from '@/lib/utils';
+import { BookingChat } from '@/components/BookingChat';
 
 export const dynamic = 'force-dynamic';
 
@@ -51,6 +52,8 @@ export default function WasherJobPage() {
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [currentUserId, setCurrentUserId] = useState<string>('');
 
   // Send washer GPS location while en_route or washing
   useEffect(() => {
@@ -82,6 +85,10 @@ export default function WasherJobPage() {
   useEffect(() => {
     async function load() {
       const supabase = createClient();
+
+      // Get current user for chat
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) setCurrentUserId(user.id);
 
       const { data: bookingData } = await supabase
         .from('bookings')
@@ -299,6 +306,69 @@ export default function WasherJobPage() {
     );
   }
 
+  // ── Google Map ──
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapObjRef = useRef<google.maps.Map | null>(null);
+  const markerRef = useRef<google.maps.Marker | null>(null);
+
+  useEffect(() => {
+    if (!booking || !mapContainerRef.current || !window.google?.maps) return;
+    if (mapObjRef.current) return;
+
+    const darkStyles: google.maps.MapTypeStyle[] = [
+      { elementType: 'geometry', stylers: [{ color: '#0a0a0a' }] },
+      { elementType: 'labels.text.stroke', stylers: [{ color: '#0a0a0a' }] },
+      { elementType: 'labels.text.fill', stylers: [{ color: '#555' }] },
+      { featureType: 'road', elementType: 'geometry', stylers: [{ color: '#1a1a1a' }] },
+      { featureType: 'road.highway', elementType: 'geometry', stylers: [{ color: '#222' }] },
+      { featureType: 'water', elementType: 'geometry', stylers: [{ color: '#050510' }] },
+      { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+      { featureType: 'transit', stylers: [{ visibility: 'off' }] },
+    ];
+
+    const isDark = document.documentElement.classList.contains('dark');
+
+    const map = new google.maps.Map(mapContainerRef.current, {
+      center: { lat: booking.service_lat, lng: booking.service_lng },
+      zoom: 15,
+      disableDefaultUI: true,
+      zoomControl: true,
+      styles: isDark ? darkStyles : [
+        { featureType: 'poi', elementType: 'labels', stylers: [{ visibility: 'off' }] },
+      ],
+    });
+
+    const pinSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="52" viewBox="0 0 40 52">
+      <path d="M20 0C9 0 0 9 0 20c0 15 20 32 20 32s20-17 20-32C40 9 31 0 20 0z" fill="#E23232"/>
+      <circle cx="20" cy="20" r="8" fill="white" opacity="0.9"/>
+    </svg>`;
+
+    const marker = new google.maps.Marker({
+      position: { lat: booking.service_lat, lng: booking.service_lng },
+      map,
+      icon: {
+        url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(pinSvg.trim())}`,
+        scaledSize: new google.maps.Size(36, 47),
+        anchor: new google.maps.Point(18, 47),
+      },
+      title: booking.service_address,
+    });
+
+    new google.maps.Circle({
+      center: { lat: booking.service_lat, lng: booking.service_lng },
+      radius: 200,
+      map,
+      fillColor: '#E23232',
+      fillOpacity: 0.06,
+      strokeColor: '#E23232',
+      strokeOpacity: 0.15,
+      strokeWeight: 1,
+    });
+
+    mapObjRef.current = map;
+    markerRef.current = marker;
+  }, [booking]);
+
   const vehicle = booking.vehicles;
   const beforePhotos = photos.filter((p) => p.photo_type === 'before');
   const afterPhotos = photos.filter((p) => p.photo_type === 'after');
@@ -341,6 +411,25 @@ export default function WasherJobPage() {
         </div>
       </div>
 
+      {/* Live Map */}
+      <div className="bg-surface border border-border rounded-2xl overflow-hidden">
+        <div ref={mapContainerRef} className="w-full h-[220px]" />
+        <div className="px-4 py-3 flex items-center justify-between border-t border-border">
+          <div className="flex items-center gap-2">
+            <MapPin className="w-3.5 h-3.5 text-[#E23232]" />
+            <span className="text-xs text-foreground/60 truncate max-w-[200px]">{booking.service_address}</span>
+          </div>
+          <a
+            href={`https://maps.google.com/maps/dir/?api=1&destination=${booking.service_lat},${booking.service_lng}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 text-[#E23232] text-xs font-medium hover:text-[#E23232]/80 transition-colors"
+          >
+            <Navigation className="w-3 h-3" /> Navigate
+          </a>
+        </div>
+      </div>
+
       {/* Customer Info */}
       {customer && (
         <div className="bg-surface border border-border rounded-2xl p-4">
@@ -350,13 +439,33 @@ export default function WasherJobPage() {
               <User className="w-5 h-5 text-foreground/60 dark:text-foreground/55" />
             </div>
             <div className="flex-1">
-              <p className="text-foreground text-sm font-semibold">{customer.full_name}</p>
-              <p className="text-foreground/60 dark:text-foreground/55 text-xs mt-0.5">{customer.phone || customer.email}</p>
+              <p className="text-foreground text-sm font-semibold">
+                {(() => {
+                  const parts = (customer.full_name || '').trim().split(/\s+/);
+                  if (parts.length < 1 || !parts[0]) return 'Customer';
+                  const first = parts[0];
+                  const maskedFirst = first[0] + '\u2022'.repeat(Math.max(first.length - 1, 2));
+                  if (parts.length > 1) {
+                    return `${maskedFirst} ${parts[parts.length - 1][0]}.`;
+                  }
+                  return maskedFirst;
+                })()}
+              </p>
+              <p className="text-foreground/60 dark:text-foreground/55 text-xs mt-0.5">
+                {customer.phone
+                  ? customer.phone.slice(0, 4) + '\u2022\u2022\u2022\u2022' + customer.phone.slice(-3)
+                  : customer.email
+                    ? customer.email[0] + '\u2022\u2022\u2022@' + customer.email.split('@')[1]
+                    : ''}
+              </p>
             </div>
-            {customer.phone && (
-              <a href={`tel:${customer.phone}`} className="w-10 h-10 rounded-full bg-card flex items-center justify-center border border-border hover:border-[#E23232]/30 transition-colors duration-200">
-                <Phone className="w-4 h-4 text-foreground/60" />
-              </a>
+            {['assigned', 'en_route', 'arrived', 'washing'].includes(booking.status) && (
+              <button
+                onClick={() => setChatOpen(true)}
+                className="w-10 h-10 rounded-full bg-[#E23232]/10 flex items-center justify-center border border-[#E23232]/20 hover:bg-[#E23232]/20 transition-colors"
+              >
+                <MessageCircle className="w-4 h-4 text-[#E23232]" />
+              </button>
             )}
           </div>
         </div>
@@ -571,6 +680,24 @@ export default function WasherJobPage() {
             </>
           )}
         </Button>
+      )}
+
+      {/* Chat with Customer */}
+      {customer && currentUserId && ['assigned', 'en_route', 'arrived', 'washing'].includes(booking.status) && (
+        <BookingChat
+          bookingId={booking.id}
+          currentUserId={currentUserId}
+          otherPersonName={(() => {
+            const parts = (customer.full_name || '').trim().split(/\s+/);
+            if (parts.length < 1 || !parts[0]) return 'Customer';
+            const first = parts[0];
+            const masked = first[0] + '\u2022'.repeat(Math.max(first.length - 1, 2));
+            return parts.length > 1 ? `${masked} ${parts[parts.length - 1][0]}.` : masked;
+          })()}
+          open={chatOpen}
+          onClose={() => setChatOpen(false)}
+          role="washer"
+        />
       )}
     </div>
   );

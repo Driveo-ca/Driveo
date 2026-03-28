@@ -246,7 +246,7 @@ export default function AdminDashboardPage() {
           </div>
           <button
             onClick={() => { setRefreshing(true); load(period); }}
-            className="w-9 h-9 rounded-xl bg-surface border border-border flex items-center justify-center text-foreground/40 hover:text-foreground transition-colors"
+            className="w-9 h-9 rounded-xl bg-surface border border-border flex items-center justify-center text-foreground/60 dark:text-foreground/40 hover:text-foreground transition-colors"
           >
             <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
           </button>
@@ -264,13 +264,13 @@ export default function AdminDashboardPage() {
           <div className="relative">
             <div className="flex items-center gap-2 mb-3">
               <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><DollarSign className="w-4 h-4 text-[#E23232]" /></div>
-              <span className="text-[10px] text-foreground/40 uppercase tracking-widest">Revenue</span>
+              <span className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Revenue</span>
             </div>
             <p className="text-2xl font-bold text-[#E23232]">{centsToDisplay(currentRevenue)}</p>
             <div className="flex items-center gap-1 mt-2">
               {revChange >= 0 ? <TrendingUp className="w-3 h-3 text-green-400" /> : <TrendingDown className="w-3 h-3 text-red-400" />}
               <span className={`text-[10px] font-medium ${revChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>{revChange >= 0 ? '+' : ''}{revChange}%</span>
-              <span className="text-[10px] text-foreground/30">{periodLabel}</span>
+              <span className="text-[10px] text-foreground/55 dark:text-foreground/30">{periodLabel}</span>
             </div>
           </div>
         </div>
@@ -278,7 +278,7 @@ export default function AdminDashboardPage() {
         <div className="bg-surface border border-border rounded-2xl p-5 hover:border-blue-500/30 transition-colors">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><CalendarDays className="w-4 h-4 text-blue-400" /></div>
-            <span className="text-[10px] text-foreground/40 uppercase tracking-widest">Bookings</span>
+            <span className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Bookings</span>
           </div>
           <p className="text-2xl font-bold text-foreground">{currentBookings}</p>
           <div className="flex items-center gap-1 mt-2">
@@ -293,7 +293,7 @@ export default function AdminDashboardPage() {
             <div className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
           </div>
           <p className="text-2xl font-bold text-foreground">{activeBookings}</p>
-          <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-2">Active Now</p>
+          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-2">Active Now</p>
         </div>
 
         <div className="bg-surface border border-border rounded-2xl p-5 hover:border-green-500/30 transition-colors">
@@ -302,7 +302,7 @@ export default function AdminDashboardPage() {
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           </div>
           <p className="text-2xl font-bold text-foreground">{washersOnline}</p>
-          <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-2">Washers Online</p>
+          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-2">Washers Online</p>
         </div>
 
         <div className="bg-surface border border-border rounded-2xl p-5 hover:border-amber-500/30 transition-colors">
@@ -326,7 +326,7 @@ export default function AdminDashboardPage() {
                 <div className="w-10 h-10 rounded-xl bg-amber-500/15 flex items-center justify-center shrink-0"><AlertTriangle className="w-5 h-5 text-amber-400" /></div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-foreground">{pendingApps} pending washer application{pendingApps > 1 ? 's' : ''}</p>
-                  <p className="text-xs text-foreground/40 mt-0.5">Requires review</p>
+                  <p className="text-xs text-foreground/60 dark:text-foreground/40 mt-0.5">Requires review</p>
                 </div>
                 <ArrowUpRight className="w-4 h-4 text-amber-400/50 group-hover:text-amber-400 transition-colors" />
               </div>
@@ -338,7 +338,7 @@ export default function AdminDashboardPage() {
                 <div className="w-10 h-10 rounded-xl bg-blue-500/15 flex items-center justify-center shrink-0"><Clock className="w-5 h-5 text-blue-400" /></div>
                 <div className="flex-1">
                   <p className="text-sm font-medium text-foreground">{pendingBookings} booking{pendingBookings > 1 ? 's' : ''} awaiting assignment</p>
-                  <p className="text-xs text-foreground/40 mt-0.5">Auto-assignment in progress</p>
+                  <p className="text-xs text-foreground/60 dark:text-foreground/40 mt-0.5">Auto-assignment in progress</p>
                 </div>
                 <ArrowUpRight className="w-4 h-4 text-blue-400/50 group-hover:text-blue-400 transition-colors" />
               </div>
@@ -357,7 +357,7 @@ export default function AdminDashboardPage() {
                 <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><BarChart3 className="w-4 h-4 text-[#E23232]" /></div>
                 <div>
                   <h3 className="text-sm font-semibold text-foreground">Revenue — Last 7 Days</h3>
-                  <p className="text-[10px] text-foreground/40 mt-0.5 uppercase tracking-widest">Total: {centsToDisplay(dailyRevenue.reduce((s, d) => s + d.amount, 0))}</p>
+                  <p className="text-[10px] text-foreground/60 dark:text-foreground/40 mt-0.5 uppercase tracking-widest">Total: {centsToDisplay(dailyRevenue.reduce((s, d) => s + d.amount, 0))}</p>
                 </div>
               </div>
             </div>
@@ -367,7 +367,7 @@ export default function AdminDashboardPage() {
                 const isToday = i === dailyRevenue.length - 1;
                 return (
                   <div key={day.date} className="flex-1 flex flex-col items-center group">
-                    <span className="text-[10px] text-foreground/30 font-mono opacity-0 group-hover:opacity-100 transition-opacity mb-1">{centsToDisplay(day.amount)}</span>
+                    <span className="text-[10px] text-foreground/55 dark:text-foreground/30 font-mono opacity-0 group-hover:opacity-100 transition-opacity mb-1">{centsToDisplay(day.amount)}</span>
                     <div className="flex-1 w-full flex items-end">
                       <div
                         className={`w-full rounded-lg transition-all duration-500 ${isToday ? 'bg-[#E23232] shadow-[0_0_20px_rgba(226,50,50,0.3)]' : 'bg-[#E23232]/30 group-hover:bg-[#E23232]/60'}`}
@@ -375,8 +375,8 @@ export default function AdminDashboardPage() {
                       />
                     </div>
                     <div className="text-center mt-2">
-                      <span className={`text-[10px] font-medium ${isToday ? 'text-[#E23232]' : 'text-foreground/40'}`}>{day.label}</span>
-                      <p className="text-[9px] text-foreground/20">{day.count} jobs</p>
+                      <span className={`text-[10px] font-medium ${isToday ? 'text-[#E23232]' : 'text-foreground/60 dark:text-foreground/40'}`}>{day.label}</span>
+                      <p className="text-[9px] text-foreground/50 dark:text-foreground/20">{day.count} jobs</p>
                     </div>
                   </div>
                 );
@@ -398,14 +398,14 @@ export default function AdminDashboardPage() {
                       <div className={`w-2 h-2 rounded-full ${s.color}`} />
                       <span className="text-xs text-foreground/60">{s.label}</span>
                     </div>
-                    <span className="text-xs font-mono text-foreground/40">{s.count}</span>
+                    <span className="text-xs font-mono text-foreground/60 dark:text-foreground/40">{s.count}</span>
                   </div>
                   <div className="h-2 bg-foreground/5 rounded-full overflow-hidden">
                     <div className={`h-full rounded-full ${s.color} transition-all duration-700`} style={{ width: `${(s.count / totalStatusCount) * 100}%` }} />
                   </div>
                 </div>
               ))}
-              {statusCounts.length === 0 && <p className="text-sm text-foreground/30 text-center py-4">No bookings in this period</p>}
+              {statusCounts.length === 0 && <p className="text-sm text-foreground/55 dark:text-foreground/30 text-center py-4">No bookings in this period</p>}
             </div>
           </div>
         </div>
@@ -424,21 +424,21 @@ export default function AdminDashboardPage() {
             <div className="space-y-3">
               {topWashers.map((w, i) => (
                 <div key={w.id} className="flex items-center gap-3 p-3 rounded-xl bg-card border border-border hover:border-foreground/10 transition-colors group">
-                  <div className="w-8 h-8 rounded-lg bg-foreground/5 flex items-center justify-center text-xs font-bold text-foreground/40 group-hover:bg-[#E23232]/10 group-hover:text-[#E23232] transition-colors">#{i + 1}</div>
+                  <div className="w-8 h-8 rounded-lg bg-foreground/5 flex items-center justify-center text-xs font-bold text-foreground/60 dark:text-foreground/40 group-hover:bg-[#E23232]/10 group-hover:text-[#E23232] transition-colors">#{i + 1}</div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <p className="text-sm font-medium text-foreground truncate">{w.name}</p>
                       {w.online && <div className="w-1.5 h-1.5 rounded-full bg-green-400" />}
                     </div>
                     <div className="flex items-center gap-3 mt-0.5">
-                      <span className="text-[10px] text-foreground/40 flex items-center gap-1"><Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" /> {w.rating.toFixed(1)}</span>
-                      <span className="text-[10px] text-foreground/30">{w.jobs} jobs</span>
+                      <span className="text-[10px] text-foreground/60 dark:text-foreground/40 flex items-center gap-1"><Star className="w-2.5 h-2.5 text-amber-400 fill-amber-400" /> {w.rating.toFixed(1)}</span>
+                      <span className="text-[10px] text-foreground/55 dark:text-foreground/30">{w.jobs} jobs</span>
                     </div>
                   </div>
                   <p className="text-sm font-semibold text-green-400">{centsToDisplay(w.earnings)}</p>
                 </div>
               ))}
-              {topWashers.length === 0 && <p className="text-sm text-foreground/30 text-center py-4">No approved washers</p>}
+              {topWashers.length === 0 && <p className="text-sm text-foreground/55 dark:text-foreground/30 text-center py-4">No approved washers</p>}
             </div>
           </div>
 
@@ -457,12 +457,12 @@ export default function AdminDashboardPage() {
                   <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${a.color}`} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs font-medium text-foreground/70">{a.title}</p>
-                    <p className="text-[10px] text-foreground/30 truncate mt-0.5">{a.detail}</p>
+                    <p className="text-[10px] text-foreground/55 dark:text-foreground/30 truncate mt-0.5">{a.detail}</p>
                   </div>
-                  <span className="text-[10px] text-foreground/25 shrink-0">{a.time}</span>
+                  <span className="text-[10px] text-foreground/50 dark:text-foreground/25 shrink-0">{a.time}</span>
                 </div>
               ))}
-              {activity.length === 0 && <p className="text-sm text-foreground/30 text-center py-4">No recent activity</p>}
+              {activity.length === 0 && <p className="text-sm text-foreground/55 dark:text-foreground/30 text-center py-4">No recent activity</p>}
             </div>
           </div>
         </div>
@@ -480,7 +480,7 @@ export default function AdminDashboardPage() {
             <div className="bg-surface border border-border rounded-2xl p-4 flex items-center gap-3 hover:border-foreground/10 transition-colors">
               <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${link.color}`}><link.icon className="w-4 h-4" /></div>
               <span className="text-sm text-foreground/60 group-hover:text-foreground transition-colors">{link.label}</span>
-              <ChevronRight className="w-4 h-4 text-foreground/15 ml-auto group-hover:text-foreground/40 group-hover:translate-x-0.5 transition-all" />
+              <ChevronRight className="w-4 h-4 text-foreground/35 dark:text-foreground/15 ml-auto group-hover:text-foreground/60 dark:group-hover:text-foreground/60 dark:text-foreground/40 group-hover:translate-x-0.5 transition-all" />
             </div>
           </Link>
         ))}

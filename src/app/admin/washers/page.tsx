@@ -150,7 +150,7 @@ export default function AdminWashersPage() {
       ) : washers.length === 0 ? (
         <div className="bg-surface border border-border rounded-2xl p-12 text-center">
           <div className="w-16 h-16 rounded-2xl bg-foreground/[0.06] dark:bg-foreground/[0.03] flex items-center justify-center mx-auto mb-4">
-            <UserCheck className="w-7 h-7 text-foreground/10" />
+            <UserCheck className="w-7 h-7 text-foreground/30 dark:text-foreground/10" />
           </div>
           <p className="text-foreground/55 dark:text-foreground/50 text-sm">No washers found</p>
         </div>

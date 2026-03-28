@@ -132,18 +132,16 @@ export async function POST(request: Request) {
       data: { booking_id: booking.id },
     });
 
-    // Auto-assign nearest washer for instant bookings
-    if (isInstant && serviceLat && serviceLng) {
-      try {
-        const { findNearestWasher, assignWasher } = await import('@/lib/assignment');
-        const nearestWasher = await findNearestWasher(serviceLat, serviceLng);
-        if (nearestWasher) {
-          await assignWasher(booking.id, nearestWasher.id);
-        }
-      } catch (assignErr) {
-        console.error('Auto-assignment failed (non-blocking):', assignErr);
-      }
-    }
+    // Broadcast job alert to all approved washers + admin (non-blocking)
+    const baseUrl = request.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'https://driveo.ca';
+    fetch(`${baseUrl}/api/bookings/broadcast`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Cookie: request.headers.get('cookie') || '',
+      },
+      body: JSON.stringify({ bookingId: booking.id }),
+    }).catch((err) => console.error('Broadcast failed (non-blocking):', err));
 
     return NextResponse.json({
       bookingId: booking.id,

@@ -199,28 +199,28 @@ export default function AdminAnalyticsPage() {
             <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><DollarSign className="w-4 h-4 text-[#E23232]" /></div>
           </div>
           <p className="text-2xl font-bold text-[#E23232]">{centsToDisplay(avgOrderValue)}</p>
-          <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Avg Order Value</p>
+          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Avg Order Value</p>
         </div>
         <div className="bg-surface border border-border rounded-2xl p-5 hover:border-green-500/30 transition-colors">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><Repeat className="w-4 h-4 text-green-400" /></div>
           </div>
           <p className="text-2xl font-bold text-foreground">{repeatRate}%</p>
-          <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Repeat Rate</p>
+          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Repeat Rate</p>
         </div>
         <div className="bg-surface border border-border rounded-2xl p-5 hover:border-amber-500/30 transition-colors">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center"><Star className="w-4 h-4 text-amber-400" /></div>
           </div>
           <p className="text-2xl font-bold text-foreground">{avgRating.toFixed(1)}</p>
-          <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Avg Rating</p>
+          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Avg Rating</p>
         </div>
         <div className="bg-surface border border-border rounded-2xl p-5 hover:border-blue-500/30 transition-colors">
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><Target className="w-4 h-4 text-blue-400" /></div>
           </div>
           <p className="text-2xl font-bold text-foreground">{centsToDisplay(revenuePerWasher)}</p>
-          <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Rev / Washer</p>
+          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Rev / Washer</p>
         </div>
       </div>
 
@@ -231,7 +231,7 @@ export default function AdminAnalyticsPage() {
             <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><TrendingUp className="w-4 h-4 text-[#E23232]" /></div>
             <div>
               <h3 className="text-sm font-semibold text-foreground">Revenue Trend — Last {days} Days</h3>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-0.5">
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-0.5">
                 {centsToDisplay(totalRevenue)} total · {totalBookings} bookings
               </p>
             </div>
@@ -243,7 +243,7 @@ export default function AdminAnalyticsPage() {
             const showLabel = days <= 14 || i % 3 === 0;
             return (
               <div key={day.date} className="flex-1 min-w-[12px] flex flex-col items-center group">
-                <span className="text-[9px] text-foreground/20 font-mono opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap mb-1">
+                <span className="text-[9px] text-foreground/50 dark:text-foreground/20 font-mono opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap mb-1">
                   {centsToDisplay(day.revenue)}
                 </span>
                 <div className="flex-1 w-full flex items-end">
@@ -252,7 +252,7 @@ export default function AdminAnalyticsPage() {
                     style={{ height: `${h}%` }}
                   />
                 </div>
-                {showLabel && <span className="text-[8px] text-foreground/20 whitespace-nowrap mt-1">{day.label}</span>}
+                {showLabel && <span className="text-[8px] text-foreground/50 dark:text-foreground/20 whitespace-nowrap mt-1">{day.label}</span>}
               </div>
             );
           })}
@@ -276,7 +276,7 @@ export default function AdminAnalyticsPage() {
                     <span className="text-sm text-foreground/70">{p.label}</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className="text-xs text-foreground/40 font-mono">{p.count} jobs</span>
+                    <span className="text-xs text-foreground/60 dark:text-foreground/40 font-mono">{p.count} jobs</span>
                     <span className="text-sm font-semibold text-foreground">{centsToDisplay(p.revenue)}</span>
                   </div>
                 </div>
@@ -285,7 +285,7 @@ export default function AdminAnalyticsPage() {
                 </div>
               </div>
             ))}
-            {planData.length === 0 && <p className="text-sm text-foreground/30 text-center py-6">No data yet</p>}
+            {planData.length === 0 && <p className="text-sm text-foreground/55 dark:text-foreground/30 text-center py-6">No data yet</p>}
           </div>
         </div>
 
@@ -301,14 +301,14 @@ export default function AdminAnalyticsPage() {
               const isPeak = h.count === maxHourly && h.count > 0;
               return (
                 <div key={h.hour} className="flex-1 flex flex-col items-center group">
-                  <span className="text-[9px] text-foreground/20 opacity-0 group-hover:opacity-100 transition-opacity mb-1">{h.count}</span>
+                  <span className="text-[9px] text-foreground/50 dark:text-foreground/20 opacity-0 group-hover:opacity-100 transition-opacity mb-1">{h.count}</span>
                   <div className="flex-1 w-full flex items-end">
                     <div
                       className={`w-full rounded-sm transition-colors ${isPeak ? 'bg-amber-400' : 'bg-amber-500/25 group-hover:bg-amber-500/50'}`}
                       style={{ height: `${pct}%` }}
                     />
                   </div>
-                  <span className="text-[8px] text-foreground/25 mt-1">{h.hour % 12 || 12}{h.hour < 12 ? 'a' : 'p'}</span>
+                  <span className="text-[8px] text-foreground/50 dark:text-foreground/25 mt-1">{h.hour % 12 || 12}{h.hour < 12 ? 'a' : 'p'}</span>
                 </div>
               );
             })}
@@ -331,10 +331,10 @@ export default function AdminAnalyticsPage() {
                 <div className="flex-1 h-2.5 bg-foreground/5 rounded-full overflow-hidden">
                   <div className="h-full rounded-full bg-green-500 transition-all duration-700" style={{ width: `${(z.count / maxZone) * 100}%` }} />
                 </div>
-                <span className="text-xs text-foreground/40 font-mono w-10 text-right">{z.count}</span>
+                <span className="text-xs text-foreground/60 dark:text-foreground/40 font-mono w-10 text-right">{z.count}</span>
               </div>
             ))}
-            {zoneData.length === 0 && <p className="text-sm text-foreground/30 text-center py-6">No zone data yet</p>}
+            {zoneData.length === 0 && <p className="text-sm text-foreground/55 dark:text-foreground/30 text-center py-6">No zone data yet</p>}
           </div>
         </div>
 
@@ -346,24 +346,24 @@ export default function AdminAnalyticsPage() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="bg-card border border-border rounded-xl p-4 text-center">
-              <Users className="w-5 h-5 text-foreground/30 mx-auto mb-2" />
+              <Users className="w-5 h-5 text-foreground/55 dark:text-foreground/30 mx-auto mb-2" />
               <p className="text-xl font-bold text-foreground">{totalCustomers}</p>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Customers</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Customers</p>
             </div>
             <div className="bg-card border border-border rounded-xl p-4 text-center">
-              <Zap className="w-5 h-5 text-foreground/30 mx-auto mb-2" />
+              <Zap className="w-5 h-5 text-foreground/55 dark:text-foreground/30 mx-auto mb-2" />
               <p className="text-xl font-bold text-foreground">{totalWashers}</p>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Washers</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Washers</p>
             </div>
             <div className="bg-card border border-border rounded-xl p-4 text-center">
-              <Car className="w-5 h-5 text-foreground/30 mx-auto mb-2" />
+              <Car className="w-5 h-5 text-foreground/55 dark:text-foreground/30 mx-auto mb-2" />
               <p className="text-xl font-bold text-foreground">{totalBookings}</p>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Total Bookings</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Total Bookings</p>
             </div>
             <div className="bg-card border border-border rounded-xl p-4 text-center">
-              <DollarSign className="w-5 h-5 text-foreground/30 mx-auto mb-2" />
+              <DollarSign className="w-5 h-5 text-foreground/55 dark:text-foreground/30 mx-auto mb-2" />
               <p className="text-xl font-bold text-[#E23232]">{centsToDisplay(totalRevenue)}</p>
-              <p className="text-[10px] text-foreground/40 uppercase tracking-widest mt-1">Total Revenue</p>
+              <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Total Revenue</p>
             </div>
           </div>
         </div>
@@ -385,7 +385,7 @@ export default function AdminAnalyticsPage() {
                   {GA_ID}
                 </span>
               </p>
-              <p className="text-xs text-foreground/30 mt-1">
+              <p className="text-xs text-foreground/55 dark:text-foreground/30 mt-1">
                 Page views, sessions, user acquisition, traffic sources, and more
               </p>
             </div>
@@ -409,8 +409,8 @@ export default function AdminAnalyticsPage() {
           ].map((item) => (
             <div key={item.label} className="bg-card border border-border rounded-xl p-3">
               <div className="flex items-center gap-2 mb-1">
-                <item.icon className="w-3.5 h-3.5 text-foreground/30" />
-                <span className="text-[10px] text-foreground/40 uppercase tracking-widest">{item.label}</span>
+                <item.icon className="w-3.5 h-3.5 text-foreground/55 dark:text-foreground/30" />
+                <span className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">{item.label}</span>
               </div>
               <p className="text-xs text-foreground/50">{item.desc}</p>
             </div>

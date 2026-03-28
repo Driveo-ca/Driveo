@@ -91,8 +91,8 @@ export default function AdminPayoutsPage() {
             <div className="space-y-3">{[...Array(4)].map((_, i) => <Skeleton key={i} className="h-24 bg-foreground/5 rounded-2xl" />)}</div>
           ) : washers.length === 0 ? (
             <div className="bg-surface border border-border rounded-2xl p-12 text-center">
-              <User className="w-8 h-8 text-foreground/10 mx-auto mb-3" />
-              <p className="text-foreground/40 text-sm">No washers found</p>
+              <User className="w-8 h-8 text-foreground/30 dark:text-foreground/10 mx-auto mb-3" />
+              <p className="text-foreground/60 dark:text-foreground/40 text-sm">No washers found</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -101,7 +101,7 @@ export default function AdminPayoutsPage() {
                   <div className="p-5 flex items-center justify-between">
                     <div className="flex items-center gap-4 flex-1 min-w-0">
                       <div className="w-11 h-11 rounded-xl bg-foreground/5 flex items-center justify-center shrink-0 group-hover:bg-[#E23232]/10 transition-colors">
-                        <User className="w-5 h-5 text-foreground/40 group-hover:text-[#E23232] transition-colors" />
+                        <User className="w-5 h-5 text-foreground/60 dark:text-foreground/40 group-hover:text-[#E23232] transition-colors" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2.5">
@@ -116,16 +116,16 @@ export default function AdminPayoutsPage() {
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-foreground/25 truncate mt-0.5 font-mono">{washer.email}</p>
-                        <p className="text-[10px] text-foreground/20 mt-1">{washer.completed_jobs} jobs pending payout</p>
+                        <p className="text-xs text-foreground/50 dark:text-foreground/25 truncate mt-0.5 font-mono">{washer.email}</p>
+                        <p className="text-[10px] text-foreground/50 dark:text-foreground/20 mt-1">{washer.completed_jobs} jobs pending payout</p>
                       </div>
                     </div>
                     <div className="flex items-center gap-5 shrink-0">
                       <div className="text-right">
-                        <p className={`text-xl font-bold ${washer.pending_earnings > 0 ? 'text-[#E23232]' : 'text-foreground/20'}`}>
+                        <p className={`text-xl font-bold ${washer.pending_earnings > 0 ? 'text-[#E23232]' : 'text-foreground/50 dark:text-foreground/20'}`}>
                           ${(washer.pending_earnings / 100).toFixed(2)}
                         </p>
-                        <p className="text-[10px] text-foreground/25 uppercase tracking-widest">pending</p>
+                        <p className="text-[10px] text-foreground/50 dark:text-foreground/25 uppercase tracking-widest">pending</p>
                       </div>
                       <Button
                         size="sm"
@@ -149,13 +149,13 @@ export default function AdminPayoutsPage() {
           <div className="bg-surface border border-border rounded-2xl p-5 border-l-4 border-l-[#E23232]">
             <div className="flex items-center gap-2 mb-1">
               <Wallet className="w-4 h-4 text-[#E23232]" />
-              <span className="text-[10px] text-foreground/40 uppercase tracking-widest">Total Pending</span>
+              <span className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Total Pending</span>
             </div>
             <p className="text-2xl font-bold text-[#E23232]">${(totalPending / 100).toFixed(2)}</p>
           </div>
 
           <div className="bg-surface border border-border rounded-2xl p-5">
-            <h3 className="text-[10px] text-foreground/40 uppercase tracking-widest mb-4">Overview</h3>
+            <h3 className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mb-4">Overview</h3>
             <div className="space-y-3">
               <div className="flex items-center gap-3 p-3 bg-card border border-border rounded-xl">
                 <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><Users className="w-4 h-4 text-blue-400" /></div>

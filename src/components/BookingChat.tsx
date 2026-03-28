@@ -20,6 +20,7 @@ interface BookingChatProps {
   otherPersonAvatar?: string | null;
   open: boolean;
   onClose: () => void;
+  role?: 'customer' | 'washer';
 }
 
 function formatTime(iso: string) {
@@ -45,6 +46,7 @@ export function BookingChat({
   otherPersonAvatar,
   open,
   onClose,
+  role = 'customer',
 }: BookingChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -160,7 +162,7 @@ export function BookingChat({
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-foreground font-semibold text-sm truncate">{otherPersonName}</p>
-            <p className="text-foreground/50 text-[11px]">Your washer</p>
+            <p className="text-foreground/50 text-[11px]">{role === 'washer' ? 'Customer' : 'Your washer'}</p>
           </div>
           <button
             onClick={onClose}
@@ -180,7 +182,7 @@ export function BookingChat({
             <div className="flex flex-col items-center justify-center h-32 gap-2">
               <MessageCircle className="w-8 h-8 text-foreground/50" />
               <p className="text-foreground/60 text-sm">No messages yet</p>
-              <p className="text-foreground/50 text-xs">Say hello to your washer!</p>
+              <p className="text-foreground/50 text-xs">{role === 'washer' ? 'Send a message to the customer' : 'Say hello to your washer!'}</p>
             </div>
           ) : (
             grouped.map(({ day, msgs }) => (
@@ -257,7 +259,7 @@ export function BookingChat({
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Message your washer…"
+            placeholder={role === 'washer' ? 'Message customer…' : 'Message your washer…'}
             maxLength={1000}
             className="flex-1 bg-foreground/[0.06] dark:bg-foreground/[0.04] border border-border rounded-2xl px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/55 outline-none focus:border-[#E23232]/50 transition-colors"
           />

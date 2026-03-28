@@ -106,6 +106,12 @@ export async function POST(request: Request) {
       data: { booking_id: bookingId },
     });
 
+    // Clean up chat messages after payment is complete
+    await adminSupabase
+      .from('booking_messages')
+      .delete()
+      .eq('booking_id', bookingId);
+
     return NextResponse.json({
       success: true,
       paymentIntentId: paymentIntent.id,
