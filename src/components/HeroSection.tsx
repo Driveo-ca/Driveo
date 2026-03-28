@@ -154,7 +154,7 @@ export function HeroSection() {
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-[11vw] sm:text-[9vw] md:text-[8vw] lg:text-[6.5vw] xl:text-[5.5vw] font-display leading-none uppercase tracking-tighter whitespace-nowrap"
+            className="text-[13vw] sm:text-[9vw] md:text-[8vw] lg:text-[6.5vw] xl:text-[5.5vw] font-display leading-none uppercase tracking-tighter"
           >
             Spotless Car Wash
           </motion.h1>
@@ -162,7 +162,7 @@ export function HeroSection() {
             <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-[#E23232] flex items-center justify-center shrink-0">
               <ArrowUpRight className="w-6 h-6 md:w-8 md:h-8 text-white" />
             </motion.div>
-            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} className="text-[12vw] lg:text-[7vw] font-display leading-[0.85] uppercase tracking-tighter text-transparent" style={{ WebkitTextStroke: "2px white" }}>
+            <motion.h1 initial={{ y: "100%" }} animate={{ y: 0 }} transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }} className="text-[13vw] sm:text-[10vw] lg:text-[7vw] font-display leading-[0.85] uppercase tracking-tighter text-transparent" style={{ WebkitTextStroke: "2px white" }}>
               In Your Spot.
             </motion.h1>
           </div>
@@ -172,7 +172,7 @@ export function HeroSection() {
         </div>
 
         {/* Hero Booking Widget */}
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="w-full max-w-xl border border-white/20 p-8 rounded-3xl backdrop-blur-md bg-black/40" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className="w-full max-w-xl border border-white/20 p-5 sm:p-8 rounded-3xl backdrop-blur-md bg-black/40" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
           <div className="flex items-center gap-3 mb-6">
             <Sparkles className="w-4 h-4 text-[#E23232]" />
             <span className="font-mono text-xs text-[#E23232] uppercase tracking-widest">Spring Revival — 20% off your first wash</span>

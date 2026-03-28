@@ -49,7 +49,7 @@ const cardVariants = {
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-32 px-6 md:px-12 border-b border-white/10 relative overflow-hidden">
+    <section id="how-it-works" className="py-16 md:py-32 px-6 md:px-12 border-b border-white/10 relative overflow-hidden">
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-[#E23232]/[0.03] rounded-full blur-[120px]" />

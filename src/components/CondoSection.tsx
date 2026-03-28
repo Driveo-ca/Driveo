@@ -29,8 +29,8 @@ export function CondoSection() {
   const { count: washCount, ref: washRef } = useCountUp(500, 2000);
 
   return (
-    <section className="py-32 px-6 md:px-12 border-b border-white/10 relative">
-      <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-20 items-center">
+    <section className="py-16 md:py-32 px-6 md:px-12 border-b border-white/10 relative">
+      <div className="max-w-[1600px] mx-auto flex flex-col lg:flex-row gap-10 md:gap-20 items-center">
         {/* Left — text content slides from left */}
         <motion.div
           className="lg:w-1/2"
@@ -53,7 +53,7 @@ export function CondoSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl md:text-7xl lg:text-8xl font-display uppercase leading-[0.9] mb-10"
+            className="text-4xl md:text-7xl lg:text-8xl font-display uppercase leading-[0.9] mb-6 md:mb-10"
           >
             Live In A Condo?<br /><span className="text-[#E23232]">We Built This<br />For You.</span>
           </motion.h2>
@@ -111,7 +111,7 @@ export function CondoSection() {
         >
           {/* Hero stat card */}
           <motion.div
-            className="bg-gradient-to-br from-[#E23232] to-[#b91c1c] rounded-3xl p-10 relative overflow-hidden"
+            className="bg-gradient-to-br from-[#E23232] to-[#b91c1c] rounded-3xl p-6 md:p-10 relative overflow-hidden"
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -121,11 +121,11 @@ export function CondoSection() {
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
             <div className="relative z-10 flex items-center justify-between">
               <div>
-                <span ref={washRef as React.Ref<HTMLSpanElement>} className="font-display text-7xl md:text-8xl text-white leading-none block">{washCount}+</span>
-                <span className="font-mono text-xs text-white/70 uppercase tracking-widest mt-2 block">Condo washes completed</span>
+                <span ref={washRef as React.Ref<HTMLSpanElement>} className="font-display text-5xl md:text-8xl text-white leading-none block">{washCount}+</span>
+                <span className="font-mono text-[10px] md:text-xs text-white/70 uppercase tracking-widest mt-2 block">Condo washes completed</span>
               </div>
               <div className="text-right">
-                <span className="font-display text-7xl md:text-8xl text-white/20 leading-none block">0</span>
+                <span className="font-display text-5xl md:text-8xl text-white/20 leading-none block">0</span>
                 <span className="font-mono text-xs text-white/70 uppercase tracking-widest mt-2 block">Complaints filed</span>
               </div>
             </div>

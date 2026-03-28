@@ -18,7 +18,7 @@ export function FAQAccordion() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   return (
-    <section className="py-32 px-6 md:px-12 border-b border-white/10">
+    <section className="py-16 md:py-32 px-6 md:px-12 border-b border-white/10">
       <div className="max-w-[1000px] mx-auto">
         <motion.h2
           initial={{ opacity: 0, y: 40 }}

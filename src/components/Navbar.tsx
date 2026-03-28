@@ -1,8 +1,8 @@
 'use client';
 
-import { Menu } from 'lucide-react';
-import { motion, useScroll, useMotionValueEvent } from 'framer-motion';
-import { useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useCursor } from './CursorProvider';
@@ -11,10 +11,21 @@ export function Navbar() {
   const { setIsHovering } = useCursor();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useMotionValueEvent(scrollY, 'change', (latest) => {
     setScrolled(latest > 50);
   });
+
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
   return (
     <motion.nav
@@ -128,8 +139,61 @@ export function Navbar() {
             Book Now
           </motion.button>
         </Link>
-        <button className="text-white"><Menu /></button>
+        <button
+          className="text-white w-10 h-10 flex items-center justify-center"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        >
+          {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
+
+      {/* Mobile menu overlay */}
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute top-full left-0 w-full bg-[#050505]/95 backdrop-blur-xl border-b border-white/10 md:hidden overflow-hidden"
+          >
+            <div className="px-6 py-6 flex flex-col gap-1">
+              {['How It Works', 'Services', 'Plans', 'Reviews'].map((item, idx) => (
+                <motion.a
+                  key={item}
+                  href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
+                  className="font-mono text-sm uppercase tracking-widest text-white/80 hover:text-[#E23232] transition-colors py-3 border-b border-white/5"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {item}
+                </motion.a>
+              ))}
+
+              <div className="flex flex-col gap-3 mt-4">
+                <Link href="/apply" onClick={() => setMenuOpen(false)}>
+                  <span className="font-mono text-sm uppercase tracking-widest text-white/70 hover:text-[#E23232] transition-colors block py-2">
+                    Become a Partner
+                  </span>
+                </Link>
+                <Link href="/auth/login" onClick={() => setMenuOpen(false)}>
+                  <span className="font-mono text-sm uppercase tracking-widest text-white/70 hover:text-[#E23232] transition-colors block py-2">
+                    Log In
+                  </span>
+                </Link>
+                <Link href="/auth/signup" onClick={() => setMenuOpen(false)}>
+                  <span className="font-mono text-xs uppercase tracking-widest bg-[#E23232] border border-[#E23232] text-white px-6 py-3 rounded-full block text-center mt-2">
+                    Book Your First Wash
+                  </span>
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.nav>
   );
 }

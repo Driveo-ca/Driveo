@@ -15,7 +15,7 @@ const columnVariants = {
 
 export function Footer() {
   return (
-    <footer className="pt-32 pb-10 px-6 md:px-12 border-t border-white/10 bg-[#0a0a0a]">
+    <footer className="pt-16 md:pt-32 pb-10 px-6 md:px-12 border-t border-white/10 bg-[#0a0a0a]">
       <div className="max-w-[1600px] mx-auto">
         <motion.div
           className="grid grid-cols-1 md:grid-cols-4 gap-12 font-mono text-xs uppercase tracking-widest text-white/70"

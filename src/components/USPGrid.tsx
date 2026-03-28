@@ -24,7 +24,7 @@ const itemVariants = {
 
 export function USPGrid() {
   return (
-    <section className="py-28 px-6 border-b border-white/10 relative overflow-hidden">
+    <section className="py-14 md:py-28 px-6 border-b border-white/10 relative overflow-hidden">
       {/* Background glows */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[400px] bg-[#E23232]/[0.06] rounded-full blur-[150px]" />
@@ -33,7 +33,7 @@ export function USPGrid() {
 
       <div className="max-w-[1400px] mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-8 md:mb-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -59,7 +59,7 @@ export function USPGrid() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: '-60px' }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6"
         >
           {[
             { Icon: MapPin, title: "We Come To You", sub: <>Condo underground<br />Driveway &middot; Office lot</> },
@@ -71,7 +71,7 @@ export function USPGrid() {
             <motion.div
               key={idx}
               variants={itemVariants}
-              className="group flex flex-col items-center text-center gap-5 p-8 rounded-2xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 hover:border-[#E23232]/40 transition-all duration-500 hover:shadow-lg hover:shadow-[#E23232]/5"
+              className="group flex flex-row sm:flex-col items-center sm:text-center gap-4 sm:gap-5 p-5 sm:p-8 rounded-2xl bg-gradient-to-br from-white/[0.06] to-white/[0.02] border border-white/10 hover:border-[#E23232]/40 transition-all duration-500 hover:shadow-lg hover:shadow-[#E23232]/5"
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
             >
               <motion.div

@@ -21,7 +21,7 @@ export function BookingForm() {
   const { setIsHovering } = useCursor();
 
   return (
-    <section className="py-32 px-6 md:px-12 border-b border-white/10 relative">
+    <section className="py-16 md:py-32 px-4 md:px-12 border-b border-white/10 relative">
       <div className="max-w-[1400px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -40,7 +40,7 @@ export function BookingForm() {
           >
             <Image src="/booking-bg.jpeg" alt="DRIVEO wash" fill className="object-cover" sizes="(max-width: 1024px) 100vw, 45vw" />
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/70 to-black/30" />
-            <div className="relative z-10 p-10 md:p-14 flex flex-col justify-end h-full min-h-[400px] lg:min-h-0">
+            <div className="relative z-10 p-6 md:p-14 flex flex-col justify-end h-full min-h-[300px] lg:min-h-0">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -78,14 +78,14 @@ export function BookingForm() {
 
           {/* Right — Form side */}
           <motion.div
-            className="lg:w-[55%] bg-[#0a0a0a] p-10 md:p-14"
+            className="lg:w-[55%] bg-[#0a0a0a] p-5 md:p-14"
             initial={{ opacity: 0, x: 60 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.form
-              className="flex flex-col gap-6 h-full"
+              className="flex flex-col gap-4 md:gap-6 h-full"
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}

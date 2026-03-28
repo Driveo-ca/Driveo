@@ -20,7 +20,7 @@ export function PricingCards() {
   const { setIsHovering } = useCursor();
 
   return (
-    <section id="plans" className="py-32 px-6 md:px-12 border-b border-white/10">
+    <section id="plans" className="py-16 md:py-32 px-6 md:px-12 border-b border-white/10">
       <div className="max-w-[1600px] mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}

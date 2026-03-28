@@ -16,22 +16,22 @@ export function PainCollage() {
   const x3 = useTransform(collageScroll, [0, 1], ["80%", "40%"]);
   const x4 = useTransform(collageScroll, [0, 1], ["200%", "120%"]);
 
-  const imgClass = "absolute w-[160px] lg:w-[280px] h-[220px] lg:h-[380px] object-cover border-[4px] border-[#222] lg:grayscale lg:hover:grayscale-0 hover:z-50 transition-all duration-500";
+  const imgClass = "absolute w-[110px] md:w-[160px] lg:w-[280px] h-[160px] md:h-[220px] lg:h-[380px] object-cover border-[3px] md:border-[4px] border-[#222] lg:grayscale lg:hover:grayscale-0 hover:z-50 transition-all duration-500";
 
   return (
-    <section className="pt-32 pb-16 px-6 overflow-hidden relative border-b border-white/10">
+    <section className="pt-16 md:pt-32 pb-10 md:pb-16 px-6 overflow-hidden relative border-b border-white/10">
       <div className="max-w-[1600px] mx-auto text-center">
         <motion.h2
           initial={{ opacity: 0, y: 60 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-80px' }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-5xl md:text-7xl lg:text-[8rem] font-display uppercase leading-[0.9] mb-24"
+          className="text-3xl md:text-7xl lg:text-[8rem] font-display uppercase leading-[0.9] mb-10 md:mb-24"
         >
           Your Car Wash Is<br />Destroying <span className="text-[#E23232]">Your Paint.</span>
         </motion.h2>
 
-        <div ref={collageRef} className="flex justify-center items-center h-[300px] lg:h-[450px] relative mb-24 w-full max-w-5xl mx-auto">
+        <div ref={collageRef} className="flex justify-center items-center h-[220px] md:h-[300px] lg:h-[450px] relative mb-10 md:mb-24 w-full max-w-5xl mx-auto">
           <motion.img style={{ x: x1 }} src="/swirl-marks.jpeg" alt="Swirl marks from automated wash" width={280} height={380} loading="lazy" className={`${imgClass} -rotate-[15deg] z-10`} />
           <motion.img style={{ x: x2 }} src="/automated-brush.jpeg" alt="Automated brush damage" width={280} height={380} loading="lazy" className={`${imgClass} -rotate-[5deg] z-20`} />
           <motion.img style={{ x: x3 }} src="/deep-scratch.jpeg" alt="Deep scratch and clear coat failure" width={280} height={380} loading="lazy" className={`${imgClass} rotate-[5deg] z-40`} />
