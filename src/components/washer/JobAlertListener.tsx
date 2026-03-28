@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { JobAlertPopup, type JobAlertData } from './JobAlertPopup';
 
@@ -8,6 +8,9 @@ import { JobAlertPopup, type JobAlertData } from './JobAlertPopup';
  * Listens for new 'new_job_alert' notifications via Supabase Realtime.
  * Shows a popup when a new job is available for the washer to claim.
  * Rendered once in the washer layout — wraps no children.
+ *
+ * Uses both Realtime subscription AND interval polling as fallback
+ * (in case Realtime is delayed or not yet enabled on the table).
  */
 export function JobAlertListener() {
   const [currentAlert, setCurrentAlert] = useState<JobAlertData | null>(null);
@@ -23,6 +26,29 @@ export function JobAlertListener() {
       }
     });
   }, []);
+
+  // Poll for unread job alerts
+  const checkPending = useCallback(async () => {
+    if (!userId || currentAlert) return;
+
+    const supabase = createClient();
+    const { data } = await supabase
+      .from('notifications')
+      .select('id, data')
+      .eq('user_id', userId)
+      .eq('type', 'new_job_alert')
+      .eq('is_read', false)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    if (data && data.length > 0 && !processedIds.current.has(data[0].id)) {
+      processedIds.current.add(data[0].id);
+      const alertData = data[0].data as JobAlertData | null;
+      if (alertData) {
+        setCurrentAlert(alertData);
+      }
+    }
+  }, [userId, currentAlert]);
 
   // Subscribe to realtime inserts on notifications table
   useEffect(() => {
@@ -67,33 +93,16 @@ export function JobAlertListener() {
     };
   }, [userId, currentAlert]);
 
-  // Also poll for unprocessed alerts on mount (catch any missed while offline)
+  // Fallback polling every 5 seconds (catches missed Realtime events)
   useEffect(() => {
     if (!userId) return;
 
-    const supabase = createClient();
-
-    async function checkPending() {
-      const { data } = await supabase
-        .from('notifications')
-        .select('id, data')
-        .eq('user_id', userId!)
-        .eq('type', 'new_job_alert')
-        .eq('is_read', false)
-        .order('created_at', { ascending: false })
-        .limit(1);
-
-      if (data && data.length > 0 && !processedIds.current.has(data[0].id)) {
-        processedIds.current.add(data[0].id);
-        const alertData = data[0].data as JobAlertData | null;
-        if (alertData && !currentAlert) {
-          setCurrentAlert(alertData);
-        }
-      }
-    }
-
+    // Initial check
     checkPending();
-  }, [userId, currentAlert]);
+
+    const interval = setInterval(checkPending, 5000);
+    return () => clearInterval(interval);
+  }, [userId, checkPending]);
 
   if (!currentAlert) return null;
 
