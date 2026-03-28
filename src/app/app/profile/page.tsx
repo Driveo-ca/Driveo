@@ -377,7 +377,7 @@ export default function ProfilePage() {
           <div className="divide-y divide-border/40">
             {([
               { icon: Car, label: 'My Vehicles', desc: 'Manage your cars', href: '/app/vehicles' },
-              { icon: CreditCard, label: 'Subscription', desc: 'Membership & billing', href: '/app/subscription' },
+              { icon: CreditCard, label: 'Subscription', desc: 'Membership & billing', href: '/app/membership' },
               { icon: Receipt, label: 'Billing & History', desc: 'Payments & transactions', href: '/app/billing' },
               { icon: Bell, label: 'Notifications', desc: 'Alerts & preferences', href: '/app/notifications' },
               { icon: Shield, label: 'Privacy & Security', desc: 'Password & data', href: '/app/privacy-security' },

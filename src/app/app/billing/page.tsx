@@ -220,7 +220,7 @@ export default function BillingPage() {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.05] via-transparent to-primary/[0.02]" />
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/50 via-primary/20 to-transparent" />
             <button
-              onClick={() => router.push('/app/subscription')}
+              onClick={() => router.push('/app/membership')}
               className="relative w-full flex items-center gap-4 p-5 text-left group"
             >
               <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">

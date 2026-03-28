@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Settings, Save, DollarSign, Car, Gauge } from 'lucide-react';
+import { Settings, Save, DollarSign, Car, Gauge, Lock } from 'lucide-react';
+import { toast } from 'sonner';
 
 export const dynamic = 'force-dynamic';
 
@@ -43,8 +43,8 @@ export default function AdminPricingPage() {
   const [plans, setPlans] = useState<PlanPricing[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [vehicleMults, setVehicleMults] = useState(VEHICLE_MULTIPLIERS);
-  const [dirtMults, setDirtMults] = useState(DIRT_MULTIPLIERS);
+  const vehicleMults = VEHICLE_MULTIPLIERS;
+  const dirtMults = DIRT_MULTIPLIERS;
   const supabase = createClient();
 
   useEffect(() => {
@@ -67,32 +67,16 @@ export default function AdminPricingPage() {
     );
   };
 
-  const updateVehicleMult = (key: string, value: number) => {
-    setVehicleMults((prev) =>
-      prev.map((v) => (v.key === key ? { ...v, multiplier: value } : v))
-    );
-  };
-
-  const updateDirtMult = (level: string, value: number) => {
-    setDirtMults((prev) =>
-      prev.map((d) => (d.level === level ? { ...d, multiplier: value } : d))
-    );
-  };
-
   const handleSave = async () => {
     setSaving(true);
-
-    // Update plan prices in DB
     for (const plan of plans) {
       await supabase
         .from('subscription_plans')
         .update({ monthly_price: plan.monthly_price })
         .eq('id', plan.id);
     }
-
-    // Vehicle and dirt multipliers would be stored in a config table or env
-    // For now, this saves plan prices to the database
     setSaving(false);
+    toast.success('Plan prices updated!');
   };
 
   const perWashPrice: Record<string, number> = {
@@ -221,7 +205,7 @@ export default function AdminPricingPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-display text-foreground">Vehicle Multipliers</h2>
-                  <p className="text-foreground/55 dark:text-foreground/50 text-xs">Price adjustments by vehicle type</p>
+                  <p className="text-foreground/55 dark:text-foreground/50 text-xs flex items-center gap-1"><Lock className="w-3 h-3" /> Defined in pricing engine</p>
                 </div>
               </div>
             </div>
@@ -232,21 +216,7 @@ export default function AdminPricingPage() {
                   className="flex items-center justify-between bg-card border border-border rounded-xl px-4 py-3 hover:border-border transition-colors duration-200"
                 >
                   <span className="text-sm text-foreground/60">{v.type}</span>
-                  <div className="flex items-center gap-3">
-                    <Input
-                      type="number"
-                      step="0.05"
-                      value={v.multiplier}
-                      onChange={(e) =>
-                        updateVehicleMult(
-                          v.key,
-                          parseFloat(e.target.value) || 1
-                        )
-                      }
-                      className="bg-surface border border-border w-20 text-right text-sm rounded-lg text-foreground focus:border-border focus:ring-0"
-                    />
-                    <span className="text-foreground/50 dark:text-foreground/20 text-xs font-mono w-4">x</span>
-                  </div>
+                  <span className="text-sm font-bold text-foreground">{v.multiplier}x</span>
                 </div>
               ))}
             </div>
@@ -261,7 +231,7 @@ export default function AdminPricingPage() {
                 </div>
                 <div>
                   <h2 className="text-lg font-display text-foreground">Dirt Multipliers</h2>
-                  <p className="text-foreground/55 dark:text-foreground/50 text-xs">Driveo Slide surcharge levels</p>
+                  <p className="text-foreground/55 dark:text-foreground/50 text-xs flex items-center gap-1"><Lock className="w-3 h-3" /> Defined in pricing engine</p>
                 </div>
               </div>
             </div>
@@ -279,22 +249,7 @@ export default function AdminPricingPage() {
                       {d.description}
                     </span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[#E23232] text-sm font-bold">{d.multiplier}x</span>
-                    <Input
-                      type="number"
-                      step="0.05"
-                      value={d.multiplier}
-                      onChange={(e) =>
-                        updateDirtMult(
-                          d.level,
-                          parseFloat(e.target.value) || 1
-                        )
-                      }
-                      className="bg-surface border border-border w-20 text-right text-sm rounded-lg text-foreground focus:border-border focus:ring-0"
-                    />
-                    <span className="text-foreground/50 dark:text-foreground/20 text-xs font-mono w-4">x</span>
-                  </div>
+                  <span className="text-[#E23232] text-sm font-bold">{d.multiplier}x</span>
                 </div>
               ))}
             </div>

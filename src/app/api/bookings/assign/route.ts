@@ -95,13 +95,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ── TODO: Send push notification to washer ──
-    // await sendPushNotification(washer.id, {
-    //   title: 'New Job Assigned',
-    //   body: `You have a new wash job ${washer.distance_km.toFixed(1)}km away`,
-    //   data: { bookingId },
-    // });
-
     return NextResponse.json({
       assigned: true,
       washerId: washer.id,

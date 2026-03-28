@@ -47,6 +47,14 @@ function buildEditPrompt(dirtLevel: number): string {
 
 export async function POST(request: NextRequest) {
   try {
+    // Auth check — only authenticated users can generate images
+    const { createClient: createServerClient } = await import('@/lib/supabase/server');
+    const supabase = await createServerClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await request.json();
     const { make, model, year, color, dirtLevel } = body;
 

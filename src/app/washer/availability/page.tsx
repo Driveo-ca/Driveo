@@ -80,10 +80,24 @@ export default function WasherAvailabilityPage() {
 
   const handleSave = async () => {
     if (!userId) return;
+
+    // Validate: end_time must be after start_time for active slots
+    const invalid = slots.find((s) => s.is_available && parseTime(s.end_time) <= parseTime(s.start_time));
+    if (invalid) {
+      const dayName = DAYS[(invalid.day_of_week === 0 ? 6 : invalid.day_of_week - 1)];
+      toast.error(`${dayName}: End time must be after start time`);
+      return;
+    }
+
     setSaving(true);
     const supabase = createClient();
-    await supabase.from('washer_availability').delete().eq('washer_id', userId);
-    await supabase.from('washer_availability').insert(
+    const { error: deleteError } = await supabase.from('washer_availability').delete().eq('washer_id', userId);
+    if (deleteError) {
+      toast.error('Failed to save schedule');
+      setSaving(false);
+      return;
+    }
+    const { error: insertError } = await supabase.from('washer_availability').insert(
       slots.map((s) => ({
         washer_id: userId,
         day_of_week: s.day_of_week,
@@ -93,6 +107,10 @@ export default function WasherAvailabilityPage() {
       }))
     );
     setSaving(false);
+    if (insertError) {
+      toast.error('Failed to save schedule');
+      return;
+    }
     toast.success('Schedule saved!');
   };
 

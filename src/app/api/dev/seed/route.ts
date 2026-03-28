@@ -40,10 +40,12 @@ export async function POST() {
           'booking_id',
           (await admin.from('bookings').select('id').or(`customer_id.eq.${existingUser.id},washer_id.eq.${existingUser.id}`)).data?.map((b) => b.id) || []
         );
-        await admin.from('booking_messages').delete().in(
-          'booking_id',
-          (await admin.from('bookings').select('id').or(`customer_id.eq.${existingUser.id},washer_id.eq.${existingUser.id}`)).data?.map((b) => b.id) || []
-        );
+        try {
+          await admin.from('booking_messages').delete().in(
+            'booking_id',
+            (await admin.from('bookings').select('id').or(`customer_id.eq.${existingUser.id},washer_id.eq.${existingUser.id}`)).data?.map((b) => b.id) || []
+          );
+        } catch { /* booking_messages table may not exist yet */ }
         await admin.from('bookings').delete().or(`customer_id.eq.${existingUser.id},washer_id.eq.${existingUser.id}`);
         await admin.from('reviews').delete().or(`customer_id.eq.${existingUser.id},washer_id.eq.${existingUser.id}`);
         await admin.from('washer_availability').delete().eq('washer_id', existingUser.id);

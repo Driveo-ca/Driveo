@@ -106,11 +106,15 @@ export async function POST(request: Request) {
       data: { booking_id: bookingId },
     });
 
-    // Clean up chat messages after payment is complete
-    await adminSupabase
-      .from('booking_messages')
-      .delete()
-      .eq('booking_id', bookingId);
+    // Clean up chat messages after payment is complete (safe — table may not exist yet)
+    try {
+      await adminSupabase
+        .from('booking_messages')
+        .delete()
+        .eq('booking_id', bookingId);
+    } catch {
+      // booking_messages table may not exist if migration 003 hasn't been run yet
+    }
 
     return NextResponse.json({
       success: true,
