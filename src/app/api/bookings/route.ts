@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { stripe, getOrCreateStripeCustomer } from '@/lib/stripe';
 import { calculatePrice, PLAN_LABELS } from '@/lib/pricing';
+import { createNotification } from '@/lib/notifications';
 import type { VehicleType, WashPlan } from '@/types';
 
 /**
@@ -132,16 +133,11 @@ export async function POST(request: Request) {
       data: { booking_id: booking.id },
     });
 
-    // Broadcast job alert to all approved washers + admin (non-blocking)
-    const baseUrl = request.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'https://driveo.ca';
-    fetch(`${baseUrl}/api/bookings/broadcast`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Cookie: request.headers.get('cookie') || '',
-      },
-      body: JSON.stringify({ bookingId: booking.id }),
-    }).catch((err) => console.error('Broadcast failed (non-blocking):', err));
+    // Broadcast job alert to all approved washers directly (no HTTP self-call)
+    const vehicleStr = `${vehicle.year} ${vehicle.make} ${vehicle.model}`;
+    broadcastJobAlert(adminSupabase, booking, price.planLabel, vehicleStr).catch(
+      (err) => console.error('Broadcast failed (non-blocking):', err)
+    );
 
     return NextResponse.json({
       bookingId: booking.id,
@@ -184,4 +180,66 @@ export async function GET(request: Request) {
   }
 
   return NextResponse.json({ bookings: data });
+}
+
+// ── Inline broadcast to avoid HTTP self-call (fails on Vercel) ──
+
+interface BookingRecord {
+  id: string;
+  wash_plan: string;
+  washer_payout: number;
+  service_address: string;
+  service_lat: number;
+  service_lng: number;
+  dirt_level: number;
+  estimated_duration_min: number;
+}
+
+async function broadcastJobAlert(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  admin: any,
+  booking: BookingRecord,
+  planLabel: string,
+  vehicleStr: string,
+) {
+  const payout = `$${((booking.washer_payout || 0) / 100).toFixed(2)}`;
+
+  // Get all approved washers
+  const { data: washers } = await admin
+    .from('profiles')
+    .select('id, full_name, email, washer_profiles!inner(status)')
+    .eq('role', 'washer')
+    .eq('washer_profiles.status', 'approved');
+
+  if (!washers || washers.length === 0) {
+    console.warn('[Broadcast] No approved washers found');
+    return;
+  }
+
+  const promises: Promise<unknown>[] = [];
+
+  for (const washer of washers) {
+    promises.push(
+      createNotification(
+        washer.id,
+        'new_job_alert',
+        'New Job Available!',
+        `${planLabel} — ${vehicleStr} at ${booking.service_address}. Earn ${payout}. Claim it now!`,
+        {
+          booking_id: booking.id,
+          wash_plan: booking.wash_plan,
+          washer_payout: booking.washer_payout,
+          service_address: booking.service_address,
+          service_lat: booking.service_lat,
+          service_lng: booking.service_lng,
+          dirt_level: booking.dirt_level,
+          estimated_duration_min: booking.estimated_duration_min,
+          vehicle: vehicleStr,
+        },
+      ),
+    );
+  }
+
+  await Promise.allSettled(promises);
+  console.log(`[Broadcast] Notified ${washers.length} washers for booking ${booking.id}`);
 }
