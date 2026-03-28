@@ -6,6 +6,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import {
+  notifyCustomerWasherEnRoute,
+  notifyCustomerWashComplete,
+  createNotification,
+} from '@/lib/notifications';
 import type { BookingStatus } from '@/types';
 
 // ── Valid status transitions for the washer workflow ──
@@ -77,7 +82,7 @@ export async function PATCH(request: NextRequest) {
 
     const { data: booking, error: bookingError } = await adminClient
       .from('bookings')
-      .select('id, washer_id, status')
+      .select('id, washer_id, status, customer_id, total_price')
       .eq('id', bookingId)
       .single();
 
@@ -109,6 +114,21 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
+    // ── Server-side photo validation for completion ──
+    if (status === 'completed') {
+      const { data: afterPhotos } = await adminClient
+        .from('booking_photos')
+        .select('id')
+        .eq('booking_id', bookingId)
+        .eq('photo_type', 'after');
+      if (!afterPhotos || afterPhotos.length < 5) {
+        return NextResponse.json(
+          { error: `Upload at least 5 after photos (${afterPhotos?.length || 0}/5)` },
+          { status: 400 }
+        );
+      }
+    }
+
     // ── Build update payload ──
     const now = new Date().toISOString();
     const timestampField = STATUS_TIMESTAMP_FIELD[status];
@@ -134,6 +154,31 @@ export async function PATCH(request: NextRequest) {
         { error: 'Failed to update booking status' },
         { status: 500 }
       );
+    }
+
+    // ── Notify customer on key status changes (non-blocking) ──
+    const washerName = user.user_metadata?.full_name || 'Your washer';
+
+    if (status === 'en_route') {
+      notifyCustomerWasherEnRoute(booking.customer_id, washerName, bookingId).catch(() => {});
+    } else if (status === 'arrived') {
+      createNotification(
+        booking.customer_id,
+        'washer_arrived',
+        'Washer has arrived',
+        `${washerName} has arrived at your location.`,
+        { booking_id: bookingId },
+      ).catch(() => {});
+    } else if (status === 'washing') {
+      createNotification(
+        booking.customer_id,
+        'wash_started',
+        'Wash in progress',
+        `${washerName} has started washing your car.`,
+        { booking_id: bookingId },
+      ).catch(() => {});
+    } else if (status === 'completed') {
+      notifyCustomerWashComplete(booking.customer_id, bookingId, booking.total_price).catch(() => {});
     }
 
     return NextResponse.json({

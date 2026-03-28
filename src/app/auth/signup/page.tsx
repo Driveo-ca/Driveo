@@ -243,7 +243,7 @@ function SignupForm() {
                   provider: 'google',
                   options: {
                     redirectTo: callbackUrl,
-                    queryParams: { access_type: 'offline', prompt: 'consent' },
+                    queryParams: { access_type: 'offline', prompt: 'select_account' },
                   },
                 });
                 if (error) { toast.error(error.message); setLoading(false); }

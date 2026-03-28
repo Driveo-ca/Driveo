@@ -442,8 +442,16 @@ function BookingForm() {
     finally { setSubmitting(false); }
   }
 
-  function handlePaymentSuccess() {
-    toast.success('Booking confirmed! Finding you a washer…');
+  async function handlePaymentSuccess() {
+    toast.success('Payment authorized! Finding you a washer…');
+    // Broadcast to washers only AFTER card is successfully authorized
+    if (bookingId) {
+      fetch('/api/bookings/broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookingId }),
+      }).catch(() => {}); // fire-and-forget, don't block redirect
+    }
     router.push(`/app/track/${bookingId}`);
   }
 

@@ -50,7 +50,31 @@ export async function updateSession(request: NextRequest) {
     const isApiRoute = pathname.startsWith('/api');
     const isStaticAsset = pathname.startsWith('/_next') || pathname.includes('.');
 
-    if (isPublicRoute || isApiRoute || isStaticAsset) {
+    if (isApiRoute || isStaticAsset) {
+      return supabaseResponse;
+    }
+
+    // Logged-in users hitting landing page or auth pages → redirect to their dashboard
+    if (user && (pathname === '/' || pathname.startsWith('/auth'))) {
+      // Don't redirect the callback route (it handles code exchange)
+      if (pathname === '/auth/callback') return supabaseResponse;
+
+      let role = user.user_metadata?.role as string | undefined;
+      if (!role) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', user.id)
+          .single();
+        if (profile?.role) role = profile.role;
+      }
+
+      if (role === 'washer') return NextResponse.redirect(new URL('/washer/dashboard', request.url));
+      if (role === 'admin') return NextResponse.redirect(new URL('/admin', request.url));
+      return NextResponse.redirect(new URL('/app/home', request.url));
+    }
+
+    if (isPublicRoute) {
       return supabaseResponse;
     }
 

@@ -11,7 +11,7 @@ import {
   Loader2, Star, Shield, ChevronDown, ChevronUp, Navigation,
   Droplets, Camera, CreditCard, ArrowLeft, Sparkles, User,
 } from 'lucide-react';
-import type { Booking, Profile, WasherProfile, Vehicle } from '@/types';
+import type { Booking, Profile, WasherProfile, Vehicle, BookingPhoto } from '@/types';
 import { cn } from '@/lib/utils';
 import { BookingChat } from '@/components/BookingChat';
 
@@ -350,6 +350,8 @@ export default function TrackingPage() {
   const [cancelling, setCancelling] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [photos, setPhotos] = useState<BookingPhoto[]>([]);
+  const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({});
 
   // Ref to track current washer so realtime callback isn't stale
   const washerRef = useRef(washer);
@@ -382,6 +384,13 @@ export default function TrackingPage() {
           setWasherLng(washerData.washer_profiles?.current_lng ?? null);
         }
       }
+      // Fetch booking photos
+      const { data: photosData } = await supabase
+        .from('booking_photos')
+        .select('*')
+        .eq('booking_id', data.id)
+        .order('created_at', { ascending: true });
+      if (photosData) setPhotos(photosData);
     }
     return data;
   }, [id]);
@@ -453,6 +462,25 @@ export default function TrackingPage() {
 
     return () => { supabase.removeChannel(washerChannel); };
   }, [booking?.washer_id]);
+
+  // Load signed URLs for booking photos
+  useEffect(() => {
+    if (photos.length === 0) return;
+    async function loadUrls() {
+      const supabase = createClient();
+      const urls: Record<string, string> = {};
+      for (const photo of photos) {
+        if (photoUrls[photo.id]) { urls[photo.id] = photoUrls[photo.id]; continue; }
+        const { data } = await supabase.storage
+          .from('booking-photos')
+          .createSignedUrl(photo.storage_path, 3600);
+        if (data?.signedUrl) urls[photo.id] = data.signedUrl;
+      }
+      setPhotoUrls(urls);
+    }
+    loadUrls();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [photos]);
 
   if (loading) {
     return (
@@ -622,7 +650,10 @@ export default function TrackingPage() {
           Right col = active (status, washer, timeline)
           No collapse — everything always visible
          ═══════════════════════════════════════════════════════════ */}
-      <div className="hidden lg:flex absolute z-10 top-0 left-0 bottom-0 w-[840px]">
+      <div className={cn(
+        "hidden lg:flex absolute z-10 top-0 left-0 bottom-0 transition-all duration-300",
+        chatOpen ? "w-[1180px]" : "w-[840px]"
+      )}>
         {/* Panel background */}
         <div className="absolute inset-0 bg-background/95 backdrop-blur-xl border-r border-border" />
 
@@ -788,22 +819,50 @@ export default function TrackingPage() {
               )}
 
               {/* Before/After Photos */}
-              {['completed', 'paid'].includes(status) && (
+              {['completed', 'paid'].includes(status) && photos.length > 0 && (
                 <div className="bg-foreground/[0.03] border border-border rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-3">
                     <Camera className="w-4 h-4 text-foreground/55" />
                     <span className="text-foreground/50 text-[10px] font-medium uppercase tracking-wider">Before & After</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Camera className="w-5 h-5 text-foreground/50" />
-                      <span className="text-foreground/50 text-xs">Before</span>
+                  {/* Before photos */}
+                  {photos.filter(p => p.photo_type === 'before').length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-foreground/40 text-[10px] uppercase tracking-wider mb-2">Before</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {photos.filter(p => p.photo_type === 'before').map(photo => (
+                          <div key={photo.id} className="aspect-[4/3] rounded-lg overflow-hidden border border-border bg-foreground/[0.04]">
+                            {photoUrls[photo.id] ? (
+                              <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <Loader2 className="w-4 h-4 animate-spin text-foreground/30" />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Sparkles className="w-5 h-5 text-foreground/50" />
-                      <span className="text-foreground/50 text-xs">After</span>
+                  )}
+                  {/* After photos */}
+                  {photos.filter(p => p.photo_type === 'after').length > 0 && (
+                    <div>
+                      <p className="text-foreground/40 text-[10px] uppercase tracking-wider mb-2">After</p>
+                      <div className="grid grid-cols-3 gap-2">
+                        {photos.filter(p => p.photo_type === 'after').map(photo => (
+                          <div key={photo.id} className="aspect-[4/3] rounded-lg overflow-hidden border border-border bg-foreground/[0.04]">
+                            {photoUrls[photo.id] ? (
+                              <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <Loader2 className="w-4 h-4 animate-spin text-foreground/30" />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               )}
 
@@ -816,6 +875,21 @@ export default function TrackingPage() {
               </div>
             </div>
           </div>
+
+          {/* ── THIRD COL: Chat panel (desktop only, shown when chatOpen) ── */}
+          {chatOpen && washer && currentUserId && (
+            <div className="w-[340px] flex flex-col h-full border-l border-border shrink-0 bg-card">
+              <BookingChat
+                bookingId={booking.id}
+                currentUserId={currentUserId}
+                otherPersonName={washer.full_name}
+                otherPersonAvatar={washer.avatar_url}
+                open={chatOpen}
+                onClose={() => setChatOpen(false)}
+                inline
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -937,23 +1011,49 @@ export default function TrackingPage() {
             )}
 
             {/* Before/After (mobile) */}
-            {['completed', 'paid'].includes(status) && (
+            {['completed', 'paid'].includes(status) && photos.length > 0 && (
               <div className="px-5 pb-2">
                 <div className="bg-foreground/[0.03] border border-border rounded-xl p-3.5">
                   <div className="flex items-center gap-2 mb-2.5">
                     <Camera className="w-3.5 h-3.5 text-foreground/55" />
                     <span className="text-foreground/50 text-[10px] font-medium uppercase tracking-wider">Before & After</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Camera className="w-4 h-4 text-foreground/50" />
-                      <span className="text-foreground/50 text-[10px]">Before</span>
+                  {photos.filter(p => p.photo_type === 'before').length > 0 && (
+                    <div className="mb-2.5">
+                      <p className="text-foreground/40 text-[10px] uppercase tracking-wider mb-1.5">Before</p>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {photos.filter(p => p.photo_type === 'before').map(photo => (
+                          <div key={photo.id} className="aspect-[4/3] rounded-lg overflow-hidden border border-border bg-foreground/[0.04]">
+                            {photoUrls[photo.id] ? (
+                              <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <Loader2 className="w-3 h-3 animate-spin text-foreground/30" />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <div className="aspect-[4/3] rounded-lg bg-foreground/[0.04] border border-border flex flex-col items-center justify-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-foreground/50" />
-                      <span className="text-foreground/50 text-[10px]">After</span>
+                  )}
+                  {photos.filter(p => p.photo_type === 'after').length > 0 && (
+                    <div>
+                      <p className="text-foreground/40 text-[10px] uppercase tracking-wider mb-1.5">After</p>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {photos.filter(p => p.photo_type === 'after').map(photo => (
+                          <div key={photo.id} className="aspect-[4/3] rounded-lg overflow-hidden border border-border bg-foreground/[0.04]">
+                            {photoUrls[photo.id] ? (
+                              <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center">
+                                <Loader2 className="w-3 h-3 animate-spin text-foreground/30" />
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             )}
@@ -1033,17 +1133,19 @@ export default function TrackingPage() {
         </div>
       </div>
 
-      {/* ═══════ In-app Chat ═══════ */}
-      {washer && currentUserId && (
-        <BookingChat
-          bookingId={booking.id}
-          currentUserId={currentUserId}
-          otherPersonName={washer.full_name}
-          otherPersonAvatar={washer.avatar_url}
-          open={chatOpen}
-          onClose={() => setChatOpen(false)}
-        />
-      )}
+      {/* ═══════ In-app Chat — mobile only (desktop uses inline panel above) ═══════ */}
+      <div className="lg:hidden">
+        {washer && currentUserId && (
+          <BookingChat
+            bookingId={booking.id}
+            currentUserId={currentUserId}
+            otherPersonName={washer.full_name}
+            otherPersonAvatar={washer.avatar_url}
+            open={chatOpen}
+            onClose={() => setChatOpen(false)}
+          />
+        )}
+      </div>
     </div>
   );
 }

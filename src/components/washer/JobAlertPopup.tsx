@@ -9,6 +9,7 @@ import {
   Loader2, X, Zap, Navigation,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { createClient } from '@/lib/supabase/client';
 
 export interface JobAlertData {
   booking_id: string;
@@ -67,6 +68,50 @@ export function JobAlertPopup({ alert, onDismiss }: Props) {
       return () => clearTimeout(t);
     }
   }, [expired, onDismiss]);
+
+  // Auto-close if another washer claims the job (Realtime + polling)
+  useEffect(() => {
+    if (claimed || expired) return;
+    const supabase = createClient();
+
+    // Realtime: listen for booking status change from 'pending'
+    const channel = supabase
+      .channel(`job-alert-booking:${alert.booking_id}`)
+      .on('postgres_changes', {
+        event: 'UPDATE',
+        schema: 'public',
+        table: 'bookings',
+        filter: `id=eq.${alert.booking_id}`,
+      }, (payload) => {
+        const updated = payload.new as { status: string };
+        if (updated.status !== 'pending') {
+          clearInterval(intervalRef.current);
+          toast.info('This job was taken by another washer');
+          setExpired(true);
+        }
+      })
+      .subscribe();
+
+    // Polling fallback: check every 3s if booking is still pending
+    const pollId = setInterval(async () => {
+      const { data } = await supabase
+        .from('bookings')
+        .select('status')
+        .eq('id', alert.booking_id)
+        .single();
+      if (data && data.status !== 'pending') {
+        clearInterval(intervalRef.current);
+        clearInterval(pollId);
+        toast.info('This job was taken by another washer');
+        setExpired(true);
+      }
+    }, 3000);
+
+    return () => {
+      supabase.removeChannel(channel);
+      clearInterval(pollId);
+    };
+  }, [alert.booking_id, claimed, expired]);
 
   // Initialize map
   useEffect(() => {
