@@ -55,6 +55,11 @@ export default function WasherJobPage() {
   const [chatOpen, setChatOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string>('');
 
+  // ── Google Map refs (must be before early returns to satisfy Rules of Hooks) ──
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const mapObjRef = useRef<google.maps.Map | null>(null);
+  const markerRef = useRef<google.maps.Marker | null>(null);
+
   // Send washer GPS location while en_route or washing
   useEffect(() => {
     if (!booking || !['en_route', 'arrived', 'washing'].includes(booking.status)) return;
@@ -286,31 +291,7 @@ export default function WasherJobPage() {
     if (uploaded > 0) toast.success(`${uploaded} photo${uploaded > 1 ? 's' : ''} uploaded`);
   }
 
-  if (loading) {
-    return (
-      <div className="px-4 pt-6 max-w-lg mx-auto space-y-4">
-        <div className="h-8 w-48 rounded-lg bg-surface" />
-        <div className="h-44 w-full rounded-2xl bg-surface" />
-        <div className="h-36 w-full rounded-2xl bg-surface" />
-      </div>
-    );
-  }
-
-  if (!booking) {
-    return (
-      <div className="px-4 pt-20 text-center">
-        <div className="bg-surface border border-border rounded-2xl p-8 max-w-lg mx-auto">
-          <p className="text-foreground/60 dark:text-foreground/55">Job not found</p>
-        </div>
-      </div>
-    );
-  }
-
-  // ── Google Map ──
-  const mapContainerRef = useRef<HTMLDivElement>(null);
-  const mapObjRef = useRef<google.maps.Map | null>(null);
-  const markerRef = useRef<google.maps.Marker | null>(null);
-
+  // ── Google Map setup (must be before early returns) ──
   useEffect(() => {
     if (!booking || !mapContainerRef.current || !window.google?.maps) return;
     if (mapObjRef.current) return;
@@ -368,6 +349,26 @@ export default function WasherJobPage() {
     mapObjRef.current = map;
     markerRef.current = marker;
   }, [booking]);
+
+  if (loading) {
+    return (
+      <div className="px-4 pt-6 max-w-lg mx-auto space-y-4">
+        <div className="h-8 w-48 rounded-lg bg-surface" />
+        <div className="h-44 w-full rounded-2xl bg-surface" />
+        <div className="h-36 w-full rounded-2xl bg-surface" />
+      </div>
+    );
+  }
+
+  if (!booking) {
+    return (
+      <div className="px-4 pt-20 text-center">
+        <div className="bg-surface border border-border rounded-2xl p-8 max-w-lg mx-auto">
+          <p className="text-foreground/60 dark:text-foreground/55">Job not found</p>
+        </div>
+      </div>
+    );
+  }
 
   const vehicle = booking.vehicles;
   const beforePhotos = photos.filter((p) => p.photo_type === 'before');
