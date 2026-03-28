@@ -235,9 +235,9 @@ export default function OnboardingPage() {
                 </div>
 
                 {/* Form */}
-                <div className="space-y-4">
+                <div className="space-y-4 overflow-visible">
                   {/* Year */}
-                  <div className="onb-in" style={{ animationDelay: '0.1s' }}>
+                  <div className="onb-in relative z-30" style={{ animationDelay: '0.1s' }}>
                     <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-2">Year</label>
                     <AutocompleteInput
                       options={yearOptions}
@@ -249,7 +249,7 @@ export default function OnboardingPage() {
                   </div>
 
                   {/* Make */}
-                  <div className="onb-in" style={{ animationDelay: '0.15s' }}>
+                  <div className="onb-in relative z-20" style={{ animationDelay: '0.15s' }}>
                     <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-2">Make</label>
                     <AutocompleteInput
                       options={VEHICLE_MAKE_LIST}
@@ -261,7 +261,7 @@ export default function OnboardingPage() {
                   </div>
 
                   {/* Model */}
-                  <div className="onb-in" style={{ animationDelay: '0.2s' }}>
+                  <div className="onb-in relative z-10" style={{ animationDelay: '0.2s' }}>
                     <label className="block text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-2">Model</label>
                     <AutocompleteInput
                       options={modelOptions}

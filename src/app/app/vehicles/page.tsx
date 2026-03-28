@@ -213,7 +213,7 @@ export default function VehiclesPage() {
             <Plus className="w-4 h-4" /> Add
           </DialogTrigger>
           <DialogContent className={cn(
-            'bg-secondary border border-border text-foreground rounded-2xl transition-all',
+            'bg-secondary border border-border text-foreground rounded-2xl transition-all overflow-visible',
             formStep === 1 ? 'max-w-lg sm:max-w-xl' : 'max-w-md'
           )}>
             <DialogHeader>
@@ -287,7 +287,7 @@ export default function VehiclesPage() {
 
             {/* ── Step 2: Vehicle Details Form ── */}
             {formStep === 2 && (
-              <div className="space-y-5 mt-2">
+              <div className="space-y-5 mt-2 overflow-visible">
                 {/* Selected type preview */}
                 <button
                   onClick={() => setFormStep(1)}
@@ -308,16 +308,16 @@ export default function VehiclesPage() {
                   <ChevronRight className="w-4 h-4 text-foreground/30 group-hover:text-foreground/50 rotate-180 transition-colors" />
                 </button>
 
-                <div className="space-y-3">
-                  <div className="space-y-1.5">
+                <div className="space-y-3 overflow-visible">
+                  <div className="space-y-1.5 relative z-30">
                     <Label className="text-xs text-foreground/55">Year</Label>
                     <AutocompleteInput options={yearOptions} value={formYear} onChange={setFormYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 relative z-20">
                     <Label className="text-xs text-foreground/55">Make</Label>
                     <AutocompleteInput options={VEHICLE_MAKE_LIST} value={formMake} onChange={(val) => { setFormMake(val); if (val !== formMake) setFormModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
                   </div>
-                  <div className="space-y-1.5">
+                  <div className="space-y-1.5 relative z-10">
                     <Label className="text-xs text-foreground/55">Model</Label>
                     <AutocompleteInput options={getModelsForMake(formMake)} value={formModel} onChange={(val) => { setFormModel(val); const detected = getModelVehicleType(formMake, val); if (detected) setFormType(detected); }} placeholder={formMake ? `${formMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
                   </div>
@@ -370,11 +370,11 @@ export default function VehiclesPage() {
 
       {/* Edit Vehicle Dialog */}
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
-        <DialogContent className="bg-secondary border border-border text-foreground rounded-2xl max-w-md">
+        <DialogContent className="bg-secondary border border-border text-foreground rounded-2xl max-w-md overflow-visible">
           <DialogHeader>
             <DialogTitle className="font-display text-lg tracking-tight">Edit Vehicle</DialogTitle>
           </DialogHeader>
-          <div className="space-y-5 mt-2">
+          <div className="space-y-5 mt-2 overflow-visible">
             <div className="space-y-2.5">
               <Label className="text-xs uppercase tracking-widest text-foreground/55 font-semibold">Type</Label>
               <div className="grid grid-cols-4 gap-2">
@@ -394,16 +394,16 @@ export default function VehiclesPage() {
                 ))}
               </div>
             </div>
-            <div className="space-y-3">
-              <div className="space-y-1.5">
+            <div className="space-y-3 overflow-visible">
+              <div className="space-y-1.5 relative z-30">
                 <Label className="text-xs text-foreground/55">Year</Label>
                 <AutocompleteInput options={yearOptions} value={editYear} onChange={setEditYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 relative z-20">
                 <Label className="text-xs text-foreground/55">Make</Label>
                 <AutocompleteInput options={VEHICLE_MAKE_LIST} value={editMake} onChange={(val) => { setEditMake(val); if (val !== editMake) setEditModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
               </div>
-              <div className="space-y-1.5">
+              <div className="space-y-1.5 relative z-10">
                 <Label className="text-xs text-foreground/55">Model</Label>
                 <AutocompleteInput options={getModelsForMake(editMake)} value={editModel} onChange={(val) => { setEditModel(val); const detected = getModelVehicleType(editMake, val); if (detected) setEditType(detected); }} placeholder={editMake ? `${editMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
               </div>
