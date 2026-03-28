@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { getVehicleImageUrl } from '@/lib/vehicle-image';
 import { cn } from '@/lib/utils';
+import { trackSubscriptionPurchased } from '@/lib/analytics';
 import { loadStripe } from '@stripe/stripe-js';
 import { EmbeddedCheckoutProvider, EmbeddedCheckout } from '@stripe/react-stripe-js';
 import {
@@ -194,6 +195,9 @@ function MembershipPage() {
   }
 
   function handleCheckoutComplete() {
+    if (checkoutPlan) {
+      trackSubscriptionPurchased(checkoutPlan.wash_plan, checkoutPlan.monthly_price);
+    }
     setCheckoutPlan(null);
     setCheckoutSecret(null);
     setJustSubscribed(true);

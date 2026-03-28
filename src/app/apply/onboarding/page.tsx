@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { BlobBasicInfo, BlobLocation, BlobExperience, BlobDocuments, BlobReview } from '@/components/apply/GradientBlobs';
 import { CursorProvider } from '@/components/CursorProvider';
+import { trackWasherApplicationSubmitted } from '@/lib/analytics';
 import { NoiseOverlay } from '@/components/NoiseOverlay';
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
@@ -186,6 +187,7 @@ export default function OnboardingPage() {
       const res = await fetch('/api/apply', { method: 'POST', body: fd });
 
       if (res.ok) {
+        trackWasherApplicationSubmitted();
         router.push('/apply/thank-you');
       } else {
         alert('Something went wrong. Please try again.');

@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { ArrowRight, Loader2, MapPin, Shield, Clock, Sparkles } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { trackSignup } from '@/lib/analytics';
 import type { UserRole } from '@/types';
 
 /* ── Map styles (same as booking flow) ── */
@@ -174,6 +175,7 @@ function SignupForm() {
         return;
       }
 
+      trackSignup('email', role as 'customer' | 'washer');
       // Redirect to verify email page
       router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`);
       return;

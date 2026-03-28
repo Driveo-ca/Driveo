@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowUpRight, Star, MapPin, Sparkles, LocateFixed, Loader2 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import { trackCtaClick } from '@/lib/analytics';
 import Link from 'next/link';
 import { useCursor } from './CursorProvider';
 import { vehiclePrices } from '@/lib/data';
@@ -232,7 +233,7 @@ export function HeroSection() {
               <span className="font-mono text-xs text-white/70 uppercase tracking-widest block mb-1">Full Wash From</span>
               <span className="font-display text-5xl text-[#E23232] leading-none">${vehiclePrices[selectedVehicle]}</span>
             </div>
-            <Link href="/auth/signup" className="bg-[#E23232] text-white font-mono text-xs uppercase tracking-widest px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all" onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+            <Link href="/auth/signup" className="bg-[#E23232] text-white font-mono text-xs uppercase tracking-widest px-8 py-4 rounded-full hover:bg-white hover:text-black transition-all" onClick={() => trackCtaClick('hero')} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
               Book Now
             </Link>
           </div>

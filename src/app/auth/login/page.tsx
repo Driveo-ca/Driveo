@@ -8,6 +8,7 @@ import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { ArrowRight, Loader2, MapPin } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { trackLogin } from '@/lib/analytics';
 
 /* ── Map styles (same as booking flow) ── */
 const DARK_MAP_STYLES: google.maps.MapTypeStyle[] = [
@@ -182,6 +183,7 @@ function LoginForm() {
       }
     }
 
+    trackLogin('email');
     if (redirect && redirect !== '/') router.push(redirect);
     else if (role === 'washer') router.push('/washer/dashboard');
     else if (role === 'admin') router.push('/admin');

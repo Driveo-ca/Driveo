@@ -3,6 +3,7 @@
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { trackCtaClick } from '@/lib/analytics';
 import { motion } from 'framer-motion';
 import { useCursor } from './CursorProvider';
 
@@ -141,6 +142,7 @@ export function BookingForm() {
                 <Link
                   href="/auth/signup"
                   className="w-full bg-[#E23232] text-white font-display text-xl uppercase tracking-wider py-5 rounded-xl hover:bg-white hover:text-black transition-all mt-2 group flex items-center justify-center gap-3"
+                  onClick={() => trackCtaClick('booking_form')}
                   onMouseEnter={() => setIsHovering(true)}
                   onMouseLeave={() => setIsHovering(false)}
                 >

@@ -13,6 +13,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { AddressAutocomplete } from '@/components/AddressAutocomplete';
 import { DirtCanvas } from '@/components/driveo-slide/DirtCanvas';
+import { trackBookingCreated } from '@/lib/analytics';
 import { DriveoSlide } from '@/components/driveo-slide/DriveoSlide';
 import { Slider } from '@/components/ui/slider';
 import { CalendarPicker } from '@/components/CalendarPicker';
@@ -443,6 +444,7 @@ function BookingForm() {
   }
 
   async function handlePaymentSuccess() {
+    trackBookingCreated(form.washPlan, price?.totalCents ?? 0);
     toast.success('Payment authorized! Finding you a washer…');
     // Broadcast to washers only AFTER card is successfully authorized
     if (bookingId) {
