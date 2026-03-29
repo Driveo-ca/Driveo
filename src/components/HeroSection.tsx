@@ -144,11 +144,11 @@ export function HeroSection() {
         {/* Social proof */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, delay: 0.1 }} className="flex flex-wrap items-center gap-4 md:gap-6">
           <div className="flex items-center gap-2">
-            {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#E23232] text-[#E23232]" />)}
-            <span className="font-mono text-xs text-white/80 uppercase tracking-wider ml-1">4.9 on Google</span>
+            <div className="w-2 h-2 rounded-full bg-[#E23232] animate-pulse" />
+            <span className="font-mono text-xs text-white/80 uppercase tracking-wider">Now Booking in the GTA</span>
           </div>
           <span className="text-white/40">|</span>
-          <span className="font-mono text-xs text-white/80 uppercase tracking-wider">2,400+ Cars Washed</span>
+          <span className="font-mono text-xs text-white/80 uppercase tracking-wider">Vetted Pros Only</span>
           <span className="text-white/40">|</span>
           <span className="font-mono text-xs text-white/80 uppercase tracking-wider">$2M Insured</span>
         </motion.div>

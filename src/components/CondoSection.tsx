@@ -3,7 +3,6 @@
 import { Droplets, MapPin, Camera, ShieldCheck, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { buildings } from '@/lib/data';
-import { useCountUp } from '@/lib/useCountUp';
 
 const ease = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
@@ -26,7 +25,6 @@ const buildingVariants = {
 };
 
 export function CondoSection() {
-  const { count: washCount, ref: washRef } = useCountUp(500, 2000);
 
   return (
     <section className="py-16 md:py-32 px-6 md:px-12 border-b border-white/10 relative">
@@ -109,7 +107,7 @@ export function CondoSection() {
           viewport={{ once: true, margin: '-100px' }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Hero stat card */}
+          {/* Hero promise card */}
           <motion.div
             className="bg-gradient-to-br from-[#E23232] to-[#b91c1c] rounded-3xl p-6 md:p-10 relative overflow-hidden"
             initial={{ opacity: 0, scale: 0.9 }}
@@ -119,15 +117,10 @@ export function CondoSection() {
           >
             <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-            <div className="relative z-10 flex items-center justify-between">
-              <div>
-                <span ref={washRef as React.Ref<HTMLSpanElement>} className="font-display text-5xl md:text-8xl text-white leading-none block">{washCount}+</span>
-                <span className="font-mono text-[10px] md:text-xs text-white/70 uppercase tracking-widest mt-2 block">Condo washes completed</span>
-              </div>
-              <div className="text-right">
-                <span className="font-display text-5xl md:text-8xl text-white/20 leading-none block">0</span>
-                <span className="font-mono text-xs text-white/70 uppercase tracking-widest mt-2 block">Complaints filed</span>
-              </div>
+            <div className="relative z-10 flex flex-col gap-3">
+              <span className="font-display text-4xl md:text-6xl text-white leading-none block">100% Waterless.</span>
+              <span className="font-display text-4xl md:text-6xl text-white/30 leading-none block">Zero Violations.</span>
+              <span className="font-mono text-[10px] md:text-xs text-white/70 uppercase tracking-widest mt-2 block">Built for underground parking — no water hookup, no runoff, no building complaints</span>
             </div>
           </motion.div>
 
@@ -139,7 +132,7 @@ export function CondoSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
-            <span className="font-mono text-[10px] text-[#E23232] uppercase tracking-[0.3em] block mb-5">Buildings we&apos;ve serviced</span>
+            <span className="font-mono text-[10px] text-[#E23232] uppercase tracking-[0.3em] block mb-5">Now serving these buildings</span>
             <motion.div
               className="grid grid-cols-2 gap-3"
               initial="hidden"

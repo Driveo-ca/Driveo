@@ -43,7 +43,7 @@ export const pricingCards = [
 export const faqItems = [
   {
     q: "Can you wash my car in a condo underground parking lot?",
-    a: "Yes — we built DRIVEO specifically for this. Our pros use professional waterless and rinseless products that require zero water hookup, leave zero water runoff, and violate zero building rules. We've washed hundreds of vehicles in underground parking across Mississauga and Etobicoke. Your property manager won't hear a thing.",
+    a: "Yes — we built DRIVEO specifically for this. Our pros use professional waterless and rinseless products that require zero water hookup, leave zero water runoff, and violate zero building rules. Designed for underground parking across Mississauga and Etobicoke. Your property manager won't hear a thing.",
   },
   {
     q: "What if I'm not happy with the wash?",
@@ -65,13 +65,6 @@ export const faqItems = [
     q: "Can I skip a month or cancel my subscription?",
     a: "Skip once per quarter with one tap in your account. Cancel anytime with 30 days' notice — no penalty, no fees, no guilt trip. We don't do contracts because we'd rather earn your business every month than lock you in.",
   },
-];
-
-export const reviews = [
-  { name: "Sarah L.", text: "Live in a condo on Hurontario. DRIVEO came into my underground parking and washed my car while I was at work. No mess, no complaints. On the monthly plan now.", time: "2 weeks ago" },
-  { name: "Michael T.", text: "Called three other services before DRIVEO. Two never called back. DRIVEO confirmed in 30 seconds, showed up on time, sent before/after photos. Night and day.", time: "1 month ago" },
-  { name: "David K.", text: "I drive Uber 10 hours a day. Dirty car = bad ratings. DRIVEO's driver plan keeps my car spotless twice a month for $49. Pays for itself in tips alone.", time: "3 weeks ago" },
-  { name: "Priya M.", text: "Booked at 11pm, they came next morning. Got a text when they arrived, text when done, and 10 photos of my car looking brand new. This is how it should work.", time: "1 week ago" },
 ];
 
 export const buildings = [
