@@ -1,12 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { rateLimit } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 export const maxDuration = 30;
 
 export async function POST(request: NextRequest) {
   try {
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const { success } = rateLimit(ip, 'apply', { maxRequests: 3, windowMs: 60_000 });
+    if (!success) {
+      return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
+    }
+
     // Verify the user is authenticated
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
@@ -54,7 +63,6 @@ export async function POST(request: NextRequest) {
         });
       if (!uploadErr) {
         governmentIdPath = path;
-        console.log('[Apply] Gov ID uploaded:', path);
       } else {
         console.error('[Apply] Gov ID upload error:', uploadErr.message);
       }
@@ -137,8 +145,6 @@ export async function POST(request: NextRequest) {
         console.error('Failed to send notification email:', emailError);
       }
     }
-
-    console.log(`Washer application submitted for ${fullName} (${user.email}) — pending approval`);
 
     return NextResponse.json({ success: true });
   } catch (error) {

@@ -20,7 +20,7 @@ export async function GET(_request: NextRequest) {
 
   const { data, error } = await supabase
     .from('notifications')
-    .select('*')
+    .select('id, type, title, body, data, is_read, created_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(50);
@@ -30,5 +30,7 @@ export async function GET(_request: NextRequest) {
     return NextResponse.json({ error: 'Failed to fetch notifications' }, { status: 500 });
   }
 
-  return NextResponse.json({ notifications: data });
+  const response = NextResponse.json({ notifications: data });
+  response.headers.set('Cache-Control', 'private, no-store, must-revalidate');
+  return response;
 }

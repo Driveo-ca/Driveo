@@ -1,8 +1,17 @@
 import { NextResponse } from 'next/server';
+import { headers } from 'next/headers';
 import { createAdminClient } from '@/lib/supabase/server';
+import { rateLimit } from '@/lib/rate-limit';
 
 export async function POST(request: Request) {
   try {
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const { success } = rateLimit(ip, 'signup', { maxRequests: 5, windowMs: 60_000 });
+    if (!success) {
+      return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
+    }
+
     const { userId, fullName, email, phone, role } = await request.json();
 
     if (!userId || !fullName || !role) {

@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Anton, Inter, JetBrains_Mono, Playfair_Display, Poppins, Geist } from 'next/font/google';
 import './globals.css';
@@ -41,6 +41,16 @@ const poppins = Poppins({
   display: 'swap',
 });
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#050505' },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL('https://driveo.ca'),
   title: {
@@ -79,7 +89,7 @@ export const metadata: Metadata = {
     description: 'Pro hand-wash at your door. Book in 30 seconds. Before/after photo proof. No scratches. Ever. Serving the Greater Toronto Area.',
     images: [
       {
-        url: '/collage.jpg',
+        url: '/collage-1.jpeg',
         width: 1200,
         height: 630,
         alt: 'DRIVEO Mobile Car Detailing — Before and After',
@@ -90,7 +100,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'DRIVEO — Mobile Car Detailing Across the GTA',
     description: 'Pro hand-wash at your door. Book in 30 seconds. Before/after photo proof. No scratches. Ever.',
-    images: ['/collage.jpg'],
+    images: ['/collage-1.jpeg'],
     creator: '@driveoca',
   },
   alternates: {

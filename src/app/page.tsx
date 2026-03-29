@@ -25,7 +25,7 @@ const jsonLd = {
       alternateName: 'DRIVEO Auto Care Inc.',
       url: 'https://driveo.ca',
       logo: 'https://driveo.ca/Driveo-logo.png',
-      image: 'https://driveo.ca/collage.jpg',
+      image: 'https://driveo.ca/collage-1.jpeg',
       description: 'Professional mobile car detailing service in the Greater Toronto Area. We come to your door — driveways, condo parking, office lots. Book in 30 seconds.',
       telephone: '+1-416-555-DRIV',
       email: 'hello@driveo.ca',

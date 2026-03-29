@@ -2,6 +2,7 @@ import { CustomerNav } from '@/components/nav/CustomerNav';
 
 export const metadata = {
   title: 'Driveo — Book a Wash',
+  robots: { index: false, follow: false },
 };
 
 export default function CustomerLayout({ children }: { children: React.ReactNode }) {

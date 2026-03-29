@@ -1,6 +1,19 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
+const PUBLIC_ROUTES = ['/', '/auth', '/plans', '/how-it-works', '/apply', '/privacy', '/terms'];
+
+async function getUserRole(supabase: ReturnType<typeof createServerClient>, userId: string, metadata?: Record<string, unknown>): Promise<string | undefined> {
+  const metaRole = metadata?.role as string | undefined;
+  if (metaRole) return metaRole;
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', userId)
+    .single();
+  return profile?.role ?? undefined;
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -42,9 +55,7 @@ export async function updateSession(request: NextRequest) {
 
     const pathname = request.nextUrl.pathname;
 
-    // Public routes — no auth needed
-    const publicRoutes = ['/', '/auth', '/plans', '/how-it-works', '/apply', '/privacy', '/terms'];
-    const isPublicRoute = publicRoutes.some(
+    const isPublicRoute = PUBLIC_ROUTES.some(
       (route) => pathname === route || pathname.startsWith(route + '/')
     );
     const isApiRoute = pathname.startsWith('/api');
@@ -56,19 +67,9 @@ export async function updateSession(request: NextRequest) {
 
     // Logged-in users hitting landing page or auth pages → redirect to their dashboard
     if (user && (pathname === '/' || pathname.startsWith('/auth'))) {
-      // Don't redirect the callback route (it handles code exchange)
       if (pathname === '/auth/callback') return supabaseResponse;
 
-      let role = user.user_metadata?.role as string | undefined;
-      if (!role) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', user.id)
-          .single();
-        if (profile?.role) role = profile.role;
-      }
-
+      const role = await getUserRole(supabase, user.id, user.user_metadata);
       if (role === 'washer') return NextResponse.redirect(new URL('/washer/dashboard', request.url));
       if (role === 'admin') return NextResponse.redirect(new URL('/admin', request.url));
       return NextResponse.redirect(new URL('/app/home', request.url));
@@ -86,17 +87,7 @@ export async function updateSession(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Get user role — check metadata first, then fall back to profiles table
-    let role = user.user_metadata?.role as string | undefined;
-
-    if (!role) {
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
-      if (profile?.role) role = profile.role;
-    }
+    const role = await getUserRole(supabase, user.id, user.user_metadata);
 
     // Role-based route protection
     if (pathname.startsWith('/app') && role && role !== 'customer') {

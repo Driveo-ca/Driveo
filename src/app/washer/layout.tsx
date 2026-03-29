@@ -3,6 +3,7 @@ import { JobAlertListener } from '@/components/washer/JobAlertListener';
 
 export const metadata = {
   title: 'Driveo Washer — Dashboard',
+  robots: { index: false, follow: false },
 };
 
 export default function WasherLayout({ children }: { children: React.ReactNode }) {

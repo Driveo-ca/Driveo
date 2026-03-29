@@ -36,10 +36,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    // Get vehicle to determine type
+    // Get vehicle to determine type — only fetch fields needed for pricing + description
     const { data: vehicle, error: vehicleError } = await supabase
       .from('vehicles')
-      .select('*')
+      .select('id, type, year, make, model')
       .eq('id', vehicleId)
       .eq('customer_id', user.id)
       .single();

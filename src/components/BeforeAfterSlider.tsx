@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -71,11 +72,11 @@ export function BeforeAfterSlider() {
           onClick={(e) => handleSliderMove(e.clientX)}
         >
           {/* After image (full, sits behind) */}
-          <img src="/Driveo Effect After.png" alt="After DRIVEO wash" width={1400} height={800} className="w-full h-auto block" />
+          <Image src="/Driveo Effect After.png" alt="After DRIVEO wash" width={1400} height={800} className="w-full h-auto block" priority />
 
           {/* Before image (clipped) */}
           <div className="absolute inset-0 overflow-hidden" style={{ width: `${sliderPos}%` }}>
-            <img src="/Driveo Effect Before.png" alt="Before DRIVEO wash" width={1400} height={800} className="h-full object-cover" style={{ width: `${containerWidth}px`, maxWidth: 'none' }} />
+            <Image src="/Driveo Effect Before.png" alt="Before DRIVEO wash" width={1400} height={800} className="h-full object-cover" style={{ width: `${containerWidth}px`, maxWidth: 'none' }} priority />
           </div>
 
           {/* Slider line */}

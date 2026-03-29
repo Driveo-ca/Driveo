@@ -2,6 +2,7 @@ import { AdminNav } from '@/components/nav/AdminNav';
 
 export const metadata = {
   title: 'Driveo Admin',
+  robots: { index: false, follow: false },
 };
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

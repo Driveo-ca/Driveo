@@ -24,16 +24,24 @@ export async function GET() {
       return NextResponse.json({ subscription: null, subscriptions: [], usage: null });
     }
 
-    // Build response for all subscriptions
-    const allSubs = await Promise.all(subscriptions.map(async (sub) => {
-      const { data: usage } = await supabase
-        .from('subscription_usage')
-        .select('*')
-        .eq('subscription_id', sub.id)
-        .order('period_start', { ascending: false })
-        .limit(1)
-        .single();
+    // Batch-fetch usage for all subscriptions (avoids N+1)
+    const subIds = subscriptions.map(s => s.id);
+    const { data: allUsage } = await supabase
+      .from('subscription_usage')
+      .select('subscription_id, allocated, used, period_start, period_end')
+      .in('subscription_id', subIds)
+      .order('period_start', { ascending: false });
 
+    // Group usage by subscription (take latest per sub)
+    const usageBySubId = new Map<string, typeof allUsage extends (infer T)[] | null ? T : never>();
+    for (const u of allUsage ?? []) {
+      if (!usageBySubId.has(u.subscription_id)) {
+        usageBySubId.set(u.subscription_id, u);
+      }
+    }
+
+    const allSubs = subscriptions.map((sub) => {
+      const usage = usageBySubId.get(sub.id);
       return {
         subscription: {
           id: sub.id,
@@ -49,7 +57,7 @@ export async function GET() {
           ? { allocated: usage.allocated, used: usage.used, periodStart: usage.period_start, periodEnd: usage.period_end }
           : null,
       };
-    }));
+    });
 
     // Backwards compatible: first subscription as top-level fields
     return NextResponse.json({

@@ -47,9 +47,10 @@ export default function NotificationsPage() {
       if (!user) return;
       const { data, error } = await supabase
         .from('notifications')
-        .select('*')
+        .select('id, user_id, type, title, body, data, is_read, created_at')
         .eq('user_id', user.id)
-        .order('created_at', { ascending: false });
+        .order('created_at', { ascending: false })
+        .limit(100);
       if (!error && data) setNotifications(data as Notification[]);
       setLoading(false);
     }
@@ -253,7 +254,7 @@ export default function NotificationsPage() {
 
                           {/* Chevron */}
                           <ChevronDown className={cn(
-                            'w-4 h-4 text-foreground/30 shrink-0 mt-1 transition-transform duration-300',
+                            'w-4 h-4 text-foreground/45 shrink-0 mt-1 transition-transform duration-300',
                             isExpanded && 'rotate-180 text-foreground/50'
                           )} />
                         </div>

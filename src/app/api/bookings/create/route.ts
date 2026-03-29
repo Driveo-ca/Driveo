@@ -1,11 +1,20 @@
 import { NextResponse } from 'next/server';
+import { headers } from 'next/headers';
 import { createClient, createAdminClient } from '@/lib/supabase/server';
 import { stripe, getOrCreateStripeCustomer } from '@/lib/stripe';
 import { calculatePrice, PLAN_LABELS } from '@/lib/pricing';
+import { rateLimit } from '@/lib/rate-limit';
 import type { VehicleType, WashPlan } from '@/types';
 
 export async function POST(request: Request) {
   try {
+    const headersList = await headers();
+    const ip = headersList.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
+    const { success } = rateLimit(ip, 'booking-create', { maxRequests: 10, windowMs: 60_000 });
+    if (!success) {
+      return NextResponse.json({ error: 'Too many requests. Please try again later.' }, { status: 429 });
+    }
+
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -40,10 +49,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Invalid wash plan' }, { status: 400 });
     }
 
-    // Get vehicle (verify ownership)
+    // Get vehicle (verify ownership) — select only needed fields
     const { data: vehicle, error: vehicleError } = await supabase
       .from('vehicles')
-      .select('*')
+      .select('id, type, year, make, model')
       .eq('id', vehicleId)
       .eq('customer_id', user.id)
       .single();

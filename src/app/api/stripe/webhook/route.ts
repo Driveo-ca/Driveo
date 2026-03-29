@@ -61,7 +61,6 @@ export async function POST(request: Request) {
             .eq('id', bookingId)
             .eq('stripe_payment_intent_id', paymentIntent.id);
 
-          console.log(`[Webhook] payment_intent.succeeded for booking ${bookingId}`);
         }
         break;
       }
@@ -94,7 +93,6 @@ export async function POST(request: Request) {
             });
           }
 
-          console.log(`[Webhook] payment_intent.payment_failed for booking ${bookingId}`);
         }
         break;
       }
@@ -113,7 +111,6 @@ export async function POST(request: Request) {
             .eq('id', bookingId)
             .eq('stripe_payment_intent_id', paymentIntent.id);
 
-          console.log(`[Webhook] payment_intent.canceled for booking ${bookingId}`);
         }
         break;
       }
@@ -177,7 +174,6 @@ export async function POST(request: Request) {
                 });
               }
 
-              console.log(`[Webhook] checkout.session.completed — subscription created for user ${userId}`);
             }
           }
         }
@@ -194,13 +190,12 @@ export async function POST(request: Request) {
             .update({ status: 'approved' })
             .eq('stripe_account_id', account.id);
 
-          console.log(`[Webhook] Connect account ${account.id} fully onboarded`);
         }
         break;
       }
 
       default:
-        console.log(`[Webhook] Unhandled event type: ${event.type}`);
+        break;
     }
   } catch (err) {
     console.error(`[Webhook] Error processing ${event.type}:`, err);
