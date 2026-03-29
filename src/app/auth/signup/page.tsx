@@ -8,6 +8,8 @@ import { createClient } from '@/lib/supabase/client';
 import { toast } from 'sonner';
 import { ArrowRight, Loader2, MapPin, Shield, Clock, Sparkles } from 'lucide-react';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { getUtmParams } from '@/lib/utm';
+import { trackEvent } from '@/lib/analytics';
 import type { UserRole } from '@/types';
 
 /* ── Map styles (same as booking flow) ── */
@@ -162,10 +164,11 @@ function SignupForm() {
         return;
       }
 
+      const utmData = getUtmParams();
       const res = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: data.user.id, fullName, email, phone, role }),
+        body: JSON.stringify({ userId: data.user.id, fullName, email, phone, role, utmData }),
       });
       if (!res.ok) {
         const errData = await res.json();
@@ -173,6 +176,8 @@ function SignupForm() {
         setLoading(false);
         return;
       }
+
+      trackEvent('sign_up', { method: 'email', role });
 
       // Redirect to verify email page
       router.push(`/auth/verify-email?email=${encodeURIComponent(email)}`);

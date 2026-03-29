@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import { useCursor } from './CursorProvider';
 import { vehiclePrices } from '@/lib/data';
+import { captureUtmParams } from '@/lib/utm';
 
 interface Prediction {
   place_id: string;
@@ -26,6 +27,9 @@ export function HeroSection() {
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
+
+  // Capture UTM params from URL on first visit
+  useEffect(() => { captureUtmParams(); }, []);
 
   // Watch for Google Maps to finish loading
   useEffect(() => {

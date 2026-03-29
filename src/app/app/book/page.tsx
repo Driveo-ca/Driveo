@@ -26,6 +26,7 @@ import {
   Clock, CreditCard, Loader2, ShieldCheck, Lock, Check, ArrowLeft,
   Droplets, X, Star, Gauge, MessageCircle, Home, Briefcase, Bookmark, Plus, Trash2,
 } from 'lucide-react';
+import { trackEvent } from '@/lib/analytics';
 import type { Vehicle, WashPlan, BookingFormData, SavedLocation } from '@/types';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -532,6 +533,7 @@ function BookingForm() {
         body: JSON.stringify({ bookingId }),
       }).catch(() => {}); // fire-and-forget, don't block redirect
     }
+    trackEvent('purchase', { wash_plan: form.washPlan, value: price?.totalCents });
     router.push(`/app/track/${bookingId}`);
   }
 
