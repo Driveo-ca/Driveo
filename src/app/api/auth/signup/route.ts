@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/server';
 
 export async function POST(request: Request) {
   try {
-    const { userId, fullName, email, phone, role } = await request.json();
+    const { userId, fullName, email, phone, role, utmData } = await request.json();
 
     if (!userId || !fullName || !role) {
       return NextResponse.json(
@@ -42,6 +42,7 @@ export async function POST(request: Request) {
       const { error } = await supabase.from('customer_profiles').insert({
         id: userId,
         referral_code: referralCode,
+        ...(utmData && Object.keys(utmData).length > 0 ? { utm_data: utmData } : {}),
       });
 
       if (error) {

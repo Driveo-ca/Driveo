@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { ArrowUpRight, Star, MapPin, Sparkles, LocateFixed, Loader2 } from 'lucide-react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { trackCtaClick } from '@/lib/analytics';
+import { trackCtaClick, captureUtmParams } from '@/lib/analytics';
 import Link from 'next/link';
 import { useCursor } from './CursorProvider';
 import { vehiclePrices } from '@/lib/data';
@@ -27,6 +27,9 @@ export function HeroSection() {
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [googleMapsLoaded, setGoogleMapsLoaded] = useState(false);
+
+  // Capture UTM params on landing page load
+  useEffect(() => { captureUtmParams(); }, []);
 
   // Watch for Google Maps to finish loading
   useEffect(() => {
