@@ -69,7 +69,7 @@ export default function AdminPayoutsPage() {
   const totalPaid = washers.reduce((sum, w) => sum + w.completed_jobs, 0);
 
   return (
-    <div className="space-y-8 md:pt-0 pt-14">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -77,9 +77,21 @@ export default function AdminPayoutsPage() {
             <DollarSign className="w-5 h-5 text-[#E23232]" />
           </div>
           <div>
-            <h1 className="text-3xl font-display text-foreground tracking-tight">Payouts</h1>
+            <h1 className="text-2xl sm:text-3xl font-display text-foreground tracking-tight">Payouts</h1>
             <p className="text-foreground/50 text-sm mt-0.5">Manage washer earnings and Stripe transfers</p>
           </div>
+        </div>
+      </div>
+
+      {/* Mobile stats row */}
+      <div className="grid grid-cols-2 gap-2.5 lg:hidden">
+        <div className="bg-surface border border-border rounded-2xl p-3 border-l-4 border-l-[#E23232]">
+          <span className="text-[9px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Total Pending</span>
+          <p className="text-lg font-bold text-[#E23232] mt-0.5">${(totalPending / 100).toFixed(2)}</p>
+        </div>
+        <div className="bg-surface border border-border rounded-2xl p-3">
+          <span className="text-[9px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Stripe Connected</span>
+          <p className="text-lg font-bold text-foreground mt-0.5">{stripeConnected}/{washers.length}</p>
         </div>
       </div>
 
@@ -98,14 +110,14 @@ export default function AdminPayoutsPage() {
             <div className="space-y-3">
               {washers.map((washer) => (
                 <div key={washer.id} className="bg-surface border border-border rounded-2xl hover:border-foreground/10 transition-colors group">
-                  <div className="p-5 flex items-center justify-between">
-                    <div className="flex items-center gap-4 flex-1 min-w-0">
-                      <div className="w-11 h-11 rounded-xl bg-foreground/5 flex items-center justify-center shrink-0 group-hover:bg-[#E23232]/10 transition-colors">
-                        <User className="w-5 h-5 text-foreground/60 dark:text-foreground/40 group-hover:text-[#E23232] transition-colors" />
+                  <div className="p-3.5 sm:p-5 flex flex-col sm:flex-row sm:items-center gap-3 sm:justify-between">
+                    <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                      <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-foreground/5 flex items-center justify-center shrink-0 group-hover:bg-[#E23232]/10 transition-colors">
+                        <User className="w-4 h-4 sm:w-5 sm:h-5 text-foreground/60 dark:text-foreground/40 group-hover:text-[#E23232] transition-colors" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2.5">
-                          <p className="font-medium text-foreground truncate">{washer.full_name}</p>
+                          <p className="font-medium text-foreground text-sm sm:text-base truncate">{washer.full_name}</p>
                           {washer.stripe_account_id ? (
                             <span className="text-[10px] text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
                               <span className="w-1.5 h-1.5 rounded-full bg-green-400" />Stripe
@@ -120,9 +132,9 @@ export default function AdminPayoutsPage() {
                         <p className="text-[10px] text-foreground/50 dark:text-foreground/20 mt-1">{washer.completed_jobs} jobs pending payout</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-5 shrink-0">
-                      <div className="text-right">
-                        <p className={`text-xl font-bold ${washer.pending_earnings > 0 ? 'text-[#E23232]' : 'text-foreground/50 dark:text-foreground/20'}`}>
+                    <div className="flex items-center gap-3 sm:gap-5 shrink-0 ml-[52px] sm:ml-0">
+                      <div className="text-left sm:text-right flex-1 sm:flex-none">
+                        <p className={`text-lg sm:text-xl font-bold ${washer.pending_earnings > 0 ? 'text-[#E23232]' : 'text-foreground/50 dark:text-foreground/20'}`}>
                           ${(washer.pending_earnings / 100).toFixed(2)}
                         </p>
                         <p className="text-[10px] text-foreground/50 dark:text-foreground/25 uppercase tracking-widest">pending</p>
@@ -131,9 +143,9 @@ export default function AdminPayoutsPage() {
                         size="sm"
                         onClick={() => handlePayout(washer.id)}
                         disabled={washer.pending_earnings === 0 || !washer.stripe_account_id || processingId === washer.id}
-                        className="bg-[#E23232] hover:bg-[#E23232]/80 text-white disabled:opacity-20 rounded-xl px-5"
+                        className="bg-[#E23232] hover:bg-[#E23232]/80 text-white disabled:opacity-20 rounded-xl px-4 sm:px-5 h-10 active:scale-[0.97]"
                       >
-                        <Send className="w-3.5 h-3.5 mr-2" />
+                        <Send className="w-3.5 h-3.5 mr-1.5 sm:mr-2" />
                         {processingId === washer.id ? 'Sending...' : 'Payout'}
                       </Button>
                     </div>

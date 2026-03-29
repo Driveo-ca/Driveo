@@ -87,13 +87,16 @@ export function AdminNav() {
       </aside>
 
       {/* Mobile header */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border px-4 py-3.5 flex items-center justify-between">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-card border-b border-border px-4 py-3.5 flex items-center justify-between pt-[max(0.875rem,env(safe-area-inset-top))]">
         <div className="flex items-center gap-2.5">
           <Image src="/Driveo-logo.png" alt="Driveo" width={26} height={26} />
           <span className="font-display text-base text-foreground">DRIVEO</span>
           <span className="text-[8px] uppercase tracking-widest text-[#E23232] font-semibold">Admin</span>
         </div>
-        <button onClick={() => setMobileOpen(!mobileOpen)} className="text-foreground/50 hover:text-foreground transition-colors p-1">
+        <button
+          onClick={() => setMobileOpen(!mobileOpen)}
+          className="w-10 h-10 flex items-center justify-center rounded-xl text-foreground/50 hover:text-foreground active:bg-foreground/[0.06] transition-colors"
+        >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
@@ -102,7 +105,7 @@ export function AdminNav() {
       {mobileOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-black/70 animate-fade-in" onClick={() => setMobileOpen(false)}>
           <aside
-            className="w-72 h-full bg-card border-r border-border pt-16 animate-slide-in-right"
+            className="w-[min(18rem,85vw)] h-full bg-card border-r border-border pt-16 animate-slide-in-right overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {navContent}

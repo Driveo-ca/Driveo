@@ -185,32 +185,32 @@ export default function BillingPage() {
         </div>
 
         {/* ─── Stats Cards ─── */}
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          <div className="rounded-2xl border border-border/50 p-4 relative overflow-hidden">
+        <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-6">
+          <div className="rounded-2xl border border-border/50 p-3 sm:p-4 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-emerald-500/40 to-transparent" />
-            <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2.5">
-              <DollarSign className="w-4 h-4 text-emerald-500" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2">
+              <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-500" />
             </div>
-            <p className="text-lg font-bold text-foreground tabular-nums">{formatCents(totalSpent)}</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">Total spent</p>
+            <p className="text-base sm:text-lg font-bold text-foreground tabular-nums">{formatCents(totalSpent)}</p>
+            <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5">Total spent</p>
           </div>
 
-          <div className="rounded-2xl border border-border/50 p-4 relative overflow-hidden">
+          <div className="rounded-2xl border border-border/50 p-3 sm:p-4 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-blue-500/40 to-transparent" />
-            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2.5">
-              <Droplets className="w-4 h-4 text-blue-500" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2">
+              <Droplets className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-500" />
             </div>
-            <p className="text-lg font-bold text-foreground tabular-nums">{totalWashes}</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">Total washes</p>
+            <p className="text-base sm:text-lg font-bold text-foreground tabular-nums">{totalWashes}</p>
+            <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5">Total washes</p>
           </div>
 
-          <div className="rounded-2xl border border-border/50 p-4 relative overflow-hidden">
+          <div className="rounded-2xl border border-border/50 p-3 sm:p-4 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary/40 to-transparent" />
-            <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-2.5">
-              <TrendingUp className="w-4 h-4 text-primary" />
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
+              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-primary" />
             </div>
-            <p className="text-lg font-bold text-foreground tabular-nums">{formatCents(thisMonthSpent)}</p>
-            <p className="text-[10px] text-muted-foreground mt-0.5">This month</p>
+            <p className="text-base sm:text-lg font-bold text-foreground tabular-nums">{formatCents(thisMonthSpent)}</p>
+            <p className="text-[9px] sm:text-[10px] text-muted-foreground mt-0.5">This month</p>
           </div>
         </div>
 
@@ -237,7 +237,7 @@ export default function BillingPage() {
                   {formatCents(subscription.monthly_price)}/mo · Renews {formatDate(subscription.current_period_end)}
                 </p>
               </div>
-              <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/55 transition-colors" />
+              <ChevronRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground/60 transition-colors" />
             </button>
           </div>
         )}
@@ -269,7 +269,7 @@ export default function BillingPage() {
         {monthKeys.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20">
             <div className="w-14 h-14 rounded-2xl bg-foreground/[0.04] flex items-center justify-center mb-4">
-              <Receipt className="w-6 h-6 text-foreground/20" />
+              <Receipt className="w-6 h-6 text-foreground/40" />
             </div>
             <p className="text-sm font-medium text-foreground/55">No transactions yet</p>
             <p className="text-xs text-muted-foreground/60 mt-1">Your payment history will appear here</p>

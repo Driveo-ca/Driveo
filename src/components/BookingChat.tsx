@@ -65,33 +65,62 @@ export function BookingChat({
   useEffect(() => {
     if (!open) return;
     const supabase = createClient();
+    let pollTimer: ReturnType<typeof setInterval> | null = null;
+    let realtimeConnected = false;
     setLoading(true);
 
-    supabase
-      .from('booking_messages')
-      .select('*')
-      .eq('booking_id', bookingId)
-      .order('created_at', { ascending: true })
-      .then(({ data }) => {
-        setMessages(data || []);
-        setLoading(false);
-        setTimeout(() => scrollToBottom(false), 50);
-      });
+    // Fetch all messages (used on initial load and after reconnection)
+    function fetchMessages(scroll: ScrollBehavior | 'instant' = 'instant') {
+      return supabase
+        .from('booking_messages')
+        .select('*')
+        .eq('booking_id', bookingId)
+        .order('created_at', { ascending: true })
+        .then(({ data }) => {
+          if (data) setMessages(data);
+          setLoading(false);
+          setTimeout(() => scrollToBottom(scroll === 'smooth'), 50);
+        });
+    }
+
+    fetchMessages('instant');
+
+    // Polling fallback: refetch messages every 4s when realtime isn't connected
+    pollTimer = setInterval(() => {
+      if (!realtimeConnected) {
+        fetchMessages('smooth');
+      }
+    }, 4000);
 
     const channel = supabase
-      .channel(`chat:${bookingId}`)
+      .channel(`chat-${bookingId}`)
       .on('postgres_changes', {
         event: 'INSERT',
         schema: 'public',
         table: 'booking_messages',
         filter: `booking_id=eq.${bookingId}`,
       }, (payload) => {
-        setMessages(prev => [...prev, payload.new as Message]);
+        setMessages(prev => {
+          // Deduplicate — polling may have already added this message
+          if (prev.some(m => m.id === (payload.new as Message).id)) return prev;
+          return [...prev, payload.new as Message];
+        });
         setTimeout(() => scrollToBottom(true), 30);
       })
-      .subscribe();
+      .subscribe((status) => {
+        if (status === 'SUBSCRIBED') {
+          realtimeConnected = true;
+          // Refetch to pick up any messages missed before subscription was ready
+          fetchMessages('smooth');
+        } else if (status === 'CLOSED' || status === 'CHANNEL_ERROR') {
+          realtimeConnected = false;
+        }
+      });
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      if (pollTimer) clearInterval(pollTimer);
+      supabase.removeChannel(channel);
+    };
   }, [open, bookingId, scrollToBottom]);
 
   useEffect(() => {

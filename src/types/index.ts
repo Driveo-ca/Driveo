@@ -215,6 +215,19 @@ export interface Notification {
   created_at: string;
 }
 
+export interface SavedLocation {
+  id: string;
+  customer_id: string;
+  label: string;
+  address: string;
+  lat: number;
+  lng: number;
+  notes: string | null;
+  is_default: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 // ── Pricing Types ──
 
 export interface PriceBreakdown {

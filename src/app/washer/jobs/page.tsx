@@ -30,21 +30,21 @@ const planLabel: Record<string, string> = {
 };
 
 const statusConfig: Record<string, { color: string; dot: string }> = {
-  assigned:  { color: 'bg-blue-500/10 text-blue-400 border-blue-500/20',    dot: 'bg-blue-500' },
-  en_route:  { color: 'bg-violet-500/10 text-violet-400 border-violet-500/20', dot: 'bg-violet-500' },
-  arrived:   { color: 'bg-amber-500/10 text-amber-400 border-amber-500/20',  dot: 'bg-amber-500' },
-  washing:   { color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
-  completed: { color: 'bg-green-500/10 text-green-400 border-green-500/20',  dot: 'bg-green-500' },
-  paid:      { color: 'bg-green-500/10 text-green-400 border-green-500/20',  dot: 'bg-green-500' },
+  assigned:  { color: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',    dot: 'bg-blue-500' },
+  en_route:  { color: 'bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20', dot: 'bg-violet-500' },
+  arrived:   { color: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',  dot: 'bg-amber-500' },
+  washing:   { color: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20', dot: 'bg-emerald-500' },
+  completed: { color: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',  dot: 'bg-green-500' },
+  paid:      { color: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',  dot: 'bg-green-500' },
 };
 
 function EmptyState({ icon: Icon, message }: { icon: React.ElementType; message: string }) {
   return (
     <div className="border border-dashed border-border/50 rounded-2xl p-12 text-center">
       <div className="w-12 h-12 rounded-2xl bg-foreground/[0.04] flex items-center justify-center mx-auto mb-3">
-        <Icon className="w-5 h-5 text-foreground/30" />
+        <Icon className="w-5 h-5 text-foreground/50" />
       </div>
-      <p className="text-foreground/55 text-sm">{message}</p>
+      <p className="text-foreground/65 text-sm">{message}</p>
     </div>
   );
 }
@@ -79,20 +79,20 @@ function JobCard({ job, index }: { job: Job; index: number }) {
 
             <div className="space-y-1.5">
               {job.vehicles && (
-                <div className="flex items-center gap-2 text-foreground/55 text-xs">
+                <div className="flex items-center gap-2 text-foreground/65 text-xs">
                   <Car className="w-3.5 h-3.5 shrink-0" />
                   {job.vehicles.year} {job.vehicles.make} {job.vehicles.model}
-                  <span className="text-foreground/35 capitalize">· {job.vehicles.type}</span>
+                  <span className="text-foreground/65 capitalize">· {job.vehicles.type}</span>
                 </div>
               )}
-              <div className="flex items-center gap-2 text-foreground/55 text-xs">
+              <div className="flex items-center gap-2 text-foreground/65 text-xs">
                 <MapPin className="w-3.5 h-3.5 shrink-0" />
                 <span className="line-clamp-1">{job.service_address}</span>
               </div>
             </div>
 
             <div className="flex items-center justify-between mt-3 pt-3 border-t border-border/40">
-              <div className="flex items-center gap-1.5 text-foreground/40 text-xs font-mono">
+              <div className="flex items-center gap-1.5 text-foreground/60 text-xs font-mono">
                 {job.scheduled_at ? (
                   <>
                     <Calendar className="w-3 h-3" />
@@ -105,7 +105,7 @@ function JobCard({ job, index }: { job: Job; index: number }) {
                   </>
                 )}
               </div>
-              <ChevronRight className="w-4 h-4 text-foreground/30 group-hover:text-foreground/60 transition-colors" />
+              <ChevronRight className="w-4 h-4 text-foreground/50 group-hover:text-foreground/60 transition-colors" />
             </div>
           </div>
         </div>
@@ -161,10 +161,10 @@ export default function WasherJobsPage() {
       >
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">My Jobs</h1>
-          <p className="text-foreground/55 text-xs mt-0.5 font-mono">{jobs.length} total assignments</p>
+          <p className="text-foreground/65 text-xs mt-0.5 font-mono">{jobs.length} total assignments</p>
         </div>
         <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center">
-          <ClipboardList className="w-[18px] h-[18px] text-foreground/55" />
+          <ClipboardList className="w-[18px] h-[18px] text-foreground/65" />
         </div>
       </motion.div>
 
@@ -183,19 +183,19 @@ export default function WasherJobsPage() {
               <TabsList className="w-full bg-foreground/[0.04] rounded-2xl p-1 border border-border/50 mb-5 h-auto">
                 <TabsTrigger
                   value="active"
-                  className="flex-1 rounded-xl py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/55 transition-all duration-200"
+                  className="flex-1 rounded-xl py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/65 transition-all duration-200"
                 >
                   Active {activeJobs.length > 0 && <span className="ml-1.5 bg-white/20 text-[10px] rounded-full px-1.5 py-0.5">{activeJobs.length}</span>}
                 </TabsTrigger>
                 <TabsTrigger
                   value="upcoming"
-                  className="flex-1 rounded-xl py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/55 transition-all duration-200"
+                  className="flex-1 rounded-xl py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/65 transition-all duration-200"
                 >
                   Upcoming {upcomingJobs.length > 0 && <span className="ml-1.5 bg-white/20 text-[10px] rounded-full px-1.5 py-0.5">{upcomingJobs.length}</span>}
                 </TabsTrigger>
                 <TabsTrigger
                   value="done"
-                  className="flex-1 rounded-xl py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/55 transition-all duration-200"
+                  className="flex-1 rounded-xl py-2.5 text-sm font-medium data-[state=active]:bg-[#E23232] data-[state=active]:text-white text-foreground/65 transition-all duration-200"
                 >
                   Done {completedJobs.length > 0 && <span className="ml-1.5 bg-white/20 text-[10px] rounded-full px-1.5 py-0.5">{completedJobs.length}</span>}
                 </TabsTrigger>
@@ -232,12 +232,12 @@ export default function WasherJobsPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="border border-border/50 rounded-2xl p-5"
           >
-            <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Job Summary</span>
+            <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Job Summary</span>
             <div className="mt-4 space-y-4">
               {[
-                { icon: Zap, label: 'Active', value: String(activeJobs.length), color: 'text-blue-400', bg: 'bg-blue-500/10' },
-                { icon: Calendar, label: 'Upcoming', value: String(upcomingJobs.length), color: 'text-violet-400', bg: 'bg-violet-500/10' },
-                { icon: CheckCircle2, label: 'Completed', value: String(completedJobs.length), color: 'text-green-400', bg: 'bg-green-500/10' },
+                { icon: Zap, label: 'Active', value: String(activeJobs.length), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-500/10' },
+                { icon: Calendar, label: 'Upcoming', value: String(upcomingJobs.length), color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-500/10' },
+                { icon: CheckCircle2, label: 'Completed', value: String(completedJobs.length), color: 'text-green-600 dark:text-green-400', bg: 'bg-green-500/10' },
                 { icon: ClipboardList, label: 'Total', value: String(jobs.length), color: 'text-foreground/60', bg: 'bg-foreground/[0.05]' },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-3">
@@ -245,7 +245,7 @@ export default function WasherJobsPage() {
                     <s.icon className={cn('w-4 h-4', s.color)} />
                   </div>
                   <div className="flex-1">
-                    <p className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">{s.label}</p>
+                    <p className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">{s.label}</p>
                     <p className={cn('text-lg font-bold leading-tight', s.color)}>{s.value}</p>
                   </div>
                 </div>
@@ -263,11 +263,11 @@ export default function WasherJobsPage() {
             <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-1">
-                <TrendingUp className="w-3.5 h-3.5 text-emerald-400/60" />
-                <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Total Earned</span>
+                <TrendingUp className="w-3.5 h-3.5 text-emerald-600/60 dark:text-emerald-400/60" />
+                <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Total Earned</span>
               </div>
-              <p className="text-3xl font-bold text-emerald-400 tracking-tight">${(totalEarnings / 100).toFixed(2)}</p>
-              <p className="text-xs text-foreground/40 mt-1 font-mono">{completedJobs.length} completed</p>
+              <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 tracking-tight">${(totalEarnings / 100).toFixed(2)}</p>
+              <p className="text-xs text-foreground/60 mt-1 font-mono">{completedJobs.length} completed</p>
             </div>
           </motion.div>
 
@@ -279,7 +279,7 @@ export default function WasherJobsPage() {
               transition={{ duration: 0.4, delay: 0.3 }}
               className="border border-border/50 rounded-2xl p-5"
             >
-              <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Plan Breakdown</span>
+              <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Plan Breakdown</span>
               <div className="mt-4 space-y-3">
                 {Object.entries(planCounts).map(([plan, count]) => {
                   const total = completedJobs.length || 1;
@@ -292,7 +292,7 @@ export default function WasherJobsPage() {
                           <span className={cn('w-2 h-2 rounded-full', dotColor)} />
                           <span className="text-xs text-foreground/60 font-medium">{planLabel[plan] || plan}</span>
                         </div>
-                        <span className="text-xs text-foreground/40 font-mono">{count} ({pct}%)</span>
+                        <span className="text-xs text-foreground/60 font-mono">{count} ({pct}%)</span>
                       </div>
                       <div className="h-1.5 rounded-full bg-foreground/[0.06] overflow-hidden">
                         <div className={cn('h-full rounded-full', dotColor)} style={{ width: `${pct}%` }} />

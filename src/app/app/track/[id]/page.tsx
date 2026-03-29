@@ -715,7 +715,7 @@ export default function TrackingPage() {
                       router.push('/app/bookings');
                     }
                   }}
-                  className="w-full border-foreground/30 text-foreground/70 hover:text-red-400 hover:border-red-500/20 rounded-xl"
+                  className="w-full border-foreground/30 text-foreground/70 hover:text-red-600 dark:hover:text-red-400 hover:border-red-500/20 rounded-xl"
                 >
                   {cancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                   {cancelling ? 'Cancelling...' : 'Cancel booking'}
@@ -731,6 +731,7 @@ export default function TrackingPage() {
               <div className="flex items-center justify-between">
                 <h2 className="text-foreground font-semibold text-xl leading-tight">Live Tracking</h2>
                 <Badge
+                  variant="outline"
                   className={cn(
                     'text-[10px] font-medium',
                     status === 'pending' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25' :
@@ -784,11 +785,11 @@ export default function TrackingPage() {
                             {washer.washer_profiles?.rating_avg?.toFixed(1) || '—'}
                           </span>
                         </div>
-                        <span className="text-foreground/20">·</span>
+                        <span className="text-foreground/40">·</span>
                         <span className="text-foreground/55 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
                         {washer.washer_profiles?.background_check_done && (
                           <>
-                            <span className="text-foreground/20">·</span>
+                            <span className="text-foreground/40">·</span>
                             <div className="flex items-center gap-1">
                               <Shield className="w-3 h-3 text-green-600 dark:text-green-400" />
                               <span className="text-green-600/70 dark:text-green-400/70 text-xs">Verified</span>
@@ -815,6 +816,17 @@ export default function TrackingPage() {
                       </span>
                     </div>
                   )}
+
+                  {/* Chat CTA */}
+                  {['assigned', 'en_route', 'arrived', 'washing'].includes(status) && (
+                    <button
+                      onClick={() => setChatOpen(true)}
+                      className="w-full mt-3 flex items-center justify-center gap-2 py-3 rounded-xl bg-[#E23232]/10 border border-[#E23232]/20 hover:bg-[#E23232]/15 transition-colors"
+                    >
+                      <MessageCircle className="w-4 h-4 text-[#E23232]" />
+                      <span className="text-[#E23232] text-sm font-semibold">Chat with Washer</span>
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -836,7 +848,7 @@ export default function TrackingPage() {
                               <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <Loader2 className="w-4 h-4 animate-spin text-foreground/30" />
+                                <Loader2 className="w-4 h-4 animate-spin text-foreground/50" />
                               </div>
                             )}
                           </div>
@@ -855,7 +867,7 @@ export default function TrackingPage() {
                               <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <Loader2 className="w-4 h-4 animate-spin text-foreground/30" />
+                                <Loader2 className="w-4 h-4 animate-spin text-foreground/50" />
                               </div>
                             )}
                           </div>
@@ -922,6 +934,7 @@ export default function TrackingPage() {
                 <p className="text-foreground/55 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
               </div>
               <Badge
+                variant="outline"
                 className={cn(
                   'text-[10px] font-medium shrink-0',
                   status === 'pending' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25' :
@@ -978,11 +991,11 @@ export default function TrackingPage() {
                             {washer.washer_profiles?.rating_avg?.toFixed(1) || '—'}
                           </span>
                         </div>
-                        <span className="text-foreground/20">·</span>
+                        <span className="text-foreground/40">·</span>
                         <span className="text-foreground/55 text-xs">{washer.washer_profiles?.jobs_completed || 0} washes</span>
                         {washer.washer_profiles?.background_check_done && (
                           <>
-                            <span className="text-foreground/20">·</span>
+                            <span className="text-foreground/40">·</span>
                             <Shield className="w-3 h-3 text-green-600 dark:text-green-400" />
                           </>
                         )}
@@ -1006,6 +1019,17 @@ export default function TrackingPage() {
                       </span>
                     </div>
                   )}
+
+                  {/* Chat CTA */}
+                  {['assigned', 'en_route', 'arrived', 'washing'].includes(status) && (
+                    <button
+                      onClick={() => setChatOpen(true)}
+                      className="w-full mt-3 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#E23232]/10 border border-[#E23232]/20 hover:bg-[#E23232]/15 transition-colors"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5 text-[#E23232]" />
+                      <span className="text-[#E23232] text-sm font-semibold">Chat with Washer</span>
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -1028,7 +1052,7 @@ export default function TrackingPage() {
                               <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <Loader2 className="w-3 h-3 animate-spin text-foreground/30" />
+                                <Loader2 className="w-3 h-3 animate-spin text-foreground/50" />
                               </div>
                             )}
                           </div>
@@ -1046,7 +1070,7 @@ export default function TrackingPage() {
                               <img src={photoUrls[photo.id]} alt={photo.angle_label} className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center">
-                                <Loader2 className="w-3 h-3 animate-spin text-foreground/30" />
+                                <Loader2 className="w-3 h-3 animate-spin text-foreground/50" />
                               </div>
                             )}
                           </div>
@@ -1121,7 +1145,7 @@ export default function TrackingPage() {
                     router.push('/app/bookings');
                   }
                 }}
-                className="w-full border-foreground/30 text-foreground/70 hover:text-red-400 hover:border-red-500/20 rounded-xl"
+                className="w-full border-foreground/30 text-foreground/70 hover:text-red-600 dark:hover:text-red-400 hover:border-red-500/20 rounded-xl"
               >
                 {cancelling ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                 {cancelling ? 'Cancelling...' : 'Cancel booking'}

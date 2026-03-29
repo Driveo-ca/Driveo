@@ -217,9 +217,9 @@ export default function ProfilePage() {
               <button
                 onClick={() => fileRef.current?.click()}
                 disabled={uploadingPhoto}
-                className="absolute -bottom-1.5 -right-1.5 w-7 h-7 rounded-lg bg-[#E23232] flex items-center justify-center border-2 border-background hover:bg-[#c92a2a] transition-colors shadow-md"
+                className="absolute -bottom-2 -right-2 w-9 h-9 rounded-xl bg-[#E23232] flex items-center justify-center border-2 border-background hover:bg-[#c92a2a] active:scale-95 transition-all shadow-md"
               >
-                <Camera className="w-3.5 h-3.5 text-white" />
+                <Camera className="w-4 h-4 text-white" />
               </button>
               <input
                 ref={fileRef}
@@ -394,7 +394,7 @@ export default function ProfilePage() {
                   <p className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">{item.label}</p>
                   <p className="text-[11px] text-foreground/55 mt-0.5">{item.desc}</p>
                 </div>
-                <ChevronRight className="w-4 h-4 text-foreground/20 group-hover:text-foreground/55 transition-colors" />
+                <ChevronRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground/60 transition-colors" />
               </button>
             ))}
           </div>

@@ -4,9 +4,11 @@ import { useEffect, useState, useRef, useCallback } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { JobAlertPopup, type JobAlertData } from './JobAlertPopup';
 
+const ALERT_TYPES = ['new_job_alert', 'job_request'] as const;
+
 /**
- * Listens for new 'new_job_alert' notifications via Supabase Realtime.
- * Shows a popup when a new job is available for the washer to claim.
+ * Listens for new 'new_job_alert' and 'job_request' notifications via Supabase Realtime.
+ * Shows a popup when a new job is available for the washer to claim/accept.
  * Rendered once in the washer layout — wraps no children.
  *
  * Uses both Realtime subscription AND interval polling as fallback
@@ -14,6 +16,8 @@ import { JobAlertPopup, type JobAlertData } from './JobAlertPopup';
  */
 export function JobAlertListener() {
   const [currentAlert, setCurrentAlert] = useState<JobAlertData | null>(null);
+  const [isAdminRequest, setIsAdminRequest] = useState(false);
+  const [notificationId, setNotificationId] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const processedIds = useRef<Set<string>>(new Set());
 
@@ -27,16 +31,16 @@ export function JobAlertListener() {
     });
   }, []);
 
-  // Poll for unread job alerts
+  // Poll for unread job alerts & job requests
   const checkPending = useCallback(async () => {
     if (!userId || currentAlert) return;
 
     const supabase = createClient();
     const { data } = await supabase
       .from('notifications')
-      .select('id, data')
+      .select('id, type, data')
       .eq('user_id', userId)
-      .eq('type', 'new_job_alert')
+      .in('type', ALERT_TYPES as unknown as string[])
       .eq('is_read', false)
       .order('created_at', { ascending: false })
       .limit(1);
@@ -45,7 +49,24 @@ export function JobAlertListener() {
       processedIds.current.add(data[0].id);
       const alertData = data[0].data as JobAlertData | null;
       if (alertData) {
-        setCurrentAlert(alertData);
+        // Check if booking is still pending before showing popup
+        const { data: booking } = await supabase
+          .from('bookings')
+          .select('status')
+          .eq('id', alertData.booking_id)
+          .single();
+
+        if (booking?.status === 'pending') {
+          setNotificationId(data[0].id);
+          setIsAdminRequest(data[0].type === 'job_request');
+          setCurrentAlert(alertData);
+        } else {
+          // Booking already taken — mark notification as read silently
+          await supabase
+            .from('notifications')
+            .update({ is_read: true })
+            .eq('id', data[0].id);
+        }
       }
     }
   }, [userId, currentAlert]);
@@ -66,15 +87,15 @@ export function JobAlertListener() {
           table: 'notifications',
           filter: `user_id=eq.${userId}`,
         },
-        (payload) => {
+        async (payload) => {
           const row = payload.new as {
             id: string;
             type: string;
             data: JobAlertData | null;
           };
 
-          // Only handle new job alerts
-          if (row.type !== 'new_job_alert' || !row.data) return;
+          // Only handle job alerts and job requests
+          if (!ALERT_TYPES.includes(row.type as typeof ALERT_TYPES[number]) || !row.data) return;
 
           // Deduplicate
           if (processedIds.current.has(row.id)) return;
@@ -82,7 +103,19 @@ export function JobAlertListener() {
 
           // Don't interrupt if already showing an alert
           if (!currentAlert) {
-            setCurrentAlert(row.data);
+            // Verify booking is still pending before showing
+            const supabaseCheck = createClient();
+            const { data: booking } = await supabaseCheck
+              .from('bookings')
+              .select('status')
+              .eq('id', row.data.booking_id)
+              .single();
+
+            if (booking?.status === 'pending') {
+              setNotificationId(row.id);
+              setIsAdminRequest(row.type === 'job_request');
+              setCurrentAlert(row.data);
+            }
           }
         },
       )
@@ -104,12 +137,27 @@ export function JobAlertListener() {
     return () => clearInterval(interval);
   }, [userId, checkPending]);
 
+  const handleDismiss = useCallback(async () => {
+    // For admin requests, mark notification as read on dismiss (decline)
+    if (isAdminRequest && notificationId) {
+      const supabase = createClient();
+      await supabase
+        .from('notifications')
+        .update({ is_read: true })
+        .eq('id', notificationId);
+    }
+    setCurrentAlert(null);
+    setNotificationId(null);
+    setIsAdminRequest(false);
+  }, [isAdminRequest, notificationId]);
+
   if (!currentAlert) return null;
 
   return (
     <JobAlertPopup
       alert={currentAlert}
-      onDismiss={() => setCurrentAlert(null)}
+      onDismiss={handleDismiss}
+      isAdminRequest={isAdminRequest}
     />
   );
 }

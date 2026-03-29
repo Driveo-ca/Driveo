@@ -305,26 +305,26 @@ export default function VehiclesPage() {
                     <span className="text-sm font-semibold text-foreground">{VEHICLE_TYPE_LABELS[formType]}</span>
                     <span className="block text-[10px] text-foreground/50">Tap to change type</span>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-foreground/30 group-hover:text-foreground/50 rotate-180 transition-colors" />
+                  <ChevronRight className="w-4 h-4 text-foreground/40 group-hover:text-foreground/60 rotate-180 transition-colors" />
                 </button>
 
                 <div className="space-y-3 overflow-visible">
                   <div className="space-y-1.5 relative z-30">
                     <Label className="text-xs text-foreground/55">Year</Label>
-                    <AutocompleteInput options={yearOptions} value={formYear} onChange={setFormYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                    <AutocompleteInput options={yearOptions} value={formYear} onChange={setFormYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
                   </div>
                   <div className="space-y-1.5 relative z-20">
                     <Label className="text-xs text-foreground/55">Make</Label>
-                    <AutocompleteInput options={VEHICLE_MAKE_LIST} value={formMake} onChange={(val) => { setFormMake(val); if (val !== formMake) setFormModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                    <AutocompleteInput options={VEHICLE_MAKE_LIST} value={formMake} onChange={(val) => { setFormMake(val); if (val !== formMake) setFormModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
                   </div>
                   <div className="space-y-1.5 relative z-10">
                     <Label className="text-xs text-foreground/55">Model</Label>
-                    <AutocompleteInput options={getModelsForMake(formMake)} value={formModel} onChange={(val) => { setFormModel(val); const detected = getModelVehicleType(formMake, val); if (detected) setFormType(detected); }} placeholder={formMake ? `${formMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                    <AutocompleteInput options={getModelsForMake(formMake)} value={formModel} onChange={(val) => { setFormModel(val); const detected = getModelVehicleType(formMake, val); if (detected) setFormType(detected); }} placeholder={formMake ? `${formMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
                   </div>
                 </div>
                 <div className="space-y-1.5">
                   <Label className="text-xs text-foreground/55">Color (optional)</Label>
-                  <Input placeholder="Silver" value={formColor} onChange={(e) => setFormColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                  <Input placeholder="Silver" value={formColor} onChange={(e) => setFormColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
                 </div>
                 <Button onClick={addVehicle} disabled={saving || !formMake || !formModel} className="w-full bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl h-11 font-semibold transition-all">
                   {saving ? 'Adding...' : 'Add Vehicle'}
@@ -385,7 +385,7 @@ export default function VehiclesPage() {
                     className={cn(
                       'p-2.5 rounded-xl border text-xs text-center transition-all duration-200 font-medium',
                       editType === t
-                        ? 'border-[#E23232]/60 bg-[#E23232]/10 text-white'
+                        ? 'border-[#E23232]/60 bg-[#E23232]/10 text-[#E23232]'
                         : 'border-border bg-foreground/[0.02] text-foreground/55 hover:border-border hover:text-foreground/60'
                     )}
                   >
@@ -397,20 +397,20 @@ export default function VehiclesPage() {
             <div className="space-y-3 overflow-visible">
               <div className="space-y-1.5 relative z-30">
                 <Label className="text-xs text-foreground/55">Year</Label>
-                <AutocompleteInput options={yearOptions} value={editYear} onChange={setEditYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                <AutocompleteInput options={yearOptions} value={editYear} onChange={setEditYear} placeholder="e.g. 2024" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
               </div>
               <div className="space-y-1.5 relative z-20">
                 <Label className="text-xs text-foreground/55">Make</Label>
-                <AutocompleteInput options={VEHICLE_MAKE_LIST} value={editMake} onChange={(val) => { setEditMake(val); if (val !== editMake) setEditModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                <AutocompleteInput options={VEHICLE_MAKE_LIST} value={editMake} onChange={(val) => { setEditMake(val); if (val !== editMake) setEditModel(''); }} placeholder="e.g. Honda" className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
               </div>
               <div className="space-y-1.5 relative z-10">
                 <Label className="text-xs text-foreground/55">Model</Label>
-                <AutocompleteInput options={getModelsForMake(editMake)} value={editModel} onChange={(val) => { setEditModel(val); const detected = getModelVehicleType(editMake, val); if (detected) setEditType(detected); }} placeholder={editMake ? `${editMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+                <AutocompleteInput options={getModelsForMake(editMake)} value={editModel} onChange={(val) => { setEditModel(val); const detected = getModelVehicleType(editMake, val); if (detected) setEditType(detected); }} placeholder={editMake ? `${editMake} model` : 'Select make first'} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
               </div>
             </div>
             <div className="space-y-1.5">
               <Label className="text-xs text-foreground/55">Color (optional)</Label>
-              <Input placeholder="Silver" value={editColor} onChange={(e) => setEditColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/20 rounded-xl" />
+              <Input placeholder="Silver" value={editColor} onChange={(e) => setEditColor(e.target.value)} className="bg-foreground/[0.06] dark:bg-foreground/[0.03] border-border text-foreground text-sm placeholder:text-foreground/50 rounded-xl" />
             </div>
             <Button onClick={saveEdit} disabled={editSaving || !editMake || !editModel} className="w-full bg-[#E23232] hover:bg-[#c92a2a] text-white rounded-xl h-11 font-semibold transition-all">
               {editSaving ? 'Saving...' : 'Save Changes'}
@@ -501,8 +501,8 @@ export default function VehiclesPage() {
                     className={cn(
                       'absolute top-3 right-3 z-20 w-7 h-7 rounded-lg backdrop-blur-sm border flex items-center justify-center transition-all',
                       deletingId === v.id
-                        ? 'bg-foreground/10 border-border text-foreground/30 opacity-100 cursor-not-allowed animate-pulse'
-                        : 'bg-background/60 border-border text-foreground/55 hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 opacity-0 group-hover:opacity-100'
+                        ? 'bg-foreground/10 border-border text-foreground/50 opacity-100 cursor-not-allowed animate-pulse'
+                        : 'bg-background/60 border-border text-foreground/55 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10 hover:border-red-500/20 opacity-0 group-hover:opacity-100'
                     )}
                   >
                     <Trash2 className="w-3 h-3" />

@@ -158,7 +158,7 @@ export default function AdminCustomersPage() {
   }
 
   return (
-    <div className="space-y-8 md:pt-0 pt-14">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -166,7 +166,7 @@ export default function AdminCustomersPage() {
             <Users className="w-5 h-5 text-[#E23232]" />
           </div>
           <div>
-            <h1 className="text-3xl font-display text-foreground tracking-tight">Customers</h1>
+            <h1 className="text-2xl sm:text-3xl font-display text-foreground tracking-tight">Customers</h1>
             <p className="text-foreground/50 text-sm mt-0.5">{customers.length} registered customers</p>
           </div>
         </div>

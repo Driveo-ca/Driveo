@@ -149,7 +149,7 @@ export default function AdminAnalyticsPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6 md:pt-0 pt-14">
+      <div className="space-y-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {[1, 2, 3, 4].map((i) => <Skeleton key={i} className="h-32 bg-foreground/5 rounded-2xl" />)}
         </div>
@@ -163,7 +163,7 @@ export default function AdminAnalyticsPage() {
   }
 
   return (
-    <div className="space-y-8 md:pt-0 pt-14">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -172,7 +172,7 @@ export default function AdminAnalyticsPage() {
               <BarChart3 className="w-5 h-5 text-[#E23232]" />
             </div>
             <div>
-              <h1 className="text-3xl font-display text-foreground tracking-tight">Analytics</h1>
+              <h1 className="text-2xl sm:text-3xl font-display text-foreground tracking-tight">Analytics</h1>
               <p className="text-foreground/50 text-sm mt-0.5">Business intelligence & web analytics</p>
             </div>
           </div>
@@ -193,51 +193,51 @@ export default function AdminAnalyticsPage() {
       </div>
 
       {/* KPI Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-[#E23232]/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><DollarSign className="w-4 h-4 text-[#E23232]" /></div>
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-4">
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-[#E23232]/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E23232]" /></div>
           </div>
-          <p className="text-2xl font-bold text-[#E23232]">{centsToDisplay(avgOrderValue)}</p>
-          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Avg Order Value</p>
+          <p className="text-xl sm:text-2xl font-bold text-[#E23232]">{centsToDisplay(avgOrderValue)}</p>
+          <p className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Avg Order Value</p>
         </div>
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-green-500/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><Repeat className="w-4 h-4 text-green-400" /></div>
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-green-500/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><Repeat className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400" /></div>
           </div>
-          <p className="text-2xl font-bold text-foreground">{repeatRate}%</p>
-          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Repeat Rate</p>
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{repeatRate}%</p>
+          <p className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Repeat Rate</p>
         </div>
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-amber-500/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center"><Star className="w-4 h-4 text-amber-400" /></div>
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-amber-500/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 flex items-center justify-center"><Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" /></div>
           </div>
-          <p className="text-2xl font-bold text-foreground">{avgRating.toFixed(1)}</p>
-          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Avg Rating</p>
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{avgRating.toFixed(1)}</p>
+          <p className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Avg Rating</p>
         </div>
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-blue-500/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><Target className="w-4 h-4 text-blue-400" /></div>
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-blue-500/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><Target className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400" /></div>
           </div>
-          <p className="text-2xl font-bold text-foreground">{centsToDisplay(revenuePerWasher)}</p>
-          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Rev / Washer</p>
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{centsToDisplay(revenuePerWasher)}</p>
+          <p className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1">Rev / Washer</p>
         </div>
       </div>
 
       {/* Revenue Trend */}
-      <div className="bg-surface border border-border rounded-2xl p-6">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><TrendingUp className="w-4 h-4 text-[#E23232]" /></div>
+      <div className="bg-surface border border-border rounded-2xl p-4 sm:p-6">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E23232]" /></div>
             <div>
-              <h3 className="text-sm font-semibold text-foreground">Revenue Trend — Last {days} Days</h3>
+              <h3 className="text-xs sm:text-sm font-semibold text-foreground">Revenue — Last {days} Days</h3>
               <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-0.5">
                 {centsToDisplay(totalRevenue)} total · {totalBookings} bookings
               </p>
             </div>
           </div>
         </div>
-        <div className="flex gap-1 h-52 overflow-x-auto">
+        <div className="flex gap-1 h-36 sm:h-52 overflow-x-auto">
           {dailyData.map((day, i) => {
             const h = Math.max((day.revenue / maxDailyRev) * 100, 2);
             const showLabel = days <= 14 || i % 3 === 0;

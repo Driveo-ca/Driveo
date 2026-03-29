@@ -26,12 +26,12 @@ function getGreeting() {
 }
 
 const statusColor: Record<string, string> = {
-  assigned: 'bg-blue-500/10 text-blue-400 border-blue-500/20',
-  en_route: 'bg-violet-500/10 text-violet-400 border-violet-500/20',
-  arrived: 'bg-amber-500/10 text-amber-400 border-amber-500/20',
-  washing: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
-  completed: 'bg-green-500/10 text-green-400 border-green-500/20',
-  paid: 'bg-green-500/10 text-green-400 border-green-500/20',
+  assigned: 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20',
+  en_route: 'bg-violet-500/10 text-violet-600 dark:text-violet-400 border-violet-500/20',
+  arrived: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
+  washing: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+  completed: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',
+  paid: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',
 };
 
 export default function WasherDashboardPage() {
@@ -200,13 +200,13 @@ export default function WasherDashboardPage() {
                 className={cn(
                   'flex items-center gap-2 px-3.5 py-2.5 rounded-2xl border transition-all duration-300',
                   isOnline
-                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                    : 'bg-foreground/[0.05] border-border text-foreground/50'
+                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
+                    : 'bg-foreground/[0.05] border-border text-foreground/60'
                 )}
               >
                 <span className={cn(
                   'w-2 h-2 rounded-full transition-colors duration-300',
-                  isOnline ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-foreground/30'
+                  isOnline ? 'bg-emerald-500 dark:bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-foreground/40'
                 )} />
                 <span className="text-[11px] font-bold tracking-widest uppercase">
                   {isOnline ? 'Online' : 'Offline'}
@@ -214,7 +214,7 @@ export default function WasherDashboardPage() {
                 <Switch checked={isOnline} className="scale-75 pointer-events-none" />
               </motion.button>
             ) : (
-              <Badge variant="outline" className="bg-amber-500/10 text-amber-400 border-amber-500/20 rounded-full px-3 py-1 text-[10px] uppercase tracking-widest">
+              <Badge variant="outline" className="bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20 rounded-full px-3 py-1 text-[10px] uppercase tracking-widest">
                 Pending Approval
               </Badge>
             )}
@@ -232,21 +232,21 @@ export default function WasherDashboardPage() {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <DollarSign className="w-3.5 h-3.5 text-[#E23232]/60" />
-                  <span className="font-mono text-[11px] text-foreground/55 uppercase tracking-[0.1em] font-semibold">Today&apos;s Earnings</span>
+                  <span className="font-mono text-[11px] text-foreground/70 uppercase tracking-[0.1em] font-semibold">Today&apos;s Earnings</span>
                 </div>
                 <p className="text-4xl lg:text-5xl font-display text-[#E23232] tracking-tight">{centsToDisplay(todayEarnings)}</p>
                 <div className="flex items-center gap-1.5 mt-2">
-                  <TrendingUp className="w-3.5 h-3.5 text-foreground/40" />
-                  <span className="text-xs text-foreground/50">{centsToDisplay(monthEarnings)} this month</span>
+                  <TrendingUp className="w-3.5 h-3.5 text-foreground/60" />
+                  <span className="text-xs text-foreground/60">{centsToDisplay(monthEarnings)} this month</span>
                 </div>
               </div>
               <div className="hidden lg:flex items-center gap-6">
                 <div className="text-right">
-                  <p className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">Washes today</p>
+                  <p className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">Washes today</p>
                   <p className="text-2xl font-bold text-foreground/80 mt-0.5">{completedToday}</p>
                 </div>
                 <div className="text-right">
-                  <p className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">This week</p>
+                  <p className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">This week</p>
                   <p className="text-2xl font-bold text-foreground/80 mt-0.5">{weekJobs}</p>
                 </div>
               </div>
@@ -261,16 +261,16 @@ export default function WasherDashboardPage() {
             className="grid grid-cols-3 gap-3 lg:hidden"
           >
             {[
-              { icon: Car, label: 'Washes', value: String(completedToday), color: 'text-blue-400', bg: 'bg-blue-500/10' },
-              { icon: Star, label: 'Rating', value: washerProfile?.rating_avg?.toFixed(1) || '—', color: 'text-amber-400', bg: 'bg-amber-500/10' },
-              { icon: Power, label: 'Status', value: isOnline ? 'Live' : 'Off', color: isOnline ? 'text-emerald-400' : 'text-foreground/40', bg: isOnline ? 'bg-emerald-500/10' : 'bg-foreground/[0.05]' },
+              { icon: Car, label: 'Washes', value: String(completedToday), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-500/10' },
+              { icon: Star, label: 'Rating', value: washerProfile?.rating_avg?.toFixed(1) || '—', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-500/10' },
+              { icon: Power, label: 'Status', value: isOnline ? 'Live' : 'Off', color: isOnline ? 'text-emerald-600 dark:text-emerald-400' : 'text-foreground/50', bg: isOnline ? 'bg-emerald-500/10' : 'bg-foreground/[0.05]' },
             ].map((s) => (
               <div key={s.label} className="rounded-2xl border border-border/50 p-4 text-center">
                 <div className={cn('w-8 h-8 rounded-xl flex items-center justify-center mx-auto mb-2', s.bg)}>
                   <s.icon className={cn('w-4 h-4', s.color)} />
                 </div>
                 <p className={cn('font-bold text-lg leading-none', s.color)}>{s.value}</p>
-                <p className="font-mono text-foreground/55 text-[10px] uppercase tracking-[0.08em] mt-1">{s.label}</p>
+                <p className="font-mono text-foreground/65 text-[10px] uppercase tracking-[0.08em] mt-1">{s.label}</p>
               </div>
             ))}
           </motion.div>
@@ -304,11 +304,11 @@ export default function WasherDashboardPage() {
                     </p>
                     <div className="flex items-center justify-between">
                       <div className="space-y-1.5">
-                        <div className="flex items-center gap-1.5 text-foreground/60 text-xs">
+                        <div className="flex items-center gap-1.5 text-foreground/65 text-xs">
                           <Car className="w-3.5 h-3.5 shrink-0" />
                           {activeJob.vehicles.year} {activeJob.vehicles.make} {activeJob.vehicles.model}
                         </div>
-                        <div className="flex items-center gap-1.5 text-foreground/60 text-xs">
+                        <div className="flex items-center gap-1.5 text-foreground/65 text-xs">
                           <MapPin className="w-3.5 h-3.5 shrink-0" />
                           <span className="line-clamp-1">{activeJob.service_address}</span>
                         </div>
@@ -333,7 +333,7 @@ export default function WasherDashboardPage() {
             transition={{ duration: 0.4, delay: 0.2 }}
           >
             <div className="flex items-center justify-between mb-3">
-              <span className="font-mono text-[11px] font-semibold text-foreground/55 uppercase tracking-[0.1em]">Today&apos;s Jobs</span>
+              <span className="font-mono text-[11px] font-semibold text-foreground/70 uppercase tracking-[0.1em]">Today&apos;s Jobs</span>
               <Link href="/washer/jobs" className="text-[#E23232] text-xs font-medium hover:text-[#E23232]/80 transition-colors flex items-center gap-1">
                 View all <ChevronRight className="w-3 h-3" />
               </Link>
@@ -342,9 +342,9 @@ export default function WasherDashboardPage() {
             {todayJobs.length === 0 ? (
               <div className="border border-dashed border-border/50 rounded-2xl p-10 text-center">
                 <div className="w-12 h-12 rounded-2xl bg-foreground/[0.05] flex items-center justify-center mx-auto mb-3">
-                  <Zap className="w-5 h-5 text-foreground/30" />
+                  <Zap className="w-5 h-5 text-foreground/50" />
                 </div>
-                <p className="text-foreground/50 text-sm">
+                <p className="text-foreground/60 text-sm">
                   {isOnline ? 'No jobs yet — stay online!' : 'Go online to receive jobs.'}
                 </p>
               </div>
@@ -371,13 +371,13 @@ export default function WasherDashboardPage() {
                               {job.status.replace('_', ' ')}
                             </Badge>
                           </div>
-                          <p className="text-foreground/50 text-xs mt-0.5 truncate">
+                          <p className="text-foreground/60 text-xs mt-0.5 truncate">
                             {job.vehicles.year} {job.vehicles.make} {job.vehicles.model}
                           </p>
                         </div>
                         <div className="flex items-center gap-2 shrink-0">
                           <span className="text-[#E23232] text-sm font-bold">{centsToDisplay(job.washer_payout)}</span>
-                          <ChevronRight className="w-4 h-4 text-foreground/30" />
+                          <ChevronRight className="w-4 h-4 text-foreground/50" />
                         </div>
                       </div>
                     </Link>
@@ -395,8 +395,8 @@ export default function WasherDashboardPage() {
             className="grid grid-cols-2 gap-3 lg:hidden"
           >
             {[
-              { href: '/washer/earnings', icon: DollarSign, label: 'Earnings', sub: centsToDisplay(monthEarnings) + ' this month', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-              { href: '/washer/availability', icon: Clock, label: 'Schedule', sub: 'Set your hours', color: 'text-blue-400', bg: 'bg-blue-500/10' },
+              { href: '/washer/earnings', icon: DollarSign, label: 'Earnings', sub: centsToDisplay(monthEarnings) + ' this month', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-500/10' },
+              { href: '/washer/availability', icon: Clock, label: 'Schedule', sub: 'Set your hours', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-500/10' },
             ].map((item) => (
               <Link key={item.href} href={item.href}>
                 <div className="border border-border/50 hover:border-border rounded-2xl p-4 transition-all duration-200 cursor-pointer bg-gradient-to-br from-foreground/[0.03] via-transparent to-transparent">
@@ -404,7 +404,7 @@ export default function WasherDashboardPage() {
                     <item.icon className={cn('w-4 h-4', item.color)} />
                   </div>
                   <p className="text-foreground text-sm font-semibold">{item.label}</p>
-                  <p className="text-foreground/50 text-xs mt-0.5">{item.sub}</p>
+                  <p className="text-foreground/60 text-xs mt-0.5">{item.sub}</p>
                 </div>
               </Link>
             ))}
@@ -421,20 +421,20 @@ export default function WasherDashboardPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="border border-border/50 rounded-2xl p-5"
           >
-            <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Performance</span>
+            <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Performance</span>
             <div className="mt-4 space-y-4">
               {[
-                { icon: Star, label: 'Rating', value: washerProfile?.rating_avg?.toFixed(1) || '—', color: 'text-amber-400', bg: 'bg-amber-500/10' },
-                { icon: Car, label: 'Today\'s Washes', value: String(completedToday), color: 'text-blue-400', bg: 'bg-blue-500/10' },
-                { icon: Zap, label: 'This Week', value: String(weekJobs), color: 'text-violet-400', bg: 'bg-violet-500/10' },
-                { icon: Power, label: 'Status', value: isOnline ? 'Online' : 'Offline', color: isOnline ? 'text-emerald-400' : 'text-foreground/40', bg: isOnline ? 'bg-emerald-500/10' : 'bg-foreground/[0.05]' },
+                { icon: Star, label: 'Rating', value: washerProfile?.rating_avg?.toFixed(1) || '—', color: 'text-amber-600 dark:text-amber-400', bg: 'bg-amber-500/10' },
+                { icon: Car, label: 'Today\'s Washes', value: String(completedToday), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-500/10' },
+                { icon: Zap, label: 'This Week', value: String(weekJobs), color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-500/10' },
+                { icon: Power, label: 'Status', value: isOnline ? 'Online' : 'Offline', color: isOnline ? 'text-emerald-600 dark:text-emerald-400' : 'text-foreground/50', bg: isOnline ? 'bg-emerald-500/10' : 'bg-foreground/[0.05]' },
               ].map((s) => (
                 <div key={s.label} className="flex items-center gap-3">
                   <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', s.bg)}>
                     <s.icon className={cn('w-4 h-4', s.color)} />
                   </div>
                   <div className="flex-1">
-                    <p className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">{s.label}</p>
+                    <p className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">{s.label}</p>
                     <p className={cn('text-lg font-bold leading-tight', s.color)}>{s.value}</p>
                   </div>
                 </div>
@@ -449,12 +449,12 @@ export default function WasherDashboardPage() {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="space-y-2.5"
           >
-            <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold px-1">Quick Links</span>
+            <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold px-1">Quick Links</span>
             {[
-              { href: '/washer/earnings', icon: DollarSign, label: 'Earnings', sub: centsToDisplay(monthEarnings) + ' this month', color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-              { href: '/washer/availability', icon: CalendarDays, label: 'Schedule', sub: 'Set your hours', color: 'text-blue-400', bg: 'bg-blue-500/10' },
-              { href: '/washer/notifications', icon: Bell, label: 'Notifications', sub: unreadNotifs > 0 ? `${unreadNotifs} unread` : 'All caught up', color: unreadNotifs > 0 ? 'text-[#E23232]' : 'text-foreground/40', bg: unreadNotifs > 0 ? 'bg-[#E23232]/10' : 'bg-foreground/[0.05]' },
-              { href: '/washer/jobs', icon: Car, label: 'All Jobs', sub: `${todayJobs.length} today`, color: 'text-violet-400', bg: 'bg-violet-500/10' },
+              { href: '/washer/earnings', icon: DollarSign, label: 'Earnings', sub: centsToDisplay(monthEarnings) + ' this month', color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-500/10' },
+              { href: '/washer/availability', icon: CalendarDays, label: 'Schedule', sub: 'Set your hours', color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-500/10' },
+              { href: '/washer/notifications', icon: Bell, label: 'Notifications', sub: unreadNotifs > 0 ? `${unreadNotifs} unread` : 'All caught up', color: unreadNotifs > 0 ? 'text-[#E23232]' : 'text-foreground/50', bg: unreadNotifs > 0 ? 'bg-[#E23232]/10' : 'bg-foreground/[0.05]' },
+              { href: '/washer/jobs', icon: Car, label: 'All Jobs', sub: `${todayJobs.length} today`, color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-500/10' },
             ].map((item) => (
               <Link key={item.href} href={item.href}>
                 <div className="border border-border/50 hover:border-border rounded-2xl p-4 transition-all duration-200 cursor-pointer flex items-center gap-3">
@@ -463,9 +463,9 @@ export default function WasherDashboardPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-foreground text-sm font-semibold">{item.label}</p>
-                    <p className="text-foreground/50 text-xs mt-0.5">{item.sub}</p>
+                    <p className="text-foreground/60 text-xs mt-0.5">{item.sub}</p>
                   </div>
-                  <ChevronRight className="w-4 h-4 text-foreground/20" />
+                  <ChevronRight className="w-4 h-4 text-foreground/40" />
                 </div>
               </Link>
             ))}

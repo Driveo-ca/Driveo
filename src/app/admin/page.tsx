@@ -210,7 +210,7 @@ export default function AdminDashboardPage() {
 
   if (loading) {
     return (
-      <div className="space-y-6 md:pt-0 pt-14">
+      <div className="space-y-6">
         <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           {[1, 2, 3, 4, 5].map((i) => <Skeleton key={i} className="h-36 bg-foreground/5 rounded-2xl" />)}
         </div>
@@ -223,12 +223,12 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="space-y-8 md:pt-0 pt-14">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-display text-foreground tracking-tight">Dashboard</h1>
-          <p className="text-foreground/50 text-sm mt-1">Real-time platform monitoring</p>
+          <h1 className="text-2xl sm:text-3xl font-display text-foreground tracking-tight">Dashboard</h1>
+          <p className="text-foreground/50 text-xs sm:text-sm mt-1">Real-time platform monitoring</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="flex bg-surface border border-border rounded-xl p-1 gap-0.5">
@@ -236,11 +236,11 @@ export default function AdminDashboardPage() {
               <button
                 key={p}
                 onClick={() => { setPeriod(p); setRefreshing(true); }}
-                className={`px-4 py-1.5 text-xs font-medium rounded-lg transition-all duration-200 ${
+                className={`px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-medium rounded-lg transition-all duration-200 ${
                   period === p ? 'bg-[#E23232] text-white shadow-sm' : 'text-foreground/50 hover:text-foreground'
                 }`}
               >
-                {p === 'today' ? 'Today' : p === 'week' ? 'This Week' : 'This Month'}
+                {p === 'today' ? 'Today' : p === 'week' ? 'Week' : 'Month'}
               </button>
             ))}
           </div>
@@ -258,59 +258,59 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* KPI Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <div className="bg-surface border border-border rounded-2xl p-5 col-span-2 lg:col-span-1 relative overflow-hidden group hover:border-[#E23232]/30 transition-colors">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-2.5 sm:gap-4">
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 col-span-2 lg:col-span-1 relative overflow-hidden group hover:border-[#E23232]/30 transition-colors">
           <div className="absolute top-0 right-0 w-24 h-24 bg-[#E23232]/5 rounded-full -translate-y-8 translate-x-8 group-hover:scale-150 transition-transform duration-500" />
           <div className="relative">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><DollarSign className="w-4 h-4 text-[#E23232]" /></div>
-              <span className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Revenue</span>
+            <div className="flex items-center gap-2 mb-2 sm:mb-3">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E23232]" /></div>
+              <span className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Revenue</span>
             </div>
-            <p className="text-2xl font-bold text-[#E23232]">{centsToDisplay(currentRevenue)}</p>
-            <div className="flex items-center gap-1 mt-2">
+            <p className="text-xl sm:text-2xl font-bold text-[#E23232]">{centsToDisplay(currentRevenue)}</p>
+            <div className="flex items-center gap-1 mt-1.5 sm:mt-2">
               {revChange >= 0 ? <TrendingUp className="w-3 h-3 text-green-400" /> : <TrendingDown className="w-3 h-3 text-red-400" />}
               <span className={`text-[10px] font-medium ${revChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>{revChange >= 0 ? '+' : ''}{revChange}%</span>
-              <span className="text-[10px] text-foreground/55 dark:text-foreground/30">{periodLabel}</span>
+              <span className="text-[10px] text-foreground/55 dark:text-foreground/30 hidden sm:inline">{periodLabel}</span>
             </div>
           </div>
         </div>
 
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-blue-500/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><CalendarDays className="w-4 h-4 text-blue-400" /></div>
-            <span className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Bookings</span>
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-blue-500/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><CalendarDays className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400" /></div>
+            <span className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest">Bookings</span>
           </div>
-          <p className="text-2xl font-bold text-foreground">{currentBookings}</p>
-          <div className="flex items-center gap-1 mt-2">
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{currentBookings}</p>
+          <div className="flex items-center gap-1 mt-1.5 sm:mt-2">
             {bookChange >= 0 ? <TrendingUp className="w-3 h-3 text-green-400" /> : <TrendingDown className="w-3 h-3 text-red-400" />}
             <span className={`text-[10px] font-medium ${bookChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>{bookChange >= 0 ? '+' : ''}{bookChange}%</span>
           </div>
         </div>
 
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-violet-500/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center"><Zap className="w-4 h-4 text-violet-400" /></div>
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-violet-500/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-violet-500/10 flex items-center justify-center"><Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" /></div>
             <div className="w-2 h-2 rounded-full bg-violet-400 animate-pulse" />
           </div>
-          <p className="text-2xl font-bold text-foreground">{activeBookings}</p>
-          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-2">Active Now</p>
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{activeBookings}</p>
+          <p className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1.5 sm:mt-2">Active Now</p>
         </div>
 
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-green-500/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><UserCheck className="w-4 h-4 text-green-400" /></div>
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-green-500/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-green-500/10 flex items-center justify-center"><UserCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-green-400" /></div>
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
           </div>
-          <p className="text-2xl font-bold text-foreground">{washersOnline}</p>
-          <p className="text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-2">Washers Online</p>
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{washersOnline}</p>
+          <p className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 uppercase tracking-widest mt-1.5 sm:mt-2">Washers Online</p>
         </div>
 
-        <div className="bg-surface border border-border rounded-2xl p-5 hover:border-amber-500/30 transition-colors">
-          <div className="flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center"><Users className="w-4 h-4 text-amber-400" /></div>
+        <div className="bg-surface border border-border rounded-2xl p-3 sm:p-5 hover:border-amber-500/30 transition-colors">
+          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 flex items-center justify-center"><Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" /></div>
           </div>
-          <p className="text-2xl font-bold text-foreground">{totalCustomers}</p>
-          <div className="flex items-center gap-1 mt-2">
+          <p className="text-xl sm:text-2xl font-bold text-foreground">{totalCustomers}</p>
+          <div className="flex items-center gap-1 mt-1.5 sm:mt-2">
             <TrendingUp className="w-3 h-3 text-green-400" />
             <span className="text-[10px] text-green-400 font-medium">+{custGrowth} new</span>
           </div>
@@ -348,20 +348,20 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Charts + Sidebar */}
-      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6">
-        <div className="space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-4 sm:gap-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Revenue Chart */}
-          <div className="bg-surface border border-border rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><BarChart3 className="w-4 h-4 text-[#E23232]" /></div>
+          <div className="bg-surface border border-border rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#E23232]/10 flex items-center justify-center"><BarChart3 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E23232]" /></div>
                 <div>
-                  <h3 className="text-sm font-semibold text-foreground">Revenue — Last 7 Days</h3>
-                  <p className="text-[10px] text-foreground/60 dark:text-foreground/40 mt-0.5 uppercase tracking-widest">Total: {centsToDisplay(dailyRevenue.reduce((s, d) => s + d.amount, 0))}</p>
+                  <h3 className="text-xs sm:text-sm font-semibold text-foreground">Revenue — Last 7 Days</h3>
+                  <p className="text-[9px] sm:text-[10px] text-foreground/60 dark:text-foreground/40 mt-0.5 uppercase tracking-widest">Total: {centsToDisplay(dailyRevenue.reduce((s, d) => s + d.amount, 0))}</p>
                 </div>
               </div>
             </div>
-            <div className="flex gap-3 h-48">
+            <div className="flex gap-2 sm:gap-3 h-36 sm:h-48">
               {dailyRevenue.map((day, i) => {
                 const h = Math.max((day.amount / maxDailyRev) * 100, 4);
                 const isToday = i === dailyRevenue.length - 1;
@@ -385,10 +385,10 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Status Breakdown */}
-          <div className="bg-surface border border-border rounded-2xl p-6">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><CircleDot className="w-4 h-4 text-blue-400" /></div>
-              <h3 className="text-sm font-semibold text-foreground">Booking Status — Last 7 Days</h3>
+          <div className="bg-surface border border-border rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center gap-2.5 sm:gap-3 mb-4 sm:mb-5">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-blue-500/10 flex items-center justify-center"><CircleDot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-400" /></div>
+              <h3 className="text-xs sm:text-sm font-semibold text-foreground">Booking Status — Last 7 Days</h3>
             </div>
             <div className="space-y-3">
               {statusCounts.map((s) => (
@@ -411,13 +411,13 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Right sidebar */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Top Washers */}
-          <div className="bg-surface border border-border rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-amber-500/10 flex items-center justify-center"><Star className="w-4 h-4 text-amber-400" /></div>
-                <h3 className="text-sm font-semibold text-foreground">Top Washers</h3>
+          <div className="bg-surface border border-border rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-5">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/10 flex items-center justify-center"><Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400" /></div>
+                <h3 className="text-xs sm:text-sm font-semibold text-foreground">Top Washers</h3>
               </div>
               <Link href="/admin/washers" className="text-[10px] text-[#E23232] hover:text-[#E23232]/70 transition-colors uppercase tracking-widest">View all</Link>
             </div>
@@ -443,11 +443,11 @@ export default function AdminDashboardPage() {
           </div>
 
           {/* Activity Feed */}
-          <div className="bg-surface border border-border rounded-2xl p-6">
-            <div className="flex items-center justify-between mb-5">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center"><Activity className="w-4 h-4 text-violet-400" /></div>
-                <h3 className="text-sm font-semibold text-foreground">Recent Activity</h3>
+          <div className="bg-surface border border-border rounded-2xl p-4 sm:p-6">
+            <div className="flex items-center justify-between mb-4 sm:mb-5">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-violet-500/10 flex items-center justify-center"><Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-violet-400" /></div>
+                <h3 className="text-xs sm:text-sm font-semibold text-foreground">Recent Activity</h3>
               </div>
               <Link href="/admin/bookings" className="text-[10px] text-[#E23232] hover:text-[#E23232]/70 transition-colors uppercase tracking-widest">View all</Link>
             </div>
@@ -469,18 +469,18 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Quick Links */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3">
         {[
-          { href: '/admin/bookings', label: 'All Bookings', icon: CalendarDays, color: 'text-blue-400 bg-blue-500/10' },
-          { href: '/admin/washers', label: 'Manage Washers', icon: UserCheck, color: 'text-violet-400 bg-violet-500/10' },
+          { href: '/admin/bookings', label: 'Bookings', icon: CalendarDays, color: 'text-blue-400 bg-blue-500/10' },
+          { href: '/admin/washers', label: 'Washers', icon: UserCheck, color: 'text-violet-400 bg-violet-500/10' },
           { href: '/admin/customers', label: 'Customers', icon: Users, color: 'text-amber-400 bg-amber-500/10' },
           { href: '/admin/analytics', label: 'Analytics', icon: BarChart3, color: 'text-green-400 bg-green-500/10' },
         ].map((link) => (
           <Link key={link.href} href={link.href} className="group">
-            <div className="bg-surface border border-border rounded-2xl p-4 flex items-center gap-3 hover:border-foreground/10 transition-colors">
-              <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${link.color}`}><link.icon className="w-4 h-4" /></div>
-              <span className="text-sm text-foreground/60 group-hover:text-foreground transition-colors">{link.label}</span>
-              <ChevronRight className="w-4 h-4 text-foreground/35 dark:text-foreground/15 ml-auto group-hover:text-foreground/60 dark:group-hover:text-foreground/60 dark:text-foreground/40 group-hover:translate-x-0.5 transition-all" />
+            <div className="bg-surface border border-border rounded-2xl p-3 sm:p-4 flex items-center gap-2.5 sm:gap-3 hover:border-foreground/10 transition-colors active:scale-[0.97]">
+              <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center shrink-0 ${link.color}`}><link.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" /></div>
+              <span className="text-xs sm:text-sm text-foreground/60 group-hover:text-foreground transition-colors truncate">{link.label}</span>
+              <ChevronRight className="w-4 h-4 text-foreground/35 dark:text-foreground/15 ml-auto shrink-0 group-hover:text-foreground/60 dark:group-hover:text-foreground/60 dark:text-foreground/40 group-hover:translate-x-0.5 transition-all" />
             </div>
           </Link>
         ))}

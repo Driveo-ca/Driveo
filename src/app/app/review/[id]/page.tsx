@@ -161,7 +161,7 @@ export default function ReviewPage() {
               key={s}
               className={cn(
                 'w-6 h-6',
-                s <= rating ? 'text-amber-600 dark:text-amber-400 fill-amber-500' : 'text-foreground/10'
+                s <= rating ? 'text-amber-600 dark:text-amber-400 fill-amber-500' : 'text-foreground/20 dark:text-foreground/10'
               )}
             />
           ))}
@@ -240,7 +240,7 @@ export default function ReviewPage() {
               'text-sm font-medium',
               (hoveredStar || rating) >= 4 ? 'text-amber-600 dark:text-amber-400' :
               (hoveredStar || rating) >= 3 ? 'text-foreground/50' :
-              'text-red-400'
+              'text-red-600 dark:text-red-400'
             )}>
               {ratingLabels[hoveredStar || rating]}
             </p>

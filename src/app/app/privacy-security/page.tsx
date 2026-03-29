@@ -365,7 +365,7 @@ export default function PrivacySecurityPage() {
                     value={deleteConfirmText}
                     onChange={(e) => setDeleteConfirmText(e.target.value)}
                     placeholder="DELETE"
-                    className="bg-foreground/[0.04] border-red-500/20 text-foreground rounded-xl h-11 placeholder:text-foreground/20 font-mono tracking-widest"
+                    className="bg-foreground/[0.04] border-red-500/20 text-foreground rounded-xl h-11 placeholder:text-foreground/40 font-mono tracking-widest"
                   />
                 </div>
 

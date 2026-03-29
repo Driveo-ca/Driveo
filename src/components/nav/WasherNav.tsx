@@ -91,7 +91,7 @@ export function WasherNav() {
       </nav>
 
       {/* ── Mobile bottom nav ── */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-background/95 backdrop-blur-xl pb-[env(safe-area-inset-bottom)]">
         <div className="flex justify-around items-center h-[56px] px-2">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
@@ -101,13 +101,13 @@ export function WasherNav() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'relative flex flex-col items-center justify-center gap-0.5 min-w-[48px] py-1 transition-colors',
-                  isActive ? 'text-foreground' : 'text-foreground/70 dark:text-foreground/50 active:text-foreground/80 dark:active:text-foreground/60'
+                  'relative flex flex-col items-center justify-center gap-0.5 min-w-[52px] min-h-[44px] py-1.5 rounded-xl transition-colors active:bg-foreground/[0.06]',
+                  isActive ? 'text-foreground' : 'text-foreground/70 dark:text-foreground/50'
                 )}
               >
-                <item.icon className={cn('w-[20px] h-[20px]', isActive && 'stroke-[2px]')} />
+                <item.icon className={cn('w-[22px] h-[22px]', isActive && 'stroke-[2.5px]')} />
                 {isAlerts && unread > 0 && (
-                  <span className="absolute top-0 right-0.5 w-3.5 h-3.5 rounded-full bg-[#E23232] text-white text-[8px] font-bold flex items-center justify-center">
+                  <span className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-[#E23232] text-white text-[8px] font-bold flex items-center justify-center">
                     {unread > 9 ? '9+' : unread}
                   </span>
                 )}

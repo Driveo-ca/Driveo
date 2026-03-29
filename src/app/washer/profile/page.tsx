@@ -149,7 +149,7 @@ export default function WasherProfilePage() {
       >
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">Profile</h1>
-          <p className="text-foreground/55 text-xs mt-0.5 font-mono">{profile?.email}</p>
+          <p className="text-foreground/65 text-xs mt-0.5 font-mono">{profile?.email}</p>
         </div>
         {!editing ? (
           <Button
@@ -196,7 +196,7 @@ export default function WasherProfilePage() {
             <div className="flex items-center gap-4 mb-5">
               <div className="relative">
                 <div className="w-14 h-14 rounded-2xl bg-foreground/[0.05] border border-border/50 flex items-center justify-center">
-                  <User className="w-6 h-6 text-foreground/40" />
+                  <User className="w-6 h-6 text-foreground/60" />
                 </div>
                 {wp?.is_online && (
                   <div className="absolute -bottom-1 -right-1 w-4.5 h-4.5 rounded-full bg-background border-2 border-background flex items-center justify-center">
@@ -211,7 +211,7 @@ export default function WasherProfilePage() {
                     {statusCfg?.label}
                   </Badge>
                   {wp?.is_online && (
-                    <span className="flex items-center gap-1 text-xs text-emerald-400 font-medium">
+                    <span className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 font-medium">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Online
                     </span>
                   )}
@@ -224,17 +224,17 @@ export default function WasherProfilePage() {
               <div className="grid grid-cols-2 gap-3">
                 <div className="bg-foreground/[0.04] rounded-xl p-3.5 text-center">
                   <div className="flex items-center justify-center gap-1.5 mb-1">
-                    <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
+                    <Star className="w-4 h-4 text-amber-600 dark:text-amber-400 fill-amber-400" />
                     <span className="text-foreground font-bold text-xl">{Number(wp.rating_avg).toFixed(1)}</span>
                   </div>
-                  <p className="font-mono text-[10px] text-foreground/55 uppercase tracking-[0.08em]">Rating</p>
+                  <p className="font-mono text-[10px] text-foreground/65 uppercase tracking-[0.08em]">Rating</p>
                 </div>
                 <div className="bg-foreground/[0.04] rounded-xl p-3.5 text-center">
                   <div className="flex items-center justify-center gap-1.5 mb-1">
-                    <Briefcase className="w-4 h-4 text-foreground/55" />
+                    <Briefcase className="w-4 h-4 text-foreground/65" />
                     <span className="text-foreground font-bold text-xl">{wp.jobs_completed}</span>
                   </div>
-                  <p className="font-mono text-[10px] text-foreground/55 uppercase tracking-[0.08em]">Jobs Done</p>
+                  <p className="font-mono text-[10px] text-foreground/65 uppercase tracking-[0.08em]">Jobs Done</p>
                 </div>
               </div>
             )}
@@ -247,18 +247,18 @@ export default function WasherProfilePage() {
             transition={{ delay: 0.08 }}
             className="border border-border/50 rounded-2xl p-5"
           >
-            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold mb-3">Bio</p>
+            <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/65 font-semibold mb-3">Bio</p>
             {editing ? (
               <textarea
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
                 placeholder="Tell customers about yourself..."
                 rows={3}
-                className="w-full bg-foreground/[0.04] border border-border/60 rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-foreground/30 resize-none focus:outline-none focus:ring-1 focus:ring-[#E23232]/50"
+                className="w-full bg-foreground/[0.04] border border-border/60 rounded-xl px-3 py-2.5 text-sm text-foreground placeholder:text-foreground/50 resize-none focus:outline-none focus:ring-1 focus:ring-[#E23232]/50"
               />
             ) : (
               <p className="text-sm text-foreground/60 leading-relaxed">
-                {wp?.bio || <span className="text-foreground/30 italic">No bio yet. Tap Edit to add one.</span>}
+                {wp?.bio || <span className="text-foreground/50 italic">No bio yet. Tap Edit to add one.</span>}
               </p>
             )}
           </motion.div>
@@ -271,14 +271,14 @@ export default function WasherProfilePage() {
             className="border border-border/50 rounded-2xl p-5"
           >
             <div className="flex items-center gap-2 mb-3">
-              <CreditCard className="w-3.5 h-3.5 text-foreground/55" />
-              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold">Payout Account</p>
+              <CreditCard className="w-3.5 h-3.5 text-foreground/65" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/65 font-semibold">Payout Account</p>
             </div>
             {wp?.stripe_account_id ? (
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-green-400 font-medium">Connected</p>
-                  <p className="text-[10px] text-foreground/40 mt-0.5 font-mono">{wp.stripe_account_id}</p>
+                  <p className="text-sm text-green-600 dark:text-green-400 font-medium">Connected</p>
+                  <p className="text-[10px] text-foreground/60 mt-0.5 font-mono">{wp.stripe_account_id}</p>
                 </div>
                 <Button
                   onClick={handleStripeConnect}
@@ -291,7 +291,7 @@ export default function WasherProfilePage() {
               </div>
             ) : (
               <div>
-                <p className="text-sm text-foreground/55 mb-3">Connect your bank account to receive payouts after each job.</p>
+                <p className="text-sm text-foreground/65 mb-3">Connect your bank account to receive payouts after each job.</p>
                 <Button
                   onClick={handleStripeConnect}
                   disabled={stripeLoading}
@@ -315,8 +315,8 @@ export default function WasherProfilePage() {
             className="border border-border/50 rounded-2xl p-5"
           >
             <div className="flex items-center gap-2 mb-3">
-              <MapPin className="w-3.5 h-3.5 text-foreground/55" />
-              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold">Service Zones</p>
+              <MapPin className="w-3.5 h-3.5 text-foreground/65" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/65 font-semibold">Service Zones</p>
             </div>
             {editing ? (
               <div>
@@ -326,13 +326,13 @@ export default function WasherProfilePage() {
                   placeholder="Scarborough, Markham, North York..."
                   className="bg-foreground/[0.04] border-border/60 text-sm h-11 rounded-xl placeholder:text-foreground/50"
                 />
-                <p className="text-[10px] text-foreground/35 mt-1.5 font-mono">Comma-separated</p>
+                <p className="text-[10px] text-foreground/65 mt-1.5 font-mono">Comma-separated</p>
               </div>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {wp?.service_zones?.length ? wp.service_zones.map((z) => (
                   <span key={z} className="bg-foreground/[0.04] border border-border/50 px-3 py-1.5 rounded-md text-xs text-foreground/60 font-medium">{z}</span>
-                )) : <span className="text-foreground/30 text-sm italic">No zones set</span>}
+                )) : <span className="text-foreground/50 text-sm italic">No zones set</span>}
               </div>
             )}
           </motion.div>
@@ -345,8 +345,8 @@ export default function WasherProfilePage() {
             className="border border-border/50 rounded-2xl p-5"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Car className="w-3.5 h-3.5 text-foreground/55" />
-              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold">Vehicle</p>
+              <Car className="w-3.5 h-3.5 text-foreground/65" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/65 font-semibold">Vehicle</p>
             </div>
             {editing ? (
               <div className="grid grid-cols-3 gap-2">
@@ -358,7 +358,7 @@ export default function WasherProfilePage() {
               <p className="text-sm text-foreground/60 font-medium">
                 {wp?.vehicle_make
                   ? `${wp.vehicle_year} ${wp.vehicle_make} ${wp.vehicle_model}`
-                  : <span className="text-foreground/30 italic">No vehicle set</span>}
+                  : <span className="text-foreground/50 italic">No vehicle set</span>}
               </p>
             )}
           </motion.div>
@@ -371,8 +371,8 @@ export default function WasherProfilePage() {
             className="border border-border/50 rounded-2xl p-5"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Wrench className="w-3.5 h-3.5 text-foreground/55" />
-              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/55 font-semibold">Tools Owned</p>
+              <Wrench className="w-3.5 h-3.5 text-foreground/65" />
+              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-foreground/65 font-semibold">Tools Owned</p>
             </div>
             {editing ? (
               <div>
@@ -382,13 +382,13 @@ export default function WasherProfilePage() {
                   placeholder="Foam cannon, pressure washer, microfibre..."
                   className="bg-foreground/[0.04] border-border/60 text-sm h-11 rounded-xl placeholder:text-foreground/50"
                 />
-                <p className="text-[10px] text-foreground/35 mt-1.5 font-mono">Comma-separated</p>
+                <p className="text-[10px] text-foreground/65 mt-1.5 font-mono">Comma-separated</p>
               </div>
             ) : (
               <div className="flex flex-wrap gap-2">
                 {wp?.tools_owned?.length ? wp.tools_owned.map((t) => (
                   <span key={t} className="px-3 py-1.5 rounded-md text-xs font-medium bg-[#E23232]/10 text-[#E23232]/70 border border-[#E23232]/20">{t}</span>
-                )) : <span className="text-foreground/30 text-sm italic">No tools listed</span>}
+                )) : <span className="text-foreground/50 text-sm italic">No tools listed</span>}
               </div>
             )}
           </motion.div>

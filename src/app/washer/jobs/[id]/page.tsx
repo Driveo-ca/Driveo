@@ -9,7 +9,7 @@ import { PLAN_LABELS, centsToDisplay, formatDuration } from '@/lib/pricing';
 import { toast } from 'sonner';
 import {
   Car, MapPin, Navigation, Camera, Clock, DollarSign,
-  CheckCircle2, Loader2, User, X, MessageCircle,
+  CheckCircle2, Loader2, User, X, MessageCircle, ImagePlus,
   ArrowLeft, Droplets, Circle, Shield, Star, ChevronDown, ChevronUp,
 } from 'lucide-react';
 import type { Booking, Profile, Vehicle, BookingPhoto } from '@/types';
@@ -312,7 +312,7 @@ function JobFullMap({
               <div className="w-12 h-12 rounded-full bg-[#E23232]/10 flex items-center justify-center">
                 <MapPin className="w-6 h-6 text-[#E23232]" />
               </div>
-              <span className="text-sm text-foreground/55 font-medium tracking-wide">Loading map...</span>
+              <span className="text-sm text-foreground/65 font-medium tracking-wide">Loading map...</span>
             </div>
           </div>
         </div>
@@ -352,6 +352,34 @@ function JobFullMap({
         style={{ boxShadow: 'inset 0 0 80px 30px rgba(5, 5, 5, 0.3)' }} />
     </div>
   );
+}
+
+/* ═══ Client-side image compression ═══ */
+function compressImage(file: File, maxDim = 1920, quality = 0.75): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > maxDim || height > maxDim) {
+        const ratio = Math.min(maxDim / width, maxDim / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) { resolve(file); return; }
+      ctx.drawImage(img, 0, 0, width, height);
+      canvas.toBlob(
+        (blob) => blob ? resolve(blob) : resolve(file),
+        'image/jpeg',
+        quality,
+      );
+    };
+    img.onerror = () => reject(new Error('Failed to load image'));
+    img.src = URL.createObjectURL(file);
+  });
 }
 
 /* ═══ Masked customer name helper ═══ */
@@ -542,9 +570,18 @@ export default function WasherJobPage() {
       const file = files[i];
       const angle = angles[photos.filter((p) => p.photo_type === type).length + i] || 'front';
       const path = `${booking.id}/${type}/${crypto.randomUUID()}.jpg`;
+
+      // Compress image before upload (5-10MB → ~200-400KB)
+      let blob: Blob;
+      try {
+        blob = await compressImage(file);
+      } catch {
+        blob = file;
+      }
+
       const { error: uploadError } = await supabase.storage
         .from('booking-photos')
-        .upload(path, file, { contentType: file.type || 'image/jpeg' });
+        .upload(path, blob, { contentType: 'image/jpeg' });
       if (uploadError) { toast.error(`Upload failed: ${uploadError.message}`); continue; }
       const { data: inserted, error: insertError } = await supabase.from('booking_photos').insert({
         booking_id: booking.id,
@@ -555,7 +592,7 @@ export default function WasherJobPage() {
       }).select().single();
       if (insertError) { toast.error(`Save failed: ${insertError.message}`); continue; }
       if (inserted) {
-        const localUrl = URL.createObjectURL(file);
+        const localUrl = URL.createObjectURL(blob);
         setPhotos((prev) => [...prev, inserted]);
         setPhotoUrls((prev) => ({ ...prev, [inserted.id]: localUrl }));
         uploaded++;
@@ -569,7 +606,7 @@ export default function WasherJobPage() {
       <div className="flex items-center justify-center h-[calc(100dvh-56px)] md:h-[calc(100dvh-64px)]">
         <div className="flex flex-col items-center gap-3">
           <Loader2 className="w-5 h-5 text-[#E23232] animate-spin" />
-          <span className="text-foreground/55 text-sm">Loading job...</span>
+          <span className="text-foreground/65 text-sm">Loading job...</span>
         </div>
       </div>
     );
@@ -578,7 +615,7 @@ export default function WasherJobPage() {
   if (!booking) {
     return (
       <div className="flex items-center justify-center h-[calc(100dvh-56px)] md:h-[calc(100dvh-64px)]">
-        <p className="text-foreground/55">Job not found</p>
+        <p className="text-foreground/65">Job not found</p>
       </div>
     );
   }
@@ -599,22 +636,35 @@ export default function WasherJobPage() {
       <div className="flex items-center justify-between mb-3">
         <p className="text-foreground text-sm font-semibold">
           {type === 'before' ? 'Before' : 'After'} Photos
-          <span className="text-foreground/55 font-normal ml-1">({list.length}/5)</span>
+          <span className="text-foreground/65 font-normal ml-1">({list.length}/5)</span>
         </p>
         {canUpload && list.length < 5 && (
-          <label className="cursor-pointer">
-            <input
-              type="file"
-              accept="image/*"
-              capture="environment"
-              multiple
-              className="hidden"
-              onChange={(e) => handlePhotoUpload(type, e.target.files)}
-            />
-            <span className="flex items-center gap-1.5 text-[#E23232] text-xs font-medium px-3 py-1.5 rounded-full bg-[#E23232]/10 border border-[#E23232]/20 hover:border-[#E23232]/40 transition-colors">
-              <Camera className="w-3 h-3" /> Take Photo
-            </span>
-          </label>
+          <div className="flex items-center gap-1.5">
+            <label className="cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={(e) => handlePhotoUpload(type, e.target.files)}
+              />
+              <span className="flex items-center gap-1.5 text-[#E23232] text-xs font-medium px-3 py-1.5 rounded-full bg-[#E23232]/10 border border-[#E23232]/20 hover:border-[#E23232]/40 transition-colors">
+                <Camera className="w-3 h-3" /> Camera
+              </span>
+            </label>
+            <label className="cursor-pointer">
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                className="hidden"
+                onChange={(e) => handlePhotoUpload(type, e.target.files)}
+              />
+              <span className="flex items-center gap-1.5 text-foreground/60 text-xs font-medium px-3 py-1.5 rounded-full bg-foreground/[0.05] border border-border hover:border-foreground/20 transition-colors">
+                <ImagePlus className="w-3 h-3" /> Gallery
+              </span>
+            </label>
+          </div>
         )}
       </div>
       <div className="grid grid-cols-5 gap-2">
@@ -646,7 +696,7 @@ export default function WasherJobPage() {
                   <Loader2 className="w-4 h-4 text-green-600 dark:text-green-400 animate-spin" />
                 </div>
               ) : (
-                <div className="w-full h-full rounded-xl border-2 border-dashed border-border bg-card flex items-center justify-center text-[10px] font-medium text-foreground/30">
+                <div className="w-full h-full rounded-xl border-2 border-dashed border-border bg-card flex items-center justify-center text-[10px] font-medium text-foreground/50">
                   {['F', 'R', 'L', 'R', 'Int'][i]}
                 </div>
               )}
@@ -689,7 +739,7 @@ export default function WasherJobPage() {
             </div>
             <div className="flex-1 flex items-start justify-between pt-1 pb-3">
               <span className={cn('text-[13px]',
-                isPast ? 'text-foreground/55' : isCurrent ? 'text-foreground font-medium' : 'text-foreground/50'
+                isPast ? 'text-foreground/65' : isCurrent ? 'text-foreground font-medium' : 'text-foreground/50'
               )}>{stepConfig.label}</span>
               {(isPast || isCurrent) && timestamp && (
                 <span className="text-foreground/50 text-[10px] pt-0.5 tabular-nums">
@@ -707,11 +757,11 @@ export default function WasherJobPage() {
   const renderJobDetails = () => (
     <div className="space-y-3 text-[13px]">
       <div className="flex items-center gap-2.5">
-        <Car className="w-3.5 h-3.5 text-foreground/55 shrink-0" />
+        <Car className="w-3.5 h-3.5 text-foreground/65 shrink-0" />
         <span className="text-foreground/60">{vehicle.year} {vehicle.make} {vehicle.model} ({vehicle.type.replace('_', ' ')})</span>
       </div>
       <div className="flex items-start gap-2.5">
-        <MapPin className="w-3.5 h-3.5 text-foreground/55 shrink-0 mt-0.5" />
+        <MapPin className="w-3.5 h-3.5 text-foreground/65 shrink-0 mt-0.5" />
         <span className="text-foreground/60 leading-snug">{booking.service_address}</span>
       </div>
       {booking.location_notes && (
@@ -720,12 +770,12 @@ export default function WasherJobPage() {
         </div>
       )}
       <div className="flex items-center gap-2.5">
-        <Clock className="w-3.5 h-3.5 text-foreground/55 shrink-0" />
+        <Clock className="w-3.5 h-3.5 text-foreground/65 shrink-0" />
         <span className="text-foreground/60">~{formatDuration(booking.estimated_duration_min || 0)} · Dirt level {booking.dirt_level}</span>
       </div>
       <div className="flex items-center gap-2.5">
-        <DollarSign className="w-3.5 h-3.5 text-green-500 shrink-0" />
-        <span className="text-green-500 font-semibold">You earn {centsToDisplay(booking.washer_payout)}</span>
+        <DollarSign className="w-3.5 h-3.5 text-green-600 dark:text-green-500 shrink-0" />
+        <span className="text-green-600 dark:text-green-500 font-semibold">You earn {centsToDisplay(booking.washer_payout)}</span>
       </div>
       <div className="border-t border-border pt-3">
         <a
@@ -777,29 +827,29 @@ export default function WasherJobPage() {
                 </button>
                 <div className="flex-1 min-w-0">
                   <p className="text-foreground font-semibold text-[15px]">{PLAN_LABELS[booking.wash_plan]}</p>
-                  <p className="text-foreground/55 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
+                  <p className="text-foreground/65 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
                 </div>
               </div>
             </div>
 
             <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5">
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/55 mb-4">Job Details</p>
+                <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/65 mb-4">Job Details</p>
                 {renderJobDetails()}
               </div>
 
               {/* Customer card */}
               {customer && (
                 <div>
-                  <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/55 mb-3">Customer</p>
+                  <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/65 mb-3">Customer</p>
                   <div className="bg-foreground/[0.03] border border-border rounded-xl p-3.5">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-card flex items-center justify-center border border-border">
-                        <User className="w-4 h-4 text-foreground/55" />
+                        <User className="w-4 h-4 text-foreground/65" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-foreground text-sm font-semibold">{maskedCustomerName}</p>
-                        <p className="text-foreground/55 text-xs mt-0.5">
+                        <p className="text-foreground/65 text-xs mt-0.5">
                           {customer.email ? customer.email[0] + '\u2022\u2022\u2022@' + customer.email.split('@')[1] : ''}
                         </p>
                       </div>
@@ -813,6 +863,17 @@ export default function WasherJobPage() {
                       )}
                     </div>
                   </div>
+
+                  {/* Chat CTA */}
+                  {['assigned', 'en_route', 'arrived', 'washing'].includes(status) && (
+                    <button
+                      onClick={() => setChatOpen(true)}
+                      className="w-full mt-3 flex items-center justify-center gap-2 py-3 rounded-xl bg-[#E23232]/10 border border-[#E23232]/20 hover:bg-[#E23232]/15 transition-colors"
+                    >
+                      <MessageCircle className="w-4 h-4 text-[#E23232]" />
+                      <span className="text-[#E23232] text-sm font-semibold">Chat with Customer</span>
+                    </button>
+                  )}
                 </div>
               )}
             </div>
@@ -869,7 +930,7 @@ export default function WasherJobPage() {
               {/* Photos */}
               {['arrived', 'washing', 'completed', 'paid'].includes(status) && (
                 <div className="space-y-4">
-                  <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/55">Photos</p>
+                  <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/65">Photos</p>
                   <div className="bg-foreground/[0.03] border border-border rounded-xl p-4 space-y-4">
                     {renderPhotoGrid('before', beforePhotos, status === 'arrived')}
                     <div className="border-t border-border" />
@@ -880,7 +941,7 @@ export default function WasherJobPage() {
 
               {/* Timeline */}
               <div>
-                <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/55 mb-3">Timeline</p>
+                <p className="text-[10px] font-medium uppercase tracking-wider text-foreground/65 mb-3">Timeline</p>
                 <div className="bg-foreground/[0.03] border border-border rounded-xl p-4">
                   {renderTimeline()}
                 </div>
@@ -939,7 +1000,7 @@ export default function WasherJobPage() {
               </button>
               <div className="flex-1 min-w-0">
                 <p className="text-foreground font-semibold text-base">{PLAN_LABELS[booking.wash_plan]}</p>
-                <p className="text-foreground/55 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
+                <p className="text-foreground/65 text-[10px] font-mono">#{booking.id.slice(0, 8)}</p>
               </div>
               <Badge className={cn('text-[10px] font-medium shrink-0', config.bgColor, config.color, 'border-border')}>
                 {config.label}
@@ -967,11 +1028,11 @@ export default function WasherJobPage() {
                 <div className="bg-foreground/[0.03] border border-border rounded-xl p-3.5">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-card flex items-center justify-center border border-border">
-                      <User className="w-4 h-4 text-foreground/55" />
+                      <User className="w-4 h-4 text-foreground/65" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-foreground text-sm font-semibold">{maskedCustomerName}</p>
-                      <p className="text-foreground/55 text-xs">
+                      <p className="text-foreground/65 text-xs">
                         {customer.email ? customer.email[0] + '\u2022\u2022\u2022@' + customer.email.split('@')[1] : ''}
                       </p>
                     </div>
@@ -984,6 +1045,17 @@ export default function WasherJobPage() {
                       </button>
                     )}
                   </div>
+
+                  {/* Chat CTA */}
+                  {['assigned', 'en_route', 'arrived', 'washing'].includes(status) && (
+                    <button
+                      onClick={() => setChatOpen(true)}
+                      className="w-full mt-3 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#E23232]/10 border border-[#E23232]/20 hover:bg-[#E23232]/15 transition-colors"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5 text-[#E23232]" />
+                      <span className="text-[#E23232] text-sm font-semibold">Chat with Customer</span>
+                    </button>
+                  )}
                 </div>
               </div>
             )}
@@ -1003,7 +1075,7 @@ export default function WasherJobPage() {
             <div className="px-5 pb-2">
               <button
                 onClick={() => setShowDetails(!showDetails)}
-                className="w-full flex items-center justify-between py-2.5 text-foreground/55"
+                className="w-full flex items-center justify-between py-2.5 text-foreground/65"
               >
                 <span className="text-[10px] font-medium uppercase tracking-wider">Job Details</span>
                 {showDetails ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -1019,7 +1091,7 @@ export default function WasherJobPage() {
             <div className="px-5 pb-2">
               <button
                 onClick={() => setShowTimeline(!showTimeline)}
-                className="w-full flex items-center justify-between py-2.5 text-foreground/55"
+                className="w-full flex items-center justify-between py-2.5 text-foreground/65"
               >
                 <span className="text-[10px] font-medium uppercase tracking-wider">Timeline</span>
                 {showTimeline ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}

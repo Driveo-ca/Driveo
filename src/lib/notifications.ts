@@ -318,6 +318,90 @@ export async function notifyCustomerWashComplete(
   await Promise.allSettled(promises);
 }
 
+// ── Admin → Washer Job Request ──────────────────────────────
+
+export async function notifyWasherJobRequest(
+  washerId: string,
+  booking: {
+    id: string;
+    service_address: string;
+    wash_plan: string;
+    washer_payout: number;
+    dirt_level: number;
+    estimated_duration_min: number;
+    service_lat: number;
+    service_lng: number;
+    vehicle: string;
+  }
+): Promise<void> {
+  const user = await getUserContact(washerId);
+  if (!user) return;
+
+  const planLabel = formatWashPlan(booking.wash_plan);
+  const payout = formatPrice(booking.washer_payout);
+
+  const promises: Promise<unknown>[] = [
+    createNotification(
+      washerId,
+      'job_request',
+      'Job Request from Admin',
+      `You've been requested for a ${planLabel} wash at ${booking.service_address}. Earn ${payout}.`,
+      {
+        booking_id: booking.id,
+        wash_plan: booking.wash_plan,
+        washer_payout: booking.washer_payout,
+        service_address: booking.service_address,
+        service_lat: booking.service_lat,
+        service_lng: booking.service_lng,
+        dirt_level: booking.dirt_level,
+        estimated_duration_min: booking.estimated_duration_min,
+        vehicle: booking.vehicle,
+      },
+    ),
+  ];
+
+  if (user.phone) {
+    promises.push(
+      sendSMS(
+        user.phone,
+        `DRIVEO: Admin has requested you for a ${planLabel} job at ${booking.service_address}. Payout: ${payout}. Open the app to accept or decline.`,
+      ),
+    );
+  }
+
+  if (user.email) {
+    promises.push(
+      sendEmail(
+        user.email,
+        `Job Request — ${planLabel} | Earn ${payout}`,
+        `<div style="font-family:Inter,sans-serif;max-width:600px;margin:0 auto;">
+          <div style="background:#E23232;color:white;padding:24px;text-align:center;border-radius:12px 12px 0 0;">
+            <h1 style="margin:0;font-size:24px;">Job Request</h1>
+            <p style="margin:8px 0 0;opacity:0.9;">Admin has requested you for this job</p>
+          </div>
+          <div style="background:#f9f9f9;padding:24px;border:1px solid #eee;border-top:none;border-radius:0 0 12px 12px;">
+            <p>Hi ${user.full_name},</p>
+            <p>You've been specifically requested for this job:</p>
+            <table style="width:100%;border-collapse:collapse;margin:16px 0;">
+              <tr><td style="padding:8px 0;color:#666;">Plan</td><td style="padding:8px 0;font-weight:600;">${planLabel}</td></tr>
+              <tr><td style="padding:8px 0;color:#666;">Vehicle</td><td style="padding:8px 0;font-weight:600;">${booking.vehicle}</td></tr>
+              <tr><td style="padding:8px 0;color:#666;">Location</td><td style="padding:8px 0;font-weight:600;">${booking.service_address}</td></tr>
+              <tr><td style="padding:8px 0;color:#666;">Dirt Level</td><td style="padding:8px 0;font-weight:600;">${booking.dirt_level}/10</td></tr>
+              <tr><td style="padding:8px 0;color:#666;">Your Payout</td><td style="padding:8px 0;font-weight:600;color:#E23232;font-size:18px;">${payout}</td></tr>
+            </table>
+            <p style="text-align:center;margin-top:24px;">
+              <a href="https://driveo.ca/washer/dashboard" style="background:#E23232;color:white;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:600;display:inline-block;">Open App to Respond</a>
+            </p>
+            <p style="color:#999;font-size:12px;text-align:center;margin-top:16px;">Accept or decline this request in the app.</p>
+          </div>
+        </div>`,
+      ),
+    );
+  }
+
+  await Promise.allSettled(promises);
+}
+
 // ── Formatting Helpers ──────────────────────────────────────
 
 function formatWashPlan(plan: string): string {

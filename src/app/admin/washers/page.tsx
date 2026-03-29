@@ -112,11 +112,11 @@ export default function AdminWashersPage() {
   };
 
   return (
-    <div className="space-y-8 md:pt-0 pt-14 animate-fade-in">
+    <div className="space-y-8 animate-fade-in">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-display text-foreground tracking-tight">Washers</h1>
+          <h1 className="text-2xl sm:text-3xl font-display text-foreground tracking-tight">Washers</h1>
           <p className="text-foreground/55 dark:text-foreground/50 text-sm mt-1">
             <span className="text-foreground/50 font-medium">{washers.length}</span> {filter === 'all' ? 'total' : filter}
           </p>
@@ -166,16 +166,16 @@ export default function AdminWashersPage() {
               <div key={w.id} className="bg-surface border border-border rounded-2xl overflow-hidden animate-fade-in-up">
                 {/* Header row */}
                 <div
-                  className="p-5 cursor-pointer hover:bg-foreground/[0.02] transition-colors duration-200"
+                  className="p-3.5 sm:p-5 cursor-pointer hover:bg-foreground/[0.02] active:bg-foreground/[0.04] transition-colors duration-200"
                   onClick={() => setExpandedId(isExpanded ? null : w.id)}
                 >
-                  <div className="flex items-start gap-4">
-                    <div className="w-11 h-11 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center text-foreground/50 font-display text-lg shrink-0">
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-foreground/[0.10] dark:bg-foreground/[0.06] flex items-center justify-center text-foreground/50 font-display text-base sm:text-lg shrink-0">
                       {w.full_name.charAt(0)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2.5 flex-wrap">
-                        <p className="text-foreground font-medium">{w.full_name}</p>
+                      <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap">
+                        <p className="text-foreground font-medium text-sm sm:text-base">{w.full_name}</p>
                         <Badge
                           variant="outline"
                           className={cn('text-[10px] rounded-full px-2.5 py-0.5', statusColor(wp.status))}
@@ -207,8 +207,8 @@ export default function AdminWashersPage() {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <div className="flex gap-2 flex-wrap justify-end">
+                    <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+                      <div className="hidden sm:flex gap-2 flex-wrap justify-end">
                         {(wp.status === 'pending' || wp.status === 'query') && (
                           <>
                             <Button
@@ -270,8 +270,57 @@ export default function AdminWashersPage() {
                 {/* Expanded details panel */}
                 {isExpanded && (
                   <div className="border-t border-border bg-card">
+                    {/* Mobile action buttons */}
+                    <div className="sm:hidden flex gap-2 flex-wrap p-3.5 border-b border-border">
+                      {(wp.status === 'pending' || wp.status === 'query') && (
+                        <>
+                          <Button
+                            size="sm"
+                            onClick={(e) => { e.stopPropagation(); updateWasherStatus(w.id, 'approved'); }}
+                            className="h-10 flex-1 bg-green-600 hover:bg-green-500 text-white text-xs rounded-xl active:scale-[0.97]"
+                          >
+                            <UserCheck className="w-3.5 h-3.5 mr-1.5" /> Approve
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={(e) => { e.stopPropagation(); updateWasherStatus(w.id, 'rejected'); }}
+                            className="h-10 flex-1 border-red-500/30 text-red-400 hover:bg-red-500/10 text-xs rounded-xl active:scale-[0.97]"
+                          >
+                            <UserX className="w-3.5 h-3.5 mr-1.5" /> Reject
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={(e) => { e.stopPropagation(); openQuery(w.id); }}
+                            className="h-10 border-blue-500/30 text-blue-400 hover:bg-blue-500/10 text-xs rounded-xl active:scale-[0.97]"
+                          >
+                            <MessageSquare className="w-3.5 h-3.5 mr-1.5" /> Query
+                          </Button>
+                        </>
+                      )}
+                      {wp.status === 'approved' && (
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={(e) => { e.stopPropagation(); updateWasherStatus(w.id, 'suspended'); }}
+                          className="h-10 flex-1 border-red-500/30 text-red-400 hover:bg-red-500/10 text-xs rounded-xl active:scale-[0.97]"
+                        >
+                          Suspend
+                        </Button>
+                      )}
+                      {(wp.status === 'suspended' || wp.status === 'rejected') && (
+                        <Button
+                          size="sm"
+                          onClick={(e) => { e.stopPropagation(); updateWasherStatus(w.id, 'approved'); }}
+                          className="h-10 flex-1 bg-green-600 hover:bg-green-500 text-white text-xs rounded-xl active:scale-[0.97]"
+                        >
+                          Reactivate
+                        </Button>
+                      )}
+                    </div>
                     {appData ? (
-                      <div className="p-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+                      <div className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-5">
                         {/* Personal Info */}
                         <div className="bg-surface border border-border rounded-xl p-4 space-y-3">
                           <h4 className="text-foreground/60 dark:text-foreground/55 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2">

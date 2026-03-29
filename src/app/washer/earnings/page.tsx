@@ -89,10 +89,10 @@ export default function WasherEarningsPage() {
       >
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">Earnings</h1>
-          <p className="text-foreground/55 text-xs mt-0.5 font-mono">{jobs.length} completed jobs</p>
+          <p className="text-foreground/65 text-xs mt-0.5 font-mono">{jobs.length} completed jobs</p>
         </div>
         <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center">
-          <Banknote className="w-[18px] h-[18px] text-foreground/55" />
+          <Banknote className="w-[18px] h-[18px] text-foreground/65" />
         </div>
       </motion.div>
 
@@ -128,15 +128,15 @@ export default function WasherEarningsPage() {
               <div className="relative z-10 flex items-end justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
-                    <TrendingUp className="w-3.5 h-3.5 text-emerald-400/60" />
-                    <span className="font-mono text-[11px] text-foreground/55 uppercase tracking-[0.1em] font-semibold">All-Time Earnings</span>
+                    <TrendingUp className="w-3.5 h-3.5 text-emerald-600/60 dark:text-emerald-400/60" />
+                    <span className="font-mono text-[11px] text-foreground/65 uppercase tracking-[0.1em] font-semibold">All-Time Earnings</span>
                   </div>
-                  <p className="text-4xl lg:text-5xl font-bold text-emerald-400 tracking-tight">{fmt(allTimeEarnings)}</p>
-                  <p className="text-xs text-foreground/40 mt-2 font-mono">across {jobs.length} wash{jobs.length !== 1 ? 'es' : ''}</p>
+                  <p className="text-4xl lg:text-5xl font-bold text-emerald-600 dark:text-emerald-400 tracking-tight">{fmt(allTimeEarnings)}</p>
+                  <p className="text-xs text-foreground/60 mt-2 font-mono">across {jobs.length} wash{jobs.length !== 1 ? 'es' : ''}</p>
                 </div>
                 <div className="hidden lg:block text-right">
-                  <p className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">Avg / wash</p>
-                  <p className="text-2xl font-bold text-emerald-400/70 mt-0.5">{fmt(Math.round(avgPerWash))}</p>
+                  <p className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">Avg / wash</p>
+                  <p className="text-2xl font-bold text-emerald-600/70 dark:text-emerald-400/70 mt-0.5">{fmt(Math.round(avgPerWash))}</p>
                 </div>
               </div>
             </motion.div>
@@ -150,32 +150,32 @@ export default function WasherEarningsPage() {
             >
               {[
                 { icon: Clock, label: 'Today', value: fmt(todayEarnings), count: todayJobs.length, color: 'text-foreground', border: 'border-border/50' },
-                { icon: Calendar, label: 'This Week', value: fmt(weekEarnings), count: weekJobs.length, color: 'text-blue-400', border: 'border-blue-500/20' },
+                { icon: Calendar, label: 'This Week', value: fmt(weekEarnings), count: weekJobs.length, color: 'text-blue-600 dark:text-blue-400', border: 'border-blue-500/20' },
                 { icon: Calendar, label: 'This Month', value: fmt(monthEarnings), count: monthJobs.length, color: 'text-[#E23232]', border: 'border-[#E23232]/20' },
               ].map((s) => (
                 <div key={s.label} className={cn('border rounded-2xl p-4', s.border)}>
                   <div className="flex items-center gap-1.5 mb-2">
-                    <s.icon className="w-3.5 h-3.5 text-foreground/40" />
-                    <span className="font-mono text-[10px] text-foreground/55 uppercase tracking-[0.08em] font-medium">{s.label}</span>
+                    <s.icon className="w-3.5 h-3.5 text-foreground/60" />
+                    <span className="font-mono text-[10px] text-foreground/65 uppercase tracking-[0.08em] font-medium">{s.label}</span>
                   </div>
                   <p className={cn('text-2xl font-bold tracking-tight', s.color)}>{s.value}</p>
-                  <p className="text-[10px] text-foreground/35 mt-1 font-mono">{s.count} wash{s.count !== 1 ? 'es' : ''}</p>
+                  <p className="text-[10px] text-foreground/55 mt-1 font-mono">{s.count} wash{s.count !== 1 ? 'es' : ''}</p>
                 </div>
               ))}
             </motion.div>
 
             {/* History */}
             <div className="flex items-center justify-between mb-3 mt-2">
-              <span className="font-mono text-[11px] font-semibold text-foreground/55 uppercase tracking-[0.1em]">Job History</span>
-              <span className="font-mono text-[10px] text-foreground/35">{jobs.length} jobs</span>
+              <span className="font-mono text-[11px] font-semibold text-foreground/65 uppercase tracking-[0.1em]">Job History</span>
+              <span className="font-mono text-[10px] text-foreground/55">{jobs.length} jobs</span>
             </div>
 
             {jobs.length === 0 ? (
               <div className="border border-dashed border-border/50 rounded-2xl p-12 text-center">
                 <div className="w-12 h-12 rounded-2xl bg-foreground/[0.04] flex items-center justify-center mx-auto mb-3">
-                  <DollarSign className="w-5 h-5 text-foreground/30" />
+                  <DollarSign className="w-5 h-5 text-foreground/50" />
                 </div>
-                <p className="text-foreground/55 text-sm">No completed jobs yet</p>
+                <p className="text-foreground/65 text-sm">No completed jobs yet</p>
               </div>
             ) : (
               <div className="space-y-2.5">
@@ -194,18 +194,18 @@ export default function WasherEarningsPage() {
                       </p>
                       <div className="flex items-center gap-1.5 mt-0.5">
                         {job.vehicles && (
-                          <span className="text-foreground/55 text-xs truncate">
+                          <span className="text-foreground/65 text-xs truncate">
                             {job.vehicles.year} {job.vehicles.make} {job.vehicles.model}
                           </span>
                         )}
                       </div>
-                      <p className="text-foreground/35 text-[10px] mt-0.5 font-mono">
+                      <p className="text-foreground/55 text-[10px] mt-0.5 font-mono">
                         {job.wash_completed_at
                           ? new Date(job.wash_completed_at).toLocaleDateString('en-CA', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
                           : 'Pending'}
                       </p>
                     </div>
-                    <div className="flex items-center gap-1 text-emerald-400 font-bold text-sm shrink-0">
+                    <div className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-bold text-sm shrink-0">
                       <DollarSign className="w-3.5 h-3.5" />
                       {(job.washer_payout / 100).toFixed(2)}
                     </div>
@@ -226,7 +226,7 @@ export default function WasherEarningsPage() {
                 transition={{ duration: 0.4, delay: 0.1 }}
                 className="border border-border/50 rounded-2xl p-5"
               >
-                <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Earnings by Plan</span>
+                <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Earnings by Plan</span>
                 <div className="mt-4 space-y-4">
                   {Object.entries(planEarnings).map(([plan, earnings]) => {
                     const count = planCount[plan] || 0;
@@ -239,15 +239,15 @@ export default function WasherEarningsPage() {
                             <span className={cn('w-2 h-2 rounded-full', dotColor)} />
                             <span className="text-xs text-foreground/60 font-medium">{planLabel[plan] || plan}</span>
                           </div>
-                          <span className="text-xs text-foreground/40 font-mono">{fmt(earnings)}</span>
+                          <span className="text-xs text-foreground/60 font-mono">{fmt(earnings)}</span>
                         </div>
                         <div className="flex items-center gap-2">
                           <div className="flex-1 h-1.5 rounded-full bg-foreground/[0.06] overflow-hidden">
                             <div className={cn('h-full rounded-full', dotColor)} style={{ width: `${pct}%` }} />
                           </div>
-                          <span className="text-[10px] text-foreground/30 font-mono w-8 text-right">{pct}%</span>
+                          <span className="text-[10px] text-foreground/50 font-mono w-8 text-right">{pct}%</span>
                         </div>
-                        <p className="text-[10px] text-foreground/30 font-mono mt-1">{count} wash{count !== 1 ? 'es' : ''}</p>
+                        <p className="text-[10px] text-foreground/50 font-mono mt-1">{count} wash{count !== 1 ? 'es' : ''}</p>
                       </div>
                     );
                   })}
@@ -262,19 +262,19 @@ export default function WasherEarningsPage() {
               transition={{ duration: 0.4, delay: 0.2 }}
               className="border border-border/50 rounded-2xl p-5"
             >
-              <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Quick Stats</span>
+              <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Quick Stats</span>
               <div className="mt-4 space-y-4">
                 {[
-                  { icon: DollarSign, label: 'Avg per Wash', value: fmt(Math.round(avgPerWash)), color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-                  { icon: Car, label: 'Total Washes', value: String(jobs.length), color: 'text-blue-400', bg: 'bg-blue-500/10' },
-                  { icon: TrendingUp, label: 'Best Plan', value: Object.entries(planEarnings).sort(([,a],[,b]) => b - a)[0]?.[0] ? planLabel[Object.entries(planEarnings).sort(([,a],[,b]) => b - a)[0][0]] || '—' : '—', color: 'text-violet-400', bg: 'bg-violet-500/10' },
+                  { icon: DollarSign, label: 'Avg per Wash', value: fmt(Math.round(avgPerWash)), color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-500/10' },
+                  { icon: Car, label: 'Total Washes', value: String(jobs.length), color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-500/10' },
+                  { icon: TrendingUp, label: 'Best Plan', value: Object.entries(planEarnings).sort(([,a],[,b]) => b - a)[0]?.[0] ? planLabel[Object.entries(planEarnings).sort(([,a],[,b]) => b - a)[0][0]] || '—' : '—', color: 'text-violet-600 dark:text-violet-400', bg: 'bg-violet-500/10' },
                 ].map((s) => (
                   <div key={s.label} className="flex items-center gap-3">
                     <div className={cn('w-9 h-9 rounded-xl flex items-center justify-center shrink-0', s.bg)}>
                       <s.icon className={cn('w-4 h-4', s.color)} />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">{s.label}</p>
+                      <p className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">{s.label}</p>
                       <p className={cn('text-sm font-bold leading-tight truncate', s.color)}>{s.value}</p>
                     </div>
                   </div>

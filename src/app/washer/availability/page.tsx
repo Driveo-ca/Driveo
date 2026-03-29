@@ -137,11 +137,11 @@ export default function WasherAvailabilityPage() {
       >
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">Schedule</h1>
-          <p className="text-foreground/55 text-xs mt-0.5 font-mono">{activeDays} day{activeDays !== 1 ? 's' : ''} active</p>
+          <p className="text-foreground/65 text-xs mt-0.5 font-mono">{activeDays} day{activeDays !== 1 ? 's' : ''} active</p>
         </div>
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center">
-            <CalendarDays className="w-[18px] h-[18px] text-foreground/55" />
+            <CalendarDays className="w-[18px] h-[18px] text-foreground/65" />
           </div>
           <Button
             onClick={handleSave}
@@ -176,7 +176,7 @@ export default function WasherAvailabilityPage() {
                     'flex-1 py-2 rounded-xl text-[10px] font-bold tracking-wider transition-all duration-200',
                     slot?.is_available
                       ? 'bg-[#E23232]/10 text-[#E23232] border border-[#E23232]/25'
-                      : 'bg-foreground/[0.04] text-foreground/30 border border-border/50'
+                      : 'bg-foreground/[0.04] text-foreground/50 border border-border/50'
                   )}
                 >
                   {d}
@@ -216,14 +216,14 @@ export default function WasherAvailabilityPage() {
                             'w-9 h-9 rounded-xl flex items-center justify-center text-[10px] font-bold tracking-wider transition-all duration-200',
                             slot.is_available
                               ? 'bg-[#E23232]/10 text-[#E23232]'
-                              : 'bg-foreground/[0.04] text-foreground/30'
+                              : 'bg-foreground/[0.04] text-foreground/50'
                           )}>
                             {SHORT_DAYS[displayIdx]}
                           </div>
                           <div>
                             <p className="text-sm font-semibold text-foreground">{day}</p>
                             {slot.is_available && (
-                              <p className="text-[10px] text-foreground/40 mt-0.5 font-mono">
+                              <p className="text-[10px] text-foreground/60 mt-0.5 font-mono">
                                 {slot.start_time} – {slot.end_time}
                               </p>
                             )}
@@ -243,7 +243,7 @@ export default function WasherAvailabilityPage() {
                         >
                           <div className="flex items-center gap-2 flex-1">
                             <div className="w-7 h-7 rounded-lg bg-foreground/[0.04] flex items-center justify-center shrink-0">
-                              <Clock className="w-3 h-3 text-foreground/40" />
+                              <Clock className="w-3 h-3 text-foreground/60" />
                             </div>
                             <Input
                               type="time"
@@ -252,7 +252,7 @@ export default function WasherAvailabilityPage() {
                               className="bg-foreground/[0.04] border-border/60 text-foreground text-sm h-9 rounded-xl"
                             />
                           </div>
-                          <span className="text-foreground/35 text-xs font-mono font-medium tracking-wider shrink-0">TO</span>
+                          <span className="text-foreground/55 text-xs font-mono font-medium tracking-wider shrink-0">TO</span>
                           <div className="flex-1">
                             <Input
                               type="time"
@@ -285,10 +285,10 @@ export default function WasherAvailabilityPage() {
             <div className="relative z-10">
               <div className="flex items-center gap-2 mb-1">
                 <CalendarDays className="w-3.5 h-3.5 text-[#E23232]/60" />
-                <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Weekly Hours</span>
+                <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Weekly Hours</span>
               </div>
               <p className="text-3xl font-bold text-[#E23232] tracking-tight">{fmtHours(totalWeeklyMins)}</p>
-              <p className="text-xs text-foreground/40 mt-1 font-mono">{activeDays} active day{activeDays !== 1 ? 's' : ''}</p>
+              <p className="text-xs text-foreground/60 mt-1 font-mono">{activeDays} active day{activeDays !== 1 ? 's' : ''}</p>
             </div>
           </motion.div>
 
@@ -299,7 +299,7 @@ export default function WasherAvailabilityPage() {
             transition={{ duration: 0.4, delay: 0.2 }}
             className="border border-border/50 rounded-2xl p-5"
           >
-            <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Schedule Details</span>
+            <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Schedule Details</span>
             <div className="mt-4 space-y-4">
               {[
                 { label: 'Active Days', value: `${activeDays} / 7` },
@@ -308,7 +308,7 @@ export default function WasherAvailabilityPage() {
                 { label: 'Avg Hours/Day', value: activeDays > 0 ? fmtHours(Math.round(totalWeeklyMins / activeDays)) : '—' },
               ].map((s) => (
                 <div key={s.label} className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">{s.label}</span>
+                  <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">{s.label}</span>
                   <span className="text-sm text-foreground font-semibold">{s.value}</span>
                 </div>
               ))}
@@ -322,7 +322,7 @@ export default function WasherAvailabilityPage() {
             transition={{ duration: 0.4, delay: 0.3 }}
             className="border border-border/50 rounded-2xl p-5"
           >
-            <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Day Overview</span>
+            <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Day Overview</span>
             <div className="mt-4 space-y-2.5">
               {DAYS.map((day, i) => {
                 const slot = getSlot(i);
@@ -333,8 +333,8 @@ export default function WasherAvailabilityPage() {
                 return (
                   <div key={day}>
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs text-foreground/55 font-medium w-10">{SHORT_DAYS[i]}</span>
-                      <span className="text-[10px] text-foreground/30 font-mono">
+                      <span className="text-xs text-foreground/65 font-medium w-10">{SHORT_DAYS[i]}</span>
+                      <span className="text-[10px] text-foreground/50 font-mono">
                         {slot.is_available ? `${slot.start_time}–${slot.end_time}` : 'Off'}
                       </span>
                     </div>

@@ -7,6 +7,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import {
   Elements,
   PaymentElement,
+  AddressElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
@@ -23,9 +24,9 @@ import { toast } from 'sonner';
 import {
   Car, MapPin, ChevronRight, Zap, CalendarDays, Sparkles,
   Clock, CreditCard, Loader2, ShieldCheck, Lock, Check, ArrowLeft,
-  Droplets, X, Star, Gauge, MessageCircle,
+  Droplets, X, Star, Gauge, MessageCircle, Home, Briefcase, Bookmark, Plus, Trash2,
 } from 'lucide-react';
-import type { Vehicle, WashPlan, BookingFormData } from '@/types';
+import type { Vehicle, WashPlan, BookingFormData, SavedLocation } from '@/types';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
@@ -192,7 +193,28 @@ function PaymentForm({
           <Lock className="w-3.5 h-3.5 text-foreground/55" />
           <span className="text-[11px] font-mono uppercase tracking-widest text-foreground/55">Secured by Stripe</span>
         </div>
-        <PaymentElement onReady={() => setPaymentReady(true)} options={{ layout: 'tabs' }} />
+        <AddressElement
+          options={{
+            mode: 'billing',
+            defaultValues: {
+              address: { country: 'CA' },
+            },
+            fields: { phone: 'always' },
+            validation: { phone: { required: 'never' } },
+          }}
+        />
+        <PaymentElement
+          onReady={() => setPaymentReady(true)}
+          options={{
+            layout: 'tabs',
+            fields: { billingDetails: 'never' },
+            defaultValues: {
+              billingDetails: {
+                address: { country: 'CA' },
+              },
+            },
+          }}
+        />
         {errorMessage && (
           <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-400 text-sm">{errorMessage}</div>
         )}
@@ -354,6 +376,11 @@ function BookingForm() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [bookingId, setBookingId] = useState<string | null>(null);
 
+  const [savedLocations, setSavedLocations] = useState<SavedLocation[]>([]);
+  const [savingLocation, setSavingLocation] = useState(false);
+  const [saveLabel, setSaveLabel] = useState('');
+  const [showSaveInput, setShowSaveInput] = useState(false);
+
   const [form, setForm] = useState<BookingFormData>({
     vehicleId: '',
     vehicle: null,
@@ -407,6 +434,59 @@ function BookingForm() {
     }
     loadVehicles();
   }, []);
+
+  // Fetch saved locations
+  useEffect(() => {
+    async function loadSavedLocations() {
+      try {
+        const res = await fetch('/api/locations');
+        if (res.ok) {
+          const data = await res.json();
+          setSavedLocations(data);
+        }
+      } catch { /* ignore */ }
+    }
+    loadSavedLocations();
+  }, []);
+
+  async function handleSaveLocation() {
+    if (!saveLabel.trim() || !form.address || form.lat === 0) return;
+    setSavingLocation(true);
+    try {
+      const res = await fetch('/api/locations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          label: saveLabel.trim(),
+          address: form.address,
+          lat: form.lat,
+          lng: form.lng,
+          notes: form.locationNotes || null,
+        }),
+      });
+      if (res.ok) {
+        const loc = await res.json();
+        setSavedLocations(prev => [...prev, loc]);
+        setShowSaveInput(false);
+        setSaveLabel('');
+        toast.success(`Saved as "${loc.label}"`);
+      } else {
+        const err = await res.json();
+        toast.error(err.error || 'Failed to save location');
+      }
+    } catch { toast.error('Failed to save location'); }
+    finally { setSavingLocation(false); }
+  }
+
+  async function handleDeleteLocation(id: string) {
+    try {
+      const res = await fetch(`/api/locations?id=${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setSavedLocations(prev => prev.filter(l => l.id !== id));
+        toast.success('Location removed');
+      }
+    } catch { /* ignore */ }
+  }
 
   const price = form.vehicle ? calculatePrice(form.washPlan, form.vehicle.type, form.dirtLevel) : null;
   const isExpanded = step === 2 || step === 5; // Service & payment steps expand
@@ -999,13 +1079,54 @@ function BookingForm() {
     // Step 1: Location
     if (step === 1) {
       const locationConfirmed = form.address && form.lat !== 0;
+      const LABEL_ICONS: Record<string, typeof Home> = { Home, Work: Briefcase };
+      const alreadySaved = savedLocations.some(l => l.address === form.address);
+
       return (
         <div className="space-y-4">
+          {/* Saved locations */}
+          {savedLocations.length > 0 && (
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.1em] text-foreground/60 mb-2">Saved places</p>
+              <div className="flex flex-wrap gap-2">
+                {savedLocations.map((loc) => {
+                  const active = form.address === loc.address;
+                  const Icon = LABEL_ICONS[loc.label] || Bookmark;
+                  return (
+                    <button
+                      key={loc.id}
+                      onClick={() => {
+                        setForm(f => ({ ...f, address: loc.address, lat: loc.lat, lng: loc.lng, locationNotes: loc.notes || f.locationNotes }));
+                        setShowSaveInput(false);
+                      }}
+                      className={cn(
+                        'group relative inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition-all duration-200',
+                        active
+                          ? 'bg-[#E23232]/10 border border-[#E23232]/30 text-foreground shadow-[0_0_8px_rgba(226,50,50,0.08)]'
+                          : 'bg-foreground/[0.04] border border-border/50 text-foreground/70 hover:border-foreground/20 hover:bg-foreground/[0.06]'
+                      )}
+                    >
+                      <Icon className={cn('w-3.5 h-3.5 shrink-0', active ? 'text-[#E23232]' : 'text-foreground/50')} />
+                      <span className="truncate max-w-[120px]">{loc.label}</span>
+                      {active && <Check className="w-3 h-3 text-[#E23232] shrink-0" />}
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleDeleteLocation(loc.id); }}
+                        className="hidden group-hover:flex w-4 h-4 items-center justify-center rounded-full bg-foreground/10 hover:bg-red-500/20 transition-colors shrink-0"
+                      >
+                        <X className="w-2.5 h-2.5 text-foreground/50 hover:text-red-500" />
+                      </button>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
           {/* Address search */}
           <div>
             <AddressAutocomplete
               value={form.address}
-              onChange={(address, lat, lng) => setForm(f => ({ ...f, address, lat, lng }))}
+              onChange={(address, lat, lng) => { setForm(f => ({ ...f, address, lat, lng })); setShowSaveInput(false); }}
               placeholder="Search for your address..."
               className="h-12 rounded-xl bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/50 text-sm"
             />
@@ -1018,20 +1139,18 @@ function BookingForm() {
               placeholder="Parking notes, gate code, unit #..."
               value={form.locationNotes}
               onChange={e => setForm(f => ({ ...f, locationNotes: e.target.value }))}
-              className="h-11 pl-10 rounded-xl bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/20 text-sm"
+              className="h-11 pl-10 rounded-xl bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/45 text-sm"
             />
           </div>
 
           {/* Confirmed address card */}
           {locationConfirmed && (
             <div className="relative rounded-2xl bg-gradient-to-br from-[#E23232]/[0.06] via-[#E23232]/[0.03] to-transparent backdrop-blur-sm overflow-hidden">
-              {/* Animated gradient border */}
               <div className="absolute inset-0 rounded-2xl border border-[#E23232]/15" />
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#E23232]/60 to-transparent" />
 
               <div className="relative px-4 py-3.5">
                 <div className="flex items-center gap-3">
-                  {/* Pulsing location dot */}
                   <div className="relative shrink-0">
                     <div className="w-10 h-10 rounded-full bg-[#E23232]/10 flex items-center justify-center">
                       <div className="w-3 h-3 rounded-full bg-[#E23232] shadow-[0_0_8px_rgba(226,50,50,0.4)]" />
@@ -1049,6 +1168,45 @@ function BookingForm() {
                     <p className="text-foreground text-[13px] font-medium leading-snug truncate">{form.address}</p>
                   </div>
                 </div>
+
+                {/* Save location action */}
+                {!alreadySaved && (
+                  <div className="mt-3 pt-3 border-t border-[#E23232]/10">
+                    {showSaveInput ? (
+                      <div className="flex items-center gap-2">
+                        <Input
+                          autoFocus
+                          placeholder="Label (e.g. Home, Work)"
+                          value={saveLabel}
+                          onChange={e => setSaveLabel(e.target.value)}
+                          onKeyDown={e => { if (e.key === 'Enter') handleSaveLocation(); if (e.key === 'Escape') { setShowSaveInput(false); setSaveLabel(''); } }}
+                          className="h-9 flex-1 rounded-lg bg-foreground/[0.04] border-border text-foreground placeholder:text-foreground/30 text-sm"
+                        />
+                        <button
+                          onClick={handleSaveLocation}
+                          disabled={!saveLabel.trim() || savingLocation}
+                          className="h-9 px-3 rounded-lg bg-[#E23232] text-white text-xs font-semibold disabled:opacity-40 hover:bg-[#c92a2a] transition-colors"
+                        >
+                          {savingLocation ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : 'Save'}
+                        </button>
+                        <button
+                          onClick={() => { setShowSaveInput(false); setSaveLabel(''); }}
+                          className="h-9 w-9 rounded-lg bg-foreground/[0.06] flex items-center justify-center hover:bg-foreground/[0.10] transition-colors"
+                        >
+                          <X className="w-3.5 h-3.5 text-foreground/50" />
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setShowSaveInput(true)}
+                        className="flex items-center gap-1.5 text-[11px] font-medium text-foreground/50 hover:text-[#E23232] transition-colors"
+                      >
+                        <Bookmark className="w-3 h-3" />
+                        Save this location
+                      </button>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           )}

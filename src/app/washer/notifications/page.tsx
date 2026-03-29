@@ -24,10 +24,10 @@ const notifIcon: Record<string, React.ElementType> = {
 };
 
 const notifColor: Record<string, string> = {
-  booking_assigned: 'bg-blue-500/10 text-blue-400',
-  payment_captured: 'bg-emerald-500/10 text-emerald-400',
-  booking_completed: 'bg-green-500/10 text-green-400',
-  booking_cancelled: 'bg-red-500/10 text-red-400',
+  booking_assigned: 'bg-blue-500/10 text-blue-600 dark:text-blue-400',
+  payment_captured: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400',
+  booking_completed: 'bg-green-500/10 text-green-600 dark:text-green-400',
+  booking_cancelled: 'bg-red-500/10 text-red-600 dark:text-red-400',
 };
 
 const notifLabel: Record<string, string> = {
@@ -105,13 +105,13 @@ export default function WasherNotificationsPage() {
       >
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">Notifications</h1>
-          <p className="text-foreground/55 text-xs mt-0.5 font-mono">
+          <p className="text-foreground/65 text-xs mt-0.5 font-mono">
             {unreadCount > 0 ? `${unreadCount} unread` : 'All caught up'}
           </p>
         </div>
         <div className="flex items-center gap-3">
           <div className="relative w-9 h-9 rounded-xl bg-foreground/[0.05] flex items-center justify-center">
-            <Bell className="w-[18px] h-[18px] text-foreground/55" />
+            <Bell className="w-[18px] h-[18px] text-foreground/65" />
             {unreadCount > 0 && (
               <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#E23232] text-white text-[9px] font-bold flex items-center justify-center">
                 {unreadCount > 9 ? '9+' : unreadCount}
@@ -147,16 +147,16 @@ export default function WasherNotificationsPage() {
               className="border border-dashed border-border/50 rounded-2xl p-16 text-center"
             >
               <div className="w-14 h-14 rounded-2xl bg-foreground/[0.04] flex items-center justify-center mx-auto mb-4">
-                <BellOff className="w-6 h-6 text-foreground/30" />
+                <BellOff className="w-6 h-6 text-foreground/50" />
               </div>
-              <p className="text-foreground/55 font-medium">No notifications yet</p>
-              <p className="text-foreground/35 text-sm mt-1">Job assignments and updates will appear here</p>
+              <p className="text-foreground/65 font-medium">No notifications yet</p>
+              <p className="text-foreground/65 text-sm mt-1">Job assignments and updates will appear here</p>
             </motion.div>
           ) : (
             <div className="space-y-2.5">
               {notifications.map((notif, i) => {
                 const Icon = notifIcon[notif.type] || Zap;
-                const iconColor = notifColor[notif.type] || 'bg-foreground/[0.05] text-foreground/55';
+                const iconColor = notifColor[notif.type] || 'bg-foreground/[0.05] text-foreground/65';
                 return (
                   <motion.div
                     key={notif.id}
@@ -181,8 +181,8 @@ export default function WasherNotificationsPage() {
                       <p className={cn('text-sm font-semibold', notif.is_read ? 'text-foreground/60' : 'text-foreground')}>
                         {notif.title}
                       </p>
-                      <p className="text-foreground/55 text-xs mt-0.5 line-clamp-2">{notif.message}</p>
-                      <p className="text-foreground/35 text-[10px] mt-1.5 font-mono">{timeAgo(notif.created_at)}</p>
+                      <p className="text-foreground/65 text-xs mt-0.5 line-clamp-2">{notif.message}</p>
+                      <p className="text-foreground/65 text-[10px] mt-1.5 font-mono">{timeAgo(notif.created_at)}</p>
                     </div>
                   </motion.div>
                 );
@@ -201,15 +201,15 @@ export default function WasherNotificationsPage() {
             transition={{ duration: 0.4, delay: 0.1 }}
             className="border border-border/50 rounded-2xl p-5"
           >
-            <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">Summary</span>
+            <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">Summary</span>
             <div className="mt-4 space-y-4">
               {[
                 { label: 'Total', value: String(notifications.length), color: 'text-foreground/60' },
-                { label: 'Unread', value: String(unreadCount), color: unreadCount > 0 ? 'text-[#E23232]' : 'text-foreground/40' },
-                { label: 'Read', value: String(notifications.length - unreadCount), color: 'text-foreground/40' },
+                { label: 'Unread', value: String(unreadCount), color: unreadCount > 0 ? 'text-[#E23232]' : 'text-foreground/60' },
+                { label: 'Read', value: String(notifications.length - unreadCount), color: 'text-foreground/60' },
               ].map((s) => (
                 <div key={s.label} className="flex items-center justify-between">
-                  <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-wider">{s.label}</span>
+                  <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-wider">{s.label}</span>
                   <span className={cn('text-lg font-bold', s.color)}>{s.value}</span>
                 </div>
               ))}
@@ -224,11 +224,11 @@ export default function WasherNotificationsPage() {
               transition={{ duration: 0.4, delay: 0.2 }}
               className="border border-border/50 rounded-2xl p-5"
             >
-              <span className="font-mono text-[10px] text-foreground/40 uppercase tracking-[0.1em] font-semibold">By Type</span>
+              <span className="font-mono text-[10px] text-foreground/60 uppercase tracking-[0.1em] font-semibold">By Type</span>
               <div className="mt-4 space-y-3">
                 {Object.entries(typeCounts).map(([type, count]) => {
                   const Icon = notifIcon[type] || Zap;
-                  const iconColor = notifColor[type] || 'bg-foreground/[0.05] text-foreground/55';
+                  const iconColor = notifColor[type] || 'bg-foreground/[0.05] text-foreground/65';
                   const unread = unreadByType[type] || 0;
                   return (
                     <div key={type} className="flex items-center gap-3">
@@ -237,7 +237,7 @@ export default function WasherNotificationsPage() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-xs text-foreground/60 font-medium">{notifLabel[type] || type}</p>
-                        <p className="text-[10px] text-foreground/30 font-mono">{count} total{unread > 0 ? ` · ${unread} unread` : ''}</p>
+                        <p className="text-[10px] text-foreground/50 font-mono">{count} total{unread > 0 ? ` · ${unread} unread` : ''}</p>
                       </div>
                       <span className="text-sm font-bold text-foreground/50">{count}</span>
                     </div>

@@ -6,6 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createAdminClient } from '@/lib/supabase/server';
+import { notifyWasherJobRequest } from '@/lib/notifications';
 
 export async function POST(request: NextRequest) {
   try {
@@ -75,11 +76,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, status: 'cancelled' });
     }
 
-    // ── Accept — requires washerId ──
+    // ── Accept — send job request to selected washer ──
     if (action === 'accept') {
       if (!washerId) {
         return NextResponse.json(
-          { error: 'washerId is required to accept a booking' },
+          { error: 'washerId is required to send a job request' },
           { status: 400 },
         );
       }
@@ -102,22 +103,34 @@ export async function POST(request: NextRequest) {
         );
       }
 
-      // Assign washer to booking
-      const { error } = await admin
+      // Fetch full booking details for the notification
+      const { data: fullBooking, error: fullErr } = await admin
         .from('bookings')
-        .update({
-          washer_id: washerId,
-          status: 'assigned',
-          washer_assigned_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', bookingId);
+        .select('id, service_address, wash_plan, washer_payout, dirt_level, estimated_duration_min, service_lat, service_lng, vehicles(year, make, model, type)')
+        .eq('id', bookingId)
+        .single();
 
-      if (error) {
-        return NextResponse.json({ error: error.message }, { status: 500 });
+      if (fullErr || !fullBooking) {
+        return NextResponse.json({ error: 'Failed to fetch booking details' }, { status: 500 });
       }
 
-      return NextResponse.json({ success: true, status: 'assigned', washerId });
+      const vehicle = fullBooking.vehicles as unknown as { year: number; make: string; model: string; type: string } | null;
+      const vehicleStr = vehicle ? `${vehicle.year} ${vehicle.make} ${vehicle.model}` : 'Vehicle';
+
+      // Send job request notification + email to the washer (booking stays pending)
+      await notifyWasherJobRequest(washerId, {
+        id: fullBooking.id,
+        service_address: fullBooking.service_address,
+        wash_plan: fullBooking.wash_plan,
+        washer_payout: fullBooking.washer_payout || 0,
+        dirt_level: fullBooking.dirt_level,
+        estimated_duration_min: fullBooking.estimated_duration_min || 0,
+        service_lat: fullBooking.service_lat,
+        service_lng: fullBooking.service_lng,
+        vehicle: vehicleStr,
+      });
+
+      return NextResponse.json({ success: true, status: 'requested', washerId });
     }
 
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });

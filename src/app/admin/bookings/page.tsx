@@ -128,18 +128,12 @@ export default function AdminBookingsPage() {
       });
 
       if (res.ok) {
-        toast.success('Booking accepted & washer assigned');
-        setBookings((prev) =>
-          prev.map((b) =>
-            b.id === reviewBooking.id
-              ? { ...b, status: 'assigned' as Booking['status'], washer_id: selectedWasher }
-              : b,
-          ),
-        );
+        const washerName = washers.find((w) => w.id === selectedWasher)?.full_name || 'washer';
+        toast.success(`Job request sent to ${washerName}`);
         setReviewBooking(null);
       } else {
         const err = await res.json();
-        toast.error(err.error || 'Failed to accept booking');
+        toast.error(err.error || 'Failed to send request');
       }
     } catch {
       toast.error('Network error');
@@ -186,7 +180,7 @@ export default function AdminBookingsPage() {
   );
 
   return (
-    <div className="space-y-8 md:pt-0 pt-14">
+    <div className="space-y-8">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -194,7 +188,7 @@ export default function AdminBookingsPage() {
             <CalendarDays className="w-5 h-5 text-[#E23232]" />
           </div>
           <div>
-            <h1 className="text-3xl font-display text-foreground tracking-tight">Bookings</h1>
+            <h1 className="text-2xl sm:text-3xl font-display text-foreground tracking-tight">Bookings</h1>
             <p className="text-foreground/50 text-sm mt-0.5">{bookings.length} total bookings</p>
           </div>
         </div>
@@ -206,19 +200,19 @@ export default function AdminBookingsPage() {
         <div className="space-y-5">
           {/* Filter Tabs */}
           <Tabs value={filter} onValueChange={setFilter}>
-            <TabsList className="bg-surface rounded-full p-1 border border-border gap-0.5">
+            <TabsList className="bg-surface rounded-full p-1 border border-border gap-0.5 overflow-x-auto no-scrollbar">
               {[
                 { value: 'all', label: 'All' },
                 { value: 'pending', label: 'Pending' },
                 { value: 'active', label: 'Active' },
-                { value: 'completed', label: 'Completed' },
+                { value: 'completed', label: 'Done' },
                 { value: 'paid', label: 'Paid' },
                 { value: 'cancelled', label: 'Cancelled' },
               ].map((tab) => (
                 <TabsTrigger
                   key={tab.value}
                   value={tab.value}
-                  className="text-xs rounded-full px-4 py-1.5 data-[state=active]:bg-[#E23232] data-[state=active]:text-white transition-colors text-foreground/50 hover:text-foreground/70"
+                  className="text-[11px] sm:text-xs rounded-full px-3 sm:px-4 py-1.5 data-[state=active]:bg-[#E23232] data-[state=active]:text-white transition-colors text-foreground/50 hover:text-foreground/70 shrink-0"
                 >
                   {tab.label}
                 </TabsTrigger>
@@ -342,32 +336,44 @@ export default function AdminBookingsPage() {
               <div className="md:hidden">
                 {bookings.filter((b) => b.status === 'pending').map((b) => (
                   <div key={`mobile-${b.id}`} className="border-t border-border p-4 bg-amber-500/[0.02]">
-                    <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center justify-between mb-1.5">
                       <div className="flex items-center gap-2">
-                        <User className="w-3.5 h-3.5 text-foreground/60 dark:text-foreground/40" />
-                        <span className="text-xs text-foreground/60">
-                          {(b.profiles as Profile | null)?.full_name || 'Unknown'}
-                        </span>
+                        <div className="w-7 h-7 rounded-full bg-foreground/[0.06] flex items-center justify-center shrink-0">
+                          <User className="w-3.5 h-3.5 text-foreground/60 dark:text-foreground/40" />
+                        </div>
+                        <div>
+                          <span className="text-xs text-foreground/80 font-medium block">
+                            {(b.profiles as Profile | null)?.full_name || 'Unknown'}
+                          </span>
+                          <span className="text-[10px] text-foreground/50">
+                            {PLAN_LABELS[b.wash_plan]} · Dirt {b.dirt_level}/10
+                          </span>
+                        </div>
                       </div>
-                      <span className="text-foreground font-semibold text-xs">{centsToDisplay(b.total_price)}</span>
+                      <span className="text-foreground font-bold text-sm">{centsToDisplay(b.total_price)}</span>
                     </div>
+                    {b.vehicles && (
+                      <p className="text-[10px] text-foreground/40 mb-3 ml-9">
+                        {b.vehicles.year} {b.vehicles.make} {b.vehicles.model}
+                      </p>
+                    )}
                     <div className="flex gap-2">
                       <Button
                         size="sm"
-                        className="flex-1 h-8 text-xs bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                        className="flex-1 h-10 text-xs bg-green-600 hover:bg-green-700 active:scale-[0.97] text-white rounded-xl"
                         onClick={() => openAcceptDialog(b)}
                       >
-                        <CheckCircle2 className="w-3 h-3 mr-1" />
-                        Accept
+                        <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" />
+                        Request Washer
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        className="flex-1 h-8 text-xs border-red-500/30 text-red-400 hover:bg-red-500/10 rounded-lg"
+                        className="flex-1 h-10 text-xs border-red-500/30 text-red-400 hover:bg-red-500/10 active:scale-[0.97] rounded-xl"
                         onClick={() => handleReject(b.id)}
                         disabled={submitting}
                       >
-                        <XCircle className="w-3 h-3 mr-1" />
+                        <XCircle className="w-3.5 h-3.5 mr-1.5" />
                         Reject
                       </Button>
                     </div>
@@ -434,11 +440,11 @@ export default function AdminBookingsPage() {
 
       {/* Accept + Assign Washer Dialog */}
       <Dialog open={!!reviewBooking} onOpenChange={(open) => !open && setReviewBooking(null)}>
-        <DialogContent className="sm:max-w-lg bg-surface border-border">
+        <DialogContent className="sm:max-w-lg bg-surface border-border max-h-[90dvh] overflow-y-auto overscroll-contain">
           <DialogHeader>
-            <DialogTitle className="font-display text-lg">Accept Booking</DialogTitle>
+            <DialogTitle className="font-display text-lg">Request Washer</DialogTitle>
             <DialogDescription className="text-foreground/50 text-sm">
-              Review details and assign a washer to confirm this booking.
+              Select a washer to send a job request. They can accept or decline.
             </DialogDescription>
           </DialogHeader>
 
@@ -485,7 +491,7 @@ export default function AdminBookingsPage() {
 
               {/* Washer Selection */}
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium mb-3">Assign a Washer</p>
+                <p className="text-[10px] uppercase tracking-widest text-foreground/60 dark:text-foreground/40 font-medium mb-3">Select a Washer</p>
 
                 {/* Search */}
                 <div className="relative mb-3">
@@ -509,7 +515,7 @@ export default function AdminBookingsPage() {
                     <p className="text-xs text-foreground/60 dark:text-foreground/40">No washers found</p>
                   </div>
                 ) : (
-                  <div className="space-y-2 max-h-[240px] overflow-y-auto pr-1">
+                  <div className="space-y-2 max-h-[200px] sm:max-h-[240px] overflow-y-auto pr-1 -mr-1">
                     {filteredWashers.map((w) => {
                       const wp = w.washer_profiles;
                       const isSelected = selectedWasher === w.id;
@@ -560,23 +566,23 @@ export default function AdminBookingsPage() {
               </div>
 
               {/* Actions */}
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-3 pt-2 sticky bottom-0 bg-surface pb-1">
                 <Button
                   variant="outline"
-                  className="flex-1 border-border text-foreground/60 hover:text-foreground"
+                  className="flex-1 h-11 border-border text-foreground/60 hover:text-foreground"
                   onClick={() => setReviewBooking(null)}
                 >
                   Cancel
                 </Button>
                 <Button
-                  className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                  className="flex-1 h-11 bg-green-600 hover:bg-green-700 text-white"
                   disabled={!selectedWasher || submitting}
                   onClick={handleAccept}
                 >
                   {submitting ? (
-                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Assigning...</>
+                    <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Sending...</>
                   ) : (
-                    <><UserCheck className="w-4 h-4 mr-2" /> Accept & Assign</>
+                    <><UserCheck className="w-4 h-4 mr-2" /> Send Request</>
                   )}
                 </Button>
               </div>
