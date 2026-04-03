@@ -21,6 +21,9 @@ DRIVEO Partner — Dawn Preparation.mp4
 
 .vercel
 
+# Taskly.ca (separate project)
+Taskly.ca/
+
 # Claude Code local settings (may contain secrets)
 .claude/settings.local.json
 .claude/projects/
