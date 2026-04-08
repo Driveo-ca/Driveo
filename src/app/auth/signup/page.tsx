@@ -237,13 +237,13 @@ function SignupForm() {
               disabled={loading}
               onClick={async () => {
                 setLoading(true);
-                const supabase = createClient();
-                const callbackParams = new URLSearchParams();
+                // Store role in cookie before OAuth redirect (query params get stripped)
                 if (isWasher) {
-                  callbackParams.set('role', 'washer');
-                  callbackParams.set('next', '/apply/onboarding');
+                  document.cookie = `oauth_signup_role=washer; path=/; max-age=600; samesite=lax`;
+                  document.cookie = `oauth_signup_next=/apply/onboarding; path=/; max-age=600; samesite=lax`;
                 }
-                const callbackUrl = `${window.location.origin}/auth/callback${callbackParams.toString() ? `?${callbackParams.toString()}` : ''}`;
+                const supabase = createClient();
+                const callbackUrl = `${window.location.origin}/auth/callback`;
                 const { error } = await supabase.auth.signInWithOAuth({
                   provider: 'google',
                   options: {

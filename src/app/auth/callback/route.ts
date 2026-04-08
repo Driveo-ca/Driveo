@@ -5,8 +5,9 @@ import { createAdminClient } from '@/lib/supabase/server';
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get('code');
-  const next = searchParams.get('next') ?? '/';
-  const signupRole = searchParams.get('role');
+  // Read from query params first, fall back to cookies (OAuth strips query params)
+  const next = searchParams.get('next') || request.cookies.get('oauth_signup_next')?.value || '/';
+  const signupRole = searchParams.get('role') || request.cookies.get('oauth_signup_role')?.value || null;
 
   if (code) {
     // Capture cookies that Supabase wants to set so we can forward them
@@ -32,6 +33,9 @@ export async function GET(request: NextRequest) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         res.cookies.set(name, value, options as any);
       });
+      // Clear OAuth signup cookies after use
+      res.cookies.set('oauth_signup_role', '', { path: '/', maxAge: 0 });
+      res.cookies.set('oauth_signup_next', '', { path: '/', maxAge: 0 });
       return res;
     }
 
